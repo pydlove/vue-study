@@ -20,5 +20,16 @@ module.exports = {
         includeSourcemap: false
       })
     ]
-  }
+  },
+  devServer: {
+      proxy: {
+          '/portal-service': {
+              target: 'http://localhost:9090',
+              changeOrigin: true,
+              ws: true,
+              pathRewrite: {
+              }
+          }
+      }
+  },
 }
