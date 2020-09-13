@@ -2,9 +2,8 @@ import axios from 'axios'
 import { Message, Loading } from 'element-ui'
 import utils from '@/utils/utils'
 
-/* global __APIHOST__ */
 // 基础设置
-axios.defaults.baseURL = __APIHOST__ // 设置公共apiUrl
+axios.defaults.baseURL = process.env.VUE_APP_BASEURL // 设置公共apiUrl
 axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8'
 let loadingInstance, loadingOptions
 
@@ -53,7 +52,7 @@ axios.interceptors.response.use(
           60 * 60 * 24 * 30
         )
       }
-    } else if (response.data.code === -1000) {
+    } else if (response.data.code === -1) {
       Message({
         message: '网络不稳定，请稍后再试',
         type: 'error',
@@ -104,6 +103,7 @@ export function request(
     axios({
       url,
       data: method === 'POST' || method === 'PUT' ? params : null,
+      params: method === 'GET' || method === 'DELETE' ? params : null,
       method,
       loadingOptions
     })

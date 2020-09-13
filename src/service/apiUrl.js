@@ -1,4 +1,6 @@
 /**
- * example
+ * apiurl list
  */
-// export const example = '/example' // example
+export default {
+  example: '/example' // example
+}
