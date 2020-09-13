@@ -17,8 +17,8 @@ const utils = {
   getCookie: function(key) {
     // 获取cookie
     let reg = new RegExp('(^| )' + key + '=([^;]*)(;|$)')
-    let arr = null
-    return (arr = document.cookie.match(reg)) ? unescape(arr[2]) : null
+    let arr = document.cookie.match(reg)
+    return arr ? unescape(arr[2]) : null
   },
   setStorage: function(key, value) {
     // 存储localStorage
