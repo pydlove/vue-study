@@ -8,6 +8,12 @@ import router from './router'
 import store from './store'
 import * as filters from './utils/filters.js'
 
+import url from '@/service/apiUrl'
+Vue.prototype.$aiocUrl = url;
+
+import { aiorequest } from '@/service/api' // 引入需要的调用的接口方法
+Vue.prototype.$aiorequest = aiorequest;
+
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
