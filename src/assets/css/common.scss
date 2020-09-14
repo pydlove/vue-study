@@ -757,3 +757,41 @@ body {
   z-index: 3000 !important;
 }
 /* 图片预览公共样式  ---end---*/
+
+
+/* margin 公共样式 */
+.mt-10 {margin-top: 10px}
+.mt-20 {margin-top: 20px;}
+
+.mti-10 {margin-top: 10px !important;}
+.mti-20 {margin-top: 20px !important;}
+
+.mb-10 {margin-bottom: 10px}
+.mb-20 {margin-bottom: 20px}
+
+.mr-10 {margin-right: 10px}
+.mr-20 {margin-right: 20px}
+
+
+/* width 公共样式 */
+.wd-350 {width: 350px;}
+
+.wdi-350 {width: 350px !important;}
+.wdi-400 {width: 400px !important;}
+.wdi-420 {width: 420px !important;}
+
+/* icon 公共样式 */
+.phone {
+  background: url("../img/icon/phone.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+.mailbox {
+  background: url("../img/icon/mailbox.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
