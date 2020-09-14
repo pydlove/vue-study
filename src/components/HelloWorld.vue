@@ -98,7 +98,7 @@
         },
         methods: {
             async showExample(params) {
-                let data = await this.$aiorequest(this.$aiocUrl.portal_service_v1_test, params) // 调用接口得到返回值处理
+                let data = await this.$aiorequest(this.$aiocUrl.portal_service_v1_test, params, "GET") // 调用接口得到返回值处理
                 if (data.code === "200" || data.code === "SUCCESS" ) {
                     console.log(data.data)
                     return true
