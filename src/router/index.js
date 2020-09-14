@@ -6,9 +6,14 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: (resolve) => require(['../components/HelloWorld'], resolve),
+        path: '/',
+        name: 'HelloWorld',
+        component: (resolve) => require(['../components/HelloWorld'], resolve),
+    },
+    {
+        path: '/policy',
+        name: 'Policy',
+        component: (resolve) => require(['../views/policy/index'], resolve),
     },
   ],
 })
