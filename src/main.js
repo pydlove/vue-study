@@ -8,6 +8,18 @@ import router from './router'
 import store from './store'
 import * as filters from './utils/filters.js'
 
+/* wow 特效依赖 */
+import 'wowjs/css/libs/animate.css'
+import wow from 'wowjs'
+Vue.prototype.$wow = wow
+
+/* 滑块 */
+import SlideVerify from 'vue-monoplasty-slide-verify';
+Vue.use(SlideVerify);
+
+import jquery from 'jquery'
+Vue.prototype.$ = jquery;
+
 import url from '@/service/apiUrl'
 Vue.prototype.$aiocUrl = url;
 
@@ -22,6 +34,7 @@ Object.keys(filters).forEach((key) => {
   // 定义全局过滤器
   Vue.filter(key, filters[key])
 })
+
 new Vue({
   router,
   store,
