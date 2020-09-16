@@ -37,7 +37,23 @@ module.exports = {
               ws: true,
               pathRewrite: {
               }
+          },
+          '/cpcm-service': {
+              target: 'http://localhost:9090',
+              changeOrigin: true,
+              ws: true,
+              pathRewrite: {
+              }
           }
       }
   },
+  pwa: {
+      iconPaths: {
+          favicon32     : 'favicon.ico',
+          favicon16     : 'favicon.ico',
+          appleTouchIcon: 'favicon.ico',
+          maskIcon      : 'favicon.ico',
+          msTileImage   : 'favicon.ico'
+      }
+  }
 }
