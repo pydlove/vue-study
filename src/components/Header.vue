@@ -16,7 +16,8 @@
 
             <div class="aiocm-right">
                 <router-link to="">在梧桐圈能干什么？</router-link>
-                <button>登录 / 注册</button>
+                <span @click="toRegisterPage">注册</span>
+                <span @click="toLoginPage">登录</span>
             </div>
         </div>
     </div>
@@ -29,6 +30,12 @@
         mounted() {
         },
         methods: {
+            toLoginPage() {
+                this.$emit("toLoginPage");
+            },
+            toRegisterPage() {
+                this.$emit("toRegisterPage");
+            },
         },
         data() {
             return {
@@ -130,18 +137,32 @@
             margin-right: 10px;
             color: #ffffff;
         }
-        .aiocm-right button {
+        .aiocm-right span:nth-of-type(1) {
+            width: 88px;
             height: 34px;
+            line-height: 34px;
             margin-top: 8px;
             border-radius: 5px;
             border: 1px solid #ec414d;
             background-color: #ec414d;
             color: #ffffff;
             font-size: 14px;
+            text-align: center;
         }
-        .aiocm-right button:hover {
+        .aiocm-right span:nth-of-type(2) {
+            width: 88px;
+            height: 34px;
+            line-height: 34px;
+            margin-top: 8px;
+            text-align: center;
+            font-size: 14px;
+            margin-left: 5px;
+            color: #ffffff;
+        }
+        .aiocm-right span:hover {
             border: 1px solid #f11e26;
             background-color: #f11e26;
+            border-radius: 5px;
         }
     }
 
