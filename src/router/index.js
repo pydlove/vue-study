@@ -11,9 +11,20 @@ const router = new Router({
         component: (resolve) => require(['../components/HelloWorld'], resolve),
     },
     {
+        meta: {
+            title: '梧桐圈人才政策'
+        },
         path: '/policy',
         name: 'Policy',
         component: (resolve) => require(['../views/policy/index'], resolve),
+    },
+    {
+        meta: {
+            title: '梧桐圈人才政策查询'
+        },
+        path: '/policyInquire',
+        name: 'policyInquire',
+        component: (resolve) => require(['../views/policy/policyInquire'], resolve),
     },
   ],
 })
