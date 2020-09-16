@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="aioc-policy">
-            <Header :activePage="activePage"></Header>
+            <Header :activePage="activePage" @toLoginPage="toLoginPage" @toRegisterPage="toRegisterPage"></Header>
             <div class="policy-main">
                 <div class="policy-title">
                     梧桐圈，您专属的人才政策咨询顾问
@@ -46,8 +46,9 @@
                 </div>
             </div>
         </div>
-        <Login ref="loginRef" @toRegisterPage="toRegisterPage"></Login>
+        <Login ref="loginRef" @toRegisterPage="toRegisterPage" @toForgetPage="toForgetPage"></Login>
         <Register ref="registerRef" @toLoginPage="toLoginPage"></Register>
+        <Forget ref="forgetRef" @toLoginPage="toLoginPage"></Forget>
     </div>
 </template>
 
@@ -55,10 +56,11 @@
     import Header from  "@/components/Header"
     import Login from "@/components/Login"
     import Register from "@/components/Register"
+    import Forget from "@/components/Forget"
 
     export default {
         name: "policy",
-        components: {Header, Login, Register},
+        components: {Header, Login, Register, Forget},
         mounted() {
             new this.$wow.WOW({
                 live: false
@@ -66,7 +68,11 @@
         },
         methods: {
             toAllPolicyPage() {
-                this.$refs.loginRef.open();
+                // this.$refs.loginRef.open();
+                const pathobj = this.$router.resolve({
+                    path: "/policyInquire",
+                })
+                window.open(pathobj.href, '_blank')
             },
             toMyPolicyPage() {
                 this.$refs.loginRef.open();
@@ -77,7 +83,9 @@
             toLoginPage() {
                 this.$refs.loginRef.open();
             },
-
+            toForgetPage() {
+                this.$refs.forgetRef.open();
+            },
         },
         data() {
             return {
