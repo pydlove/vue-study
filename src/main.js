@@ -8,6 +8,10 @@ import router from './router'
 import store from './store'
 import * as filters from './utils/filters.js'
 
+// md5
+import md5 from 'js-md5'
+Vue.prototype.$md5 = md5
+
 /* wow 特效依赖 */
 import 'wowjs/css/libs/animate.css'
 import wow from 'wowjs'
@@ -25,6 +29,26 @@ Vue.prototype.$aiocUrl = url;
 
 import { aiorequest } from '@/service/api' // 引入需要的调用的接口方法
 Vue.prototype.$aiorequest = aiorequest;
+
+/**
+ * 弹出层封装
+ */
+Vue.prototype.$promptMsg = function(message, type) {
+    this.$message({
+        dangerouslyUseHTMLString: true,
+        showClose: true,
+        message: message,
+        type: type
+    });
+};
+
+/* 路由发生变化修改页面title */
+router.beforeEach((to, from, next) => {
+    if (to.meta.title) {
+        document.title = to.meta.title
+    }
+    next();
+})
 
 Vue.use(ElementUI)
 
