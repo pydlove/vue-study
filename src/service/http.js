@@ -44,6 +44,7 @@ axios.interceptors.response.use(
       loadingInstance.close()
     }, 200)
     // }
+      console.log(Number(response.data.code) === 200)
     if (response.data.code === 200) {
       if (response.headers.authorization) {
         utils.setCookie(
@@ -98,7 +99,7 @@ export function request(
     isLoading: true
   }
 ) {
-  // console.log(url, params, method, 'request')
+  console.log(url, params, method, 'request')
   return new Promise(resolve => {
     axios({
       url,
