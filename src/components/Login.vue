@@ -145,7 +145,9 @@
                 let data = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_login, params, "POST");
                 if (data.code === 200) {
                     this.close();
-                    console.log(data.data)
+                    this.$utils.setCookie("aioctoken", data.data.id, 3600);
+                    this.$utils.setStorage("avatar", data.data.avatar);
+                    this.$emit("initLogin");
                     return true;
                 } else {
                     this.getIdentifyingCode();

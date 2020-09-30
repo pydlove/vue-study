@@ -1,6 +1,6 @@
 <template>
     <div>
-      <el-pagination  v-if="pageshow"
+      <el-pagination  :hide-on-single-page="pageshow"
                       class="pb-10 pt-20"
                       @size-change="handleSizeChange"
                       @current-change="handleCurrentChange"
@@ -25,7 +25,7 @@
           pageSize: 10,
           pageSizes: [10, 20, 50, 100],
           totalCount: 0,
-          pageshow: true,
+          pageshow: false,
         }
       },
 

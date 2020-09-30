@@ -31,8 +31,7 @@
                         <span v-else class="verification-send">（重新发送）{{count}} s</span>
                     </div>
                     <div class="errormsg">{{verificationCodeErrorMsg}}</div>
-
-                    <el-input :class="pwdErrorMsg.length > 0 ? 'bor-red wdi-400' : 'wdi-400'" show-password
+                        <el-input :class="pwdErrorMsg.length > 0 ? 'bor-red wdi-400' : 'wdi-400'" show-password
                               placeholder="请设置密码,密码不少于8位" v-model="form.password"
                               @blur="checkPwdFormat"
                     ></el-input>
@@ -69,6 +68,7 @@
     export default {
         name: "Register",
         mounted() {
+            this.$tools.imageUrlToBase64()
         },
         methods: {
 
@@ -277,8 +277,10 @@
              * 邮箱注册
              */
             async mailRegister() {
+                var avatar = this.$tools.getAvatar()
                 let params = new FormData()
                 params.append("mail", this.form.mailOrPhone);
+                params.append("avatar", avatar);
                 params.append("password", this.$md5(this.form.password));
                 params.append("verificationCode", this.form.verificationCode);
                 let data = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_register_mail, params, "POST");
@@ -303,8 +305,10 @@
              * 手机注册
              */
             async phoneRegister() {
+                var avatar = this.$tools.getAvatar()
                 let params = new FormData()
                 params.append("phone", this.form.mailOrPhone);
+                params.append("avatar", avatar);
                 params.append("password", this.$md5(this.form.password));
                 params.append("verificationCode", this.form.verificationCode);
                 let data = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_register_phone, params, "POST");
