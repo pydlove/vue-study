@@ -30,6 +30,14 @@ Vue.prototype.$aiocUrl = url;
 import { aiorequest } from '@/service/api' // 引入需要的调用的接口方法
 Vue.prototype.$aiorequest = aiorequest;
 
+/* 工具js */
+import tools from '@/assets/js/tools.js'
+Vue.prototype.$tools = tools
+
+/* 工具js */
+import utils from '@/utils/utils.js'
+Vue.prototype.$utils = utils
+
 /**
  * 弹出层封装
  */

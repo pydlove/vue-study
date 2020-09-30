@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="header">
-            <Header :activePage="activePage"></Header>
+            <Header ref="headerRef" :activePage="activePage"></Header>
         </div>
         <div class="poin-container">
             <div class="poin-main">
@@ -15,7 +15,7 @@
                                 :props="{ checkStrictly: true }"
                                 :options="areaOptions"
                                 v-model="cond.area"
-                                @change="handlerAreaCascader"
+                                @change="handleAreaCascader"
                                 placeholder="更多城市选择">
                         </el-cascader>
 
@@ -37,7 +37,7 @@
                                 :props="{ checkStrictly: true }"
                                 :options="policyOptions"
                                 v-model="cond.policy"
-                                @change="handlerPolicyCascader"
+                                @change="handlePolicyCascader"
                                 placeholder="更多政策选择">
                         </el-cascader>
 
@@ -59,26 +59,45 @@
                         <el-tag>{{cond.policy[cond.policy.length - 1]}}</el-tag>
 
                     </div>
-                    <el-button type="primary">查询政策</el-button>
+                    <el-button type="primary" @click="search(0, 10)">查询政策</el-button>
                     <el-button @click="resetCond">重置条件</el-button>
                 </el-card>
 
                 <el-card shadow="hover" class="wow bounceInLeft">
                     <el-table
-                            class="w-100 "
+                            class="w-100 policy-table"
                             ref="policyRef"
-                            :data="policyData"
+                            :data="policyDatas"
                             border
+                            :header-cell-style="{textAlign: 'center'}"
                             :row-style="{height:'20px'}"
-                            :cell-style="{padding:'9px 1px'}"
+                            :cell-style="{padding:'9px 1px', textAlign: 'center'}"
                     >
                         <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                        <el-table-column prop="id" label="人才编号" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="name" label="姓名" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="idCard" label="身份证号" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="hometown" label="籍贯" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="politicalStatus" label="政治面貌" :show-overflow-tooltip="true"></el-table-column>
-                        <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
+                        <el-table-column prop="title" label="政策标题" :show-overflow-tooltip="true" width="300"></el-table-column>
+                        <el-table-column prop="content" label="内容" :show-overflow-tooltip="true"></el-table-column>
+                        <el-table-column prop="treatmentType" label="待遇类型" :show-overflow-tooltip="true"></el-table-column>
+                        <el-table-column prop="talentTreatment" label="人才待遇" :show-overflow-tooltip="true"></el-table-column>
+                        <el-table-column prop="policyType" label="政策类型" :show-overflow-tooltip="true"></el-table-column>
+                        <el-table-column prop="" label="适用区域">
+                            <el-table-column prop="" label="区域">
+                                <template slot-scope="scope">
+                                    {{handleToArea(scope.row)}}
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="level" label="级别" :show-overflow-tooltip="true" :formatter="formatLevel" width="80"></el-table-column>
+                        </el-table-column>
+                        <el-table-column fixed="right" label="操作" width="80">
+                            <template slot-scope="scope">
+                                <router-link :to="{path:'/policyDetail', query:{id:scope.row.id}}" target="_blank">
+                                    <el-button
+                                            size="mini"
+                                            type="success">
+                                        详情
+                                    </el-button>
+                                </router-link>
+                            </template>
+                        </el-table-column>
                     </el-table>
 
                     <Pagination ref="pageRef" @search="search"></Pagination>
@@ -97,18 +116,39 @@
         name: "policyInquire",
         components: {Header, Pagination},
         mounted() {
-          this.initAreaOptions(areaData);
+            this.initAreaOptions(areaData);
+            this.search(0, 10);
         },
         methods: {
 
             /**
              * 搜索政策
              */
-            search() {
-                // var params = {
-                //     page: currentPage,
-                //     limit: pageSize,
-                // };
+            async search(currentPage, pageSize) {
+                let params = new FormData()
+                if(this.cond.area.length == 1) {
+                    if(this.cond.area[0] == "全国") {
+                        params.append("country", this.cond.area[0]);
+                    } else {
+                        params.append("province", this.cond.area[0]);
+                    }
+                }
+                else if(this.cond.area.length == 2) {
+                    params.append("city", this.cond.area[1]);
+                }
+                else if(this.cond.area.length == 3) {
+                    params.append("county", this.cond.area[2]);
+                }
+                this.currentPage = currentPage;
+                this.pageSize = pageSize;
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                let data = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_cm_talent_policy_page_list, params, "POST");
+                if (data.code === 200) {
+                    this.policyDatas = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
+                }
             },
 
             /**
@@ -124,7 +164,7 @@
             /**
              * 处理地区条件选择变化
              */
-            handlerAreaCascader() {
+            handleAreaCascader() {
                 if (this.$refs.areaCascaderRef) {
                     this.$refs.areaCascaderRef.dropDownVisible = false; //监听值发生变化就关闭它
                 }
@@ -134,7 +174,7 @@
             /**
              * 处理政策条件选择变化
              */
-            handlerPolicyCascader() {
+            handlePolicyCascader() {
                 if (this.$refs.policyCascaderRef) {
                     this.$refs.policyCascaderRef.dropDownVisible = false; //监听值发生变化就关闭它
                 }
@@ -191,11 +231,52 @@
                 }
             },
 
+            /**
+             * 处理适用区域
+             */
+            handleToArea(row) {
+                if(row.province == null || row.province == '') {
+                    return row.country;
+                }
+                else if(row.city == null || row.city == '') {
+                    return row.province;
+                }
+                else if(row.county == null || row.county == '') {
+                    return row.province + " / " + row.city;
+                }
+                else {
+                    return row.province + " / " + row.city + " / " + row.county;
+                }
+            },
+
+            /**
+             * 格式化级别
+             */
+            formatLevel(row, column) {
+                const level = row[column.property];
+                switch (level) {
+                    case "0":
+                        return "国家级";
+                    case "1":
+                        return"省级";
+                    case "2":
+                        return "市级";
+                    case "3":
+                        return "区级";
+                    default:
+                        break;
+                }
+                return level;
+            },
+
         },
         data() {
             return {
+                /*当前选中菜单*/
+                activePage: '人才政策',
+
                 /* 查询到的政策 */
-                policyData: [],
+                policyDatas: [],
 
                 /* 分页参数 */
                 currentPage: 1,
@@ -369,8 +450,8 @@
         }
         .poin-main {
             width: 1500px;
-            height: 800px;
-            background: #ffc2d1;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
         .poin-main > .el-card {
             margin: 20px;
@@ -415,6 +496,8 @@
         .select-conds > span:nth-of-type(n+2) {
             font-size: 14px;
             margin: 9px 5px 0 5px;
+        }
+        .policy-table {
         }
     }
 

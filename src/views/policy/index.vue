@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="aioc-policy">
-            <Header :activePage="activePage" @toLoginPage="toLoginPage" @toRegisterPage="toRegisterPage"></Header>
+            <Header ref="headerRef" :activePage="activePage" @toLoginPage="toLoginPage" @toRegisterPage="toRegisterPage"></Header>
             <div class="policy-main">
                 <div class="policy-title">
                     梧桐圈，您专属的人才政策咨询顾问
@@ -46,25 +46,19 @@
                 </div>
             </div>
         </div>
-        <Login ref="loginRef" @toRegisterPage="toRegisterPage" @toForgetPage="toForgetPage"></Login>
-        <Register ref="registerRef" @toLoginPage="toLoginPage"></Register>
-        <Forget ref="forgetRef" @toLoginPage="toLoginPage"></Forget>
     </div>
 </template>
 
 <script>
     import Header from  "@/components/Header"
-    import Login from "@/components/Login"
-    import Register from "@/components/Register"
-    import Forget from "@/components/Forget"
 
     export default {
         name: "policy",
-        components: {Header, Login, Register, Forget},
+        components: {Header},
         mounted() {
             new this.$wow.WOW({
                 live: false
-            }).init()
+            }).init();
         },
         methods: {
             toAllPolicyPage() {
@@ -76,15 +70,6 @@
             },
             toMyPolicyPage() {
                 this.$refs.loginRef.open();
-            },
-            toRegisterPage() {
-                this.$refs.registerRef.openRegisterType();
-            },
-            toLoginPage() {
-                this.$refs.loginRef.open();
-            },
-            toForgetPage() {
-                this.$refs.forgetRef.open();
             },
         },
         data() {
