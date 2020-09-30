@@ -153,7 +153,7 @@ body {
   .el-message-box__btns {
     .el-button {
       height: 40px;
-      width: 140px;
+      width: 80px;
     }
 
     &.el-message-box__btns button:nth-child(1) {
@@ -173,7 +173,7 @@ body {
     }
 
     &.el-message-box__btns button:nth-child(2) {
-      margin-left: 40px;
+      //margin-left: 40px;
     }
   }
 }
@@ -760,29 +760,65 @@ body {
 
 
 /* margin 公共样式 */
-.mt-10 {margin-top: 10px}
+.mt-2 {margin-top: 2px;}
+.mt-3 {margin-top: 3px;}
+.mt-4 {margin-top: 4px;}
+.mt-5 {margin-top: 5px;}
+.mt-10 {margin-top: 10px;}
 .mt-20 {margin-top: 20px;}
 
 .mti-10 {margin-top: 10px !important;}
 .mti-20 {margin-top: 20px !important;}
 
-.mb-5 {margin-bottom: 5px}
-.mb-10 {margin-bottom: 10px}
-.mb-20 {margin-bottom: 20px}
+.mb-2 {margin-bottom: 2px;}
+.mb-5 {margin-bottom: 5px;}
+.mb-10 {margin-bottom: 10px;}
+.mb-20 {margin-bottom: 20px;}
 
-.mr-5 {margin-right: 5px}
-.mr-10 {margin-right: 10px}
-.mr-20 {margin-right: 20px}
+.mr-2 {margin-right: 2px;}
+.mr-5 {margin-right: 5px;}
+.mr-10 {margin-right: 10px;}
+.mr-20 {margin-right: 20px;}
 
-.ml-5 {margin-left: 5px}
+.mri-20 {margin-right: 20px !important;}
 
+.ml-5 {margin-left: 5px;}
+.ml-10 {margin-left: 10px;}
+.ml-50 {margin-left: 50px;}
+
+.mli-10 {margin-left: 10px !important;}
+/* padding 公共样式 */
+.pr-10 {padding-right: 10px;}
+
+.pt-5 {padding-top: 5px;}
+.pt-15 {padding-top: 15px;}
 
 /* width 公共样式 */
 .wd-350 {width: 350px;}
 
+.wdi-100 {width: 100px !important;}
+.wdi-120 {width: 120px !important;}
+.wdi-300 {width: 300px !important;}
 .wdi-350 {width: 350px !important;}
 .wdi-400 {width: 400px !important;}
 .wdi-420 {width: 420px !important;}
+.wdi-600 {width: 600px !important;}
+.wdi-800 {width: 800px !important;}
+
+/* height 公共样式 */
+.hp-30 {height: 30px;}
+.hp-50 {height: 50px;}
+
+.lh-30 {line-height: 30px;}
+.lh-50 {line-height: 50px;}
+
+/* 文字颜色 公共样式 */
+.color-999 {color: #999;}
+.color-fa5c26 {color: #fa5c26;}
+.color-67C23A {color: #67C23A;}
+.color-F56C6C {color: #F56C6C;}
+.color-303133 {color: #303133;}
+.color-7dc5eb {color: #7dc5eb;}
 
 /* icon 公共样式 */
 .phone {
@@ -791,6 +827,13 @@ body {
   display: inline-block;
   width: 32px;
   height: 32px;
+}
+.phoneg-icon {
+  background: url("../img/icon/phoneg.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
 }
 .mailbox {
   background: url("../img/icon/mailbox.png") 0 0 no-repeat;
@@ -806,4 +849,166 @@ body {
   width: 28px;
   height: 28px;
 }
+.people {
+  background: url("../img/icon/people.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+.accountSetting {
+   background: url("../img/icon/accountSetting.png") 0 0 no-repeat;
+   background-size: 100% 100%;
+   display: inline-block;
+  width: 12px;
+  height: 12px;
+ }
+.attention {
+  background: url("../img/icon/attention.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+.blog {
+  background: url("../img/icon/blog.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+.contacts {
+  background: url("../img/icon/contacts.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+.fans {
+  background: url("../img/icon/fans.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+.favorites {
+  background: url("../img/icon/favorites.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+.favoritesr-icon {
+  background: url("../img/icon/favoritesr.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.unfavorites-icon {
+  background: url("../img/icon/unfavorites.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
 
+.logout {
+  background: url("../img/icon/logout.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+.unlinke-icon {
+  background: url("../img/icon/unlike.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.linke-icon {
+  background: url("../img/icon/like.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.dislinke-icon {
+  background: url("../img/icon/dislike.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+.dislinke-blue-icon {
+  background: url("../img/icon/dislike-blue.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+.evaluation-icon {
+  background: url("../img/icon/evaluation.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.share-icon {
+  background: url("../img/icon/share.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.reply-icon {
+  background: url("../img/icon/reply.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 18px;
+  height: 20px;
+}
+.reply-blue-icon {
+  background: url("../img/icon/reply-blue.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 18px;
+  height: 20px;
+}
+.inform-icon {
+  background: url("../img/icon/inform.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+.inform-blue-icon {
+  background: url("../img/icon/inform-blue.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+.delete-blue-icon {
+  background: url("../img/icon/delete-blue.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 18px;
+  height: 16px;
+}
+//修改el-dialog top 样式
+.aiCloud-dialog .el-dialog__header {
+  background-image: linear-gradient(#2b90ff, #409EFF);
+}
+.aiCloud-dialog .el-icon-close {
+  color: #FFFFFF !important;
+  font-size: 16px;
+}
+.aiCloud-dialog .el-icon-close:hover {
+  color: #ff7521 !important;
+}
+.aiCloud-dialog .el-dialog__title {
+  color: #FFFFFF;
+  font-size: 16px;
+}
