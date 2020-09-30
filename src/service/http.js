@@ -6,6 +6,7 @@ import utils from '@/utils/utils'
 axios.defaults.baseURL = process.env.VUE_APP_BASEURL // 设置公共apiUrl
 axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8'
 let loadingInstance, loadingOptions
+// let isPop;
 
 // 请求拦截器
 axios.interceptors.request.use(
@@ -44,21 +45,20 @@ axios.interceptors.response.use(
       loadingInstance.close()
     }, 200)
     // }
-      console.log(Number(response.data.code) === 200)
     if (response.data.code === 200) {
-      if (response.headers.authorization) {
-        utils.setCookie(
-          'authorization',
-          response.headers.authorization,
-          60 * 60 * 24 * 30
-        )
-      }
+      // if (response.headers.authorization) {
+      //   utils.setCookie(
+      //     'authorization',
+      //     response.headers.authorization,
+      //     60 * 60 * 24 * 30
+      //   )
+      // }
     } else if (response.data.code === -1) {
-      Message({
-        message: '网络不稳定，请稍后再试',
-        type: 'error',
-        center: true
-      })
+        Message({
+            message: '网络不稳定，请稍后再试',
+            type: 'error',
+            center: true
+        })
     } else {
       if (response.data.msg) {
         Message({
@@ -71,15 +71,14 @@ axios.interceptors.response.use(
     return response
   },
   error => {
-    // if (loadingOptions.isLoading) {
-    loadingInstance.close()
-    // }
-    // console.log(error, 'http error')
-    Message({
-      message: '网络不稳定，请稍后再试',
-      type: 'error',
-      center: true
-    })
+    loadingInstance.close();
+   // if(isPop) {
+   //  Message({
+   //    message: '网络不稳定，请稍后再试',
+   //    type: 'error',
+   //    center: true
+   //  })
+   // }
     return Promise.reject(error)
   }
 )
@@ -95,11 +94,13 @@ export function request(
   url,
   params = {},
   method = 'POST',
+  pop,
   loadingOptions = {
     isLoading: true
-  }
+  },
 ) {
-  console.log(url, params, method, 'request')
+  // console.log(url, params, method, 'request', pop)
+  // isPop = pop;
   return new Promise(resolve => {
     axios({
       url,
