@@ -7,7 +7,7 @@
                    :before-close="close">
 
             <!--邮箱-->
-            <div v-if="showRegisterPage" class="register-main">
+            <div v-show="showRegisterPage" class="register-main">
                 <div class="register-logo">
                     <img :src="logo" alt="logo图">
                     <span>梧桐圈</span>
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div v-else>
+            <div v-show="!showRegisterPage">
                 <div class="slide-title">二次验证</div>
                 <div class="slide-main">
                     <slide-verify

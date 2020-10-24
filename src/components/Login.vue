@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-dialog class="aioc-login wow rollIn"
-                :close-on-click-modal="false"
+                    :close-on-click-modal="false"
                 :visible.sync="dialogVisible"
                 width="500px"
                 :before-close="close">
@@ -148,6 +148,7 @@
                     this.$utils.setCookie("aioctoken", data.data.id, 3600);
                     this.$utils.setStorage("avatar", data.data.avatar);
                     this.$emit("initLogin");
+                    this.$emit("loadUnReadReply");
                     return true;
                 } else {
                     this.getIdentifyingCode();
@@ -172,7 +173,7 @@
                 loginType: "",
 
                 form: {
-                    mailOrPhone: "py_world@163.com",
+                    mailOrPhone: "chengxiao@163.com",
                     password: "1q2w3e4r!@",
                     verificationCode: "",
                     rememberMe: false,

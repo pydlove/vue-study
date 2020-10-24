@@ -9,7 +9,7 @@ module.exports = {
         context: process.cwd(),
         manifest: require('./public/vendor/vendor-mainfest.json')
       }),
-      // 将dll注入到生成的html模板中
+        // 将dll注入到生成的html模板中
       new AddAssetHtmlPlugin({
         // dll文件位置
         filepath: path.resolve(__dirname, './public/vendor/*.js'),
@@ -39,7 +39,7 @@ module.exports = {
               }
           },
           '/cpcm-service': {
-              target: 'http://localhost:9090',
+              target: 'http://localhost:8082',
               changeOrigin: true,
               ws: true,
               pathRewrite: {

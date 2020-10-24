@@ -49,13 +49,38 @@ const router = new Router({
       name: 'personCenter',
       component: (resolve) => require(['../views/personCenter/index'], resolve),
     },
-      {
+    {
       meta: {
           title: '梧桐圈个人中心'
       },
       path: '/Header',
       name: 'Header',
       component: (resolve) => require(['../components/Header'], resolve),
+    },
+    {
+      meta: {
+          title: '梧桐圈匹配我的政策'
+      },
+      path: '/myMatchPolicy',
+      name: 'myMatchPolicy',
+      component: (resolve) => require(['../views/policy/myMatchPolicy'], resolve),
+    },
+
+    {
+      meta: {
+          title: '梧桐圈难题求解'
+      },
+      path: '/problem',
+      name: 'problem',
+      component: (resolve) => require(['../views/problem/index'], resolve),
+    },
+    {
+      meta: {
+          title: '梧桐圈难题详情'
+      },
+      path: '/problemDetail',
+      name: 'problemDetail',
+      component: (resolve) => require(['../views/problem/problemDetail'], resolve),
     },
   ],
 })

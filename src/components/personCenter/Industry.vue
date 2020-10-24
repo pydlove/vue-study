@@ -24,7 +24,6 @@
 
 <script>
     import industry from "@/assets/json/industry.json"
-
     export default {
         name: "Industry",
         mounted() {

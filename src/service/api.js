@@ -3,7 +3,7 @@ const request = require('./http').request
 /**
  * api function
  */
-export async function example(params) {
+export async function aiorequest1(params) {
   const data = await request(url.example, params, 'POST', {
     // loading配置,不传默认全屏loading
     isLoading: true, // 是否有loading效果

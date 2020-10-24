@@ -3,66 +3,68 @@
         <div class="aioc-pc">
             <Header ref="headerRef" :fontColor="fontColor = 'color-black'"></Header>
         </div>
-        <div class="avatar-container">
-            <div class="avatar-main">
-                <div>
-                    <img class="avatar"
-                         :src="user.avatar == null ? defaultAvatar :  user.avatar" alt="用户头像"/>
-                </div>
-                <div class="introduction">
-                    <span>{{user.nickname}}</span>
-                    <p>
-                        {{user.introduction}}
-                    </p>
+        <div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
+            <div class="avatar-container">
+                <div class="avatar-main">
+                    <div>
+                        <img class="avatar"
+                             :src="user.avatar == null ? defaultAvatar :  user.avatar" alt="用户头像"/>
+                    </div>
+                    <div class="introduction">
+                        <span>{{user.nickname}}</span>
+                        <p>
+                            {{user.introduction}}
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="pc-content-container">
-            <el-card class="pc-menu">
-                <ul>
-                    <li :class="currentMenu == item.id ? 'activeMenu' : ''"
-                        v-for="(item, index) in pcMenus" :key="index"
-                        @click="selectMenu(item)"
-                    >
-                        {{item.name}}
-                    </li>
-                </ul>
-            </el-card>
+            <div class="pc-content-container">
+                <el-card class="pc-menu">
+                    <ul>
+                        <li :class="currentMenu == item.id ? 'activeMenu' : ''"
+                            v-for="(item, index) in pcMenus" :key="index"
+                            @click="selectMenu(item)"
+                        >
+                            {{item.name}}
+                        </li>
+                    </ul>
+                </el-card>
 
-            <el-card class="pc-op">
-                <!--此处不能用v-if,v-if 导致这个子组件未渲染，ref 就会点击事件selectMenu中失效-->
-                <!--我的资料-->
-                <div v-show="currentMenu == 'myProfile'">
-                    <MyProfile ref="myProfileRef"></MyProfile>
-                </div>
+                <el-card class="pc-op">
+                    <!--此处不能用v-if,v-if 导致这个子组件未渲染，ref 就会点击事件selectMenu中失效-->
+                    <!--我的资料-->
+                    <div v-show="currentMenu == 'myProfile'">
+                        <MyProfile ref="myProfileRef"></MyProfile>
+                    </div>
 
-                <!--我的人脉-->
-                <div v-show="currentMenu == 'myConnections'">
-b
-                </div>
+                    <!--我的人脉-->
+                    <div v-show="currentMenu == 'myConnections'">
+                        b
+                    </div>
 
-                <!--我的关注-->
-                <div v-show="currentMenu == 'myFocus'">
-c
-                </div>
+                    <!--我的关注-->
+                    <div v-show="currentMenu == 'myFocus'">
+                        c
+                    </div>
 
-                <!--我的粉丝-->
-                <div v-show="currentMenu == 'myFans'">
-d
-                </div>
+                    <!--我的粉丝-->
+                    <div v-show="currentMenu == 'myFans'">
+                        d
+                    </div>
 
-                <!--我的收藏-->
-                <div v-show="currentMenu == 'myCollection'">
-e
-                </div>
+                    <!--我的收藏-->
+                    <div v-show="currentMenu == 'myCollection'">
+                        e
+                    </div>
 
-                <!--我的博客-->
-                <div v-show="currentMenu == 'myBlog'">
-v
-                </div>
+                    <!--我的博客-->
+                    <div v-show="currentMenu == 'myBlog'">
+                        v
+                    </div>
 
-            </el-card>
+                </el-card>
+            </div>
         </div>
     </div>
 </template>
@@ -75,6 +77,8 @@ v
         name: "index",
         components: {Header, MyProfile},
         mounted() {
+            this.clientWidth = document.body.clientWidth;
+            this.clientHeight = document.body.clientHeight -50;
             this.initUser();
         },
         methods: {
@@ -103,6 +107,9 @@ v
         },
         data() {
             return {
+                clientWidth: 1800,
+                clientHeight: 970,
+
                 /* 用户信息 */
                 user: {
                     nickname: "",

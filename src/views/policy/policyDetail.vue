@@ -3,136 +3,153 @@
         <div class="header">
             <Header ref="headerRef" :activePage="activePage"></Header>
         </div>
-        <div class="pode-container">
-            <div class="pode-main">
-                <el-card shadow="always" class="policy-card ">
-                    <div class="policy-main">
-                       <h1>{{policyData.title}}</h1>
+        <div class="aioc-container" :style="'width:' + clientWidth + 'px;'">
+            <div class="pode-container">
+                <div class="pode-main">
+                    <el-card shadow="always" class="policy-card ">
+                        <div class="policy-main">
+                           <h1>{{policyData.title}}</h1>
 
-                       <div class="pc-container">
-                           <div class="policy-tag">
-                               <el-tag type="" effect="dark">{{showArea()}}</el-tag>
-                               <el-tag type="success" effect="dark">{{policyData.treatmentType}}</el-tag>
-                               <el-tag type="success" effect="dark">{{policyData.policyType}}</el-tag>
+                           <div class="pc-container">
+                               <div class="policy-tag">
+                                   <el-tag type="" effect="dark">{{showArea()}}</el-tag>
+                                   <el-tag type="success" effect="dark">{{policyData.treatmentTypeName}}</el-tag>
+                                   <el-tag type="success" effect="dark">{{policyData.policyType}}</el-tag>
 
-                               <span class="policy-bq">{{policyData.no}}</span>
-                           </div>
-
-                           <div class="policy-content">
-                               <span class="title">政策内容：</span>
-                               <div class="mt-10 pc-main">
-                                   {{policyData.content}}
+                                   <span class="policy-bq">{{policyData.no}}</span>
                                </div>
 
-                               <div class="mt-20">
-                                   <span class="title">人才待遇：</span>{{policyData.talentTreatment}}
-                               </div>
+                               <div class="policy-content">
+                                   <span class="title">政策内容：</span>
+                                   <div class="mt-10 pc-main">
+                                       {{policyData.content}}
+                                   </div>
 
-                               <div class="mt-20">
-                                   <span class="title">待遇类型：</span>{{policyData.treatmentType}}
-                               </div>
+                                   <div class="mt-20">
+                                       <span class="title">人才待遇：</span>{{policyData.talentTreatment}}
+                                   </div>
 
-                               <div class="mt-20">
-                                   <span class="title">政策类型：</span>{{policyData.policyType}}
-                               </div>
+                                   <div class="mt-20">
+                                       <span class="title">待遇类型：</span>{{policyData.treatmentTypeName}}
+                                   </div>
 
-                               <div class="mt-20 contact">
-                                  <div>
+                                   <div class="mt-20">
+                                       <span class="title">政策类型：</span>{{policyData.policyType}}
+                                   </div>
+
+                                   <div class="mt-20 contact">
                                       <div>
-                                          <span>咨询单位：</span>{{policyData.governmentUnitName}}
-                                      </div>
+                                          <div>
+                                              <span>咨询单位：</span>{{policyData.governmentUnitName}}
+                                          </div>
 
-                                      <div class="">
-                                          <span>办公时间：</span>{{policyData.officeHours}}
-                                      </div>
+                                          <div class="">
+                                              <span>办公时间：</span>{{policyData.officeHours}}
+                                          </div>
 
-                                      <div class="">
-                                          <span>单位地址：</span>{{policyData.address}}
-                                      </div>
+                                          <div class="">
+                                              <span>单位地址：</span>{{policyData.address}}
+                                          </div>
 
-                                      <div class="">
-                                          <span>咨询电话：</span>{{policyData.hotline}}
+                                          <div class="">
+                                              <span>咨询电话：</span>{{policyData.hotline}}
+                                          </div>
                                       </div>
-                                  </div>
+                                   </div>
                                </div>
                            </div>
-                       </div>
-                    </div>
-                    <div class="policy-cond">
-                        <div class="poc-title">
-                            政策条件
-                            <el-button class="fr mri-20" type="primary" size="mini"
-                                       @click="getMySuitability()"
-                            >{{isShowSuitability ? "隐藏我的匹配度": "显示我的匹配度"}}</el-button>
                         </div>
-                        <div class="poc-main">
-                            <div class="cond">
-                                <div class="mt-20" v-for="(item, index) in policyData.conditionList" :key="index">
-                                    <span>{{item.kpiName}}：</span>
-                                    <span class="color-fa5c26">{{item.name}}</span>
+                        <div class="policy-cond">
+                            <div class="poc-title">
+                                政策条件
+                                <el-button class="fr mri-30" type="primary" size="mini"
+                                           @click="getMySuitability()"
+                                >{{isShowSuitability ? "隐藏我的匹配度": "显示我的匹配度"}}</el-button>
+                            </div>
+                            <div class="poc-main">
+                                <div class="pcond">
+                                    <div class="matchc mt-20" v-for="(item, index) in policyData.conditionList" :key="index">
+                                        <span>{{item.kpiName}}：</span>
+                                        <span class="color-fa5c26">{{item.name}}</span>
+
+                                        <div class="matchm wow bounceInRight" v-show="isShowSuitability">
+                                            <div  class="color-67C23A" v-if="myUserTags[item.kpiCode] == true">
+                                                <span class="el-icon-success"></span>
+                                                <span class="ml-10 ">满足</span>
+                                            </div>
+                                            <div  class="color-F56C6C" v-else-if="myUserTags[item.kpiCode] == false">
+                                                <span class="el-icon-success"></span>
+                                                <span class="ml-10 ">不满足</span>
+                                            </div>
+                                            <div  class="color-F56C6C" v-else-if="myUserTags[item.kpiCode] == undefined">
+                                                <span class="el-icon-success"></span>
+                                                <span class="ml-10 ">请补充</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!--<div class="suitability" v-show="isShowSuitability">-->
+                                    <!--<div class="mt-20 wow bounceInRight">-->
+                                        <!--<span class="el-icon-success color-67C23A"></span>-->
+                                        <!--<span class="color-67C23A ml-10">满足</span>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="mt-20 wow bounceInRight">-->
+                                        <!--<span class="el-icon-success color-67C23A"></span>-->
+                                        <!--<span class="color-67C23A ml-10">满足</span>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="mt-20 wow bounceInRight">-->
+                                        <!--<span class="el-icon-success color-F56C6C"></span>-->
+                                        <!--<span class="color-F56C6C ml-10">不满足</span>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="mt-20 wow bounceInRight">-->
+                                        <!--<span class="el-icon-success color-67C23A"></span>-->
+                                        <!--<span class="color-67C23A ml-10">满足</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                             </div>
 
-                            <div class="suitability" v-show="isShowSuitability">
-                                <div class="mt-20 wow bounceInRight">
-                                    <span class="el-icon-success color-67C23A"></span>
-                                    <span class="color-67C23A ml-10">满足</span>
-                                </div>
+                            <!--<div class="mt-20 wow bounceInRight" v-show="isShowSuitability">-->
+                                <!--<div>匹配结论：</div>-->
+                                <!--<div class="color-F56C6C mt-20">您的情况与政策条件匹配度为75%，不能享受该政策。</div>-->
+                            <!--</div>-->
+                        </div>
 
-                                <div class="mt-20 wow bounceInRight">
-                                    <span class="el-icon-success color-67C23A"></span>
-                                    <span class="color-67C23A ml-10">满足</span>
-                                </div>
+                        <div class="policy-op">
+                            <a>
+                                <span class="unlinke-icon"></span>
+                                <div class="opspan">点赞</div>
+                            </a>
+                            <a href="#publishEvaluation">
+                                <span class="evaluation-icon"></span>
+                                <div class="opspan">评价</div>
+                            </a>
+                            <a>
+                                <span class="share-icon"></span>
+                                <div class="opspan">分享</div>
+                            </a>
+                            <a>
+                                <span class="unfavorites-icon"></span>
+                                <div class="opspan">收藏</div>
+                            </a>
+                            <a>
+                                <span class="phoneg-icon"></span>
+                                <div class="opspan">手机看</div>
+                            </a>
 
-                                <div class="mt-20 wow bounceInRight">
-                                    <span class="el-icon-success color-F56C6C"></span>
-                                    <span class="color-F56C6C ml-10">不满足</span>
-                                </div>
-
-                                <div class="mt-20 wow bounceInRight">
-                                    <span class="el-icon-success color-67C23A"></span>
-                                    <span class="color-67C23A ml-10">满足</span>
-                                </div>
+                            <div class="eva-statistics">
+                                <span class="mr-20">赞：200</span>
+                                <span class="mr-20">查看次数：200</span>
+                                <span>评论：200</span>
                             </div>
                         </div>
+                    </el-card>
 
-                        <div class="mt-20 wow bounceInRight" v-show="isShowSuitability">
-                            <div>匹配结论：</div>
-                            <div class="color-F56C6C mt-20">您的情况与政策条件匹配度为75%，不能享受该政策。</div>
-                        </div>
-                    </div>
-
-                    <div class="policy-op">
-                        <a>
-                            <span class="unlinke-icon"></span>
-                            <div class="opspan">点赞</div>
-                        </a>
-                        <a href="#publishEvaluation">
-                            <span class="evaluation-icon"></span>
-                            <div class="opspan">评价</div>
-                        </a>
-                        <a>
-                            <span class="share-icon"></span>
-                            <div class="opspan">分享</div>
-                        </a>
-                        <a>
-                            <span class="unfavorites-icon"></span>
-                            <div class="opspan">收藏</div>
-                        </a>
-                        <a>
-                            <span class="phoneg-icon"></span>
-                            <div class="opspan">手机看</div>
-                        </a>
-
-                        <div class="eva-statistics">
-                            <span class="mr-20">赞：200</span>
-                            <span class="mr-20">查看次数：200</span>
-                            <span>评论：200</span>
-                        </div>
-                    </div>
-                </el-card>
-
-                <Comment ref="commentRef"></Comment>
+                    <Comment ref="commentRef"></Comment>
+                </div>
             </div>
         </div>
     </div>
@@ -147,20 +164,39 @@
         name: "policyDetail",
         components: {Header, Comment},
         mounted() {
-            this.policyId = this.$route.query.id;
-            this.initPolicy(this.policyId);
+            this.clientWidth = document.body.clientWidth;
+            this.clientHeight = document.body.clientHeight -50;
+
+            this.policyId = this.$utils.getStorage("policyId");
+            this.searchPolicy(this.policyId);
             this.$refs.commentRef.initComments(this.policyId);
             new this.$wow.WOW({
                 live: false
             }).init();
+            this.searchUserMatch();
         },
         methods: {
+            /**
+             * 查询用户匹配信息
+             * @param {*}
+             * @author panyong
+             */
+            async searchUserMatch() {
+                let params = new FormData()
+                params.append("policyId", this.policyId)
+                let data = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_cm_talent_policy_matchinfo, params, "POST");
+                if (data.code === 200) {
+                    this.myUserTags = data.data;
+                    return true;
+                }
+            },
+
             /**
              * 初始化政策
              * @param {*} id 政策id
              * @author panyong
              */
-            async initPolicy(id) {
+            async searchPolicy(id) {
                 let params = new FormData()
                 params.append("id", id);
                 let data = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_cm_talent_policy_info, params, "POST");
@@ -200,6 +236,9 @@
         },
         data() {
             return {
+                clientWidth: 1800,
+                clientHeight: 970,
+
                 /*当前选中菜单*/
                 activePage: '人才政策',
                 // 当前政策信息
@@ -208,6 +247,8 @@
                 policyId: "",
                 // 是否神计算我的匹配度
                 isShowSuitability: false,
+                // 我的标签信息
+                myUserTags: {},
             }
         },
     }
@@ -340,13 +381,23 @@
             height: 28px;
             line-height: 28px;
         }
-        .cond {
-            width: 300px;
+        .pcond {
+            width: 100%;
             font-size: 15px;
         }
         .suitability {
             width: 100px;
             font-size: 15px;
+        }
+        .matchc {
+            display: flex;
+            flex-wrap: nowrap;
+            position: relative;
+        }
+        .matchm {
+            position: absolute;
+            right: 30px;
+            width: 80px;
         }
     }
 

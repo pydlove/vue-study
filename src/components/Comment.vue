@@ -47,7 +47,7 @@
                             <div v-show="item.status != '3' && aioctoken != item.fromUid && overCommentId == item.id" class="cc-icon-main">
                                 <span class="dislinke-blue-icon mt-3"></span>踩
                             </div>
-                            <div v-show="item.status != '3' && aioctoken != item.fromUid && overCommentId == item.id" class="cc-icon-main">
+                            <div v-show="item.status != '3' && aioctoken != item.fromUid && overCommentId == item.id" class="cc-icon-main" @click="complain(item.id, 'comment')">
                                 <span class="inform-blue-icon mt-3"></span>举报
                             </div>
                             <div v-show="item.status != '3' && aioctoken == item.fromUid && overCommentId == item.id" class="cc-icon-main" @click="deleteComment(item.id)">
@@ -98,7 +98,7 @@
                                     <div v-show="aioctoken != replyItem.fromUid && overReplyId == replyItem.id" class="cc-icon-main">
                                         <span class="dislinke-blue-icon mt-3"></span>踩
                                     </div>
-                                    <div v-show="aioctoken != replyItem.fromUid && overReplyId == replyItem.id" class="cc-icon-main">
+                                    <div v-show="aioctoken != replyItem.fromUid && overReplyId == replyItem.id" class="cc-icon-main" @click="complain(replyItem.id, 'reply')">
                                         <span class="inform-blue-icon mt-3"></span>举报
                                     </div>
                                     <div v-show="aioctoken == replyItem.fromUid && overReplyId == replyItem.id" class="cc-icon-main" @click="deleteReply(replyItem.id)">
@@ -126,7 +126,7 @@
                     </div>
                     <div class="ml-50 mt-5 mb-5">
                         <a class="color-F56C6C" v-if="item.replyCount > showReplyCount && item.replyCount <= 5" @click="showReplyCount = item.replyCount">展开其他 {{item.replyCount - 2}} 条回复</a>
-                        <a class="color-F56C6C" v-if="item.replyCount > 5">查看所有 {{item.replyCount}} 条回复</a>
+                        <a class="color-F56C6C" v-if="item.replyCount > 5" @click="seeAllReply(item)">查看所有 {{item.replyCount}} 条回复</a>
                     </div>
                 </div>
             </div> <!--循环结束-->
@@ -134,19 +134,46 @@
                 <Pagination ref="pageRef" @search="search"></Pagination>
             </div>
         </el-card>
+
+        <Reply ref="replyRef" @addReplyToComment="addReplyToComment" @requestComments="requestComments"></Reply>
+        <Complain ref="complainRef" ></Complain>
     </div>
 </template>
 
 <script>
     import Pagination from "@/components/Pagination.vue"
+    import Reply from "@/components/Reply.vue"
+    import Complain from "@/components/Complain.vue"
 
     export default {
         name: "Comment",
-        components: {Pagination},
+        components: {Pagination, Reply, Complain},
         mounted() {
             this.aioctoken = this.$utils.getCookie("aioctoken");
         },
         methods: {
+
+            /**
+             * 投诉
+             * @param {*} id 评论或者回复id type
+             * @param {*} type 表示id是回复还是评论
+             * @author panyong
+             */
+            complain(id, type) {
+                console.log(id + type)
+                // 打开弹出框 @TODO 需要设计投诉表，编写投诉逻辑
+                this.$refs.complainRef.open();
+            },
+
+            /**
+             * 查看所有回复
+             * @param {*} commentObj 评论
+             * @author panyong
+             */
+            seeAllReply(commentObj) {
+                this.$refs.replyRef.open(commentObj, this.aioctoken);
+            },
+
             /**
              * 点击翻页查询
              * @param {*} currentPage 页码
@@ -175,7 +202,6 @@
                 let data = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_cm_comment_page_list, params, "POST");
                 if (data.code === 200) {
                     this.comments = data.data;
-                    console.log( this.comments )
                     this.totalCount = data.totalCount;
                     this.$refs.pageRef.totalCount = data.totalCount;
                     if(this.$refs.pageRef.totalCount < this.pageSize) {
@@ -371,7 +397,24 @@
                 isReply: false,
                 // 评论对象
                 comment: {
+                    avatar: "",
+                    createTime: "",
                     content: "",
+                    dislike: "",
+                    dislikeCount: "",
+                    fromUid: "",
+                    id: "",
+                    justFmt: "",
+                    like: "",
+                    likeCount: "",
+                    replies: "",
+                    replyList: "",
+                    replyCount: "",
+                    status: "",
+                    topicId: "",
+                    topicType: "",
+                    nickname: "",
+                    introduction: "",
                 },
                 // 回复对象
                 reply: {

@@ -1,32 +1,36 @@
 import axios from 'axios'
-import { Message, Loading } from 'element-ui'
+// import { Message, Loading } from 'element-ui'
+import { Message } from 'element-ui'
 import utils from '@/utils/utils'
 
 // 基础设置
 axios.defaults.baseURL = process.env.VUE_APP_BASEURL // 设置公共apiUrl
 axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8'
-let loadingInstance, loadingOptions
+// let loadingInstance, loadingOptions
 // let isPop;
 
 // 请求拦截器
 axios.interceptors.request.use(
   config => {
     // console.log(config, 'config')
-    loadingOptions = config.loadingOptions
-    if (loadingOptions.isLoading) {
-      loadingInstance = Loading.service({
-        ...loadingOptions,
-        fullscreen: true,
-        target: 'body',
-        background: 'rgba(0, 0, 0, 0.8)'
-      })
-    }
+    // loadingOptions = config.loadingOptions
+    //   console.log(loadingOptions)
+    //   console.log(Loading)
+    //   console.log(loadingInstance)
+    // if (loadingOptions.isLoading) {
+    //   loadingInstance = Loading.service({
+    //     ...loadingOptions,
+    //     fullscreen: true,
+    //     target: 'body',
+    //     background: 'rgba(0, 0, 0, 0.8)'
+    //   })
+    // }
     config.headers.authorization = utils.getCookie('authorization') || ''
     return config
   },
   error => {
     // if (loadingOptions.isLoading) {
-    loadingInstance.close()
+    // loadingInstance.close()
     // }
     Message({
       message: '加载超时',
@@ -41,9 +45,9 @@ axios.interceptors.response.use(
   response => {
     // console.log(response, 'response')
     // if (loadingOptions.isLoading) {
-    setTimeout(() => {
-      loadingInstance.close()
-    }, 200)
+    // setTimeout(() => {
+    //   loadingInstance.close()
+    // }, 200)
     // }
     if (response.data.code === 200) {
       // if (response.headers.authorization) {
@@ -71,7 +75,7 @@ axios.interceptors.response.use(
     return response
   },
   error => {
-    loadingInstance.close();
+    // loadingInstance.close();
    // if(isPop) {
    //  Message({
    //    message: '网络不稳定，请稍后再试',

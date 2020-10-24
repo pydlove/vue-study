@@ -38,6 +38,14 @@ Vue.prototype.$tools = tools
 import utils from '@/utils/utils.js'
 Vue.prototype.$utils = utils
 
+// axios
+import axios from 'axios'
+Vue.prototype.$axios = axios;
+
+// echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
 /**
  * 弹出层封装
  */
