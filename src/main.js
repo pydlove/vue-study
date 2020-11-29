@@ -46,6 +46,10 @@ Vue.prototype.$axios = axios;
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
+Vue.prototype.$clientHeight = document.body.clientHeight - 57 - 91
+
+
+
 /**
  * 弹出层封装
  */
