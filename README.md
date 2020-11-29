@@ -1,7 +1,7 @@
-### ChineseParasolCommunityFront
+### blsh
 
 #### 介绍介绍
-    梧桐圈项目前端工程
+    伯林书画研究院项目前端工程
 
 #### 软件架构
     vue 
