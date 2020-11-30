@@ -2,7 +2,7 @@
     <div>
         <el-dialog
                 class="aioc-dialog"
-                title="增加子节点"
+                title="增加主菜单"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
@@ -12,34 +12,37 @@
                 <el-form
                         ref="form"
                         :model="form"
-                        :rules="rules"
                         :inline="true"
+                        :rules="rules"
                         :validate-on-rule-change="false"
                         label-width="95px">
-                    <el-form-item label="子菜单名称" prop="chName">
+
+                    <el-form-item label="根菜单名称" prop="chName">
                         <el-input class="wdi-300" v-model="form.chName"></el-input>
                     </el-form-item>
 
                     <el-form-item label="菜单类型" prop="type">
-                        <el-select class="wdi-300" v-model="form.type" placeholder="请选择菜单类型">
+                        <el-select class="wdi-300" v-model="form.type" disabled placeholder="请选择菜单类型">
+                            <el-option label="项目" value="project"></el-option>
                             <el-option label="首页" value="index"></el-option>
                             <el-option label="菜单" value="menu"></el-option>
                             <el-option label="按钮" value="button"></el-option>
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item v-if="form.type == 'menu' || form.type == 'index'" label="菜单链接" prop="url">
-                        <el-input class="wdi-300" v-model="form.url"></el-input>
-                    </el-form-item>
-
-                    <el-form-item v-if="form.type == 'menu'" label="显示图标" prop="icon">
-                        <el-select class="wdi-300" v-model="form.icon" placeholder="请选择菜单类型">
-                            <el-option label="el-icon-edit" value="el-icon-edit"><i class="el-icon-edit"></i></el-option>
-                            <el-option label="el-icon-delete" value="el-icon-delete"><i class="el-icon-delete"></i></el-option>
-                            <el-option label="el-icon-share" value="el-icon-share"><i class="el-icon-share"></i></el-option>
-                            <el-option label="el-icon-s-tools" value="el-icon-s-tools"><i class="el-icon-s-tools"></i></el-option>
-                            <el-option label="el-icon-phone" value="el-icon-phone"><i class="el-icon-phone"></i></el-option>
-                        </el-select>
+                    <el-form-item label="logo" prop="icon">
+                        <el-upload
+                                class="aiocloud-logo-upload wdi-700"
+                                :action="uploadAction"
+                                :on-success="onSuccess"
+                                :before-upload="beforeUpload"
+                                :on-remove="handleRemove"
+                                :file-list="fileList"
+                                list-type="picture">
+                            <el-button size="small" type="primary">点击上传</el-button>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png/jpeg文件</div>
+                            <div slot="tip" class="el-upload__tip">上传预览：</div>
+                        </el-upload>
                     </el-form-item>
 
                     <el-form-item label="级别" prop="level">
@@ -48,15 +51,6 @@
                             <el-option label="1" value="menu"></el-option>
                             <el-option label="2" value="button"></el-option>
                             <el-option label="3" value="button"></el-option>
-                        </el-select>
-                    </el-form-item>
-
-                    <el-form-item v-if="form.type == 'menu' || form.type == 'index'" label="打开方式">
-                        <el-select class="wdi-300" v-model="form.openType" placeholder="请选择打开方式">
-                            <el-option label="默认" value="default"></el-option>
-                            <el-option label="iframe" value="iframe"></el-option>
-                            <el-option label="弹出窗口" value="open"></el-option>
-                            <el-option label="打开新的标签页" value="tab"></el-option>
                         </el-select>
                     </el-form-item>
 
@@ -71,12 +65,6 @@
                         </el-select>
                     </el-form-item>
 
-                    <el-form-item label="父类节点">
-                        <el-select class="wdi-300" v-model="form.parentId" disabled  placeholder="请选择父类节点" >
-                            <el-option :label="form.parentName" :value="form.parentId" :disabled="true"></el-option>
-                        </el-select>
-                    </el-form-item>
-
                     <el-form-item label="描述">
                         <el-input class="wdi-708 textarea" type="textarea" v-model="form.remark"></el-input>
                     </el-form-item>
@@ -84,7 +72,7 @@
             </el-card>
             <span slot="footer" class="dialog-footer">
                 <el-button class="wdi-120" @click="close">取 消</el-button>
-                <el-button class="wdi-120" type="primary" @click="onSubmit">确 定</el-button>
+                <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -100,6 +88,9 @@
         methods: {
             close() {
                 this.dialogVisible = false;
+                this.fileList = [];
+                this.form.icon = "";
+                this.deletePhotoRequest(this.fileName);
             },
             open() {
                 this.dialogVisible = true;
@@ -117,7 +108,7 @@
             async submitRequest() {
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_functions_add, this.form, "POST");
                 if(data.code == 200) {
-                    this.$promptMsg("增加子菜单成功！", "success");
+                    this.$promptMsg("增加根菜单成功！", "success");
                     this.dialogVisible = false;
                     this.$emit("search");
                 }
@@ -125,6 +116,45 @@
 
             setForm(form) {
                 this.form = form;
+            },
+
+            /**
+             * 照片上传、删除
+             */
+            handleRemove() {
+                this.fileList = [];
+                this.deletePhotoRequest(this.fileName);
+            },
+            onSuccess(response) {
+                if(this.fileList != [] && this.fileList.length > 0) {
+                    this.fileList = [];
+                    this.form.icon = "";
+                    this.deletePhotoRequest(this.fileName);
+                }
+                this.fileName = response.data.fileName;
+                this.fileList.push({name: this.form.chName, url: response.data.fileUrl})
+                this.form.icon = response.data.fileUrl;
+            },
+            beforeUpload(file) {
+                if( this.form.chName == null ||  this.form.chName == '') {
+                    this.$promptMsg("请先填写根菜单的名称！", "error");
+                    return false;
+                }
+
+                // 上传格式做限制
+                var testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
+                const extension = testmsg === 'png'
+                const extension2 = testmsg === 'jpg'
+                const extension3 = testmsg === 'jpeg'
+                if(!extension && !extension2 && !extension3) {
+                    this.$promptMsg("图片仅支持png、jpg、jpeg格式，请选择正确的格式！", "error");
+                    return false;
+                }
+            },
+            async deletePhotoRequest(fileName) {
+                let params = new FormData();
+                params.append("fileName", fileName);
+                await this.$aiorequest(this.$aiocUrl.console_service_v1_con_functions_logo_delete, params, "POST");
             },
         },
         data() {
@@ -144,6 +174,12 @@
                     parentId: '',
                     parentName: '',
                 },
+                /**
+                 * 照片
+                 */
+                uploadAction: this.$aiocUrl.console_service_v1_con_functions_logo_upload,
+                fileList: [],
+                fileName: "",
 
                 rules: {
                     chName: [
@@ -168,20 +204,35 @@
 </script>
 
 <style scoped>
-    .pr {
-        position: relative;
-    }
-    .upload-item {
-        position: absolute;
-        top: 50px;
-        right: 80px;
+    .el-upload__tip {
+        color: #f51d37;
     }
 </style>
 
 <style>
-    .zpcc .el-upload {
-        width: 180px;
-        height: 250px;
-        line-height: 250px;
+    .aiocloud-logo-upload .el-upload {
+        height: 50px;
+        text-align: left;
+    }
+    .aiocloud-logo-upload .el-upload-list--picture .el-upload-list__item {
+        width: 320px !important;
+        height: 57px !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        background: #282d2f;
+    }
+    .aiocloud-logo-upload .el-upload-list__item-thumbnail {
+        width: 42px !important;
+        height: 30px !important;
+        margin-left: 0px !important;
+        background: #282d2f;
+    }
+    .aiocloud-logo-upload .el-upload-list__item-name {
+        line-height: 57px !important;
+        font-size: 18px;
+        color: #ffffff;
+
     }
 </style>

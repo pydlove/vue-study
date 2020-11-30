@@ -2,7 +2,7 @@
     <div>
         <el-dialog
                 class="aioc-dialog"
-                title="增加子节点"
+                title="编辑子节点"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
@@ -115,9 +115,9 @@
             },
 
             async submitRequest() {
-                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_functions_add, this.form, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_functions_edit, this.form, "POST");
                 if(data.code == 200) {
-                    this.$promptMsg("增加子菜单成功！", "success");
+                    this.$promptMsg("编辑子菜单成功！", "success");
                     this.dialogVisible = false;
                     this.$emit("search");
                 }
