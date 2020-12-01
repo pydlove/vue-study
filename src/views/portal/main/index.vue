@@ -5,9 +5,9 @@
             <!-- logo -->
             <div class="am-fl tpl-header-logo">
                 <a href="javascript:;">
-                    <img :src="logo" alt="">
+                    <img :src="project.icon" alt="">
                 </a>
-                <span class="main-title">{{projectName}}</span>
+                <span class="main-title">{{project.chName}}</span>
             </div>
             <!-- 右侧内容 -->
             <div class="tpl-header-fluid">
@@ -21,7 +21,7 @@
                     <ul class="dffn">
                         <!-- 欢迎语 -->
                         <li class="am-text-sm">
-                            <a href="javascript:;">欢迎你, <span>Amaze UI</span> </a>
+                            <a href="javascript:;">欢迎你, <span>{{user.name}}</span> </a>
                         </li>
 
                         <li class="wdi-80">
@@ -30,7 +30,7 @@
                             </el-badge>
                         </li>
 
-                        <li class="tuc">
+                        <li class="tuc" @click="logout">
                             <i class="tuichu"></i>
                             <span class="fs-14 ml-5">退出</span>
                         </li>
@@ -44,11 +44,11 @@
             <div class="tpl-sidebar-user-panel">
                 <div class="dffc tl">
                     <div class="tpl-user-panel-profile-picture">
-                        <el-avatar class="ava" :size="avatarSize" :src="avatar"></el-avatar>
+                        <el-avatar class="ava" :size="avatarSize" :src="user.avatar"></el-avatar>
                     </div>
                     <span class="user-panel-logged-in-text">
                       <i class="el-icon-female"></i>
-                      禁言小张
+                      {{user.name}}
                     </span>
                     <div class="tpl-user-panel-action-link">
                         <span class="el-icon-edit"></span>
@@ -58,7 +58,7 @@
             </div>
 
             <el-menu :style="'height:' + (clientHeight-100) + 'px;overflow: auto;'"
-                    default-active="2"
+                    :default-active="activeMenuId"
                     class="el-menu-vertical aioc-scroll"
                     @open="handleOpen"
                     @close="handleClose"
@@ -66,20 +66,20 @@
                     text-color="#868E8E"
                     active-text-color="#ffffff"
                     :collapse="isCollapse">
-                <div v-for="(item, index) in menus" :key="index">
-                    <el-submenu :index="index" v-if="item.children.length > 0">
+                <div v-for="(item, index) in project.children" :key="index">
+                    <el-submenu v-if="item.children.length > 0" :index="item.id">
                         <template slot="title">
                             <i :class="item.icon"></i>
                             <span slot="title">{{item.chName}}</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item  :index="index + '-' + subIndex" v-for="(sub, subIndex) in item.children" :key="subIndex"  @click="selectMenu(sub)">
+                            <el-menu-item  :index="sub.id" v-for="(sub, subIndex) in item.children" :key="subIndex"  @click="selectSubMenu(item, sub)">
                                 {{sub.chName}}
                             </el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
 
-                    <el-menu-item :index="index.toString()" v-else @click="selectMenu(item)">
+                    <el-menu-item v-else :index="item.id" @click="selectMenu(item)">
                         <i :class="item.icon"></i>
                         <span slot="title">
                             {{item.chName}}
@@ -90,31 +90,43 @@
             </el-menu>
         </div>
 
-        <div v-show="rightMenuVisible" ref="rightMenuRef">
-            <ul class="right-menu" :style="'top:' + rightTop + 'px;left:' + rightLeft + 'px;'">
-                <li class="menu__item" @click="closeCurrentTab">关闭当前页面</li>
-                <li class="menu__item" @click="closeOtherTab">关闭其他页面</li>
-                <li class="menu__item" @click="closeRightTab">关闭右侧页面</li>
-                <li class="menu__item" @click="closeLeftTab">关闭左侧页面</li>
-                <li class="menu__item" @click="closeAllTab">关闭全部页面</li>
-            </ul>
-        </div>
+        <!--tab页形式-->
+        <!--<div v-show="rightMenuVisible" ref="rightMenuRef">-->
+            <!--<ul class="right-menu" :style="'top:' + rightTop + 'px;left:' + rightLeft + 'px;'">-->
+                <!--<li class="menu__item" @click="closeCurrentTab">关闭当前页面</li>-->
+                <!--<li class="menu__item" @click="closeOtherTab">关闭其他页面</li>-->
+                <!--<li class="menu__item" @click="closeRightTab">关闭右侧页面</li>-->
+                <!--<li class="menu__item" @click="closeLeftTab">关闭左侧页面</li>-->
+                <!--<li class="menu__item" @click="closeAllTab">关闭全部页面</li>-->
+            <!--</ul>-->
+        <!--</div>-->
 
         <!-- 内容区域 -->
         <div :class="closeLfetFlag ? 'tpl-content-wrapper close-left':'tpl-content-wrapper'">
-            <el-tabs class="t" v-model="editableTabsValue" type="card"
-                      closable @tab-remove="removeMenuTab" @contextmenu.prevent.stop.native="rightClick($event)">
-                <el-tab-pane
-                        :key="index"
-                        v-for="(item, index) in menuHises"
-                        :label="item.chName"
-                        :name="item.id"
-                >
-                    <!--<iframe id="iframe" class="frame-con" :src="'http://www.aiocloud.ltd/#/' + item.url" scrolling="no" :style="'height:' + clientHeight + 'px;'">-->
-                    <iframe id="iframe" class="frame-con" :src="'http://localhost:8080/#/' + item.url" scrolling="no" :style="'height:' + clientHeight + 'px;'">
-                    </iframe>
-                </el-tab-pane>
-            </el-tabs>
+
+            <!--tab页形式-->
+            <!--<el-tabs class="t" v-model="editableTabsValue" type="card"-->
+                      <!--closable @tab-remove="removeMenuTab" @contextmenu.prevent.stop.native="rightClick($event)">-->
+                <!--<el-tab-pane-->
+                        <!--:key="index"-->
+                        <!--v-for="(item, index) in menuHises"-->
+                        <!--:label="item.chName"-->
+                        <!--:name="item.id"-->
+                <!--&gt;-->
+                    <!--&lt;!&ndash;<iframe id="iframe" class="frame-con" :src="'http://www.aiocloud.ltd/#/' + item.url" scrolling="no" :style="'height:' + clientHeight + 'px;'">&ndash;&gt;-->
+                    <!--<iframe id="iframe" class="frame-con" :src="'http://localhost:8080/#' + item.url" scrolling="no" :style="'height:' + clientHeight + 'px;'">-->
+                    <!--</iframe>-->
+                <!--</el-tab-pane>-->
+            <!--</el-tabs>-->
+
+            <!--面包屑形式-->
+            <el-breadcrumb class="breadcrumb" separator="/">
+                <el-breadcrumb-item> 您的当前位置：{{project.chName}}</el-breadcrumb-item>
+                <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="index">{{item}}</el-breadcrumb-item>
+            </el-breadcrumb>
+
+            <iframe id="iframe" class="frame-con" :src="currentUrl" scrolling="no" :style="'height:' + clientHeight + 'px;'">
+            </iframe>
         </div>
     </div>
 </template>
@@ -124,6 +136,8 @@
     export default {
         name: "index",
         created(){
+            // 判断用户是否登录
+            this.judgeIsLogin();
             document.addEventListener('click',(e)=>{
                 if(this.$refs.rightMenuRef){
                     let isSelf = this.$refs.rightMenuRef.contains(e.target)
@@ -134,12 +148,104 @@
             });
         },
         mounted() {
-            this.loadAuthority();
+            this.loadUserAndAuthority();
             new this.$wow.WOW({
                 live: false
             }).init();
         },
         methods: {
+            async loadUserAndAuthority() {
+                let params = new FormData()
+                let res = await this.$aiorequest(this.$aiocUrl.console_service_v1_login_user_authority, params, "POST");
+                if (res.code === 200) {
+                    var data = res.data;
+                    this.user = res.data;
+                    if (data.roles.length > 0) {
+                        this.roles = data.roles;
+                    }
+                    if (data.projectlFuns != null && data.projectlFuns.length > 0) {
+                        this.project = data.projectlFuns[0];
+                        if(this.project.children != null && this.project.children.length > 0) {
+                            const menu = this.project.children[0];
+                            this.breadcrumbs.push(menu.chName);
+                            if(menu.children != null && menu.children.length > 0) {
+                                this.activeMenuId = menu.children[0].id;
+                                this.currentUrl = this.baseUrl + menu.children[0].url;
+                                this.breadcrumbs.push(menu.children[0].chName);
+                            } else {
+                                this.activeMenuId = menu.id;
+                                this.currentUrl = this.baseUrl + menu.url;
+                            }
+                        }
+                    }
+                }
+            },
+
+            logout() {
+                this.$confirm('请确定是否要退出登录?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.logoutRequest();
+                }).catch(() => {
+                });
+            },
+            async logoutRequest() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_login_logout, {}, "GET");
+                if(data.code === 200) {
+                    this.$utils.removeStorage("aioctoken");
+                    this.$router.push({name: "teacherLogin"});
+                }
+            },
+
+            async judgeIsLogin() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_login_judgeIsLogin, {}, "GET");
+                if(data.code === 200 && data.data != "login") {
+                    this.$router.push({name: "teacherLogin"});
+                }
+            },
+
+            selectSubMenu(menuItem, subMenuItem) {
+                this.currentUrl = this.baseUrl + subMenuItem.url;
+                this.breadcrumbs = [];
+                this.breadcrumbs.push(menuItem.chName);
+                this.breadcrumbs.push(subMenuItem.chName);
+                this.setButtonPermissions(subMenuItem);
+            },
+
+            selectMenu(menuItem) {
+                this.currentUrl = this.baseUrl + menuItem.url;
+                this.breadcrumbs = [];
+                this.breadcrumbs.push(menuItem.chName);
+                this.setButtonPermissions(menuItem);
+            },
+
+            setButtonPermissions(item) {
+                const activeBtnAuthority = item.btns;
+                if(activeBtnAuthority != "" && activeBtnAuthority != null && activeBtnAuthority != undefined) {
+                    this.$utils.setCookie('activeBtnAuthority', activeBtnAuthority, 10000000);
+                } else {
+                    this.$utils.setCookie('activeBtnAuthority', "no*aiocloud*p", 10000000);
+                }
+            },
+
+            // tab 页形式的方法
+            // selectMenu(menuItem) {
+            //     this.currentMenu = menuItem;
+            //     var contain = false;
+            //     for(var i in this.menuHises) {
+            //         const menuHiseElement = this.menuHises[i];
+            //         if(menuHiseElement.id == menuItem.id) {
+            //             contain = true;
+            //         }
+            //     }
+            //     if(!contain) {
+            //         this.menuHises.push(menuItem);
+            //     }
+            //     this.editableTabsValue = menuItem.id;
+            // },
+
             closeAllTab() {
                 this.menuHises = [];
                 this.editableTabsValue = "";
@@ -270,190 +376,173 @@
                 this.closeLfetFlag = this.closeLfetFlag ? false:true;
             },
 
-            selectMenu(menuItem) {
-                this.currentMenu = menuItem;
-                var contain = false;
-                for(var i in this.menuHises) {
-                    const menuHiseElement = this.menuHises[i];
-                    if(menuHiseElement.id == menuItem.id) {
-                        contain = true;
-                    }
-                }
-                if(!contain) {
-                    this.menuHises.push(menuItem);
-                }
-                this.editableTabsValue = menuItem.id;
-            },
-
-            async loadAuthority() {
                 // let params = new FormData()
                 // let res = await this.$aiorequest(this.$aiocUrl.console_service_v1_login_user_authority, params, "POST");
                 // if (res.code === 200) {
                 //     var data = res.data;
-                    var data = {
-                        roles: [
-
-                        ],
-                        projectlFuns: [
-                            {
-                                chName: "安徽省柏林书画研究院",
-                            }
-                        ],
-                        menus: [
-                            // {
-                            //     id: "1",
-                            //     chName: "首页",
-                            //     icon: "el-icon-location",
-                            //     url: "",
-                            //     children: [],
-                            // },
-                            {
-                                id: "1",
-                                chName: "我的课程",
-                                icon: "el-icon-location",
-                                url: "course",
-                                children: [],
-                            },
-                            {
-                                id: "2",
-                                chName: "我的活动",
-                                icon: "el-icon-location",
-                                url: "tactivity",
-                                children: [],
-                            },
-                            {
-                                id: "3",
-                                chName: "我的班级",
-                                icon: "el-icon-location",
-                                url: "tclass",
-                                children: [],
-                            },
-                            {
-                                id: "4-2",
-                                chName: "唯一注册码管理",
-                                icon: "el-icon-location",
-                                url: "registrationCode",
-                                children: [],
-                            },
-                            {
-                                id: "4-3",
-                                chName: "注册学员管理",
-                                icon: "el-icon-location",
-                                url: "studentm",
-                                children: [],
-                            },
-                            {
-                                id: "4-4",
-                                chName: "老师管理",
-                                icon: "el-icon-location",
-                                url: "teacherm",
-                                children: [],
-                            },
-                            {
-                                id: "4-5",
-                                chName: "活动管理",
-                                icon: "el-icon-location",
-                                url: "activitym",
-                                children: [],
-                            },
-                            {
-                                id: "4-6",
-                                chName: "证书管理",
-                                icon: "el-icon-location",
-                                url: "certificatem",
-                                children: [],
-                            },
-                            {
-                                id: "4-7",
-                                chName: "财务管理",
-                                icon: "el-icon-location",
-                                children: [
-                                    {
-                                        id: "5-1-1",
-                                        url: "pay",
-                                        chName: "收支账户配置",
-                                    },
-                                    {
-                                        id: "5-1-2",
-                                        url: "income",
-                                        chName: "收入明细",
-                                    },
-                                    {
-                                        id: "5-1-3",
-                                        url: "approveSet",
-                                        chName: "审批配置",
-                                    },
-                                    {
-                                        id: "5-1-3",
-                                        url: "approve",
-                                        chName: "审批申请",
-                                    },
-                                ],
-                            },
-                            {
-                                id: "5-1",
-                                chName: "课程管理",
-                                icon: "el-icon-location",
-                                children: [
-                                    {
-                                        id: "5-1-1",
-                                        url: "mainSubject",
-                                        chName: "课程大类管理",
-                                    },
-                                    {
-                                        id: "5-1-2",
-                                        url: "subSubject",
-                                        chName: "课程小类管理",
-                                    },
-                                    {
-                                        id: "5-1-3",
-                                        url: "classm",
-                                        chName: "班级配置",
-                                    },
-                                ],
-                            },
-                            {
-                                id: "5",
-                                chName: "系统设置",
-                                icon: "el-icon-location",
-                                children: [
-                                    {
-                                        id: "5-1-3",
-                                        url: "user",
-                                        chName: "用户管理",
-                                    },
-                                    {
-                                        id: "6",
-                                        url: "role",
-                                        chName: "角色管理",
-                                    },
-                                    {
-                                        id: "7",
-                                        url: "menu",
-                                        chName: "菜单管理",
-                                    },
-                                ],
-                            }
-                        ],
-                    };
-
-                    if(data.roles.length > 0) {
-                        this.roles = data.roles;
-                    }
-                    if(data.projectlFuns != null && data.projectlFuns.length > 0 ) {
-                        this.projectName = data.projectlFuns[0].chName;
-                    }
-                    if(data.menus != null && data.menus.length > 0) {
-                        this.menus = data.menus;
-                        this.menuHises.push(this.menus[0]);
-                        this.editableTabsValue = this.menus[0].id;
-                    }
+                //     var data1 = {
+                //         roles: [
+                //
+                //         ],
+                //         projectlFuns: [
+                //             {
+                //                 chName: "安徽省柏林书画研究院",
+                //             }
+                //         ],
+                //         menus: [
+                //             // {
+                //             //     id: "1",
+                //             //     chName: "首页",
+                //             //     icon: "el-icon-location",
+                //             //     url: "",
+                //             //     children: [],
+                //             // },
+                //             {
+                //                 id: "1",
+                //                 chName: "我的课程",
+                //                 icon: "el-icon-location",
+                //                 url: "course",
+                //                 children: [],
+                //             },
+                //             {
+                //                 id: "2",
+                //                 chName: "我的活动",
+                //                 icon: "el-icon-location",
+                //                 url: "tactivity",
+                //                 children: [],
+                //             },
+                //             {
+                //                 id: "3",
+                //                 chName: "我的班级",
+                //                 icon: "el-icon-location",
+                //                 url: "tclass",
+                //                 children: [],
+                //             },
+                //             {
+                //                 id: "4-2",
+                //                 chName: "唯一注册码管理",
+                //                 icon: "el-icon-location",
+                //                 url: "registrationCode",
+                //                 children: [],
+                //             },
+                //             {
+                //                 id: "4-3",
+                //                 chName: "注册学员管理",
+                //                 icon: "el-icon-location",
+                //                 url: "studentm",
+                //                 children: [],
+                //             },
+                //             {
+                //                 id: "4-4",
+                //                 chName: "老师管理",
+                //                 icon: "el-icon-location",
+                //                 url: "teacherm",
+                //                 children: [],
+                //             },
+                //             {
+                //                 id: "4-5",
+                //                 chName: "活动管理",
+                //                 icon: "el-icon-location",
+                //                 url: "activitym",
+                //                 children: [],
+                //             },
+                //             {
+                //                 id: "4-6",
+                //                 chName: "证书管理",
+                //                 icon: "el-icon-location",
+                //                 url: "certificatem",
+                //                 children: [],
+                //             },
+                //             {
+                //                 id: "4-7",
+                //                 chName: "财务管理",
+                //                 icon: "el-icon-location",
+                //                 children: [
+                //                     {
+                //                         id: "5-1-1",
+                //                         url: "pay",
+                //                         chName: "收支账户配置",
+                //                     },
+                //                     {
+                //                         id: "5-1-2",
+                //                         url: "income",
+                //                         chName: "收入明细",
+                //                     },
+                //                     {
+                //                         id: "5-1-3",
+                //                         url: "approveSet",
+                //                         chName: "审批配置",
+                //                     },
+                //                     {
+                //                         id: "5-1-3",
+                //                         url: "approve",
+                //                         chName: "审批申请",
+                //                     },
+                //                 ],
+                //             },
+                //             {
+                //                 id: "5-1",
+                //                 chName: "课程管理",
+                //                 icon: "el-icon-location",
+                //                 children: [
+                //                     {
+                //                         id: "5-1-1",
+                //                         url: "mainSubject",
+                //                         chName: "课程大类管理",
+                //                     },
+                //                     {
+                //                         id: "5-1-2",
+                //                         url: "subSubject",
+                //                         chName: "课程小类管理",
+                //                     },
+                //                     {
+                //                         id: "5-1-3",
+                //                         url: "classm",
+                //                         chName: "班级配置",
+                //                     },
+                //                 ],
+                //             },
+                //             {
+                //                 id: "5",
+                //                 chName: "系统设置",
+                //                 icon: "el-icon-location",
+                //                 children: [
+                //                     {
+                //                         id: "5-1-3",
+                //                         url: "user",
+                //                         chName: "用户管理",
+                //                     },
+                //                     {
+                //                         id: "6",
+                //                         url: "role",
+                //                         chName: "角色管理",
+                //                     },
+                //                     {
+                //                         id: "7",
+                //                         url: "menu",
+                //                         chName: "菜单管理",
+                //                     },
+                //                 ],
+                //             }
+                //         ],
+                //     };
+                //
+                //     if(data1.roles.length > 0) {
+                //         this.roles = data1.roles;
+                //     }
+                //     if(data1.projectlFuns != null && data1.projectlFuns.length > 0 ) {
+                //         this.projectName = data1.projectlFuns[0].chName;
+                //     }
+                //     if(data1.menus != null && data1.menus.length > 0) {
+                //         this.menus = data.menus;
+                //         this.menuHises.push(this.menus[0]);
+                //         this.editableTabsValue = this.menus[0].id;
+                //     }
                 // }
-            },
         },
         data() {
             return {
-                clientHeight : document.body.clientHeight - 57 - 91,
+                clientHeight : document.body.clientHeight - 57 - 83,
                 logo: require('@/assets/img/logo/logo.png'),
                 avatar: require('@/assets/img/ouynn.jpg'),
                 avatarSize: "80",
@@ -461,16 +550,26 @@
                 isCollapse: false,
                 roles: [],
                 menus: [],
-                projectName: "",
                 tabIndex: 1,
                 closeLfetFlag: false,
-                currentMenu: "",
                 currentRightMenuName: "",
                 menuHises: [],
                 editableTabsValue: '0',
                 rightMenuVisible: true,
                 rightTop: 0,
                 rightLeft: 0,
+                user: "",
+
+                firstLevelFuns: [],
+                secondLevelFuns: [],
+                buttonMap: [],
+                indexList: [],
+                project: "",
+                breadcrumbs: [],
+                currentUrl: "",
+                activeMenuId: "",
+                baseUrl: "http://localhost:8080/#",
+
             }
         },
     }
@@ -615,6 +714,15 @@
     .menu__item:hover {
         color: #409EFF;
     }
+    .breadcrumb {
+        height: 50px;
+        line-height: 50px;
+        background: #1f2224;
+        margin-bottom: 10px;
+        border-radius: 3px;
+        padding-left: 20px;
+        color: #eeeeee !important;
+    }
 
     /*媒体查询（电脑）*/
     @media screen and (min-width: 1529px) {
@@ -634,6 +742,12 @@
 </style>
 
 <style>
+    .breadcrumb .el-breadcrumb__inner {
+        color: #999999;
+    }
+    .breadcrumb .el-breadcrumb__item:last-child .el-breadcrumb__inner, .el-breadcrumb__item:last-child .el-breadcrumb__inner a, .el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover, .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover{
+        color: #aaaaaa;
+    }
     .el-badge__content.is-fixed {
         position: absolute;
         top: 18px;
