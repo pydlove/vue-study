@@ -9,32 +9,22 @@
                     label-width="80px"
                     label-position="right">
 
-                <el-form-item label="用户名称" prop="name">
+                <el-form-item label="角色名称" prop="name">
                     <el-input
                             v-model="searchform.name"
                             class="wp-180 mr-10"
-                            placeholder="请输入用户名称"
+                            placeholder="请输入内容"
                             prefix-icon="el-icon-search">
                     </el-input>
                 </el-form-item>
-
-                <el-form-item label="用户账号" prop="name">
-                    <el-input
-                            v-model="searchform.account"
-                            class="wp-180 mr-10"
-                            placeholder="请输入用户账号"
-                            prefix-icon="el-icon-search">
-                    </el-input>
-                </el-form-item>
-
                 <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
                 <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
             </el-form>
 
             <div class="mb-10 mt-40">
-                <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
-                <el-button v-aba="['d']" type="danger" icon="el-icon-delete" size="small" @click="deletea">批量删除</el-button>
-                <el-button v-aba="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
+                <el-button class="aioc-btn1" v-aiocp="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
+                <el-button v-aiocp="['d']" type="danger" icon="el-icon-delete" size="small" @click="deletea">批量删除</el-button>
+                <el-button v-aiocp="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
             </div>
 
             <el-table
@@ -47,30 +37,58 @@
                     :cell-style="{padding:'9px 1px'}"
             >
                 <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                <el-table-column prop="name" label="角色名称" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="name" label="角色名称" :show-overflow-tooltip="true">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.name != '运维管理员aioc'">
+                            {{scope.row.name}}
+                        </div>
+                        <div v-else @click="judgeIsAdmin">
+                            {{scope.row.name}}
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="createTime" label="时间" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="remark" label="描述" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="400">
                     <template slot-scope="scope">
-                        <el-button class="aioc-btn1"
-                                v-aba="['e']"
-                                size="mini"
-                                @click="editRow(scope.$index, scope.row)">编辑</el-button>
-                        <el-button
-                                v-aba="['d']"
-                                size="mini"
-                                type="danger"
-                                @click="deleteRow(scope.$index, scope.row)">删除</el-button>
-                        <el-button
-                                v-aba="['sf']"
-                                size="mini"
-                                type="success"
-                                @click="userConfig(scope.$index, scope.row)">人员配置</el-button>
-                        <el-button
-                                v-aba="['pc']"
-                                size="mini"
-                                type="success"
-                                @click="authorityConfig(scope.$index, scope.row)">权限配置</el-button>
+                       <div v-if="scope.row.name != '运维管理员aioc'">
+                           <el-button class="aioc-btn1"
+                                      v-aiocp="['e']"
+                                      size="mini"
+                                      @click="editRow(scope.row)">编辑</el-button>
+                           <el-button v-if="scope.row.name != '老师'"
+                                   v-aiocp="['d']"
+                                   size="mini"
+                                   type="danger"
+                                   @click="deleteRow(scope.row)">删除</el-button>
+                           <el-button
+                                   v-aiocp="['sf']"
+                                   size="mini"
+                                   type="success"
+                                   @click="userConfig(scope.row)">人员配置</el-button>
+                           <el-button
+                                   v-aba="['pc']"
+                                   size="mini"
+                                   type="success"
+                                   @click="authorityConfig(scope.row)">权限配置</el-button>
+                       </div>
+                        <div v-else-if="scope.row.name == '运维管理员aioc' && isAdmin">
+                            <el-button class="aioc-btn1"
+                                       size="mini"
+                                       @click="editRow(scope.row)">编辑</el-button>
+                            <el-button
+                                    size="mini"
+                                    type="success"
+                                    @click="userConfig(scope.row)">人员配置</el-button>
+                            <el-button
+                                    size="mini"
+                                    type="success"
+                                    @click="authorityConfig(scope.row)">权限配置</el-button>
+                            <el-button
+                                    size="mini"
+                                    type="success"
+                                    @click="closeIsAdmin">关闭权限</el-button>
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -78,8 +96,9 @@
         </el-card>
         <UserRoleConfig ref="userRoleConfigRef"></UserRoleConfig>
         <MenuAuthorityConfig ref="menuAuthorityConfigRef"></MenuAuthorityConfig>
-        <Add ref="addRef"></Add>
-        <Edit ref="editRef"></Edit>
+        <Add ref="addRef" @search="search" ></Add>
+        <Edit ref="editRef" @search="search" :currentPage="currentPage" :pageSize="pageSize"></Edit>
+        <IsAdmin ref="isAdminRef" @setIsAdmin="setIsAdmin"></IsAdmin>
     </div>
 </template>
 
@@ -89,14 +108,49 @@
     import MenuAuthorityConfig from "@/views/portal/role/menuAuthorityConfig"
     import Add from "@/views/portal/role/add"
     import Edit from "@/views/portal/role/edit"
+    import IsAdmin from "@/views/portal/role/isAdmin"
 
     export default {
         name: "index",
-        components: {Pagination, UserRoleConfig, Add, Edit, MenuAuthorityConfig},
+        components: {Pagination, UserRoleConfig, Add, Edit, MenuAuthorityConfig, IsAdmin},
         mounted() {
             this.search(0, 10);
         },
         methods: {
+            judgeIsAdmin() {
+                this.$refs.isAdminRef.form.pwd = "";
+                this.$refs.isAdminRef.open();
+            },
+
+            setIsAdmin() {
+                this.isAdmin = true;
+            },
+
+            closeIsAdmin() {
+                this.isAdmin = false;
+            },
+
+            async search(currentPage, pageSize) {
+                this.currentPage = currentPage;
+                this.pageSize = pageSize;
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("name",  this.searchform.name);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
+                if (data.code === 200) {
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
+                }
+            },
+            reseta() {
+                this.searchform = {
+                    name: "",
+                };
+                this.search(this.currentPage, this.pageSize)
+            },
+
             /**
              * 增加
              */
@@ -110,24 +164,25 @@
             editRow(row) {
                 this.$refs.editRef.form = {
                     id: row.id,
-                    name: '曹操',
-                    createTime: '2020-11-22 11:22:11',
+                    name: row.name,
+                    remark: row.remark,
                 };
                 this.$refs.editRef.open();
             },
 
-            userConfig(index, row) {
+            userConfig(row) {
                 this.$refs.userRoleConfigRef.lastCheckId = row.id;
                 this.$refs.userRoleConfigRef.lastCheckName = row.name;
-                this.$refs.userRoleConfigRef.dialogVisible = true;
+                this.$refs.userRoleConfigRef.open();
                 this.$refs.userRoleConfigRef.search();
             },
 
-            authorityConfig(index, row) {
+            authorityConfig(row) {
                 this.$refs.menuAuthorityConfigRef.lastCheckId = row.id;
                 this.$refs.menuAuthorityConfigRef.lastCheckName = row.name;
-                this.$refs.menuAuthorityConfigRef.dialogVisible = true;
                 this.$refs.menuAuthorityConfigRef.initCheckMenus();
+                this.$refs.menuAuthorityConfigRef.initTreeData();
+                this.$refs.menuAuthorityConfigRef.open();
             },
 
             /**
@@ -144,36 +199,37 @@
                     var row = this.checkRows[i];
                     this.checkRowIds.push("\"" + row.id + "\"");
                 }
-                this.deleteRequest();
-            },
-            deleteRow(index, row) {
-                this.checkRowIds = [];
-                this.checkRowIds.push("\"" + row.id + "\"");
-                this.deleteRequest();
-            },
-            deleteRequest() {
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteRequest();
+                }).catch(() => {
+                });
+
+            },
+            deleteRow(row) {
+                this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.checkRowIds = [];
+                    this.checkRowIds.push("\"" + row.id + "\"");
+                    this.deleteRequest();
                 }).catch(() => {
                 });
             },
-
-            search(currentPage, pageSize) {
-                this.currentPage = currentPage;
-                this.pageSize = pageSize;
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    var uuidObj = {
-                        id: i,
-                        name: '超级管理员',
-                        createTime: '2020-11-22 11:22:11',
-                    };
-                    this.tableData.push(uuidObj);
+            async deleteRequest() {
+                let params = new FormData()
+                params.append("ids", this.checkRowIds.toString());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_delete, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg("删除角色成功", "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
                 }
-                this.$refs.pageRef.totalCount = this.tableData.length;
             },
 
             tableRowClick(row) {
@@ -202,12 +258,6 @@
                 }
             },
 
-            reseta() {
-                this.searchform = {
-                    name: "",
-                    status: "",
-                };
-            },
         },
         data() {
             return {
@@ -224,7 +274,7 @@
                 pageSize: 10,
                 photoWidth: 50,
                 photoHeight: 50,
-
+                isAdmin: false,
             }
         },
     }

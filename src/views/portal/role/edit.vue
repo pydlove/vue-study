@@ -2,7 +2,7 @@
     <div>
         <el-dialog
                 class="aioc-dialog"
-                title="增加课程大类信息"
+                title="编辑角色"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
@@ -35,8 +35,9 @@
 
 <script>
     export default {
-        name: "add",
+        name: "edit",
         components: {},
+        props: ["currentPage", "pageSize"],
         mounted() {
 
         },
@@ -48,7 +49,22 @@
                 this.dialogVisible = true;
             },
             onSubmit() {
-                this.$promptMsg("增加成功", "success");
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.submitRequest();
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
+            async submitRequest() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_edit, this.form, "POST");
+                if(data.code == 200) {
+                    this.$promptMsg("编辑角色成功！", "success");
+                    this.dialogVisible = false;
+                    this.$emit("search", this.currentPage, this.pageSize);
+                }
             },
         },
         data() {
@@ -59,6 +75,11 @@
                     name: "",
                     remark: '',
                 },
+                rules: {
+                    name: [
+                        {type: 'string', required: true, message: '请输入角色名称', trigger: ['change', 'blur']},
+                    ],
+                }
             }
         },
     }
