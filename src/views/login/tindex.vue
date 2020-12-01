@@ -11,30 +11,36 @@
             <div class="gnc wow bounceInRight">
                 <div class="gnm">
                     <span class="lotitle">安徽柏林书画研究院网络管理系统</span>
-                    <p class="dl">老师端登录</p>
+                    <p class="dl">教师端登录</p>
 
-                    <el-form class="lform" label-width="80px" :model="loginForm">
+                    <el-form class="lform" label-width="0px" ref="loginForm" :model="loginForm" :rules="rules">
                         <div class="sr">
                             <span class="phone-icon"></span>
-                            <el-input class="srin" v-model="loginForm.name" placeholder="请输入账号"></el-input>
+                            <el-form-item label="" prop="account">
+                                <el-input class="srin" v-model="loginForm.account" placeholder="请输入账号"></el-input>
+                            </el-form-item>
                         </div>
 
                         <div class="sr">
                             <span class="code-icon"></span>
-                            <el-input class="srin" v-model="loginForm.password" placeholder="请输入登录密码"></el-input>
+                            <el-form-item label="" prop="password">
+                                <el-input class="srin" v-model="loginForm.password" show-password placeholder="请输入登录密码"></el-input>
+                            </el-form-item>
                         </div>
 
                         <div class="sr">
                             <span class="code-icon"></span>
-                            <el-input class="srin vcf" placeholder="请输入验证码" v-model="loginForm.verificationCode" autocomplete="off"></el-input>
-                            <!--<img id="imgIdentifyingCode" src="/cpcm-service/v1/login/captcha.jpg"-->
-                                 <!--class="vcimg" alt="点击更换" title="点击更换" @click="getIdentifyingCode()" />-->
-                            <div class="testimg">
-                                <span>5</span>
-                                <span>9</span>
-                                <span>a</span>
-                                <span>h</span>
-                            </div>
+                            <el-form-item label="" prop="verificationCode">
+                                <el-input class="srin vcf" placeholder="请输入验证码" v-model="loginForm.verificationCode" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <img id="imgIdentifyingCode" src="/console-service/v1/login/captcha.jpg"
+                                 class="vcimg" alt="点击更换" title="点击更换" @click="getIdentifyingCode()" />
+                            <!--<div class="testimg">-->
+                                <!--<span>5</span>-->
+                                <!--<span>9</span>-->
+                                <!--<span>a</span>-->
+                                <!--<span>h</span>-->
+                            <!--</div>-->
                         </div>
                         <el-button class="dl-btn" type="primary" @click="login">立即登录</el-button>
                     </el-form>
@@ -60,14 +66,40 @@
         },
         methods: {
             login() {
-                this.$router.push({name: "portal"});
+                this.$refs['loginForm'].validate((valid) => {
+                    if (valid) {
+                        this.loginRequest();
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
+            async loginRequest() {
+                let params = new FormData()
+                params.append("account", this.loginForm.account);
+                params.append("password", this.$md5(this.loginForm.password));
+                params.append("verificationCode",  this.loginForm.verificationCode);
+                params.append("rememberMe", this.loginForm.rememberMe);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_login, params, "POST");
+                console.log(data)
+                if (data.code == 200) {
+                    this.$utils.setStorage("aioctoken", data.data);
+                    this.$router.push({
+                        name: "portal"
+                    })
+                    return true;
+                } else {
+                    this.$promptMsg("用户信息错误，请确认", "error");
+                    // this.getIdentifyingCode();
+                }
             },
 
             /**
              * 图片验证码
              */
             getIdentifyingCode: function () {
-                let identifyCodeSrc = this.$aiocUrl.cpcm_service_v1_login_captcha + "?" + Math.random();
+                let identifyCodeSrc = this.$aiocUrl.console_service_v1_login_captcha + "?" + Math.random();
                 let objs = document.getElementById("imgIdentifyingCode");
                 objs.src = identifyCodeSrc;
             },
@@ -86,9 +118,21 @@
                 clientWidth: 1580,
                 clientHeight: 980,
                 loginForm: {
-                    name: "",
-                    password: "",
+                    account: "panyong",
+                    password: "1q2w3e4R!Q",
                     verificationCode: "",
+                    rememberMe: false,
+                },
+                rules: {
+                    account: [
+                        { required: true, message: '请填写用户名称', trigger: 'blur' },
+                    ],
+                    password: [
+                        { required: true, message: '请填写用户密码', trigger: 'blur' }
+                    ],
+                    verificationCode: [
+                        { required: true, message: '请填写验证码', trigger: 'blur' }
+                    ],
                 },
             }
         },
@@ -237,18 +281,35 @@
 </style>
 
 <style>
-    /*媒体查询（电脑）*/
-    @media screen and (min-width: 1529px) {
-        .srin .el-input__inner {
-            height: 17px;
-            border: 0px;
-            color: #606266;
-            height: 17px;
-            line-height: 17px;
-            outline: 0;
-            padding: 0 10px;
-            margin-left: 10px;
-            width: 100%;
-        }
+    .srin .el-input__inner {
+        height: 17px;
+        border: 0px;
+        color: #606266;
+        height: 17px;
+        line-height: 17px;
+        outline: 0;
+        padding: 0 10px;
+        margin-left: 10px;
+        width: 100%;
+    }
+    .lform .el-form-item {
+        margin-bottom: 0px;
+    }
+    .lform .el-form-item__content {
+        line-height: 17px;
+    }
+    .lform .el-form-item__error {
+        color: #F56C6C;
+        font-size: 12px;
+        line-height: 1;
+        padding-top: 4px;
+        position: absolute;
+        top: 100%;
+        left: 20px;
+    }
+    .lform .el-input .el-input__clear {
+        position: absolute;
+        top: -10px;
+        left: 10px;
     }
 </style>
