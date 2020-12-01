@@ -16,12 +16,12 @@
           <el-input v-model="searchform.parentName" placeholder="请搜索上级单位名称"></el-input>
         </el-form-item>
 
-        <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
+        <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search()">搜索</el-button>
         <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
       </el-form>
 
       <div class="mb-10">
-        <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="addRoot">增加根菜单</el-button>
+        <el-button class="aioc-btn1" v-aiocp="['ar']" type="primary" icon="el-icon-plus" size="small" @click="addRoot">增加根菜单</el-button>
       </div>
       <el-table
               class="aioc-table"
@@ -60,7 +60,7 @@
           <template slot-scope="scope">
             <el-button v-show="scope.row.type != 'button' && scope.row.type != 'index'"
                        class="aioc-btn1 mli-10"
-                       v-aba="['a']"
+                       v-aiocp="['as']"
                        type="primary"
                        size="mini"
                        @click="add(scope.row)">增加子节点</el-button>
@@ -71,12 +71,12 @@
                        <!--size="mini"-->
                        <!--@click="addBtn(scope.$index, scope.row)">增加按钮</el-button>-->
             <el-button
-                    v-aba="['e']"
+                    v-aiocp="['e']"
                     size="mini"
                     type="success"
                     @click="rowEditMenu(scope.row)">编辑</el-button>
             <el-button
-                    v-aba="['d']"
+                    v-aiocp="['d']"
                     size="mini"
                     type="danger"
                     @click="rowDeleteMenu(scope.row)">删除</el-button>
@@ -108,12 +108,21 @@
       methods: {
           async search() {
               let params = new FormData();
-              let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_functions_tree, params, "GET");
-              console.log(data)
+              params.append("chName", this.searchform.chName);
+              params.append("parentName",  this.searchform.parentName);
+              let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_functions_treeTable, params, "POST");
               if (data.code === 200) {
                   this.tableData = data.data;
                   return true;
               }
+          },
+
+          reseta() {
+              this.searchform = {
+                  chName: "",
+                  parentName: "",
+              };
+              this.search();
           },
 
           addRoot() {

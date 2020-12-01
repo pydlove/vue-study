@@ -96,7 +96,6 @@
             },
             open() {
                 this.dialogVisible = true;
-                console.log(this.fileName)
             },
             onSubmit() {
                 this.$refs['form'].validate((valid) => {
@@ -149,6 +148,9 @@
                 if(this.fileList != [] && this.fileList.length > 0) {
                     this.fileList = [];
                     this.form.icon = "";
+                    if(this.fileName != this.originalFileName) {
+                        this.deletePhotoRequest(this.fileName);
+                    }
                 }
                 this.fileName = response.data.fileName;
                 this.fileList.push({name: this.form.chName, url: response.data.fileUrl})
