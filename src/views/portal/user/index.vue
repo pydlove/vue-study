@@ -27,19 +27,28 @@
                     </el-input>
                 </el-form-item>
 
+                <el-form-item label="电话号码" prop="name">
+                    <el-input
+                            v-model="searchform.phone"
+                            class="wp-180 mr-10"
+                            placeholder="请输入用户名称"
+                            prefix-icon="el-icon-search">
+                    </el-input>
+                </el-form-item>
+
                 <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
                 <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
             </el-form>
 
             <div class="mb-10 mt-40">
-                <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
-                <el-button v-aba="['d']" type="danger" icon="el-icon-delete" size="small" @click="deletea">批量删除</el-button>
-                <el-button v-aba="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
+                <el-button v-aiocp="['a']" class="aioc-btn1" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
+                <el-button v-aiocp="['d']" type="danger" icon="el-icon-delete" size="small" @click="deletea">批量删除</el-button>
+                <el-button v-aiocp="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
             </div>
 
             <el-table
                     class="aioc-table"
-                    ref="codeTable"
+                    ref="table"
                     :data="tableData"
                     @selection-change='onTableSelectChange'
                     @row-click='tableRowClick'
@@ -51,16 +60,16 @@
                     <template slot-scope="scope">
                         <el-image
                                 :style="'width:' + photoWidth + 'px;height:' + photoHeight + 'px;'"
-                                :src="scope.row.photo"
+                                :src="scope.row.avatar"
                                 fit="fit"
-                                :preview-src-list="scope.row.srcList"
+                                :preview-src-list="[scope.row.avatar]"
                         ></el-image>
                     </template>
                 </el-table-column>
                 <el-table-column prop="account" label="账号" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="name" label="姓名" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="phone" label="电话" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="email" label="邮箱" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="mail" label="邮箱" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="status" label="状态" :show-overflow-tooltip="true" :formatter="statusFormat"></el-table-column>
                 <el-table-column prop="createTime" label="时间" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column label="详情" type="expand" width="85" fixed="right">
@@ -83,7 +92,7 @@
                                     </div>
                                     <div class="xx-lable">
                                         <span>性 <span class="ml-28"></span> 别</span>
-                                        <span>{{ props.row.sex }}</span>
+                                        <span>{{ props.row.sex == "0" ? "男":"女" }}</span>
                                     </div>
                                     <div class="xx-lable">
                                             <span>
@@ -95,7 +104,7 @@
                                     </div>
                                     <div class="xx-lable">
                                         <span>出生年月</span>
-                                        <span>{{ props.row.birth }}</span>
+                                        <span>{{ props.row.birthtime }}</span>
                                     </div>
                                     <div class="xx-lable">
                                         <span>地 <span class="ml-28"></span> 址</span>
@@ -107,11 +116,11 @@
                                     </div>
                                     <div class="xx-lable">
                                         <span>电子邮箱</span>
-                                        <span>{{ props.row.email }}</span>
+                                        <span>{{ props.row.mail }}</span>
                                     </div>
                                     <div class="xx-lable">
                                         <span>状 <span class="ml-28"></span> 态</span>
-                                        <span>{{ props.row.status }}</span>
+                                        <span>{{ statusFormatMethod(props.row.status) }}</span>
                                     </div>
                                 </div>
 
@@ -123,11 +132,11 @@
                 <el-table-column label="操作"  fixed="right" width="200">
                     <template slot-scope="scope">
                             <el-button class="aioc-btn1"
-                                    v-aba="['e']"
+                                       v-aiocp="['e']"
                                     size="mini"
                                     @click="editRow(scope.row)">编辑</el-button>
                             <el-button
-                                    v-aba="['d']"
+                                    v-aiocp="['d']"
                                     size="mini"
                                     type="danger"
                                     @click="deleteRow(scope.$index, scope.row)">删除</el-button>
@@ -136,8 +145,8 @@
             </el-table>
             <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
         </el-card>
-        <Add ref="addRef"></Add>
-        <Edit ref="editRef"></Edit>
+        <Add ref="addRef" @search="search"></Add>
+        <Edit ref="editRef" @search="search" :currentPage="currentPage" :pageSize="pageSize"></Edit>
     </div>
 </template>
 
@@ -167,23 +176,30 @@
             editRow(row) {
                 this.$refs.editRef.form = {
                     id: row.id,
-                    name: '曹操',
-                    account: 'caomd',
-                    password: '123456',
-                    phone: '13584695986',
-                    email: '13584695986@186.com',
-                    status: '活跃',
-                    remark: '曹操',
-                    sex: '0',
-                    idCard: '34290119924165986',
-                    address: '安徽合肥',
-                    birth: '1992-11-11',
-                    createTime: '2020-11-22 11:22:11',
-                    photo: require("@/assets/img/guojia.jpg"),
-                    srcList: [
-                        require("@/assets/img/guojia.jpg"),
-                    ],
+                    name: row.name,
+                    account: row.account,
+                    phone: row.phone,
+                    mail: row.mail,
+                    status: row.status,
+                    remark: row.remark,
+                    avatar: row.avatar,
+                    idCard: row.idCard,
+                    address: row.address,
+                    birthtime: row.birthtime,
+                    sex: Number(row.sex),
                 };
+                if(row.avatar != null && row.avatar != "") {
+                    var photoArray = row.avatar.split("/")
+                    this.$refs.editRef.fileName = photoArray[photoArray.length -1];
+                    this.$refs.editRef.originalFileName = photoArray[photoArray.length -1];
+                    this.$refs.editRef.fileList = [{url: row.avatar}];
+                    this.$refs.editRef.hideUpload = true;
+                } else {
+                    this.$refs.editRef.fileName = "";
+                    this.$refs.editRef.originalFileName = "";
+                    this.$refs.editRef.fileList = [];
+                    this.$refs.editRef.hideUpload = false;
+                }
                 this.$refs.editRef.open();
             },
 
@@ -201,64 +217,70 @@
                     var row = this.checkRows[i];
                     this.checkRowIds.push("\"" + row.id + "\"");
                 }
-                this.deleteRequest();
-            },
-            deleteRow(index, row) {
-                this.checkRowIds = [];
-                this.checkRowIds.push("\"" + row.id + "\"");
-                this.deleteRequest();
-            },
-            deleteRequest() {
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteRequest();
                 }).catch(() => {
                 });
             },
+            deleteRow(index, row) {
+                this.checkRowIds.push("\"" + row.id + "\"");
+                this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteRequest();
+                }).catch(() => {
+                });
+            },
+            async deleteRequest() {
+                let params = new FormData()
+                params.append("ids", this.checkRowIds.toString());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_delete, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg("删除用户成功", "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
+            },
 
-            search(currentPage, pageSize) {
+            async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    var uuidObj = {
-                        id: i+1,
-                        name: '曹操',
-                        account: 'caomd',
-                        password: '123456',
-                        phone: '13584695986',
-                        email: '13584695986@186.com',
-                        status: '活跃',
-                        remark: '曹操',
-                        sex: '男',
-                        idCard: '34290119924165986',
-                        address: '安徽合肥',
-                        birth: '1992-11-11',
-                        createTime: '2020-11-22 11:22:11',
-                        photo: require("@/assets/img/guojia.jpg"),
-                        srcList: [
-                            require("@/assets/img/guojia.jpg"),
-                        ],
-                    };
-                    this.tableData.push(uuidObj);
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("account", this.searchform.account);
+                params.append("name",  this.searchform.name);
+                params.append("phone",  this.searchform.phone);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_list, params, "POST");
+                if (data.code === 200) {
+                    console.log(data)
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
                 }
-                this.$refs.pageRef.totalCount = this.tableData.length;
             },
 
             tableRowClick(row) {
-                this.$refs.codeTable.toggleRowSelection(row);
+                this.$refs.table.toggleRowSelection(row);
             },
             onTableSelectChange(rows) {
                 this.checkRows = rows;
             },
             toggleSelection() {
-                this.$refs.codeTable.clearSelection();
+                this.$refs.table.clearSelection();
             },
 
             statusFormat(row, column) {
                 const value = row[column.property];
+                return this.statusFormatMethod(value);
+            },
+            statusFormatMethod(value) {
                 switch (value) {
                     case "active":
                         return "已激活";
@@ -276,8 +298,10 @@
             reseta() {
                 this.searchform = {
                     name: "",
-                    status: "",
+                    account: "",
+                    phone: "",
                 };
+                this.search(this.currentPage, this.pageSize)
             },
         },
         data() {
@@ -285,6 +309,7 @@
                 searchform: {
                     name: "",
                     account: "",
+                    phone: "",
                 },
                 tableData: [],
                 checkRows: [],

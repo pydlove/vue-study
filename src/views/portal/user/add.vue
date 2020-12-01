@@ -2,25 +2,26 @@
     <div>
         <el-dialog
                 class="aioc-dialog"
-                title="增加课程大类信息"
+                title="增加用户信息"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
                 :fullscreen="true"
                 center>
             <el-card class="auto-card wdi-900 pr">
-                <el-form
+                <el-form class="user-f"
                         ref="form"
                         :model="form"
+                        :rules="rules"
                         :validate-on-rule-change="false"
                         label-width="100px"
                         label-position="right">
-                    <el-form-item class="upload-item" label="两寸蓝底证件照" label-width="80px" prop="photo">
+                    <el-form-item class="upload-item" label="两寸蓝底证件照" label-width="80px" prop="avatar" required>
                         <div class="grxx">
                             <el-dialog :visible.sync="photoDialogVisible">
                                 <img width="100%" :src="dialogImageUrl" alt="">
                             </el-dialog>
-                            <el-upload
+                            <el-upload class="photo-up"
                                     ref="photoUploadRef"
                                     :action="uploadAction"
                                     list-type="picture-card"
@@ -31,18 +32,18 @@
                                     :before-remove="beforeRemove"
                                     :on-remove="handleRemove"
                                     :limit="1"
-                                    :class="{talentPhotoHide:hideUpload} + ' zpcc'"
+                                    :class="(hideUpload ? 'talentPhotoHide':'') + ' zpcc'"
                             >
                             <i class="el-icon-camera-solid talent-photo"></i>
                             </el-upload>
                         </div>
                     </el-form-item>
 
-                    <el-form-item label="账号" prop="name">
-                        <el-input class="wdi-300" v-model="form.name" placeholder="请填写账号"></el-input>
+                    <el-form-item label="账号" prop="account" required>
+                        <el-input class="wdi-300" v-model="form.account" placeholder="请填写账号"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="姓名" prop="name">
+                    <el-form-item label="姓名" prop="name" required>
                         <el-input class="wdi-300" v-model="form.name" placeholder="请填写姓名"></el-input>
                     </el-form-item>
 
@@ -54,33 +55,36 @@
                         <el-input class="wdi-300" placeholder="请再次输入密码" v-model="form.pwdagain" show-password></el-input>
                     </el-form-item>
 
-                    <el-form-item label="性别" prop="subName">
+                    <el-form-item label="性别" prop="sex" required>
                         <el-radio-group class="wdi-300" v-model="form.sex" >
                             <el-radio class="nn" :label="0" border>男</el-radio>
                             <el-radio class="nn" :label="1" border>女</el-radio>
                         </el-radio-group>
                     </el-form-item>
 
-                    <el-form-item label="出生年月" prop="idCard">
-                        <el-date-picker class="wdi-300" type="date" placeholder="选择出生日期" v-model="form.birth" @blur="calculationAge()"></el-date-picker>
+                    <el-form-item label="出生年月" prop="birthtime" required>
+                        <el-date-picker class="wdi-300" type="date" placeholder="选择出生日期"
+                                        value-format="yyyy-MM-dd"
+                                        v-model="form.birthtime" :picker-options="pickerOptions"
+                        ></el-date-picker>
                     </el-form-item>
 
                    <div class="dffn">
-                       <el-form-item label="手机号码" prop="idCard">
+                       <el-form-item label="手机号码" prop="phone" required>
                            <el-input class="wdi-300" v-model="form.phone" placeholder="请填写手机号码"></el-input>
                        </el-form-item>
 
-                       <el-form-item label="邮箱"  prop="email">
-                           <el-input class="wdi-300" v-model="form.email"></el-input>
+                       <el-form-item label="邮箱"  prop="mail" required>
+                           <el-input class="wdi-300" v-model="form.mail"></el-input>
                        </el-form-item>
                    </div>
 
                     <div class="dffn">
-                        <el-form-item label="身份证号码" prop="idCard">
+                        <el-form-item label="身份证号码" prop="idCard" required>
                             <el-input class="wdi-300" v-model="form.idCard" placeholder="请填写身份证号码"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="家庭住址" prop="idCard">
+                        <el-form-item label="家庭住址" prop="address" required>
                             <el-input class="wdi-300" v-model="form.address" placeholder="请填写家庭住址"></el-input>
                         </el-form-item>
                     </div>
@@ -118,20 +122,40 @@
         },
         methods: {
             close() {
-                console.log(this.form)
                 this.dialogVisible = false;
+                this.deletePhotoRequest(this.fileName);
             },
             open() {
                 this.dialogVisible = true;
+                this.$refs["form"].clearValidate();
             },
             onSubmit() {
-                this.$promptMsg("增加成功", "success");
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.submitRequest();
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
+            async submitRequest() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_add, this.form, "POST");
+                if(data.code == 200) {
+                    this.$promptMsg("增加用户成功！", "success");
+                    this.dialogVisible = false;
+                    this.$emit("search", 1, 10);
+                }
+            },
+
+            setForm(form) {
+                this.form = form;
             },
 
             /**
              * 照片上传、删除
              */
-            beforeRemove(file, fileList) {
+            beforeRemove() {
                 this.$confirm('确认要删除该照片吗？','提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -140,32 +164,32 @@
                 })
                     .then(() => {
                         this.$refs.photoUploadRef.clearFiles();
-                        this.handleRemove(file, fileList);
+                        this.handleRemove();
                     })
                     .catch(() => {
                     });
                 return false;
             },
-            handleRemove(file, fileList) {
+            handleRemove() {
                 this.hideUpload = false;
-                console.log(file,fileList)
-                // this.deletePhotoRequest(this.fileName);
+                this.deletePhotoRequest(this.fileName);
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.photoDialogVisible = true;
             },
-            onSuccess(response, file, fileList) {
-                this.showUpPhoto = false;
-                // if(response.data != null) {
-                //     this.form.photo = response.data.fileUrl;
-                //     this.fileName = response.data.fileName;
-                // }
-                // this.hideUpload = true;
-                console.log(response, file,fileList)
+            onSuccess(response) {
+                if(this.fileName != null && this.fileName != "") {
+                    this.form.avatar = "";
+                    this.deletePhotoRequest(this.fileName);
+                }
+                if(response.data != null) {
+                    this.form.avatar = response.data.fileUrl;
+                    this.fileName = response.data.fileName;
+                }
+                this.hideUpload = true;
             },
             beforeUpload(file) {
-                this.showUpPhoto = false;
                 // 上传格式做限制
                 var testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
                 const extension = testmsg === 'png'
@@ -175,6 +199,11 @@
                     this.$promptMsg("图片仅支持png、jpg、jpeg格式，请选择正确的格式！", "error");
                     return false;
                 }
+            },
+            async deletePhotoRequest(fileName) {
+                let params = new FormData();
+                params.append("fileName", fileName);
+                await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_photo_delete, params, "POST");
             },
         },
         data() {
@@ -187,25 +216,64 @@
                     password: '',
                     pwdagain: '',
                     phone: '',
-                    email: '',
+                    mail: '',
                     status: '',
                     remark: '',
-                    photo: '',
-                    birth: '',
+                    avatar: '',
                     idCard: '',
                     address: '',
+                    birthtime: '',
+                    sex: '',
                 },
+                rules: {
+                    name: [
+                        { type: 'string', required: true, message: '请输入姓名', trigger: ['change', 'blur'] },
+                    ],
+                    account: [
+                        { type: 'string', required: true, message: '请输入账号', trigger: ['change', 'blur']},
+                    ],
+                    password: [
+                        { type: 'string', required: true, message: '请输入密码', trigger: ['change', 'blur'] },
+                    ],
+                    pwdagain: [
+                        { type: 'string', required: true, message: '请再次输入密码', trigger: ['change', 'blur'] }
+                    ],
+                    phone: [
+                        { type: 'string', required: true, message: '请输入电话号码', trigger: ['change', 'blur'] }
+                    ],
+                    mail: [
+                        { type: 'string', required: true, message: '请输入邮箱', trigger: ['change', 'blur'] }
+                    ],
+                    birthtime: [
+                        { type: 'string', required: true, message: '请输入出生年月', trigger: ['change', 'blur'] }
+                    ],
+                    idCard: [
+                        { type: 'string', required: true, message: '请输入身份证号码', trigger: ['change', 'blur'] }
+                    ],
+                    address: [
+                        { type: 'string', required: true, message: '请输入居住地址', trigger: ['change', 'blur'] }
+                    ],
+                    sex: [
+                        { type: 'number', required: true, message: '请选择性别', trigger: ['change', 'blur'] }
+                    ],
+                    avatar: [
+                        { type: 'string', required: true, message: '请上传个人照片', trigger: ['change', 'blur'] }
+                    ],
+                    status: [
+                        { type: 'string', required: true, message: '请选择账号状态', trigger: ['change', 'blur'] }
+                    ],
+                },
+
+
                 /**
                  * 照片
                  */
-                // uploadAction: this.$talentUrl.talent_service_v1_ta_talent_info_photo_upload,
-                uploadAction: require('@/assets/img/avatar/avatar-1.jpg'),
+                uploadAction: this.$aiocUrl.console_service_v1_con_user_photo_upload,
                 hideUpload: false,
                 dialogImageUrl: "",
                 photoDialogVisible: false,
-                fileList: [],
                 fileName: "",
-                showUpPhoto: true,
+                fileList: [],
 
                 /**
                  * 日期工具
@@ -243,15 +311,29 @@
     }
     .upload-item {
         position: absolute;
-        top: 50px;
-        right: 80px;
+        top: 20px;
+        right: -35px;
     }
 </style>
 
 <style>
-    .zpcc .el-upload {
-        width: 180px;
-        height: 250px;
-        line-height: 250px;
+    .talentPhotoHide .el-upload--picture-card {
+        display: none;
+    }
+    .user-f .el-form-item {
+        width: 400px;
+    }
+    .photo-up .el-upload-list--picture-card .el-upload-list__item-thumbnail {
+        width: 200px !important;
+        height: 200px !important;
+    }
+    .photo-up .el-upload-list--picture-card .el-upload-list__item {
+        width: 200px !important;
+        height: 200px !important;
+    }
+    .photo-up .el-upload {
+        width: 200px !important;
+        height: 200px !important;
+        line-height: 200px !important;
     }
 </style>
