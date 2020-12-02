@@ -2,7 +2,7 @@
     <div>
         <el-dialog
                 class="aioc-dialog"
-                title="发布活动信息"
+                title="创建活动"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
@@ -13,116 +13,134 @@
                         class= "pt-20 pl-20"
                         ref="form"
                         :model="form"
+                        :rules="rules"
                         :validate-on-rule-change="false"
                         label-width="120px"
                         label-position="right">
 
-                    <el-form-item label="活动主题" prop="title">
+                    <el-form-item label="活动主题" prop="title" required>
                         <el-input class="wdi-600" v-model="form.title" placeholder="请输入活动主题"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="活动描述" prop="title">
+                    <el-form-item label="活动描述" prop="description" required>
                         <el-input class="textarea wdi-600" type="textarea"
                                   :autosize="{ minRows: 4, maxRows: 4}" placeholder="请输入活动描述"
-                                  v-model="form.desc"
+                                  v-model="form.description"
                                   maxlength="200"
                                   show-word-limit></el-input>
                     </el-form-item>
 
-                    <el-form-item label="活动海报" prop="title">
+                    <el-form-item label="活动海报" prop="poster" required>
                         <el-upload
-                                class="aioc-upload"
+                                class="aioc-ac-upload"
                                 drag
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :file-list="form.poster"
+                                :action="uploadAction"
+                                :on-success="onSuccess"
+                                :before-upload="beforeUpload"
+                                :on-remove="handleRemove"
+                                :file-list="fileList"
                                 list-type="picture"
                                 multiple>
                             <i class="el-icon-upload"></i>
                             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件</div>
+                            <div slot="tip" class="el-upload__tip">上传预览：</div>
                         </el-upload>
                     </el-form-item>
 
                     <div class="dffn">
-                        <el-form-item label="活动时间" prop="time">
+                        <el-form-item label="活动开始时间" prop="startTime" required>
                             <el-date-picker class="wdi-239"
-                                            v-model="form.time"
-                                            type="date"
-                                            placeholder="选择活动时间"
+                                            v-model="form.startTime"
+                                            type="datetime"
+                                            placeholder="选择活动开始时间"
                                             align="right"
+                                            value-format="yyyy-MM-dd HH:mm:SS"
                                             :picker-options="pickerOptions">
                             </el-date-picker>
                         </el-form-item>
 
-                        <el-form-item label="负责老师" prop="name">
-                            <el-select class="wdi-239" v-model="form.teacher" placeholder="请选择负责老师">
-                                <el-option
-                                        v-for="item in teacherOptions"
-                                        :key="item.value"
-                                        :label="item.name"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
+                        <el-form-item label="活动结束时间" prop="endTime" required>
+                            <el-date-picker class="wdi-239"
+                                            v-model="form.endTime"
+                                            type="datetime"
+                                            placeholder="选择活动结束时间"
+                                            align="right"
+                                            value-format="yyyy-MM-dd HH:mm:SS"
+                                            :picker-options="pickerOptions">
+                            </el-date-picker>
                         </el-form-item>
+
                     </div>
 
-                    <el-form-item label="活动地点" prop="name">
+                    <el-form-item label="活动地点" prop="address" required>
                         <el-input class="wdi-600" v-model="form.address" placeholder="请输入活动地点"></el-input>
                     </el-form-item>
 
                     <div class="dffn">
-                        <el-form-item label="限定人数" prop="name">
-                            <el-input-number v-model="form.capacity" @change="handleChange" :step="1" label="限定人数"></el-input-number>
-                            人
+                        <el-form-item label="限定人数" prop="peopleLimit">
+                            <el-input-number v-model="form.peopleLimit" :step="1" :min="0" label="限定人数"></el-input-number>
+                            人 <span class="color-fa5c26 fs-10">(0=不限制人数)</span>
                         </el-form-item>
 
-                        <el-form-item class="ml-80" label="累计学分" prop="name">
-                            <el-input-number v-model="form.score" @change="handleChange" :step="1" label="累计学分"></el-input-number>
+                        <el-form-item label="累计学分" prop="score">
+                            <el-input-number v-model="form.score" :step="1" :min="0" label="累计学分"></el-input-number>
                             分
                         </el-form-item>
                     </div>
 
-                   <div class="dffn">
-                       <el-form-item label="是否需要付费" prop="name">
-                           <el-select class="wdi-300" v-model="form.isNeedCost" placeholder="请选择所属课程大类" clearable >
-                               <el-option label="是" value="0"></el-option>
-                               <el-option label="否" value="1"></el-option>
-                           </el-select>
-                       </el-form-item>
-
-                       <div v-if="form.isNeedCost=='0'" class="ml-52    ">
-                           收费：
-                           <el-input-number v-model="form.cost" @change="handleChange" :step="1" label="报名费用"></el-input-number>
-                           元
-                       </div>
-                   </div>
-
-                    <el-form-item label="报名日期" prop="mainName">
+                    <el-form-item label="报名日期" prop="timeRange" required>
                         <el-date-picker class="wdi-600"
-                                v-model="form.timeRange"
-                                type="datetimerange"
-                                :picker-options="pickerMOptions"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
-                                align="right">
+                                        v-model="form.timeRange"
+                                        type="datetimerange"
+                                        :picker-options="pickerMOptions"
+                                        range-separator="至"
+                                        start-placeholder="开始日期"
+                                        end-placeholder="结束日期"
+                                        value-format="yyyy-MM-dd HH:mm:SS"
+                                        align="right">
                         </el-date-picker>
                     </el-form-item>
 
-                    <el-form-item label="" prop="remark" label-width="50px" >
-                        <span class="color-606266">活动内容</span>
-                        <quill-editor ref="text" v-model="form.content" class="hp-600 mb-100 wdi-670" :options="editorOption" />
+                   <div class="dffn">
+                       <el-form-item label="负责老师" prop="teacherIds" required>
+                           <el-select class="wdi-239" v-model="form.teacherIds" placeholder="请选择负责老师" clearable multiple filterable >
+                               <el-option
+                                       v-for="item in activeTeachers"
+                                       :key="item.id"
+                                       :label="item.name"
+                                       :value="item.id">
+                               </el-option>
+                           </el-select>
+                       </el-form-item>
+
+                       <el-form-item label="是否需要付费" prop="isFree" required>
+                           <el-select class="wdi-239" v-model="form.isFree" placeholder="请选择是否需要付费" clearable >
+                               <el-option label="付费" value="0"></el-option>
+                               <el-option label="免费" value="1"></el-option>
+                           </el-select>
+                       </el-form-item>
+                   </div>
+
+                    <el-form-item v-if="form.isFree=='0'" label="收费" prop="cost" required>
+                        <el-input-number v-model="form.cost" :step="1" :min="0" label="报名费用"></el-input-number>
+                        元
                     </el-form-item>
 
-                    <el-form-item label="是否发布" prop="name">
+                   <el-form-item label="" prop="content" label-width="50px" required>
+                        <span class="color-606266">活动内容</span>
+                        <quill-editor ref="text" v-model="form.content" class="hp-600 mb-100 wdi-670" :options="editorOption" />
+                   </el-form-item>
+
+                   <el-form-item label="是否发布" prop="status" required>
                         <el-tag class="mr-20 wdi-80 tc" :effect="form.status=='0'?'dark':''" @click="form.status = '0'">发布</el-tag>
                         <el-tag class="wdi-80 tc" :effect="form.status=='1'?'dark':''" @click="form.status = '1'">未发布</el-tag>
-                    </el-form-item>
+                   </el-form-item>
                 </el-form>
             </el-card>
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
-              <el-button class="wdi-120" type="primary" @click="onSubmit">发 布</el-button>
+              <el-button class="wdi-120" type="primary" @click="onSubmit">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -134,7 +152,8 @@
     import 'quill/dist/quill.snow.css'
     import 'quill/dist/quill.bubble.css'
     export default {
-        name: "student",
+        name: "add",
+        props: ["activeTeachers"],
         components: { quillEditor },
         mounted() {
 
@@ -142,47 +161,163 @@
         methods: {
             close() {
                 this.dialogVisible = false;
+                this.fileList = [];
+                this.form.icon = "";
+                this.deletePhotoRequest(this.fileName);
             },
             open() {
                 this.dialogVisible = true;
+                this.$nextTick(() => {
+                    this.$refs["form"].clearValidate();
+                });
+            },
+            clearForm() {
+                this.form = {
+                    id: "",
+                    title: "",
+                    description: "",
+                    poster: [],
+                    startTime: "",
+                    endTime: "",
+                    address: "",
+                    peopleLimit: "",
+                    score: "",
+                    isFree: "",
+                    cost: "",
+                    signupStart: "",
+                    signupEnd: "",
+                    content: "",
+                    status: "",
+                    teacherIds: [],
+                    timeRange: [],
+                };
+                this.fileList = [];
+                this.fileName = "";
             },
             onSubmit() {
-                this.$promptMsg("发布成功", "success");
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.submitRequest();
+                    } else {
+                        return false;
+                    }
+                });
             },
+
+            async submitRequest() {
+                this.form.signupStart = this.form.timeRange[0];
+                this.form.signupEnd = this.form.timeRange[1];
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_activity_add, this.form, "POST");
+                if(data.code == 200) {
+                    this.$promptMsg(data.msg, "success");
+                    this.dialogVisible = false;
+                    this.clearForm();
+                    this.$emit("search", 1, 10);
+                }
+            },
+
+            /**
+             * 照片上传、删除
+             */
+            handleRemove() {
+                this.fileList = [];
+                this.deletePhotoRequest(this.fileName);
+            },
+            onSuccess(response) {
+                if(this.fileList != [] && this.fileList.length > 0) {
+                    this.fileList = [];
+                    this.form.poster = "";
+                    this.deletePhotoRequest(this.fileName);
+                }
+                this.fileName = response.data.fileName;
+                this.fileList.push({name: response.data.fileName, url: response.data.fileUrl})
+                this.form.poster = response.data.fileUrl;
+            },
+            beforeUpload(file) {
+                // 上传格式做限制
+                var testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
+                const extension = testmsg === 'png'
+                const extension2 = testmsg === 'jpg'
+                const extension3 = testmsg === 'jpeg'
+                if(!extension && !extension2 && !extension3) {
+                    this.$promptMsg("图片仅支持png、jpg、jpeg格式，请选择正确的格式！", "error");
+                    return false;
+                }
+            },
+            async deletePhotoRequest(fileName) {
+                let params = new FormData();
+                params.append("fileName", fileName);
+                await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_activity_poster_delete, params, "POST");
+            },
+
         },
         data() {
             return {
                 dialogVisible: false,
+                /**
+                 * 照片
+                 */
+                uploadAction: this.$aiocUrl.console_service_v1_bl_activity_poster_upload,
+                fileList: [],
+                fileName: "",
+
                 form: {
                     id: "",
                     title: "",
-                    desc: "",
+                    description: "",
                     poster: [],
-                    time: "",
-                    teacher: "",
+                    startTime: "",
+                    endTime: "",
                     address: "",
-                    capacity: "",
+                    peopleLimit: "",
                     score: "",
-                    isNeedCost: "",
+                    isFree: "",
                     cost: "",
-                    timeRange: [],
+                    signupStart: "",
+                    signupEnd: "",
                     content: "",
                     status: "",
+                    teacherIds: [],
+                    timeRange: [],
                 },
-                teacherOptions: [
-                    {
-                        name: "郭嘉",
-                        value: "0",
-                    },
-                    {
-                        name: "诸葛亮",
-                        value: "1",
-                    },
-                    {
-                        name: "周瑜",
-                        value: "2",
-                    },
-                ],
+                rules: {
+                    title: [
+                        { type: 'string', required: true, message: '请输入活动标题', trigger: ['change', 'blur'] },
+                    ],
+                    description: [
+                        { type: 'string', required: true, message: '请输入活动描述', trigger: ['change', 'blur']},
+                    ],
+                    poster: [
+                        { type: 'string', required: true, message: '请选择上传海报', trigger: ['change', 'blur'] },
+                    ],
+                    startTime: [
+                        { type: 'string', required: true, message: '请填写活动开始时间', trigger: ['change', 'blur'] }
+                    ],
+                    endTime: [
+                        { type: 'string', required: true, message: '请填写活动结束时间', trigger: ['change', 'blur'] }
+                    ],
+                    teacherIds: [
+                        { type: 'array', required: true, message: '请选择负责老师', trigger: ['change', 'blur'] }
+                    ],
+                    address: [
+                        { type: 'string', required: true, message: '请填写活动地点', trigger: ['change', 'blur'] }
+                    ],
+                    isFree: [
+                        { type: 'string', required: true, message: '请选择是否付费', trigger: ['change', 'blur'] }
+                    ],
+                    cost: [
+                        { type: 'number', required: true, message: '请填写付费金额', trigger: ['change', 'blur'] }
+                    ],
+                    timeRange: [
+                        { type: 'array', required: true, message: '请填写活动报名时间', trigger: ['change', 'blur'] }
+                    ],
+                    content: [
+                        { type: 'string', required: true, message: '请填写活动内容', trigger: ['change', 'blur'] }
+                    ],
+                    status: [
+                        { type: 'string', required: true, message: '请选择活动状态', trigger: ['change', 'blur'] }
+                    ],
+                },
                 pickerOptions: {
                     shortcuts: [{
                         text: '今天',
@@ -238,21 +373,25 @@
 </script>
 
 <style scoped>
+    .el-upload__tip {
+        color: #f51d37;
+    }
 </style>
 
 <style >
-    .aioc-upload .el-upload-list__item-thumbnail {
+    .aioc-ac-upload .el-upload-list__item-thumbnail {
         vertical-align: middle;
         display: inline-block;
-        width: 179px;
-        height: 100px;
+        width: 500px;
+        height: 300px;
         float: left;
         position: relative;
         z-index: 1;
-        margin-left: -80px;
+        margin-left: 40px;
+        margin-top: 30px;
         background-color: #FFF;
     }
-    .aioc-upload .el-upload-list__item {
+    .aioc-ac-upload .el-upload-list__item {
         overflow: hidden;
         z-index: 0;
         background-color: #fff;
@@ -260,12 +399,16 @@
         border-radius: 6px;
         box-sizing: border-box;
         margin-top: 10px;
-        padding: 10px 10px 10px 90px;
-        height: 120px;
+        padding: 0px;
+        height: 360px;
         width: 600px;
     }
-    .aioc-upload .el-upload-dragger {
+    .aioc-ac-upload .el-upload-dragger {
         width: 600px;
         height: 180px;
     }
+    .aioc-ac-upload .el-upload-list__item-name {
+        display: none;
+    }
+
 </style>

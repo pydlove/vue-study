@@ -9,12 +9,27 @@
                      label-width="80px"
                      label-position="right">
 
-                <el-form-item label="课程名称" prop="name">
+                <el-form-item label="证书名称" prop="name">
                     <el-input
                             v-model="searchform.name"
                             class="wp-180 mr-10"
-                            placeholder="请输入课程大类名称"
-                            prefix-icon="el-icon-search">
+                            placeholder="请输入证书名称">
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item label="证书编号" prop="name">
+                    <el-input
+                            v-model="searchform.uuid"
+                            class="wp-180 mr-10"
+                            placeholder="请输入证书编号">
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item label="获得学生姓名" prop="name">
+                    <el-input
+                            v-model="searchform.blUserName"
+                            class="wp-180 mr-10"
+                            placeholder="请输入获得学生姓名">
                     </el-input>
                 </el-form-item>
 
@@ -24,8 +39,6 @@
 
             <div class="mb-10 mt-40">
                 <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
-                <el-button v-aba="['d']" type="danger" icon="el-icon-delete" size="small" @click="deletea">批量删除</el-button>
-                <el-button v-aba="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
             </div>
 
             <el-table
@@ -38,13 +51,13 @@
                     :cell-style="{padding:'9px 1px'}"
             >
                 <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                <el-table-column prop="img" label="活动海报" width="122px">
+                <el-table-column prop="img" label="证书图片" width="122px">
                     <template slot-scope="scope">
                         <el-image
                                 style="width: 100px; height: 50px"
-                                :src="scope.row.photo"
+                                :src="scope.row.img"
                                 fit="fit"
-                                :preview-src-list="scope.row.photos"
+                                :preview-src-list="[scope.row.img]"
                         ></el-image>
                     </template>
                 </el-table-column>
@@ -53,17 +66,17 @@
                 <el-table-column prop="unit" label="颁发机构" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="user" label="授予人" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="blUserName" label="授予人" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="status" label="状态" fixed="right">
                     <template slot-scope="scope">
-                        <el-tag :type="scope.row.status == '0' ? 'info':'success'" effect="dark">
-                            {{ scope.row.status == '0' ? '未绑定':'已绑定' }}
+                        <el-tag :type="isNull(scope.row.blUserId) ? 'info':'success'" effect="dark">
+                            {{ isNull(scope.row.blUserId)  ? '未绑定':'已绑定' }}
                         </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作"  fixed="right" width="200">
                     <template slot-scope="scope">
-                        <div v-if="scope.row.status == '0'">
+                        <div v-if="isNull(scope.row.blUserId)">
                             <el-button class="aioc-btn1"
                                        v-aba="['e']"
                                        size="mini"
@@ -79,8 +92,8 @@
             </el-table>
             <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
         </el-card>
-        <Add ref="addRef"></Add>
-        <Edit ref="editRef"></Edit>
+        <Add ref="addRef" @search="search"></Add>
+        <Edit ref="editRef" @search="search" :currentPage="currentPage" :pageSize="pageSize"></Edit>
     </div>
 </template>
 
@@ -95,50 +108,22 @@
             this.search(0, 10);
         },
         methods: {
-            getUUID() {
-                return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
-                    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-                    return v.toString(16).toUpperCase();
-                });
-            },
-
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
-                // let params = new FormData()
-                // params.append("page", this.currentPage);
-                // params.append("limit", this.pageSize);
-                // params.append("name",  this.searchform.name);
-                // let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
-                // if (data.code === 200) {
-                //     this.tableData = data.data;
-                //     this.$refs.pageRef.totalCount = data.totalCount;
-                //     return true;
-                // }
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    const uuid = this.getUUID();
-                    var status = "1";
-                    var user = "赵云";
-                    if(i < 5) {
-                        status = "0";
-                        user = "";
-                    }
-                    var uuidObj = {
-                        id: i+1,
-                        uuid: uuid,
-                        name: "优秀绘画",
-                        unit: "安徽柏林书画研究院",
-                        photo: require("@/assets/img/ryzs.jpg"),
-                        photos: [require("@/assets/img/ryzs.jpg")],
-                        createTime: "2020-11-18 14:00:00",
-                        remark: "优秀绘画",
-                        status: status,
-                        user: user,
-                    };
-                    this.tableData.push(uuidObj);
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("blUserName",  this.searchform.blUserName.trim());
+                params.append("name",  this.searchform.name.trim());
+                params.append("uuid",  this.searchform.uuid.trim());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_certificate_list, params, "POST");
+                if (data.code === 200) {
+                    console.log(data.data)
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
                 }
-                this.$refs.pageRef.totalCount = this.tableData.length;
             },
 
             /**
@@ -153,14 +138,19 @@
              */
             editRow(row) {
                 this.$refs.editRef.form = {
-                    id: row.id,
                     uuid: row.uuid,
                     name: row.name,
                     unit: row.unit,
-                    photo: [{name:'', url: row.photo}],
+                    img: row.img,
+                    updateTime: row.updateTime,
                     createTime: row.createTime,
                     remark: row.remark,
+                    blUserId: row.blUserId,
                 };
+                var imgArrays = row.img.split("/");
+                this.$refs.editRef.originalFileName = imgArrays[imgArrays.length - 1];
+                this.$refs.editRef.fileName = imgArrays[imgArrays.length - 1];
+                this.$refs.editRef.fileList = [{name: "", url: row.img}];
                 this.$refs.editRef.open();
             },
 
@@ -170,29 +160,52 @@
              * 删除请求
              */
             deletea() {
+                this.checkRowIds = [];
+                this.checkRowImgs = [];
                 if(this.checkRows.length == 0) {
                     this.$promptMsg("至少需要选择一条数据", "error");
                     return;
                 }
                 for(var i in this.checkRows) {
                     var row = this.checkRows[i];
-                    this.checkRowIds.push("\"" + row.id + "\"");
+                    this.checkRowIds.push("\"" + row.uuid + "\"");
+                    var imgArrays = row.img.split("/");
+                    this.checkRowImgs.push(imgArrays[imgArrays.length - 1]);
                 }
-                this.deleteRequest();
-            },
-            deleteRow(index, row) {
-                this.checkRowIds = [];
-                this.checkRowIds.push("\"" + row.id + "\"");
-                this.deleteRequest();
-            },
-            deleteRequest() {
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteRequest();
                 }).catch(() => {
                 });
+            },
+            deleteRow(index, row) {
+                this.checkRowIds = [];
+                this.checkRowImgs = [];
+                this.checkRowIds.push("\"" + row.uuid + "\"");
+                var imgArrays = row.img.split("/");
+                this.checkRowImgs.push(imgArrays[imgArrays.length - 1]);
+                this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteRequest();
+                }).catch(() => {
+                });
+            },
+            async deleteRequest() {
+                let params = new FormData()
+                params.append("uuids", this.checkRowIds.toString());
+                params.append("imgs", this.checkRowImgs);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_certificate_delete, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg("删除证书成功", "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
             },
 
             tableRowClick(row) {
@@ -207,19 +220,28 @@
 
             reseta() {
                 this.searchform = {
+                    blUserName: "",
                     name: "",
-                    status: "",
+                    uuid: "",
                 };
+                this.search(this.currentPage, this.pageSize)
+            },
+
+            isNull(value) {
+                return (value == '' || value == null || value == undefined);
             },
         },
         data() {
             return {
                 searchform: {
+                    blUserName: "",
                     name: "",
+                    uuid: "",
                 },
                 tableData: [],
                 checkRows: [],
                 checkRowIds: [],
+                checkRowImgs: [],
                 clientWidth: 1800,
                 clientHeight: document.body.clientHeight-2,
                 currentPage: 0,

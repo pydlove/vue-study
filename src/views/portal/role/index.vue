@@ -14,7 +14,7 @@
                             v-model="searchform.name"
                             class="wp-180 mr-10"
                             placeholder="请输入内容"
-                            prefix-icon="el-icon-search">
+                    >
                     </el-input>
                 </el-form-item>
                 <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
@@ -52,11 +52,12 @@
                 <el-table-column fixed="right" label="操作" width="400">
                     <template slot-scope="scope">
                        <div v-if="scope.row.name != '运维管理员aioc'">
-                           <el-button class="aioc-btn1"
+                           <el-button v-if="scope.row.name != '教师'"
+                                      class="aioc-btn1"
                                       v-aiocp="['e']"
                                       size="mini"
                                       @click="editRow(scope.row)">编辑</el-button>
-                           <el-button v-if="scope.row.name != '老师'"
+                           <el-button v-if="scope.row.name != '教师'"
                                    v-aiocp="['d']"
                                    size="mini"
                                    type="danger"
@@ -118,7 +119,7 @@
         },
         methods: {
             judgeIsAdmin() {
-                this.$refs.isAdminRef.form.pwd = "";
+                this.$refs.isAdminRef.form.pwd = "aiocloud@admin";
                 this.$refs.isAdminRef.open();
             },
 

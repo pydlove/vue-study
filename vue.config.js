@@ -31,20 +31,13 @@ module.exports = {
   },
   devServer: {
       proxy: {
-          '/portal-service': {
-              target: 'http://localhost:9090',
+          '/console-service': {
+              target: 'http://localhost:9091',
               changeOrigin: true,
               ws: true,
               pathRewrite: {
               }
           },
-          '/cpcm-service': {
-              target: 'http://localhost:8082',
-              changeOrigin: true,
-              ws: true,
-              pathRewrite: {
-              }
-          }
       }
   },
   pwa: {

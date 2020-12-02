@@ -99,4 +99,9 @@
     .tra .el-transfer-panel__body {
         height: 500px;
     }
+    .tra .el-transfer-panel__list.is-filterable {
+        height: 500px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
 </style>

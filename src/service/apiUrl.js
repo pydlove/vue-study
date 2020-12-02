@@ -6,65 +6,69 @@ export default {
 
     example: '/example', // example
 
-    // portal 测试请求
-    portal_service_v1_test : "/portal-service/v1/test/",
+    // 控制台
+    console_service_v1_login_captcha : "/console-service/v1/login/captcha.jpg",
+    console_service_v1_login : "/console-service/v1/login/",
+    console_service_v1_login_judgeIsLogin : "/console-service/v1/login/judgeIsLogin",
+    console_service_v1_login_logout : "/console-service/v1/login/logout",
 
-    // 梧桐圈 cpcm-service 请求
-    cpcm_service_v1_register_mail : "/cpcm-service/v1/register/mail",
-    cpcm_service_v1_register_phone : "/cpcm-service/v1/register/phone",
-    cpcm_service_v1_register_mail_sendVerificationCode : "/cpcm-service/v1/register/mail/sendVerificationCode",
-    cpcm_service_v1_register_phone_sendVerificationCode : "/cpcm-service/v1/register/phone/sendVerificationCode",
-    cpcm_service_v1_forget_mail : "/cpcm-service/v1/forget/mail",
-    cpcm_service_v1_forget_phone : "/cpcm-service/v1/forget/phone",
-    cpcm_service_v1_forget_mail_sendVerificationCode : "/cpcm-service/v1/forget/mail/sendVerificationCode",
-    cpcm_service_v1_forget_phone_sendVerificationCode : "/cpcm-service/v1/forget/phone/sendVerificationCode",
-    cpcm_service_v1_login : "/cpcm-service/v1/login/",
-    cpcm_service_v1_login_intercept_nologin : "/cpcm-service/v1/login/intercept/nologin",
-    cpcm_service_v1_login_logout : "/cpcm-service/v1/login/logout",
-    cpcm_service_v1_login_captcha : "/cpcm-service/v1/login/captcha.jpg",
-    cpcm_service_v1_login_currentuser : "/cpcm-service/v1/login/currentuser",
+    console_service_v1_login_user_authority: "/console-service/v1/login/user/authority",
+    console_service_v1_login_role_authority: "/console-service/v1/login/role/authority",
 
-    // 个人中心
-    cpcm_service_v1_sys_user_update: "/cpcm-service/v1/sys_user/update",
-    cpcm_service_v1_sys_user_edu_save: "/cpcm-service/v1/sys_user/edu/save",
-    cpcm_service_v1_sys_user_edu_update: "/cpcm-service/v1/sys_user/edu/update",
-    cpcm_service_v1_sys_user_edu_delete: "/cpcm-service/v1/sys_user/edu/delete",
-    cpcm_service_v1_sys_user_resume_save: "/cpcm-service/v1/sys_user/resume/save",
-    cpcm_service_v1_sys_user_resume_update: "/cpcm-service/v1/sys_user/resume/update",
-    cpcm_service_v1_sys_user_resume_delete: "/cpcm-service/v1/sys_user/resume/delete",
+    // 证书
+    console_service_v1_bl_certificate_certificate_upload: "/console-service/v1/bl_certificate/certificate/upload",
+    console_service_v1_bl_certificate_certificate_delete: "/console-service/v1/bl_certificate/certificate/delete",
+    console_service_v1_bl_certificate_list: "/console-service/v1/bl_certificate/list",
+    console_service_v1_bl_certificate_add: "/console-service/v1/bl_certificate/add",
+    console_service_v1_bl_certificate_edit: "/console-service/v1/bl_certificate/edit",
+    console_service_v1_bl_certificate_delete: "/console-service/v1/bl_certificate/delete",
 
-    // 人才政策
-    cpcm_service_v1_cm_talent_policy_page_list: "/cpcm-service/v1/cm_talent_policy/page/list",
-    cpcm_service_v1_cm_talent_policy_info: "/cpcm-service/v1/cm_talent_policy/info",
-    cpcm_service_v1_cm_talent_policy_matchinfo: "/cpcm-service/v1/cm_talent_policy/matchinfo",
-    cpcm_service_v1_cm_talent_policy_exact_match_area: "/cpcm-service/v1/cm_talent_policy/exact/match/area",
-    cpcm_service_v1_cm_talent_policy_exact_match_treatment: "/cpcm-service/v1/cm_talent_policy/exact/match/treatment",
-    cpcm_service_v1_cm_talent_policy_match_country_list: "/cpcm-service/v1/cm_talent_policy/match/country/list",
-    cpcm_service_v1_cm_talent_policy_match_province_list: "/cpcm-service/v1/cm_talent_policy/match/province/list",
-    cpcm_service_v1_cm_talent_policy_match_city_list: "/cpcm-service/v1/cm_talent_policy/match/city/list",
-    cpcm_service_v1_cm_talent_policy_match_county_list: "/cpcm-service/v1/cm_talent_policy/match/county/list",
-    cpcm_service_v1_cm_talent_policy_match_treatment_list: "/cpcm-service/v1/cm_talent_policy/match/treatment/list",
+    // 活动
+    console_service_v1_bl_activity_poster_upload: "/console-service/v1/bl_activity/poster/upload",
+    console_service_v1_bl_activity_poster_delete: "/console-service/v1/bl_activity/poster/delete",
+    console_service_v1_bl_activity_list: "/console-service/v1/bl_activity/list",
+    console_service_v1_bl_activity_add: "/console-service/v1/bl_activity/add",
+    console_service_v1_bl_activity_edit: "/console-service/v1/bl_activity/edit",
+    console_service_v1_bl_activity_delete: "/console-service/v1/bl_activity/delete",
 
-    // 评论
-    cpcm_service_v1_cm_comment_id: "/cpcm-service/v1/cm_comment/id",
-    cpcm_service_v1_cm_comment_page_list: "/cpcm-service/v1/cm_comment/page/list",
-    cpcm_service_v1_cm_comment_publish: "/cpcm-service/v1/cm_comment/publish",
-    cpcm_service_v1_cm_comment_delete: "/cpcm-service/v1/cm_comment/delete",
+    // 注册码
+    console_service_v1_bl_code_list: "/console-service/v1/bl_code/list",
+    console_service_v1_bl_code_add: "/console-service/v1/bl_code/add",
+    console_service_v1_bl_code_delete: "/console-service/v1/bl_code/delete",
 
-    // 回复
-    cpcm_service_v1_cm_reply_unread: "/cpcm-service/v1/cm_reply/unread",
-    cpcm_service_v1_cm_reply_comment_all: "/cpcm-service/v1/cm_reply/comment/all",
-    cpcm_service_v1_cm_reply_reply: "/cpcm-service/v1/cm_reply/reply",
-    cpcm_service_v1_cm_reply_delete: "/cpcm-service/v1/cm_reply/delete",
-    cpcm_service_v1_cm_reply_readReply: "/cpcm-service/v1/cm_reply/readReply",
-    cpcm_service_v1_cm_reply_readAll: "/cpcm-service/v1/cm_reply/readAll",
+    // 教师管理
+    console_service_v1_teacher_list: "/console-service/v1/teacher/list",
+    console_service_v1_teacher_active: "/console-service/v1/teacher/active",
+    console_service_v1_teacher_add: "/console-service/v1/teacher/add",
+    console_service_v1_teacher_delete: "/console-service/v1/teacher/delete",
 
-    // 赞或踩
-    cpcm_service_v1_cm_zan_add: "/cpcm-service/v1/cm_zan/add",
-    cpcm_service_v1_cm_zan_delete_cu: "/cpcm-service/v1/cm_zan/delete/cu",
+    //菜单
+    console_service_v1_con_functions_list: "/console-service/v1/con_functions/list",
+    console_service_v1_con_functions_tree: "/console-service/v1/con_functions/tree",
+    console_service_v1_con_functions_treeTable: "/console-service/v1/con_functions/treeTable",
+    console_service_v1_con_functions_add: "/console-service/v1/con_functions/add",
+    console_service_v1_con_functions_edit: "/console-service/v1/con_functions/edit",
+    console_service_v1_con_functions_delete: "/console-service/v1/con_functions/delete",
+    console_service_v1_con_functions_logo_upload: "/console-service/v1/con_functions/logo/upload",
+    console_service_v1_con_functions_logo_delete: "/console-service/v1/con_functions/logo/delete",
 
-    // 用户标签
-    cpcm_service_v1_cm_user_tag_generate: "/cpcm-service/v1/cm_user_tag/generate",
+    // 用户管理
+    console_service_v1_con_user_photo_upload: "/console-service/v1/con_user/photo/upload",
+    console_service_v1_con_user_photo_delete: "/console-service/v1/con_user/photo/delete",
+    console_service_v1_con_user_list: "/console-service/v1/con_user/list",
+    console_service_v1_con_user_add: "/console-service/v1/con_user/add",
+    console_service_v1_con_user_edit: "/console-service/v1/con_user/edit",
+    console_service_v1_con_user_delete: "/console-service/v1/con_user/delete",
+    console_service_v1_con_user_role_related: "/console-service/v1/con_user/role/related",
+
+    // 角色管理
+    console_service_v1_con_role_list: "/console-service/v1/con_role/list",
+    console_service_v1_con_role_add: "/console-service/v1/con_role/add",
+    console_service_v1_con_role_edit: "/console-service/v1/con_role/edit",
+    console_service_v1_con_role_delete: "/console-service/v1/con_role/delete",
+    console_service_v1_con_role_related_user: "/console-service/v1/con_role/relatedUser",
+    console_service_v1_con_role_authorize_fun: "/console-service/v1/con_role/authorizeFun",
+    console_service_v1_con_role_related_fun: "/console-service/v1/con_role/relatedFun",
 
     // 地图数据
     china : "/cpcm-service/json/china.json",

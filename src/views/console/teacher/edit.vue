@@ -2,7 +2,7 @@
     <div>
         <el-dialog
                 class="aioc-dialog"
-                title="增加用户信息"
+                title="编辑教师信息"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
@@ -10,31 +10,31 @@
                 center>
             <el-card class="auto-card wdi-900 pr">
                 <el-form class="user-f"
-                        ref="form"
-                        :model="form"
-                        :rules="rules"
-                        :validate-on-rule-change="false"
-                        label-width="100px"
-                        label-position="right">
+                         ref="form"
+                         :model="form"
+                         :rules="rules"
+                         :validate-on-rule-change="false"
+                         label-width="100px"
+                         label-position="right">
                     <el-form-item class="upload-item" label="两寸蓝底证件照" label-width="80px" prop="avatar" required>
                         <div class="grxx">
                             <el-dialog :visible.sync="photoDialogVisible">
                                 <img width="100%" :src="dialogImageUrl" alt="">
                             </el-dialog>
                             <el-upload class="photo-up"
-                                    ref="photoUploadRef"
-                                    :action="uploadAction"
-                                    list-type="picture-card"
-                                    :fileList="fileList"
-                                    :on-success="onSuccess"
-                                    :before-upload="beforeUpload"
-                                    :on-preview="handlePictureCardPreview"
-                                    :before-remove="beforeRemove"
-                                    :on-remove="handleRemove"
-                                    :limit="1"
-                                    :class="(hideUpload ? 'talentPhotoHide':'') + ' zpcc'"
+                                       ref="photoUploadRef"
+                                       :action="uploadAction"
+                                       list-type="picture-card"
+                                       :fileList="fileList"
+                                       :on-success="onSuccess"
+                                       :before-upload="beforeUpload"
+                                       :on-preview="handlePictureCardPreview"
+                                       :before-remove="beforeRemove"
+                                       :on-remove="handleRemove"
+                                       :limit="1"
+                                       :class="(hideUpload ? 'talentPhotoHide':'') + ' zpcc'"
                             >
-                            <i class="el-icon-camera-solid talent-photo"></i>
+                                <i class="el-icon-camera-solid talent-photo"></i>
                             </el-upload>
                         </div>
                     </el-form-item>
@@ -47,14 +47,6 @@
                         <el-input class="wdi-300" v-model="form.name" placeholder="请填写姓名"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="用户密码" prop="password" required>
-                        <el-input class="wdi-300" placeholder="请输入密码" v-model="form.password" show-password></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="再次输入" prop="pwdagain" required>
-                        <el-input class="wdi-300" placeholder="请再次输入密码" v-model="form.pwdagain" show-password></el-input>
-                    </el-form-item>
-
                     <el-form-item label="性别" prop="sex" required>
                         <el-radio-group class="wdi-300" v-model="form.sex" >
                             <el-radio class="nn" :label="0" border>男</el-radio>
@@ -65,19 +57,19 @@
                     <el-form-item label="出生年月" prop="birthtime" required>
                         <el-date-picker class="wdi-300" type="date" placeholder="选择出生日期"
                                         value-format="yyyy-MM-dd"
-                                        v-model="form.birthtime" :picker-options="pickerOptions"
+                                        v-model="form.birthtime"  :picker-options="pickerOptions"
                         ></el-date-picker>
                     </el-form-item>
 
-                   <div class="dffn">
-                       <el-form-item label="手机号码" prop="phone" required>
-                           <el-input class="wdi-300" v-model="form.phone" placeholder="请填写手机号码"></el-input>
-                       </el-form-item>
+                    <div class="dffn">
+                        <el-form-item label="手机号码" prop="phone" required>
+                            <el-input class="wdi-300" v-model="form.phone" placeholder="请填写手机号码"></el-input>
+                        </el-form-item>
 
-                       <el-form-item label="邮箱"  prop="mail" required>
-                           <el-input class="wdi-300" v-model="form.mail"></el-input>
-                       </el-form-item>
-                   </div>
+                        <el-form-item label="邮箱"  prop="mail" required>
+                            <el-input class="wdi-300" v-model="form.mail"></el-input>
+                        </el-form-item>
+                    </div>
 
                     <div class="dffn">
                         <el-form-item label="身份证号码" prop="idCard" required>
@@ -91,10 +83,8 @@
 
                     <el-form-item label="账号状态" prop="status" required>
                         <el-select class="wdi-300" v-model="form.status" placeholder="请选择是否可用">
-                            <el-option label="已激活" value="active"></el-option>
-                            <el-option label="已锁定" value="lock"></el-option>
-                            <el-option label="已冻结" value="freeze"></el-option>
-                            <el-option label="已过期" value="expired"></el-option>
+                            <el-option label="在职" value="active"></el-option>
+                            <el-option label="离职" value="lock"></el-option>
                         </el-select>
                     </el-form-item>
 
@@ -115,48 +105,45 @@
 
 <script>
     export default {
-        name: "add",
+        name: "edit",
         components: {},
-
+        props: ["currentPage", "pageSize"],
         mounted() {
 
         },
         methods: {
             close() {
                 this.dialogVisible = false;
-                this.deletePhotoRequest(this.fileName);
+                if(this.fileName != this.originalFileName) {
+                    this.deletePhotoRequest(this.fileName);
+                }
+                this.clearForm();
             },
             open() {
                 this.dialogVisible = true;
-                this.$nextTick(() => {
-                    this.$refs["form"].clearValidate();
-                });
             },
             clearForm() {
                 this.form = {
                     id: "",
-                    name: "",
-                    account: "",
-                    password: '',
-                    pwdagain: '',
-                    phone: '',
-                    mail: '',
-                    status: '',
-                    remark: '',
-                    avatar: '',
-                    idCard: '',
-                    address: '',
-                    birthtime: '',
-                    sex: '',
+                        name: "",
+                        account: "",
+                        phone: '',
+                        mail: '',
+                        status: '',
+                        remark: '',
+                        avatar: '',
+                        idCard: '',
+                        address: '',
+                        birthtime: '',
+                        sex: '',
                 };
-                this.fileList = [];
                 this.fileName = "";
-                this.dialogImageUrl = "";
-                this.hideUpload = false;
-                this.photoDialogVisible = false;
+                this.fileList = [];
+                this.originalFileName = "";
             },
 
             onSubmit() {
+                console.log(this.form)
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         this.submitRequest();
@@ -167,17 +154,15 @@
             },
 
             async submitRequest() {
-                if(this.form.password != this.form.pwdagain) {
-                    return false;
+                if(this.fileName != this.originalFileName) {
+                    this.deletePhotoRequest(this.originalFileName);
                 }
-                this.form.password = this.$md5(this.form.password);
-                this.form.pwdagain = this.$md5(this.form.pwdagain);
-                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_add, this.form, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_edit, this.form, "POST");
                 if(data.code == 200) {
-                    this.$promptMsg("增加用户成功！", "success");
+                    this.$promptMsg("编辑用户成功！", "success");
                     this.dialogVisible = false;
                     this.clearForm();
-                    this.$emit("search", 1, 10);
+                    this.$emit("search", this.currentPage, this.pageSize);
                 }
             },
 
@@ -205,7 +190,9 @@
             },
             handleRemove() {
                 this.hideUpload = false;
-                this.deletePhotoRequest(this.fileName);
+                if(this.fileName != this.originalFileName) {
+                    this.deletePhotoRequest(this.fileName);
+                }
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -214,7 +201,9 @@
             onSuccess(response) {
                 if(this.fileName != null && this.fileName != "") {
                     this.form.avatar = "";
-                    this.deletePhotoRequest(this.fileName);
+                    if(this.fileName != this.originalFileName) {
+                        this.deletePhotoRequest(this.fileName);
+                    }
                 }
                 if(response.data != null) {
                     this.form.avatar = response.data.fileUrl;
@@ -307,6 +296,7 @@
                 photoDialogVisible: false,
                 fileName: "",
                 fileList: [],
+                originalFileName: "",
 
                 /**
                  * 日期工具

@@ -14,7 +14,7 @@
                             v-model="searchform.name"
                             class="wp-180 mr-10"
                             placeholder="请输入用户名称"
-                            prefix-icon="el-icon-search">
+                    >
                     </el-input>
                 </el-form-item>
 
@@ -23,7 +23,7 @@
                             v-model="searchform.account"
                             class="wp-180 mr-10"
                             placeholder="请输入用户账号"
-                            prefix-icon="el-icon-search">
+                    >
                     </el-input>
                 </el-form-item>
 
@@ -32,7 +32,7 @@
                             v-model="searchform.phone"
                             class="wp-180 mr-10"
                             placeholder="请输入用户名称"
-                            prefix-icon="el-icon-search">
+                    >
                     </el-input>
                 </el-form-item>
 
@@ -209,6 +209,8 @@
              * 删除请求
              */
             deletea() {
+                this.checkRowIds = [];
+                this.checkRowImgs = [];
                 if(this.checkRows.length == 0) {
                     this.$promptMsg("至少需要选择一条数据", "error");
                     return;
@@ -216,6 +218,8 @@
                 for(var i in this.checkRows) {
                     var row = this.checkRows[i];
                     this.checkRowIds.push("\"" + row.id + "\"");
+                    var imgArrays = row.avatar.split("/");
+                    this.checkRowImgs.push(imgArrays[imgArrays.length - 1]);
                 }
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
@@ -227,7 +231,11 @@
                 });
             },
             deleteRow(index, row) {
+                this.checkRowIds = [];
+                this.checkRowImgs = [];
                 this.checkRowIds.push("\"" + row.id + "\"");
+                var imgArrays = row.avatar.split("/");
+                this.checkRowImgs.push(imgArrays[imgArrays.length - 1]);
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -240,6 +248,7 @@
             async deleteRequest() {
                 let params = new FormData()
                 params.append("ids", this.checkRowIds.toString());
+                params.append("imgs", this.checkRowImgs);
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_delete, params, "POST");
                 if (data.code === 200) {
                     this.$promptMsg("删除用户成功", "success");
@@ -254,12 +263,11 @@
                 let params = new FormData()
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
-                params.append("account", this.searchform.account);
-                params.append("name",  this.searchform.name);
-                params.append("phone",  this.searchform.phone);
+                params.append("account", this.searchform.account.trim());
+                params.append("name",  this.searchform.name.trim());
+                params.append("phone",  this.searchform.phone.trim());
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_list, params, "POST");
                 if (data.code === 200) {
-                    console.log(data)
                     this.tableData = data.data;
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
@@ -314,6 +322,7 @@
                 tableData: [],
                 checkRows: [],
                 checkRowIds: [],
+                checkRowImgs: [],
                 clientWidth: 1800,
                 clientHeight: document.body.clientHeight-2,
                 currentPage: 0,

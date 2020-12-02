@@ -9,18 +9,25 @@
                     label-width="80px"
                     label-position="right">
 
+                <el-form-item label="注册码" prop="name">
+                    <el-input
+                            v-model="searchform.code"
+                            class="wp-180 mr-10"
+                            placeholder="请输入注册用户姓名">
+                    </el-input>
+                </el-form-item>
+
                 <el-form-item label="注册用户" prop="name">
                     <el-input
-                            v-model="searchform.name"
+                            v-model="searchform.username"
                             class="wp-180 mr-10"
-                            placeholder="请输入注册用户姓名"
-                            prefix-icon="el-icon-search">
+                            placeholder="请输入注册用户姓名">
                     </el-input>
                 </el-form-item>
 
                 <el-form-item label="状态" prop="name">
                     <el-select v-model="searchform.status" placeholder="请选择状态">
-                        <el-option label="未使用" value="0"></el-option>
+                        <el-option label="可用" value="0"></el-option>
                         <el-option label="已使用" value="1"></el-option>
                     </el-select>
                 </el-form-item>
@@ -47,18 +54,18 @@
                 <el-table-column fixed="left" type="selection" width="55"></el-table-column>
                 <el-table-column prop="code" label="注册码" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="user" label="注册用户" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="username" label="注册用户" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="status" label="状态" fixed="right">
                     <template slot-scope="scope">
                         <el-tag :type="scope.row.status == '0' ? 'success':'info'" effect="dark">
-                            {{ scope.row.status == '0' ? '未使用':'已使用' }}
+                            {{ scope.row.status == '0' ? '可用':'已使用' }}
                         </el-tag>
                     </template>
                 </el-table-column>
             </el-table>
             <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
         </el-card>
-        <Add ref="addRef"></Add>
+        <Add ref="addRef" @search="search"></Add>
     </div>
 </template>
 
@@ -89,16 +96,28 @@
                 }
                 for(var i in this.checkRows) {
                     var row = this.checkRows[i];
-                    this.checkRowIds.push("\"" + row.id + "\"");
+                    this.checkRowIds.push("\"" + row.code + "\"");
                 }
-                this.checkRowIds.push("\"" + row.id + "\"");
+                this.checkRowIds.push("\"" + row.code + "\"");
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteRequest();
                 }).catch(() => {
                 });
+            },
+
+            async deleteRequest() {
+                let params = new FormData()
+                params.append("codes", this.checkRowIds.toString());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_code_delete, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg(data.msg, "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
             },
 
             tableRowClick(row) {
@@ -121,48 +140,36 @@
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
-                // let params = new FormData()
-                // params.append("page", this.currentPage);
-                // params.append("limit", this.pageSize);
-                // params.append("name",  this.searchform.name);
-                // let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
-                // if (data.code === 200) {
-                //     this.tableData = data.data;
-                //     this.$refs.pageRef.totalCount = data.totalCount;
-                //     return true;
-                // }
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    const uuid = this.getUUID();
-                    var status = "0";
-                    var user = "";
-                    if(i < 5) {
-                        status = "1";
-                        user = "赵云";
-                    }
-                    var uuidObj = {
-                        id: i+1,
-                        code: uuid,
-                        createTime: "2020-11-18 14:00:00",
-                        status: status,
-                        user: user,
-                    };
-                    this.tableData.push(uuidObj);
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("status", this.searchform.status);
+                params.append("code",  this.searchform.code.trim());
+                params.append("username",  this.searchform.username.trim());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_code_list, params, "POST");
+                if (data.code === 200) {
+                    console.log(data)
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
                 }
-                this.$refs.pageRef.totalCount = this.tableData.length;
             },
 
             reseta() {
                 this.searchform = {
-                    name: "",
+                    code: "",
+                    username: "",
                     status: "",
                 };
+                this.search(this.currentPage, this.pageSize);
             },
         },
         data() {
             return {
                 searchform: {
-                    name: "",
+                    code: "",
+                    username: "",
+                    status: "",
                 },
                 tableData: [],
                 checkRows: [],

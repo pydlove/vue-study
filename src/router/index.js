@@ -268,7 +268,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '安徽柏林书画研究院控制台财务管理'
+                title: '安徽柏林书画研究院控制台用户管理'
             },
             path: '/user',
             name: 'user',
@@ -276,7 +276,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '安徽柏林书画研究院控制台财务管理'
+                title: '安徽柏林书画研究院控制台菜单管理'
             },
             path: '/menu',
             name: 'menu',
@@ -284,7 +284,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '安徽柏林书画研究院控制台财务管理'
+                title: '安徽柏林书画研究院控制台角色管理'
             },
             path: '/role',
             name: 'role',

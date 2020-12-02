@@ -48,7 +48,21 @@ Vue.prototype.$echarts = echarts
 
 Vue.prototype.$clientHeight = document.body.clientHeight - 57 - 91
 
-
+/**
+ * 权限指令
+ */
+Vue.directive('aiocp', {
+    bind: function (el, value) {
+        var activeBtnAuthority = Vue.prototype.$utils.getCookie('activeBtnAuthority');
+        if(activeBtnAuthority == "no*aiocloud*p") {
+            el.style.display = 'none';
+        } else if (activeBtnAuthority.indexOf(("[" + value.value[0] + "]")) == -1) {
+            el.style.display = 'none';
+        } else {
+            el.style.display = 'inline-block';
+        }
+    }
+});
 
 /**
  * 弹出层封装

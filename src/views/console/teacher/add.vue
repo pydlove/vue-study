@@ -91,10 +91,8 @@
 
                     <el-form-item label="账号状态" prop="status" required>
                         <el-select class="wdi-300" v-model="form.status" placeholder="请选择是否可用">
-                            <el-option label="已激活" value="active"></el-option>
-                            <el-option label="已锁定" value="lock"></el-option>
-                            <el-option label="已冻结" value="freeze"></el-option>
-                            <el-option label="已过期" value="expired"></el-option>
+                            <el-option label="在职" value="active"></el-option>
+                            <el-option label="离职" value="lock"></el-option>
                         </el-select>
                     </el-form-item>
 
@@ -132,6 +130,7 @@
                     this.$refs["form"].clearValidate();
                 });
             },
+
             clearForm() {
                 this.form = {
                     id: "",
@@ -141,7 +140,7 @@
                     pwdagain: '',
                     phone: '',
                     mail: '',
-                    status: '',
+                    status: 'active',
                     remark: '',
                     avatar: '',
                     idCard: '',
@@ -155,7 +154,6 @@
                 this.hideUpload = false;
                 this.photoDialogVisible = false;
             },
-
             onSubmit() {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
@@ -172,9 +170,9 @@
                 }
                 this.form.password = this.$md5(this.form.password);
                 this.form.pwdagain = this.$md5(this.form.pwdagain);
-                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_user_add, this.form, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_teacher_add, this.form, "POST");
                 if(data.code == 200) {
-                    this.$promptMsg("增加用户成功！", "success");
+                    this.$promptMsg("增加教师成功！", "success");
                     this.dialogVisible = false;
                     this.clearForm();
                     this.$emit("search", 1, 10);
@@ -250,7 +248,7 @@
                     pwdagain: '',
                     phone: '',
                     mail: '',
-                    status: '',
+                    status: 'active',
                     remark: '',
                     avatar: '',
                     idCard: '',

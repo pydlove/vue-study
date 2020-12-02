@@ -108,11 +108,11 @@
             },
 
             async submitRequest() {
-                if(this.fileName != this.originalFileName) {
-                    this.deletePhotoRequest(this.originalFileName);
-                }
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_functions_edit, this.form, "POST");
                 if(data.code == 200) {
+                    if(this.fileName != this.originalFileName) {
+                        this.deletePhotoRequest(this.originalFileName);
+                    }
                     this.$promptMsg("编辑根菜单成功！", "success");
                     this.dialogVisible = false;
                     this.$emit("search");

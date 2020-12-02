@@ -21,20 +21,22 @@ export async function aiorequest(url, params, type, pop) {
         fullscreen: true, // 是否全屏loading
         target: 'body' // loading挂载对象
     })
-    if(data.code == 200) {
-        return data
-    } else if (data.code == "error") {
-        let res = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_login_intercept_nologin, params, "GET");
-        if (res.code === 200 && res.data == 'NO_LOGIN') {
-            this.$utils.removeCookie("aioctoken");
-            this.$utils.removeStorage("avatar");
-            this.$router.push({
-                path: "/policy",
-            })
-            this.$promptMsg("请重新登录", "error");
-            return  true;
-        } else {
-            this.$promptMsg("网络不稳定，请稍后再试", "error");
-        }
-    }
+    return data
+
+    // if(data.code == 200) {
+    //     return data
+    // } else if (data.code == "error") {
+    //     let res = await this.$aiorequest(this.$aiocUrl.cpcm_service_v1_login_intercept_nologin, params, "GET");
+    //     if (res.code === 200 && res.data == 'NO_LOGIN') {
+    //         this.$utils.removeCookie("aioctoken");
+    //         this.$utils.removeStorage("avatar");
+    //         this.$router.push({
+    //             path: "/policy",
+    //         })
+    //         this.$promptMsg("请重新登录", "error");
+    //         return  true;
+    //     } else {
+    //         this.$promptMsg("网络不稳定，请稍后再试", "error");
+    //     }
+    // }
 }

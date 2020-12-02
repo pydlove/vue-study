@@ -44,7 +44,7 @@
                 <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="status" label="状态" fixed="right">
                     <el-tag type="success" effect="dark">
-                        未使用
+                        可用
                     </el-tag>
                 </el-table-column>
             </el-table>
@@ -66,16 +66,25 @@
             open() {
                 this.dialogVisible = true;
             },
-            submit() {
-                this.$promptMsg("提交注册码成功", "success");
+            async submit() {
+                console.log(this.uuidTable)
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_code_add, this.uuidTable, "POST");
+                if(data.code == 200) {
+                    this.$promptMsg(data.msg, "success");
+                    this.dialogVisible = false;
+                    this.$emit("search", 1, 10);
+                    this.form.count = 10;
+                    this.uuidTable = [];
+                }
             },
             create() {
                 this.uuidTable = [];
+                var d = new Date();
                 for(var i=0; i < this.form.count; i++) {
                     var uuidObj = {
                         id: i+1,
                         code: this.getUUID(),
-                        createTime: "2020-11-18 14:00:00",
+                        createTime: d.getFullYear()+ "-" + (d.getMonth() + 1) + "-" + d.getDate() + " " + d.getHours() + ":"  + d.getMinutes() + ":" + d.getSeconds(),
                         status: 0,
                     };
                     this.uuidTable.push(uuidObj);

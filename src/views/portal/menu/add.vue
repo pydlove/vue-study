@@ -103,7 +103,9 @@
             },
             open() {
                 this.dialogVisible = true;
-                this.$refs["form"].clearValidate();
+                this.$nextTick(() => {
+                    this.$refs["form"].clearValidate();
+                });
             },
             onSubmit() {
                 this.$refs['form'].validate((valid) => {

@@ -108,8 +108,8 @@
       methods: {
           async search() {
               let params = new FormData();
-              params.append("chName", this.searchform.chName);
-              params.append("parentName",  this.searchform.parentName);
+              params.append("chName", this.searchform.chName.trim());
+              params.append("parentName",  this.searchform.parentName.trim());
               let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_functions_treeTable, params, "POST");
               if (data.code === 200) {
                   this.tableData = data.data;
