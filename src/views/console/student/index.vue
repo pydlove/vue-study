@@ -43,7 +43,6 @@
             </el-form>
 
             <div class="mb-10 mt-40">
-                <el-button v-aba="['a']" type="info" icon="el-icon-video-pause" size="small"  @click="setDisable()">静默TA</el-button>
                 <el-button v-aba="['a']" type="info" icon="el-icon-video-pause" size="small"  @click="setAutoDisable()">自动静默设置</el-button>
                 <el-button v-aba="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
             </div>
@@ -65,13 +64,17 @@
                                 :style="'width:' + photoWidth + 'px;height:' + photoHeight + 'px;'"
                                 :src="scope.row.photo"
                                 fit="fit"
-                                :preview-src-list="scope.row.srcList"
+                                :preview-src-list="[scope.row.photo]"
                         ></el-image>
                     </template>
                 </el-table-column>
                 <el-table-column prop="name" label="姓名" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="sex" label="性别" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="idCard" label="身份证" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="sex" label="性别" :show-overflow-tooltip="true">
+                    <template slot-scope="scope">
+                        {{ scope.row.sex == "0" ? "男":"女" }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="idcard" label="身份证" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="phone" label="联系方式" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="age" label="年龄" :show-overflow-tooltip="true"></el-table-column>
@@ -99,7 +102,7 @@
                                     </div>
                                     <div class="xx-lable">
                                         <span>性 <span class="ml-28"></span> 别</span>
-                                        <span>{{ props.row.sex }}</span>
+                                        <span> {{ props.row.sex == "0" ? "男":"女" }} </span>
                                     </div>
                                     <div class="xx-lable">
                                             <span>
@@ -107,7 +110,7 @@
                                                 份<span class="ml-5"></span>
                                                 证
                                             </span>
-                                        <span>{{ props.row.idCard }}</span>
+                                        <span>{{ props.row.idcard }}</span>
                                     </div>
                                     <div class="xx-lable">
                                         <span>出生年月</span>
@@ -115,7 +118,10 @@
                                     </div>
                                     <div class="xx-lable">
                                         <span>地 <span class="ml-28"></span> 址</span>
-                                        <span>{{ props.row.address }}</span>
+                                        <span>
+                                            {{ props.row.province }}{{ props.row.city }}{{ props.row.county }}
+                                            ({{ props.row.address }})
+                                        </span>
                                     </div>
                                     <div class="xx-lable">
                                         <span>联系方式</span>
@@ -153,7 +159,7 @@
                                                 class="textarea xx-text"
                                                 type="textarea"
                                                 :autosize="{ minRows: 16, maxRows: 18}"
-                                                placeholder="请输入内容"
+                                                placeholder="暂无评语"
                                                 maxlength="3000"
                                                 show-word-limit
                                                 v-model="props.row.remark">
@@ -202,11 +208,16 @@
                                    size="mini"
                                    type="info"
                                    @click="setCertificate(scope.row)">绑定证书</el-button>
-                        <el-button
+                        <el-button v-if="scope.row.status == '0'"
                                    v-aba="['e']"
                                    size="mini"
                                    type="info"
                                    @click="setDisableRow(scope.row)">静默TA</el-button>
+                        <el-button v-else-if="scope.row.status == '1'"
+                                v-aba="['e']"
+                                size="mini"
+                                type="success"
+                                @click="setAbleRow(scope.row)">激活</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -230,6 +241,46 @@
             this.initAreaOptions(areaData);
         },
         methods: {
+            async search(currentPage, pageSize) {
+                this.currentPage = currentPage;
+                this.pageSize = pageSize;
+                let params = new FormData()
+                if(this.searchform.area != null && this.searchform.area != "" && this.searchform.area != undefined) {
+                    if(this.searchform.area.length == 1) {
+                        params.append("province", this.searchform.area[0]);
+                    }
+                    if(this.searchform.area.length == 2) {
+                        params.append("province", this.searchform.area[0]);
+                        params.append("city", this.searchform.area[1]);
+                    }
+                    if(this.searchform.area.length == 3) {
+                        params.append("province", this.searchform.area[0]);
+                        params.append("city", this.searchform.area[1]);
+                        params.append("county", this.searchform.area[2]);
+                    }
+                }
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("name",  this.searchform.name.trim());
+                params.append("phone",  this.searchform.phone.trim());
+                params.append("status",  this.searchform.status.trim());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_user_list, params, "POST");
+                if (data.code === 200) {
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
+                }
+            },
+
+            reseta() {
+                this.searchform = {
+                    name: "",
+                    phone: "",
+                    status: "",
+                };
+                this.search(this.currentPage, this.pageSize)
+            },
+
             /**
              * 处理地区条件选择变化
              */
@@ -246,29 +297,70 @@
             },
 
             setDisableRow(row) {
-                this.checkRowIds = [];
-                this.checkRowIds.push("\"" + row.id + "\"");
-                this.setDisableRequest();
+                this.$confirm('静默后将不能使用系统，是否继续？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.checkRowIds = [];
+                    this.checkRowIds.push("\"" + row.id + "\"");
+                    this.setDisableRequest();
+                }).catch(() => {
+                });
             },
             setDisable() {
                 if(this.checkRows.length == 0) {
                     this.$promptMsg("至少需要选择一条数据", "error");
                     return;
                 }
-                for(var i in this.checkRows) {
-                    var row = this.checkRows[i];
-                    this.checkRowIds.push("\"" + row.id + "\"");
-                }
-                this.setDisableRequest();
-            },
-            setDisableRequest() {
                 this.$confirm('静默后将不能使用系统，是否继续？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.checkRowIds = [];
+                    for(var i in this.checkRows) {
+                        var row = this.checkRows[i];
+                        this.checkRowIds.push("\"" + row.id + "\"");
+                    }
+                    this.setDisableRequest();
                 }).catch(() => {
                 });
+            },
+            async setDisableRequest() {
+                let params = new FormData()
+                params.append("ids", this.checkRowIds.toString());
+                params.append("status", "1");
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_user_setStatus, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg("静默成功", "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
+            },
+
+            setAbleRow(row) {
+                this.$confirm('激活后将正常使用系统，是否继续？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.checkRowIds = [];
+                    this.checkRowIds.push("\"" + row.id + "\"");
+                    this.setAbleRequest();
+                }).catch(() => {
+                });
+            },
+            async setAbleRequest() {
+                let params = new FormData()
+                params.append("ids", this.checkRowIds.toString());
+                params.append("status", "0");
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_user_setStatus, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg("激活成功", "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
             },
 
             setAutoDisable() {
@@ -286,7 +378,8 @@
                 this.acCurrentPage = val;
             },
             tableExpand(row) {
-                this.totalAcCount = row.activities.length;
+                // this.totalAcCount = row.activities.length;
+                console.log(row)
             },
 
             tableRowClick(row) {
@@ -297,147 +390,6 @@
             },
             toggleSelection() {
                 this.$refs.codeTable.clearSelection();
-            },
-
-            async search(currentPage, pageSize) {
-                this.currentPage = currentPage;
-                this.pageSize = pageSize;
-                // let params = new FormData()
-                // params.append("page", this.currentPage);
-                // params.append("limit", this.pageSize);
-                // params.append("name",  this.searchform.name);
-                // let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
-                // if (data.code === 200) {
-                //     this.tableData = data.data;
-                //     this.$refs.pageRef.totalCount = data.totalCount;
-                //     return true;
-                // }
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    var status = "0";
-                    if(i > 5) {
-                        status = "1";
-                    }
-                    var student = {
-                        id: i+1,
-                        name: "姜维",
-                        sex: "男",
-                        idCard: "210448196602231235",
-                        birth: "2016-06-15",
-                        age: "5",
-                        address: "安徽省合肥市经开区",
-                        phone: "13588400659",
-                        score: "58",
-                        photo: require("@/assets/img/ouynn.jpg"),
-                        status: status,
-                        srcList: [
-                            require("@/assets/img/ouynn.jpg"),
-                        ],
-                        remark: "1、学习用品已买； 2、学习积极、努力",
-                        schoolSupplies:[
-                            {
-                                id: "1",
-                                name: "画笔",
-                            },
-                            {
-                                id: "1",
-                                name: "画板",
-                            },
-                        ],
-                        classes: [
-                            {
-                                id: "1",
-                                className: "涂鸦一班",
-                                subSubject: "涂鸦4-6岁",
-                                schooltime: "每周一上午9点",
-                                address: "杭州市美都广场C座511",
-                                used: 12,
-                                capacity: 15,
-                                unitTime: 1,
-                                remainingTime: 90,
-                                totalTime: 100,
-                                status: "0",
-                                teacher: "郭嘉",
-                            },
-                            {
-                                id: "1",
-                                className: "涂鸦一班",
-                                subSubject: "涂鸦4-6岁",
-                                schooltime: "每周一上午9点",
-                                address: "杭州市美都广场C座511",
-                                used: 12,
-                                capacity: 15,
-                                unitTime: 1,
-                                remainingTime: 90,
-                                totalTime: 100,
-                                status: "0",
-                                teacher: "郭嘉",
-                            }
-                        ],
-                        activities: [
-                            {
-                                id: "0",
-                                title: "最后一期！2019汕头国际马拉松第三期官方训练营报名启动",
-                                desc: "汕头国际马拉松官方训练营由汕头市长跑协会主办的非盈利性公益活动，旨在赛前为跑友们提供专," +
-                                "业的马拉松训练课程，帮助跑友掌握科学有效的训练方式，合理备战、实现目标。前两期的2019" +
-                                "汕马官方训练营已分别在10月和11月顺利举行。",
-                                time: "2019-12-15",
-                                address: "汕头开放广场",
-                                capacity: "120",
-                                score: "3",
-                                use: "1005",
-                                cost: "100",
-                                startTime: "2019-12-09",
-                                endTime: "2019-12-13",
-                                img: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-                                status: "0",
-                            },
-                            {
-                                id: "1",
-                                title: "最后一期！2019汕头国际马拉松第三期官方训练营报名启动",
-                                desc: "汕头国际马拉松官方训练营由汕头市长跑协会主办的非盈利性公益活动，旨在赛前为跑友们提供专," +
-                                "业的马拉松训练课程，帮助跑友掌握科学有效的训练方式，合理备战、实现目标。前两期的2019" +
-                                "汕马官方训练营已分别在10月和11月顺利举行。",
-                                time: "2019-12-15",
-                                address: "汕头开放广场",
-                                capacity: "120",
-                                score: "3",
-                                use: "1005",
-                                cost: "100",
-                                startTime: "2019-12-09",
-                                endTime: "2019-12-13",
-                                img: require("@/assets/img/steamWave.jpg"),
-                                status: "0",
-                            },
-                            {
-                                id: "2",
-                                title: "最后一期！2019汕头国际马拉松第三期官方训练营报名启动",
-                                desc: "汕头国际马拉松官方训练营由汕头市长跑协会主办的非盈利性公益活动，旨在赛前为跑友们提供专," +
-                                "业的马拉松训练课程，帮助跑友掌握科学有效的训练方式，合理备战、实现目标。前两期的2019" +
-                                "汕马官方训练营已分别在10月和11月顺利举行。",
-                                time: "2019-12-15",
-                                address: "汕头开放广场",
-                                capacity: "120",
-                                score: "3",
-                                use: "1005",
-                                cost: "100",
-                                startTime: "2019-12-09",
-                                endTime: "2019-12-13",
-                                img: require("@/assets/img/zbsytp.jpg"),
-                                status: "0",
-                            }
-                        ],
-                    };
-                    this.tableData.push(student);
-                }
-                this.$refs.pageRef.totalCount = this.tableData.length;
-            },
-
-            reseta() {
-                this.searchform = {
-                    name: "",
-                    status: "",
-                };
             },
 
             /**
@@ -480,8 +432,8 @@
             return {
                 searchform: {
                     name: "",
+                    phone: "",
                     status: "",
-                    area: "",
                 },
                 tableData: [],
                 checkRows: [],

@@ -120,7 +120,7 @@
                 loginForm: {
                     account: "panyong",
                     password: "1q2w3e4R!Q",
-                    verificationCode: "",
+                    verificationCode: "aaaa",
                     rememberMe: false,
                 },
                 rules: {

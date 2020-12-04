@@ -14,16 +14,34 @@
                             v-model="searchform.name"
                             class="wp-180 mr-10"
                             placeholder="请输入班级名称"
-                            prefix-icon="el-icon-search">
+                    >
                     </el-input>
                 </el-form-item>
 
                 <el-form-item label="教师名称" prop="name">
                     <el-input
-                            v-model="searchform.teacher"
+                            v-model="searchform.teacherName"
                             class="wp-180 mr-10"
                             placeholder="请输入教师名称"
-                            prefix-icon="el-icon-search">
+                    >
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item label="课程大类名称" prop="name">
+                    <el-input
+                            v-model="searchform.mainName"
+                            class="wp-180 mr-10"
+                            placeholder="请输入教师名称"
+                    >
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item label="课程小类名称" prop="name">
+                    <el-input
+                            v-model="searchform.subName"
+                            class="wp-180 mr-10"
+                            placeholder="请输入教师名称"
+                    >
                     </el-input>
                 </el-form-item>
 
@@ -47,8 +65,8 @@
                     :cell-style="{padding:'9px 1px'}"
             >
                 <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                <el-table-column prop="name" label="班级名称" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="startTime" label="开始时间" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column fixed="left" prop="name" label="班级名称" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="startDate" label="开始时间" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="endType" label="结束方式" width="200" :show-overflow-tooltip="true">
                     <template slot-scope="scope">
                             {{handleEnd(scope.row)}}
@@ -59,15 +77,16 @@
                         {{handleTime(scope.row)}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="teacher" label="老师" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="teacherName" label="老师" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="capacity" label="已报名/容量" :show-overflow-tooltip="true">
                     <template slot-scope="scope">
                        <span class="color-fa5c26">{{scope.row.used}}</span> / <span class="color-67C23A"> {{scope.row.capacity}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="mainSubjects" label="课程大类" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="subSubjects" label="课程小类" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="mainName" label="课程大类" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="subName" label="课程小类" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="score" label="获得学分" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column label="操作"  fixed="right" width="200">
                     <template slot-scope="scope">
@@ -79,14 +98,14 @@
                                     v-aba="['d']"
                                     size="mini"
                                     type="danger"
-                                    @click="deleteRow(scope.$index, scope.row)">删除</el-button>
+                                    @click="deleteRow(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
             <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
         </el-card>
-        <Add ref="addRef"></Add>
-        <Edit ref="editRef"></Edit>
+        <Add ref="addRef" @search="search" :activeTeachers="activeTeachers" :mainSubjects="mainSubjects"></Add>
+        <Edit ref="editRef" @search="search" :activeTeachers="activeTeachers" :mainSubjects="mainSubjects" :currentPage="currentPage" :pageSize="pageSize"></Edit>
     </div>
 </template>
 
@@ -99,8 +118,27 @@
         components: {Pagination, Add, Edit},
         mounted() {
             this.search(0, 10);
+            this.initActiveTeacher();
+            this.initMainSubjects();
         },
         methods: {
+
+            async initMainSubjects() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_main_subject_sub, {}, "GET");
+                if (data.code === 200) {
+                    this.mainSubjects = data.data;
+                    return true;
+                }
+            },
+
+            async initActiveTeacher() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_teacher_active, {}, "GET");
+                if (data.code === 200) {
+                    this.activeTeachers = data.data;
+                    return true;
+                }
+            },
+
             /**
              * 增加
              */
@@ -112,25 +150,29 @@
              * 编辑
              */
             editRow(row) {
-                var times = row.time.split("-");
-                console.log(row)
                 this.$refs.editRef.form = {
                     id: row.id,
                     name: row.name,
-                    startTime: row.startTime,
+                    startDate: row.startDate,
                     endType: row.endType,
-                    endTime: row.endTime,
                     frequency: row.frequency,
+                    endDate: row.endDate,
                     isRepeat: row.isRepeat,
-                    week: row.week,
-                    time: times,
-                    teacher: row.teacher,
+                    whichDay: row.whichDay.split(","),
+                    startTime: row.startTime,
+                    endTime: row.endTime,
+                    teacherId: row.teacherId,
+                    timeRange: [row.startTime, row.endTime],
                     address: row.address,
-                    capacity: row.capacity,
-                    mainSubject: row.mainSubject,
-                    subSubject: row.subSubject,
+                    capacity: row.capacity.toString(),
+                    subId: row.subId,
+                    mainId: row.mainId,
+                    createTime: row.createTime,
+                    updateTime: row.updateTime,
                     remark: row.remark,
+                    score: row.score.toString(),
                 };
+                this.$refs.editRef.mainSubject = this.mainSubjects[row.mainId];
                 this.$refs.editRef.open();
             },
 
@@ -140,6 +182,7 @@
              * 删除请求
              */
             deletea() {
+                this.checkRowIds = [];
                 if(this.checkRows.length == 0) {
                     this.$promptMsg("至少需要选择一条数据", "error");
                     return;
@@ -148,46 +191,62 @@
                     var row = this.checkRows[i];
                     this.checkRowIds.push("\"" + row.id + "\"");
                 }
-                this.deleteRequest();
-            },
-            deleteRow(index, row) {
-                this.checkRowIds = [];
-                this.checkRowIds.push("\"" + row.id + "\"");
-                this.deleteRequest();
-            },
-            deleteRequest() {
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteRequest();
                 }).catch(() => {
                 });
+            },
+            deleteRow(row) {
+                this.checkRowIds = [];
+                this.checkRowIds.push("\"" + row.id + "\"");
+                this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteRequest();
+                }).catch(() => {
+                });
+            },
+            async deleteRequest() {
+                let params = new FormData()
+                params.append("ids", this.checkRowIds.toString());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_class_delete, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg(data.msg, "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
             },
 
             handleEnd(row) {
                 const endType = row.endType;
-                if(endType == "1") {
+                if(endType == "0") {
                     const frequency = row.frequency;
                     return "限次数" + "(" + frequency + ")";
-                } else if (endType == "2") {
-                    const endTime = row.endTime;
-                    return "限日期" + "(" + endTime + ")";
+                } else if (endType == "1") {
+                    const endDate = row.endDate;
+                    return "限日期" + "(" + endDate + ")";
                 }
             },
 
             handleTime(row) {
                 const isRepeat = row.isRepeat;
-                const week = row.week;
-                const time = row.time;
+                const week = row.whichDay;
+                const startTime = row.startTime;
+                const endTime = row.endTime;
                 if(isRepeat == "0") {
-                    return "每天" + " / " + time;
+                    return "每天" + " / (" + startTime + " - " + endTime + ")";
                 } else if (isRepeat == "1") {
-                    return "隔天" + " / " + time;
+                    return "隔天" + " / (" + startTime + " - " + endTime + ")";
                 } else if (isRepeat == "2") {
-                    return "每周" + " / " + week + " / " + time;
+                    return "每周" + " / " + week + " / (" + startTime + " - " + endTime + ")";
                 } else if (isRepeat == "3") {
-                    return "隔周" + " / " + week + " / " + time;
+                    return "隔周" + " / " + week + " / (" + startTime + " - " + endTime + ")";
                 }
             },
 
@@ -204,76 +263,39 @@
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
-                // let params = new FormData()
-                // params.append("page", this.currentPage);
-                // params.append("limit", this.pageSize);
-                // params.append("name",  this.searchform.name);
-                // let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
-                // if (data.code === 200) {
-                //     this.tableData = data.data;
-                //     this.$refs.pageRef.totalCount = data.totalCount;
-                //     return true;
-                // }
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    var endType = "";
-                    var endTime = "";
-                    var frequency = "";
-                    var isRepeat = "0";
-                    if (i>=0 && i<=5) {
-                        endType = "1";
-                        frequency = 12;
-                    } else if (i>=5) {
-                        endType = "2";
-                        endTime = "2021-11-1";
-                    }
-
-                    if (i>=0 && i<=3) {
-                        isRepeat = "0";
-                    } else if (i>=3 && i <5) {
-                        isRepeat = "1";
-                    } else if (i>=5 && i <8) {
-                        isRepeat = "2";
-                    } else if (i>=8 && i <11) {
-                        isRepeat = "3";
-                    }
-
-                    var uuidObj = {
-                        id: "1",
-                        name: "涂鸦一班",
-                        startTime: "2020-11-1",
-                        endTime: endTime,
-                        endType: endType,
-                        frequency: frequency,
-                        isRepeat: isRepeat,
-                        week: "周一",
-                        time: "08:00:00-09:00:00",
-                        teacher: "郭嘉",
-                        address: "杭州市美都广场C座511",
-                        capacity: 15,
-                        used: 12,
-                        mainSubjects: "绘画",
-                        subSubjects: "涂鸦4-6",
-                        remark: "绘画",
-                        createTime: "2020-11-18 14:00:00",
-                    };
-                    this.tableData.push(uuidObj);
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("name",  this.searchform.name.trim());
+                params.append("teacherName",  this.searchform.teacherName.trim());
+                params.append("mainName",  this.searchform.mainName.trim());
+                params.append("subName",  this.searchform.subName.trim());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_class_list, params, "POST");
+                if (data.code === 200) {
+                    console.log( data.data)
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
                 }
-                this.$refs.pageRef.totalCount = this.tableData.length;
             },
 
             reseta() {
                 this.searchform = {
                     name: "",
-                    status: "",
+                    teacherName: "",
+                    mainName: "",
+                    subName: "",
                 };
+                this.search(this.currentPage, this.pageSize)
             },
         },
         data() {
             return {
                 searchform: {
                     name: "",
-                    teacher: "",
+                    teacherName: "",
+                    mainName: "",
+                    subName: "",
                 },
                 tableData: [],
                 checkRows: [],
@@ -282,6 +304,9 @@
                 clientHeight: document.body.clientHeight-2,
                 currentPage: 0,
                 pageSize: 10,
+
+                activeTeachers: [],
+                mainSubjects: [],
             }
         },
     }

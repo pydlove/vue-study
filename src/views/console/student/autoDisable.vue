@@ -46,7 +46,6 @@
     export default {
         name: "autoDisable",
         mounted() {
-            this.search(0, 10);
         },
         methods: {
             close() {

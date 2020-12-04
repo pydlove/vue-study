@@ -13,11 +13,12 @@
                         class= "pt-20 pl-20"
                         ref="form"
                         :model="form"
+                        :rules="rules"
                         :validate-on-rule-change="false"
                         label-width="120px"
                         label-position="right">
 
-                    <el-form-item label="课程大类名称" prop="name">
+                    <el-form-item label="课程大类名称" prop="name" required>
                         <el-input class="wdi-600" v-model="form.name" placeholder="请输入课程大类名称"></el-input>
                     </el-form-item>
 
@@ -36,7 +37,8 @@
 
 <script>
     export default {
-        name: "student",
+        name: "edit",
+        props: ["currentPage", "pageSize"],
         components: {},
         mounted() {
 
@@ -47,9 +49,28 @@
             },
             open() {
                 this.dialogVisible = true;
+                this.$nextTick(() => {
+                    this.$refs["form"].clearValidate();
+                });
             },
+
             onSubmit() {
-                this.$promptMsg("编辑成功", "success");
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.submitRequest();
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
+            async submitRequest() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_main_subject_edit, this.form, "POST");
+                if(data.code == 200) {
+                    this.$promptMsg(data.msg, "success");
+                    this.dialogVisible = false;
+                    this.$emit("search", this.currentPage, this.pageSize);
+                }
             },
         },
         data() {
@@ -59,9 +80,15 @@
                     id: "",
                     name: "",
                     createTime: "",
+                    updateTime: "",
                     remark: "",
                 },
-                uuidTable: [],
+
+                rules: {
+                    name: [
+                        {type: 'string', required: true, message: '请输入课程大类名称', trigger: ['change', 'blur']},
+                    ],
+                }
             }
         },
     }

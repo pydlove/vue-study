@@ -15,6 +15,30 @@ export default {
     console_service_v1_login_user_authority: "/console-service/v1/login/user/authority",
     console_service_v1_login_role_authority: "/console-service/v1/login/role/authority",
 
+    // 注册学员管理
+    console_service_v1_bl_user_list: "/console-service/v1/bl_user/list",
+    console_service_v1_bl_user_setStatus: "/console-service/v1/bl_user/setStatus",
+
+    // 班级管理
+    console_service_v1_bl_class_list: "/console-service/v1/bl_class/list",
+    console_service_v1_bl_class_add: "/console-service/v1/bl_class/add",
+    console_service_v1_bl_class_edit: "/console-service/v1/bl_class/edit",
+    console_service_v1_bl_class_delete: "/console-service/v1/bl_class/delete",
+
+    // 课程大类
+    console_service_v1_bl_main_subject_list: "/console-service/v1/bl_main_subject/list",
+    console_service_v1_bl_main_subject_all: "/console-service/v1/bl_main_subject/all",
+    console_service_v1_bl_main_subject_sub: "/console-service/v1/bl_main_subject/sub",
+    console_service_v1_bl_main_subject_add: "/console-service/v1/bl_main_subject/add",
+    console_service_v1_bl_main_subject_edit: "/console-service/v1/bl_main_subject/edit",
+    console_service_v1_bl_main_subject_delete: "/console-service/v1/bl_main_subject/delete",
+
+    // 课程小类
+    console_service_v1_bl_sub_subject_list: "/console-service/v1/bl_sub_subject/list",
+    console_service_v1_bl_sub_subject_add: "/console-service/v1/bl_sub_subject/add",
+    console_service_v1_bl_sub_subject_edit: "/console-service/v1/bl_sub_subject/edit",
+    console_service_v1_bl_sub_subject_delete: "/console-service/v1/bl_sub_subject/delete",
+
     // 证书
     console_service_v1_bl_certificate_certificate_upload: "/console-service/v1/bl_certificate/certificate/upload",
     console_service_v1_bl_certificate_certificate_delete: "/console-service/v1/bl_certificate/certificate/delete",

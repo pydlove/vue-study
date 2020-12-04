@@ -9,12 +9,21 @@
                      label-width="80px"
                      label-position="right">
 
-                <el-form-item label="课程名称" prop="name">
+                <el-form-item label="课程大类名称" prop="name">
+                    <el-input
+                            v-model="searchform.mainName"
+                            class="wp-180 mr-10"
+                            placeholder="请输入课程大类名称"
+                    >
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item label="课程小类名称" prop="name">
                     <el-input
                             v-model="searchform.name"
                             class="wp-180 mr-10"
-                            placeholder="请输入课程大类名称"
-                            prefix-icon="el-icon-search">
+                            placeholder="请输入课程小类名称"
+                    >
                     </el-input>
                 </el-form-item>
 
@@ -40,6 +49,11 @@
                 <el-table-column fixed="left" type="selection" width="55"></el-table-column>
                 <el-table-column prop="name" label="课程小类名称" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="mainName" label="所属课程大类" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="cond" label="年龄条件" :show-overflow-tooltip="true">
+                    <template slot-scope="scope">
+                            {{handleAge(scope.row)}}
+                    </template>
+                </el-table-column>
                 <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column label="操作"  fixed="right" width="200">
@@ -52,14 +66,14 @@
                                 v-aba="['d']"
                                 size="mini"
                                 type="danger"
-                                @click="deleteRow(scope.$index, scope.row)">删除</el-button>
+                                @click="deleteRow(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
             <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
         </el-card>
-        <Add ref="addRef"></Add>
-        <Edit ref="editRef"></Edit>
+        <Add ref="addRef" @search="search" :mainSubjects="mainSubjects"></Add>
+        <Edit ref="editRef" @search="search" :mainSubjects="mainSubjects" :currentPage="currentPage" :pageSize="pageSize"></Edit>
     </div>
 </template>
 
@@ -72,8 +86,39 @@
         components: {Pagination, Add, Edit},
         mounted() {
             this.search(0, 10);
+            this.initMainSubject();
         },
         methods: {
+            async initMainSubject() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_main_subject_all, {}, "GET");
+                if (data.code === 200) {
+                    this.mainSubjects = data.data;
+                    return true;
+                }
+            },
+
+            handleAge(row) {
+                if(row.cond) {
+                    switch (row.cond) {
+                        case "0" :
+                            return row.age + "岁以上";
+                        case "1" :
+                            return row.age + "岁及以上";
+                        case "2" :
+                            return row.age + "岁";
+                        case "3" :
+                            return row.age + "岁及以下";
+                        case "4" :
+                            return row.age + "岁及以下";
+                        case "5" :
+                            var ageArray = row.age.split(",");
+                            return ageArray[0] + "-" + ageArray[1] + "岁";
+                        default:
+                            break;
+                    }
+                }
+            },
+
             /**
              * 增加
              */
@@ -85,14 +130,33 @@
              * 编辑
              */
             editRow(row) {
-                this.$refs.editRef.form = {
-                    id: row.id,
-                    name: row.name,
-                    mainId: row.mainId,
-                    mainName: row.mainName,
-                    createTime: row.createTime,
-                    remark: row.remark,
-                };
+                if( row.cond == "5") {
+                    this.$refs.editRef.form = {
+                        id: row.id,
+                        name: row.name,
+                        mainId: row.mainId,
+                        mainName: row.mainName,
+                        cond: row.cond,
+                        age: row.age,
+                        startAge: row.age.split(",")[0],
+                        endAge: row.age.split(",")[1],
+                        createTime: row.createTime,
+                        updateTime: row.updateTime,
+                        remark: row.remark,
+                    };
+                } else {
+                    this.$refs.editRef.form = {
+                        id: row.id,
+                        name: row.name,
+                        mainId: row.mainId,
+                        mainName: row.mainName,
+                        cond: row.cond,
+                        age: row.age,
+                        createTime: row.createTime,
+                        updateTime: row.updateTime,
+                        remark: row.remark,
+                    };
+                }
                 this.$refs.editRef.open();
             },
 
@@ -102,6 +166,7 @@
              * 删除请求
              */
             deletea() {
+                this.checkRowIds = [];
                 if(this.checkRows.length == 0) {
                     this.$promptMsg("至少需要选择一条数据", "error");
                     return;
@@ -110,21 +175,36 @@
                     var row = this.checkRows[i];
                     this.checkRowIds.push("\"" + row.id + "\"");
                 }
-                this.deleteRequest();
-            },
-            deleteRow(index, row) {
-                this.checkRowIds = [];
-                this.checkRowIds.push("\"" + row.id + "\"");
-                this.deleteRequest();
-            },
-            deleteRequest() {
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteRequest();
                 }).catch(() => {
                 });
+            },
+            deleteRow(row) {
+                this.checkRowIds = [];
+                this.checkRowIds.push("\"" + row.id + "\"");
+                this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteRequest();
+                }).catch(() => {
+                });
+            },
+            async deleteRequest() {
+                let params = new FormData()
+                params.append("ids", this.checkRowIds.toString());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_sub_subject_delete, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg(data.msg, "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
             },
 
             tableRowClick(row) {
@@ -140,42 +220,32 @@
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
-                // let params = new FormData()
-                // params.append("page", this.currentPage);
-                // params.append("limit", this.pageSize);
-                // params.append("name",  this.searchform.name);
-                // let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
-                // if (data.code === 200) {
-                //     this.tableData = data.data;
-                //     this.$refs.pageRef.totalCount = data.totalCount;
-                //     return true;
-                // }
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    var uuidObj = {
-                        id: i+1,
-                        name: "涂鸦4-6岁",
-                        mainId: i+1,
-                        mainName: "绘画",
-                        createTime: "2020-11-18 14:00:00",
-                        remark: "涂鸦4-6岁",
-                    };
-                    this.tableData.push(uuidObj);
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("name",  this.searchform.name.trim());
+                params.append("mainName",  this.searchform.mainName.trim());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_sub_subject_list, params, "POST");
+                if (data.code === 200) {
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
                 }
-                this.$refs.pageRef.totalCount = this.tableData.length;
             },
 
             reseta() {
                 this.searchform = {
                     name: "",
-                    status: "",
+                    mainName: "",
                 };
+                this.search(this.currentPage, this.pageSize)
             },
         },
         data() {
             return {
                 searchform: {
                     name: "",
+                    mainName: "",
                 },
                 tableData: [],
                 checkRows: [],
@@ -184,6 +254,7 @@
                 clientHeight: document.body.clientHeight-2,
                 currentPage: 0,
                 pageSize: 10,
+                mainSubjects: [],
             }
         },
     }

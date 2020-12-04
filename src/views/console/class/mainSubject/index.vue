@@ -13,8 +13,7 @@
                     <el-input
                             v-model="searchform.name"
                             class="wp-180 mr-10"
-                            placeholder="请输入课程大类名称"
-                            prefix-icon="el-icon-search">
+                            placeholder="请输入课程大类名称">
                     </el-input>
                 </el-form-item>
 
@@ -51,14 +50,14 @@
                                     v-aba="['d']"
                                     size="mini"
                                     type="danger"
-                                    @click="deleteRow(scope.$index, scope.row)">删除</el-button>
+                                    @click="deleteRow(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
             <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
         </el-card>
-        <Add ref="addRef"></Add>
-        <Edit ref="editRef"></Edit>
+        <Add ref="addRef" @search="search"></Add>
+        <Edit ref="editRef" @search="search" :currentPage="currentPage" :pageSize="pageSize"></Edit>
     </div>
 </template>
 
@@ -88,6 +87,7 @@
                     id: row.id,
                     name: row.name,
                     createTime: row.createTime,
+                    updateTime: row.updateTime,
                     remark: row.remark,
                 };
                 this.$refs.editRef.open();
@@ -99,6 +99,7 @@
              * 删除请求
              */
             deletea() {
+                this.checkRowIds = [];
                 if(this.checkRows.length == 0) {
                     this.$promptMsg("至少需要选择一条数据", "error");
                     return;
@@ -107,21 +108,36 @@
                     var row = this.checkRows[i];
                     this.checkRowIds.push("\"" + row.id + "\"");
                 }
-                this.deleteRequest();
-            },
-            deleteRow(index, row) {
-                this.checkRowIds = [];
-                this.checkRowIds.push("\"" + row.id + "\"");
-                this.deleteRequest();
-            },
-            deleteRequest() {
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.deleteRequest();
                 }).catch(() => {
                 });
+            },
+            deleteRow(row) {
+                this.checkRowIds = [];
+                this.checkRowIds.push("\"" + row.id + "\"");
+                this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteRequest();
+                }).catch(() => {
+                });
+            },
+            async deleteRequest() {
+                let params = new FormData()
+                params.append("ids", this.checkRowIds.toString());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_main_subject_delete, params, "POST");
+                if (data.code === 200) {
+                    this.$promptMsg(data.msg, "success");
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
             },
 
             tableRowClick(row) {
@@ -137,34 +153,23 @@
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
-                // let params = new FormData()
-                // params.append("page", this.currentPage);
-                // params.append("limit", this.pageSize);
-                // params.append("name",  this.searchform.name);
-                // let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
-                // if (data.code === 200) {
-                //     this.tableData = data.data;
-                //     this.$refs.pageRef.totalCount = data.totalCount;
-                //     return true;
-                // }
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    var uuidObj = {
-                        id: i+1,
-                        name: "绘画",
-                        createTime: "2020-11-18 14:00:00",
-                        remark: "绘画",
-                    };
-                    this.tableData.push(uuidObj);
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("name",  this.searchform.name.trim());
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_main_subject_list, params, "POST");
+                if (data.code === 200) {
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
                 }
-                this.$refs.pageRef.totalCount = this.tableData.length;
             },
 
             reseta() {
                 this.searchform = {
                     name: "",
-                    status: "",
                 };
+                this.search(this.currentPage, this.pageSize)
             },
         },
         data() {
