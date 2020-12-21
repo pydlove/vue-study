@@ -1,12 +1,13 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="菜单权限配置"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
+                width="1200px"
                 center>
             <div class="yhpz">
                 <el-tag class="mb-10" type="danger">角色名称：{{lastCheckName}}</el-tag>
@@ -37,7 +38,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button class="wdi-120" @click="close">取 消</el-button>
-                <el-button class="wdi-120" type="primary" @click="authorizeRoleMenu">确 定</el-button>
+                <el-button class="wdi-120 aioc-btn1" type="primary" @click="authorizeRoleMenu">确 定</el-button>
             </span>
         </el-dialog>
     </div>

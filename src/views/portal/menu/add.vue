@@ -1,12 +1,13 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="增加子节点"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
+                width="1200px"
                 center>
             <el-card class="auto-card wdi-900 pr">
                 <el-form
@@ -34,6 +35,21 @@
 
                     <el-form-item v-if="form.type == 'menu'" label="显示图标" prop="icon">
                         <el-select class="wdi-300" v-model="form.icon" placeholder="请选择菜单类型">
+                            <el-option label="el-icon-c-scale-to-original" value="el-icon-c-scale-to-original"><i class="el-icon-c-scale-to-original"></i></el-option>
+                            <el-option label="el-icon-reading" value="el-icon-reading"><i class="el-icon-reading"></i></el-option>
+                            <el-option label="el-icon-coin" value="el-icon-coin"><i class="el-icon-coin"></i></el-option>
+                            <el-option label="el-icon-trophy" value="el-icon-trophy"><i class="el-icon-trophy"></i></el-option>
+                            <el-option label="el-icon-present" value="el-icon-present"><i class="el-icon-present"></i></el-option>
+                            <el-option label="el-icon-user" value="el-icon-user"><i class="el-icon-user"></i></el-option>
+                            <el-option label="el-icon-tickets" value="el-icon-tickets"><i class="el-icon-tickets"></i></el-option>
+                            <el-option label="el-icon-search" value="el-icon-search"><i class="el-icon-search"></i></el-option>
+                            <el-option label="el-icon-warning-outline" value="el-icon-warning-outline"><i class="el-icon-warning-outline"></i></el-option>
+                            <el-option label="el-icon-setting" value="el-icon-setting"><i class="el-icon-setting"></i></el-option>
+                            <el-option label="el-icon-message" value="el-icon-message"><i class="el-icon-message"></i></el-option>
+                            <el-option label="el-icon-house" value="el-icon-house"><i class="el-icon-house"></i></el-option>
+                            <el-option label="el-icon-data-line" value="el-icon-data-line"><i class="el-icon-data-line"></i></el-option>
+                            <el-option label="el-icon-user" value="el-icon-user"><i class="el-icon-user"></i></el-option>
+                            <el-option label="el-icon-office-building" value="el-icon-office-building"><i class="el-icon-office-building"></i></el-option>
                             <el-option label="el-icon-edit" value="el-icon-edit"><i class="el-icon-edit"></i></el-option>
                             <el-option label="el-icon-delete" value="el-icon-delete"><i class="el-icon-delete"></i></el-option>
                             <el-option label="el-icon-share" value="el-icon-share"><i class="el-icon-share"></i></el-option>
@@ -107,6 +123,24 @@
                     this.$refs["form"].clearValidate();
                 });
             },
+
+            clearForm() {
+                this.form = {
+                    id: '',
+                    chName: '',
+                    url: '',
+                    showOrder: '',
+                    level: '',
+                    type: '',
+                    openType: '',
+                    enabled: '1',
+                    remark: '',
+                    icon: '',
+                    parentId: '',
+                    parentName: '',
+                };
+            },
+
             onSubmit() {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
@@ -122,6 +156,7 @@
                 if(data.code == 200) {
                     this.$promptMsg("增加子菜单成功！", "success");
                     this.dialogVisible = false;
+                    this.clearForm();
                     this.$emit("search");
                 }
             },
@@ -141,7 +176,7 @@
                     level: '',
                     type: '',
                     openType: '',
-                    enabled: '',
+                    enabled: '1',
                     remark: '',
                     icon: '',
                     parentId: '',

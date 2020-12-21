@@ -1,12 +1,13 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="编辑角色"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
+                width="1200px"
                 center>
             <el-card class="auto-card wdi-900 pr">
                 <el-form
@@ -16,18 +17,37 @@
                         :validate-on-rule-change="false"
                         label-width="80px">
 
-                    <el-form-item label="角色名称" prop="name" required>
-                        <el-input v-model="form.name"></el-input>
-                    </el-form-item>
+                    <div class="color-fa5c26 ml-80 mb-20 lh-28">
+                        什么是普通权限？
+                        普通权限只能编辑、删除、查看自己添加的数据<br>
 
-                    <el-form-item label="描述" prop="remark">
-                        <el-input v-model="form.remark"></el-input>
+                        什么是超级权限？
+                        超级权限能够编辑、删除、查看任何数据<br>
+                    </div>
+
+                    <div class="dffn">
+                        <el-form-item label="角色名称" prop="name" required>
+                            <el-input class="wdi-300" v-model="form.name"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="是否是超级权限" label-width="140px" prop="superPermissions">
+                            <el-select class="wdi-300" v-model="form.superPermissions" placeholder="请选择是否是超级权限">
+                                <el-option label="普通权限" value="0"></el-option>
+                                <el-option label="超级权限" value="1"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </div>
+
+                    <el-form-item label="描述">
+                        <el-input class="wdi-740 textarea" :autosize="{ minRows: 6, maxRows: 8}"
+                                  type="textarea" v-model="form.remark">
+                        </el-input>
                     </el-form-item>
                 </el-form>
             </el-card>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="close">取 消</el-button>
-                <el-button type="primary" @click="onSubmit">确 定</el-button>
+                <el-button class="wdi-120" @click="close">取 消</el-button>
+                <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -47,6 +67,17 @@
             },
             open() {
                 this.dialogVisible = true;
+                this.$nextTick(() => {
+                    this.$refs["form"].clearValidate();
+                });
+            },
+            clearForm() {
+                this.form = {
+                    id: "",
+                    name: "",
+                    superPermissions: '0',
+                    remark: '',
+                };
             },
             onSubmit() {
                 this.$refs['form'].validate((valid) => {
@@ -63,6 +94,7 @@
                 if(data.code == 200) {
                     this.$promptMsg("编辑角色成功！", "success");
                     this.dialogVisible = false;
+                    this.clearForm();
                     this.$emit("search", this.currentPage, this.pageSize);
                 }
             },
@@ -74,6 +106,7 @@
                     id: "",
                     name: "",
                     remark: '',
+                    superPermissions: '0',
                 },
                 rules: {
                     name: [

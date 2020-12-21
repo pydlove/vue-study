@@ -1,62 +1,65 @@
 <template>
-    <div class="f-main">
-        <el-card class="aioc-card" :style="'height:' + clientHeight + 'px;'">
-            <el-form class="aioc-form mt-20"
-                     ref="searchform"
-                     :model="searchform"
-                     :inline="true"
-                     :validate-on-rule-change="false"
-                     label-width="80px"
-                     label-position="right">
+    <div :class="bgClass + '-main'">
+        <el-card :class="bgClass + '-card'" :style="'height:' + clientHeight + 'px;'">
+            <el-card>
+                <el-form :class="bgClass + '-form mt-20'"
+                         ref="searchform"
+                         :model="searchform"
+                         :inline="true"
+                         :validate-on-rule-change="false"
+                         label-width="80px"
+                         label-position="right">
 
-                <el-form-item label="审批角色" prop="name">
-                    <el-input
-                            v-model="searchform.name"
-                            class="wp-180 mr-10"
-                            placeholder="请输入审批角色"
-                            prefix-icon="el-icon-search">
-                    </el-input>
-                </el-form-item>
+                    <el-form-item label="审批角色" prop="name">
+                        <el-input
+                                v-model="searchform.name"
+                                class="wp-180 mr-10"
+                                placeholder="请输入审批角色"
+                                prefix-icon="el-icon-search">
+                        </el-input>
+                    </el-form-item>
 
-                <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
-                <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
-            </el-form>
+                    <el-button class="ml-20 aioc-btn1" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
+                    <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
+                </el-form>
 
-            <div class="mb-10 mt-40">
-                <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
-                <el-button v-aba="['d']" type="danger" icon="el-icon-delete" size="small" @click="deletea">批量删除</el-button>
-                <el-button v-aba="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
-            </div>
+                <div class="mb-10 mt-40">
+                    <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
+                    <el-button v-aba="['d']" type="danger" icon="el-icon-delete" size="small" @click="deletea">批量删除</el-button>
+                    <el-button v-aba="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
+                </div>
 
-            <el-table
-                    class="aioc-table"
-                    ref="codeTable"
-                    :data="tableData"
-                    @selection-change='onTableSelectChange'
-                    @row-click='tableRowClick'
-                    :row-style="{height:'20px'}"
-                    :cell-style="{padding:'9px 1px'}"
-            >
-                <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                <el-table-column sortable prop="userName" label="用户名称" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column sortable prop="approveRole" label="审批角色" :show-overflow-tooltip="true" :formatter="formatRole"></el-table-column>
-                <el-table-column sortable prop="createTime" label="更新时间" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column fixed="right" label="操作" width="300">
-                    <template slot-scope="scope">
-                        <el-button
-                                v-aba="['e']"
-                                size="mini"
-                                type="success"
-                                @click="editRow(scope.$index, scope.row)">编辑</el-button>
-                        <el-button
-                                v-aba="['d']"
-                                size="mini"
-                                type="danger"
-                                @click="deleteRow(scope.$index, scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+                <el-table
+                        :class="bgClass == 'aiocw' ? '':'aioc-table'"
+                        :border="bgClass == 'aiocw'"
+                        ref="codeTable"
+                        :data="tableData"
+                        @selection-change='onTableSelectChange'
+                        @row-click='tableRowClick'
+                        :row-style="{height:'20px'}"
+                        :cell-style="{padding:'9px 1px'}"
+                >
+                    <el-table-column fixed="left" type="selection" width="55"></el-table-column>
+                    <el-table-column sortable prop="userName" label="用户名称" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column sortable prop="approveRole" label="审批角色" :show-overflow-tooltip="true" :formatter="formatRole"></el-table-column>
+                    <el-table-column sortable prop="createTime" label="更新时间" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column fixed="right" label="操作" width="300">
+                        <template slot-scope="scope">
+                            <el-button
+                                    v-aba="['e']"
+                                    size="mini"
+                                    type="success"
+                                    @click="editRow(scope.$index, scope.row)">编辑</el-button>
+                            <el-button
+                                    v-aba="['d']"
+                                    size="mini"
+                                    type="danger"
+                                    @click="deleteRow(scope.$index, scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+            </el-card>
         </el-card>
         <Add ref="addRef"></Add>
         <Edit ref="editRef"></Edit>
@@ -177,6 +180,7 @@
         },
         data() {
             return {
+                bgClass: "aiocw",
                 searchform: {
                     name: "",
                 },

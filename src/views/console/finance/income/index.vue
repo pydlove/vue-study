@@ -1,58 +1,61 @@
 <template>
-    <div class="f-main">
-        <el-card class="aioc-card" :style="'height:' + clientHeight + 'px;'">
-            <el-form class="aioc-form mt-20"
-                     ref="searchform"
-                     :model="searchform"
-                     :inline="true"
-                     :validate-on-rule-change="false"
-                     label-width="80px"
-                     label-position="right">
+    <div :class="bgClass + '-main'">
+        <el-card :class="bgClass + '-card'" :style="'height:' + clientHeight + 'px;'">
+            <el-card>
+                <el-form :class="bgClass + '-form mt-20'"
+                         ref="searchform"
+                         :model="searchform"
+                         :inline="true"
+                         :validate-on-rule-change="false"
+                         label-width="80px"
+                         label-position="right">
 
-                <el-form-item label="月份" prop="name">
-                    <el-date-picker
-                            v-model="searchform.month"
-                            type="month"
-                            placeholder="请选择月份">
-                    </el-date-picker>
-                </el-form-item>
+                    <el-form-item label="月份" prop="name">
+                        <el-date-picker
+                                v-model="searchform.month"
+                                type="month"
+                                placeholder="请选择月份">
+                        </el-date-picker>
+                    </el-form-item>
 
-                <el-form-item label="时间区间" prop="name">
-                    <el-date-picker
-                            v-model="searchform.dateRange"
-                            type="datetimerange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期">
-                    </el-date-picker>
-                </el-form-item>
+                    <el-form-item label="时间区间" prop="name">
+                        <el-date-picker
+                                v-model="searchform.dateRange"
+                                type="datetimerange"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期">
+                        </el-date-picker>
+                    </el-form-item>
 
-                <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
-                <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
-            </el-form>
+                    <el-button class="ml-20 aioc-btn1" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
+                    <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
+                </el-form>
 
-            <div class="mb-10 mt-40">
-            </div>
+                <div class="mb-10 mt-40">
+                </div>
 
-            <el-table
-                    class="aioc-table"
-                    ref="codeTable"
-                    :data="tableData"
-                    @selection-change='onTableSelectChange'
-                    @row-click='tableRowClick'
-                    :row-style="{height:'20px'}"
-                    :cell-style="{padding:'9px 1px'}"
-            >
-                <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                <el-table-column prop="no" label="订单号" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="cost" label="金额（¥）" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="status" label="支付状态" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="time" label="支付时间" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="desc" label="收入描述" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="to" label="付款人" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="type" label="支付方式" :show-overflow-tooltip="true"></el-table-column>
-            </el-table>
-            <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+                <el-table
+                        :class="bgClass == 'aiocw' ? '':'aioc-table'"
+                        :border="bgClass == 'aiocw'"
+                        ref="codeTable"
+                        :data="tableData"
+                        @selection-change='onTableSelectChange'
+                        @row-click='tableRowClick'
+                        :row-style="{height:'20px'}"
+                        :cell-style="{padding:'9px 1px'}"
+                >
+                    <el-table-column fixed="left" type="selection" width="55"></el-table-column>
+                    <el-table-column prop="no" label="订单号" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="cost" label="金额（¥）" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="status" label="支付状态" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="time" label="支付时间" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="desc" label="收入描述" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="to" label="付款人" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="type" label="支付方式" :show-overflow-tooltip="true"></el-table-column>
+                </el-table>
+                <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+            </el-card>
         </el-card>
         <Add ref="addRef"></Add>
         <Edit ref="editRef"></Edit>
@@ -117,6 +120,7 @@
         },
         data() {
             return {
+                bgClass: "aiocw",
                 searchform: {
                     month: "",
                     dateRange: "",

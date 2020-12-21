@@ -1,12 +1,13 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="增加课程大类信息"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
+                width="1200px"
                 center>
             <el-card class="auto-card wdi-800">
                 <el-form
@@ -230,6 +231,7 @@
         padding: 0px;
         height: 360px;
         width: 600px;
+        transition: none;
     }
     .aioc-ac-upload .el-upload-dragger {
         width: 600px;

@@ -1,12 +1,13 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="增加主菜单"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
+                width="1200px"
                 center>
             <el-card class="auto-card wdi-900 pr">
                 <el-form
@@ -256,5 +257,8 @@
         font-size: 18px;
         color: #ffffff;
 
+    }
+    .aiocloud-logo-upload .el-upload-list__item {
+        transition: none;
     }
 </style>

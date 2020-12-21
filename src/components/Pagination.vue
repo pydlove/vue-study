@@ -1,6 +1,7 @@
 <template>
     <div>
-      <el-pagination  :hide-on-single-page="pageshow"
+      <el-pagination
+                      background :hide-on-single-page="pageshow"
                       class="pb-10 pt-20"
                       @size-change="handleSizeChange"
                       @current-change="handleCurrentChange"

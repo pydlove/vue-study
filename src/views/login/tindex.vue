@@ -85,14 +85,19 @@
                 console.log(data)
                 if (data.code == 200) {
                     this.$utils.setStorage("aioctoken", data.data);
+                    this.initStorage();
                     this.$router.push({
                         name: "portal"
-                    })
+                    });
                     return true;
                 } else {
-                    this.$promptMsg("用户信息错误，请确认", "error");
-                    // this.getIdentifyingCode();
+                    this.getIdentifyingCode();
                 }
+            },
+
+            initStorage() {
+                this.$utils.removeStorage("activeMenu");
+                this.$utils.removeStorage("roleId");
             },
 
             /**

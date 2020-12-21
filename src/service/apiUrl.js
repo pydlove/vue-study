@@ -17,10 +17,20 @@ export default {
 
     // 注册学员管理
     console_service_v1_bl_user_list: "/console-service/v1/bl_user/list",
+    console_service_v1_bl_user_class_list: "/console-service/v1/bl_user/class/list",
+    console_service_v1_bl_user_signup_list: "/console-service/v1/bl_user/signup/list",
+    console_service_v1_bl_user_signup_info: "/console-service/v1/bl_user/signup/info",
     console_service_v1_bl_user_setStatus: "/console-service/v1/bl_user/setStatus",
+    console_service_v1_bl_user_export: "/console-service/v1/bl_user/export",
+    console_service_v1_bl_user_score_remark_update: "/console-service/v1/bl_user/score/remark/update",
+
+    // 学分
+    console_service_v1_bl_score_teacher_set: "/console-service/v1/bl_score/teacher/set",
 
     // 班级管理
     console_service_v1_bl_class_list: "/console-service/v1/bl_class/list",
+    console_service_v1_bl_class_student_list: "/console-service/v1/bl_class/student/list",
+    console_service_v1_bl_class_teacher_list: "/console-service/v1/bl_class/teacher/list",
     console_service_v1_bl_class_add: "/console-service/v1/bl_class/add",
     console_service_v1_bl_class_edit: "/console-service/v1/bl_class/edit",
     console_service_v1_bl_class_delete: "/console-service/v1/bl_class/delete",
@@ -43,6 +53,8 @@ export default {
     console_service_v1_bl_certificate_certificate_upload: "/console-service/v1/bl_certificate/certificate/upload",
     console_service_v1_bl_certificate_certificate_delete: "/console-service/v1/bl_certificate/certificate/delete",
     console_service_v1_bl_certificate_list: "/console-service/v1/bl_certificate/list",
+    console_service_v1_bl_certificate_student_bind_list: "/console-service/v1/bl_certificate/student/bind/list",
+    console_service_v1_bl_certificate_notRelated_list: "/console-service/v1/bl_certificate/notRelated/list",
     console_service_v1_bl_certificate_add: "/console-service/v1/bl_certificate/add",
     console_service_v1_bl_certificate_edit: "/console-service/v1/bl_certificate/edit",
     console_service_v1_bl_certificate_delete: "/console-service/v1/bl_certificate/delete",
@@ -50,7 +62,9 @@ export default {
     // 活动
     console_service_v1_bl_activity_poster_upload: "/console-service/v1/bl_activity/poster/upload",
     console_service_v1_bl_activity_poster_delete: "/console-service/v1/bl_activity/poster/delete",
+    console_service_v1_bl_activity_page_list: "/console-service/v1/bl_activity/page/list",
     console_service_v1_bl_activity_list: "/console-service/v1/bl_activity/list",
+    console_service_v1_bl_activity_teacher_list: "/console-service/v1/bl_activity/teacher/list",
     console_service_v1_bl_activity_add: "/console-service/v1/bl_activity/add",
     console_service_v1_bl_activity_edit: "/console-service/v1/bl_activity/edit",
     console_service_v1_bl_activity_delete: "/console-service/v1/bl_activity/delete",
@@ -65,6 +79,7 @@ export default {
     console_service_v1_teacher_active: "/console-service/v1/teacher/active",
     console_service_v1_teacher_add: "/console-service/v1/teacher/add",
     console_service_v1_teacher_delete: "/console-service/v1/teacher/delete",
+    console_service_v1_bl_teacher_comment_list: "/console-service/v1/bl_teacher_comment/list",
 
     //菜单
     console_service_v1_con_functions_list: "/console-service/v1/con_functions/list",

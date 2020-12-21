@@ -767,6 +767,7 @@ body {
 .mt-10 {margin-top: 10px;}
 .mt-13 {margin-top: 13px;}
 .mt-15 {margin-top: 15px;}
+.mt-17 {margin-top: 17px;}
 .mt-20 {margin-top: 20px;}
 .mt-30 {margin-top: 30px;}
 .mt-40 {margin-top: 40px;}
@@ -805,6 +806,7 @@ body {
 .ml-52 {margin-left: 52px;}
 .ml-80 {margin-left: 80px;}
 .ml-150 {margin-left: 150px;}
+.ml-250 {margin-left: 250px;}
 
 .mta-10 {margin: 10px auto;}
 
@@ -820,6 +822,7 @@ body {
 
 
 .pd-5 {padding: 5px;}
+.pd-10 {padding: 10px;}
 
 /* width 公共样式 */
 .wd-50 {width: 50px;}
@@ -857,6 +860,8 @@ body {
 .wdi-692 {width: 692px !important;}
 .wdi-700 {width: 700px !important;}
 .wdi-708 {width: 708px !important;}
+.wdi-720 {width: 720px !important;}
+.wdi-740 {width: 740px !important;}
 .wdi-800 {width: 800px !important;}
 .wdi-900 {width: 900px !important;}
 
@@ -1405,9 +1410,12 @@ body {
 .dffw {display: flex; flex-wrap: wrap;}
 .dffc {display: flex; flex-direction: column;}
 .dfjc {display: flex; justify-content: center;}
+.ac {align-items: center;}
+.jc {justify-content: center;}
 .tl {text-align: left;}
 .tr {text-align: right;}
 .tc {text-align: center;}
+.fg1 {flex-grow: 1;}
 
 .aioc-container {
   display: flex;
@@ -1805,4 +1813,524 @@ body {
 }
 .auto-card {
   margin: 10px auto;
+}
+
+
+
+
+/************************************** aiocw dialog *******************************************/
+
+/* aioc dialog*/
+.aioc-dialog .el-dialog {
+  margin-top: 0vh !important;
+  background: #ffffff !important;
+}
+.aioc-dialog .el-dialog__header {
+  background: #1f2224 !important;
+}
+.aioc-dialog .el-dialog__title {
+  color: #ffffff !important;
+}
+/*el-dialog 滚轮样式*/
+.el-dialog.is-fullscreen::-webkit-scrollbar {
+  width: 2px !important;
+}
+.el-dialog.is-fullscreen::-webkit-scrollbar-track-piece {
+  background-color: #001029 !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.el-dialog.is-fullscreen::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.el-dialog.is-fullscreen::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.el-dialog.is-fullscreen::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+
+/*aioc 滚轮样式*/
+.aioc-scroll::-webkit-scrollbar {
+  width: 2px !important;
+}
+.aioc-scroll::-webkit-scrollbar-track-piece {
+  background-color: #001029 !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aioc-scroll::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aioc-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aioc-scroll::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+
+/************************************** aiocw dialog *******************************************/
+.aiocw-dialog .el-dialog {
+  margin-top: 0vh !important;
+  background: #ffffff !important;
+  top: 50px;
+}
+.aiocw-dialog .el-dialog__header {
+  background: #409EFF !important;
+  padding: 15px 20px 10px;
+}
+.aiocw-dialog .el-dialog__title {
+  color: #ffffff !important;
+  font-size: 16px !important;
+}
+.aiocw-dialog .el-dialog__close {
+  color: #ffffff !important;
+}
+
+/*aiocw-dialog  is-fullscreen滚轮样式*/
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar {
+  width: 11px !important;
+}
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-track-piece {
+  background-color: #001029 !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-thumb {
+  background-color: rgba(20, 140, 255, 0.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+/*aiocw-dialog 滚轮样式*/
+.aiocw-dialog::-webkit-scrollbar {
+  width: 11px !important;
+}
+.aiocw-dialog::-webkit-scrollbar-track-piece {
+  background-color: #eeeeee !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-thumb {
+  background-color: rgba(20, 140, 255, 0.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+
+
+
+.aiocw-ex:hover {
+  background: #ffffff !important;
+}
+.auto-card {
+  margin: 10px auto;
+}
+
+.bg-ffffff {
+  background: #ffffff;
+}
+
+//修改el-autocomplete的padding
+.el-scrollbar__view {
+  padding-bottom: 15px !important;
+}
+
+
+/************************ aiocw 开始 ********************************************/
+.aiocw-dialog .el-dialog {
+  margin-top: 0vh !important;
+  background: #ffffff !important;
+  top: 50px;
+}
+.aiocw-dialog .el-dialog__header {
+  background: #409EFF !important;
+  padding: 15px 20px 10px;
+}
+.aiocw-dialog .el-dialog__title {
+  color: #ffffff !important;
+  font-size: 16px !important;
+}
+.aiocw-dialog .el-dialog__close {
+  color: #ffffff !important;
+}
+
+/*aiocw-dialog  is-fullscreen滚轮样式*/
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar {
+  width: 11px !important;
+}
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-track-piece {
+  background-color: #001029 !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-thumb {
+  background-color: rgba(20, 140, 255, 0.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+/*aiocw-dialog 滚轮样式*/
+.aiocw-dialog::-webkit-scrollbar {
+  width: 11px !important;
+}
+.aiocw-dialog::-webkit-scrollbar-track-piece {
+  background-color: #eeeeee !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-thumb {
+  background-color: rgba(20, 140, 255, 0.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+
+.aiocw-card {
+  text-align: left !important;
+  background: #e9ecf3 !important;
+  border: 1px solid #eeeeee !important;
+  color: #333 !important;
+  overflow: auto !important;
+}
+.aiocw-card1 {
+  background: #ffffff !important;
+}
+.aiocw-card .el-card__body {
+  padding: 15px;
+}
+
+/*aiocw-card 滚轮样式*/
+.aiocw-card::-webkit-scrollbar {
+  width: 10px !important;
+}
+.aiocw-card::-webkit-scrollbar-track-piece {
+  background-color: #999999 !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aiocw-card::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aiocw-card::-webkit-scrollbar-thumb {
+  background-color: rgba(20, 140, 255, 0.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aiocw-card::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+
+.aiocw-main {
+  background: #eeeeee;
+}
+
+//form
+.aiocw-form {
+  text-align: left !important;
+}
+.aiocw-form .el-form-item__label {
+  font-weight: "黑体";
+  color: #333 !important;
+}
+.aiocw-form .el-form-item__content {
+  height: 32px;
+  line-height: 32px;
+}
+.aiocw-form .el-form-item__label {
+  height: 32px;
+  line-height: 32px;
+}
+.aiocw-form .el-input__inner {
+  height: 32px;
+}
+.aiocw-form .el-cascader {
+  height: 32px !important;
+  line-height: 32px;
+}
+
+.aiocw-ex:hover {
+  background: #ffffff !important;
+}
+//表格
+.aiocw-table {
+  background: #ffffff !important;
+}
+.aiocw-table {
+  background: #ffffff !important;
+}
+.aiocw-table th {
+  background: #ffffff !important;
+  color: #606266 !important;
+  font-weight: 600;
+}
+.aiocw-table tr {
+  background: #ffffff !important;
+  color: #606266;
+}
+.aiocw-table .el-table__empty-text {
+  color: #606266;
+}
+.pagination .el-pagination__total, .pagination .el-pagination__jump {
+  color: #606266 !important;
+}
+.aiocw-table .warning-row {
+  background: oldlace;
+}
+.aiocw-table .el-table--striped .el-table__body tr.el-table__row--striped td {
+  background: #ffffff !important;
+}
+.aiocw-table .hover-row tr {
+  background: #ffffff !important;
+}
+.aiocw-table .hover-row td {
+  background: #ffffff !important;
+}
+/*去掉表格单元格边框*/
+.aiocw-table th{
+  border:none;
+}
+.aiocw-table td,.customer-no-border-table th.is-leaf {
+  border:none !important;
+  border-bottom: 1px solid #ffffff !important;
+}
+/*表格最外边框*/
+.aiocw-table .el-table--border, .el-table--group{
+  border: none;
+}
+/*头部边框*/
+.aiocw-table thead tr th.is-leaf{
+  border: 0px solid #EBEEF5 !important;
+  border-right: none !important;
+}
+.customer-no-border-table thead tr th:nth-last-of-type(2){
+  border-right: 1px solid #EBEEF5 !important;
+}
+/*表格最外层边框-底部边框*/
+.aiocw-table .el-table--border::after,.customer-no-border-table .el-table--group::after{
+  width: 0 !important;
+}
+.aiocw-table::before{
+  width: 0 !important;
+}
+.aiocw-table .el-table__fixed-right::before,.el-table__fixed::before{
+  width: 0 !important;
+}
+.aiocw-table .el-table__header tr th{
+  background: #fff;
+  color: #333333 ;
+  padding: 3px ;
+  fontWeight: 550 ;
+  height: 47px ;
+  border: 0px;
+  font-size: 15px;
+}
+.aiocw-table .el-icon-arrow-right {
+  color: #333333;
+}
+/************************ aiocw 结束 ********************************************/
+
+/************************ aioc 开始 ********************************************/
+.aioc-main {
+  background: #333;
+}
+
+/* aioc form表单样式*/
+.aioc-form .el-form-item__label {
+  color: #FFF !important;
+}
+.aioc-form .el-form-item__content {
+  height: 32px;
+  line-height: 32px;
+}
+.aioc-form .el-form-item__label {
+  height: 32px;
+  line-height: 32px;
+}
+.aioc-form .el-input__inner {
+  height: 32px;
+}
+.aioc-form .el-cascader {
+  height: 32px !important;
+  line-height: 32px;
+}
+
+/*aioc 滚轮样式*/
+.aioc-scroll::-webkit-scrollbar {
+  width: 10px !important;
+}
+.aioc-scroll::-webkit-scrollbar-track-piece {
+  background-color: #001029 !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aioc-scroll::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aioc-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aioc-scroll::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+
+.aioc-header {
+  margin-bottom: 0px;
+  background: rgba(255,255,255,1);
+  border-bottom: 0;
+  text-align: center;
+  width: 100%;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  transition: 1s;
+  position: fixed;
+}
+.aioc-header-next {
+  margin-top: 110px;
+}
+
+/* aioc dialog*/
+.aioc-dialog .el-dialog {
+  margin-top: 0vh !important;
+  background: #ffffff !important;
+}
+.aioc-dialog .el-dialog__header {
+  background: #1f2224 !important;
+}
+.aioc-dialog .el-dialog__title {
+  color: #ffffff !important;
+}
+
+/*aioc 滚轮样式*/
+.aioc-card::-webkit-scrollbar {
+  width: 10px !important;
+}
+.aioc-card::-webkit-scrollbar-track-piece {
+  background-color: #001029 !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aioc-card::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aioc-card::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,.6) !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aioc-card::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+
+/*aioc 卡片样式*/
+.aioc-card {
+  text-align: left !important;
+  background: #1f2224 !important;
+  border: 1px solid #1f2224 !important;
+  color: #FFF !important;
+  overflow: auto !important;
+}
+.aioc-card1 {
+  background: #383c3e !important;
+  border: 1px solid #383c3e !important;
+}
+
+/*aioc 黑色 表格样式*/
+.aioc-table {
+  background: #4b5357 !important;
+}
+.aioc-table th {
+  background: #798084 !important;
+  color: #FFF !important;
+  font-weight: 600;
+}
+.aioc-table tr {
+  background: #4b5357 !important;
+  color: #FFF;
+}
+.aioc-table tr:hover {
+  background: #4b5357 !important;
+  color: #ff2961;
+  font-weight: 600;
+}
+.aioc-table .el-table__empty-text {
+  color: #FFF;
+}
+.aioc-table .el-table--striped .el-table__body tr.el-table__row--striped td {
+  background: #606266 !important;
+}
+.aioc-table .hover-row tr {
+  background: #606266 !important;
+}
+.aioc-table .hover-row td {
+  background: #606266 !important;
+}
+/*去掉表格单元格边框*/
+.aioc-table th{
+  border:none;
+}
+.aioc-table td,.customer-no-border-table th.is-leaf {
+  border:none !important;
+  border-bottom: 1px solid #666d70 !important;
+}
+/*表格最外边框*/
+.aioc-table .el-table--border, .el-table--group{
+  border: none;
+}
+/*头部边框*/
+.aioc-table thead tr th.is-leaf{
+  border: 0px solid #EBEEF5 !important;
+  border-right: none !important;
+}
+.customer-no-border-table thead tr th:nth-last-of-type(2){
+  border-right: 0px solid #EBEEF5 !important;
+}
+/*表格最外层边框-底部边框*/
+.aioc-table .el-table--border::after,.customer-no-border-table .el-table--group::after{
+  width: 0 !important;
+}
+.aioc-table::before{
+  width: 0 !important;
+}
+.aioc-table .el-table__fixed-right::before,.el-table__fixed::before{
+  width: 0 !important;
+}
+.aioc-table .el-table__header tr th{
+  background: #fff;
+  color: #333333 ;
+  padding: 3px ;
+  fontWeight: 550 ;
+  height: 47px ;
+  border: 0px;
+  font-size: 15px;
+}
+.aioc-table .el-icon-arrow-right {
+  color: #ffffff;
 }

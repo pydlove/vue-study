@@ -1,14 +1,15 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
-                title="增加课程大类信息"
+                class="aiocw-dialog"
+                title="绑定证书"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
+                width="1200px"
                 center>
-            <el-card class="aiocw-card">
+            <el-card>
                 <el-form class="aiocw-form mt-20"
                          ref="searchform"
                          :model="searchform"
@@ -17,21 +18,19 @@
                          label-width="80px"
                          label-position="right">
 
-                    <el-form-item label="序列号" prop="name">
-                        <el-input
-                                v-model="searchform.uuid"
-                                class="wp-180 mr-10"
-                                placeholder="请输入序列号"
-                                prefix-icon="el-icon-search">
-                        </el-input>
-                    </el-form-item>
-
                     <el-form-item label="证书名称" prop="name">
                         <el-input
                                 v-model="searchform.name"
                                 class="wp-180 mr-10"
-                                placeholder="请输入证书名称"
-                                prefix-icon="el-icon-search">
+                                placeholder="请输入证书名称">
+                        </el-input>
+                    </el-form-item>
+
+                    <el-form-item label="证书编号" prop="name">
+                        <el-input
+                                v-model="searchform.uuid"
+                                class="wp-180 mr-10"
+                                placeholder="请输入证书编号">
                         </el-input>
                     </el-form-item>
 
@@ -39,27 +38,20 @@
                     <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
                 </el-form>
 
-                <div class="mb-10 mt-20">
-                    <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="bindCa">绑定证书</el-button>
-                </div>
-
                 <el-table
-                        class="aiocw-table"
+                        border
                         ref="codeTable"
                         :data="tableData"
-                        @selection-change='onTableSelectChange'
-                        @row-click='tableRowClick'
                         :row-style="{height:'20px'}"
                         :cell-style="{padding:'9px 1px'}"
                 >
-                    <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                    <el-table-column prop="img" label="活动海报" width="122px">
+                    <el-table-column prop="img" label="证书图片" width="122px" align="center">
                         <template slot-scope="scope">
                             <el-image
                                     style="width: 100px; height: 50px"
-                                    :src="scope.row.photo"
+                                    :src="scope.row.img"
                                     fit="fit"
-                                    :preview-src-list="scope.row.photos"
+                                    :preview-src-list="[scope.row.img]"
                             ></el-image>
                         </template>
                     </el-table-column>
@@ -68,14 +60,18 @@
                     <el-table-column prop="unit" label="颁发机构" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="blUserName" label="授予人" :show-overflow-tooltip="true" align="center"></el-table-column>
                     <el-table-column prop="status" label="状态" fixed="right">
-                        <el-tag type="info" effect="dark">
-                            未绑定
-                        </el-tag>
+                        <template slot-scope="scope">
+                            <el-tag :type="isNull(scope.row.blUserId) ? 'info':'success'" effect="dark">
+                                {{ isNull(scope.row.blUserId)  ? '未绑定':'已绑定' }}
+                            </el-tag>
+                        </template>
                     </el-table-column>
                     <el-table-column fixed="right" label="操作" width="120">
                         <template slot-scope="scope">
-                            <el-button class="aioc-btn1"
+                            <el-button v-if=" isNull(scope.row.blUserId)"
+                                       class="aioc-btn1"
                                        v-aba="['e']"
                                        size="mini"
                                        type="info"
@@ -83,26 +79,22 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <el-pagination
-                        class="pb-10 pt-20"
-                        @size-change="acHandleSizeChange"
-                        @current-change="acHandleCurrentChange"
-                        :current-page="acCurrentPage"
-                        :page-sizes="[10]"
-                        :page-size="acPageSize"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="totalAcCount">
-                </el-pagination>
+                <Pagination class="mt-20" ref="pageRef" @search="search"></Pagination>
             </el-card>
+
+            <span slot="footer" class="dialog-footer">
+              <el-button class="wdi-120"  @click="close">取 消</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
 
 <script>
+    import Pagination from "@/components/Pagination";
     export default {
-        name: "index",
+        name: "certificate",
+        components: {Pagination},
         mounted() {
-            this.search(0, 10);
         },
         methods: {
             close() {
@@ -112,127 +104,57 @@
                 this.dialogVisible = true;
             },
 
-
-            /**
-             * 分页方法
-             */
-            acHandleSizeChange(val) {
-                this.acPageSize = val;
-                this.acCurrentPage = 1;
-            },
-            acHandleCurrentChange(val) {
-                this.acCurrentPage = val;
+            isNull(value) {
+                return (value == '' || value == null || value == undefined);
             },
 
-            bindCa() {
-                if(this.checkRows.length == 0) {
-                    this.$promptMsg("至少需要选择一条数据", "error");
-                    return;
-                }
-                for(var i in this.checkRows) {
-                    var row = this.checkRows[i];
-                    this.checkRowIds.push("\"" + row.id + "\"");
-                }
-                this.bindCaRequest();
-            },
             bindCaRow(row) {
-                this.checkRowIds = [];
-                this.checkRowIds.push("\"" + row.id + "\"");
-                this.bindCaRequest();
-            },
-            bindCaRequest() {
-                this.$confirm('确定将证书授予' + this.user.name + '?', '提示', {
+                this.$confirm('确定将证书授予' + this.student.name + '?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.certificate = row;
+                    this.bindCaRequest();
                 }).catch(() => {
                 });
             },
-
-
-            getUUID() {
-                return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
-                    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-                    return v.toString(16).toUpperCase();
-                });
+            async bindCaRequest() {
+                this.certificate.blUserId = this.student.id;
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_certificate_edit, this.certificate, "POST");
+                if(data.code == 200) {
+                    this.$promptMsg("绑定证书成功", "success");
+                    this.search(this.acCurrentPage, this.acPageSize);
+                }
             },
 
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
-                // let params = new FormData()
-                // params.append("page", this.currentPage);
-                // params.append("limit", this.pageSize);
-                // params.append("name",  this.searchform.name);
-                // let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
-                // if (data.code === 200) {
-                //     this.tableData = data.data;
-                //     this.$refs.pageRef.totalCount = data.totalCount;
-                //     return true;
-                // }
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    const uuid = this.getUUID();
-                    var uuidObj = {
-                        id: i+1,
-                        uuid: uuid,
-                        name: "优秀绘画",
-                        unit: "安徽柏林书画研究院",
-                        photo: require("@/assets/img/ryzs.jpg"),
-                        photos: [require("@/assets/img/ryzs.jpg")],
-                        createTime: "2020-11-18 14:00:00",
-                        remark: "优秀绘画",
-                        status: "0",
-                        user: "",
-                    };
-                    this.tableData.push(uuidObj);
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("name",  this.searchform.name.trim());
+                params.append("uuid",  this.searchform.uuid.trim());
+                params.append("studentId",  this.student.id);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_certificate_student_bind_list, params, "POST");
+                if (data.code === 200) {
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
                 }
-                this.totalAcCount = this.tableData.length;
-            },
-
-            /**
-             * 增加
-             */
-            add() {
-                this.$refs.addRef.open();
-            },
-
-            /**
-             * 编辑
-             */
-            editRow(row) {
-                this.$refs.editRef.form = {
-                    id: row.id,
-                    uuid: row.uuid,
-                    name: row.name,
-                    unit: row.unit,
-                    photo: [{name:'', url: row.photo}],
-                    createTime: row.createTime,
-                    remark: row.remark,
-                };
-                this.$refs.editRef.open();
-            },
-
-            tableRowClick(row) {
-                this.$refs.codeTable.toggleRowSelection(row);
-            },
-            onTableSelectChange(rows) {
-                this.checkRows = rows;
-            },
-            toggleSelection() {
-                this.$refs.codeTable.clearSelection();
             },
 
             reseta() {
                 this.searchform = {
                     name: "",
-                    status: "",
+                    uuid: "",
                 };
+                this.search(this.currentPage, this.pageSize)
             },
 
-            setUser(user) {
-                this.user = user;
+            setUser(student) {
+                this.student = student;
             },
         },
         data() {
@@ -242,25 +164,11 @@
                     name: "",
                     uuid: "",
                 },
-                user: {
-                    id: "",
-                    name: "姜维",
-                    sex: "男",
-                    idCard: "210448196602231235",
-                    birth: "2016-06-15",
-                    age: "5",
-                    address: "安徽省合肥市经开区",
-                    phone: "13588400659",
-                    score: "58",
-                },
+                student:"",
                 tableData: [],
-                checkRows: [],
-                checkRowIds: [],
-
-                totalAcCount: 0,
-                acPageSize: 10,
-                acCurrentPage: 0,
-                areaOptions: [],
+                pageSize: 10,
+                currentPage: 0,
+                certificate: "",
             }
         },
     }

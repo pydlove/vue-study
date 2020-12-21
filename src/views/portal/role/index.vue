@@ -1,13 +1,14 @@
 <template>
-    <div class="f-main">
-        <el-card class="aioc-card" :style="'height:' + clientHeight + 'px;'">
-            <el-form class="aioc-form mt-20"
-                    ref="searchform"
-                    :model="searchform"
-                    :inline="true"
-                    :validate-on-rule-change="false"
-                    label-width="80px"
-                    label-position="right">
+    <div :class="bgClass + '-main'">
+        <el-card :class="bgClass + '-card'" :style="'height:' + clientHeight + 'px;'">
+            <el-card>
+                <el-form :class="bgClass + '-form mt-20'"
+                         ref="searchform"
+                         :model="searchform"
+                         :inline="true"
+                         :validate-on-rule-change="false"
+                         label-width="80px"
+                         label-position="right">
 
                 <el-form-item label="角色名称" prop="name">
                     <el-input
@@ -17,7 +18,7 @@
                     >
                     </el-input>
                 </el-form-item>
-                <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
+                <el-button class="ml-20 aioc-btn1" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
                 <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
             </el-form>
 
@@ -28,7 +29,8 @@
             </div>
 
             <el-table
-                    class="aioc-table"
+                    :class="bgClass == 'aiocw' ? '':'aioc-table'"
+                    :border="bgClass == 'aiocw'"
                     ref="codeTable"
                     :data="tableData"
                     @selection-change='onTableSelectChange'
@@ -47,7 +49,17 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="时间" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="superPermissions" label="是否是超级权限" :show-overflow-tooltip="true">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.superPermissions == '0'">
+                            普通权限
+                        </div>
+                        <div v-else class="color-67C23A fb">
+                            超级权限
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="lastUpdTime" label="时间" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="remark" label="描述" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column fixed="right" label="操作" width="400">
                     <template slot-scope="scope">
@@ -62,7 +74,7 @@
                                    size="mini"
                                    type="danger"
                                    @click="deleteRow(scope.row)">删除</el-button>
-                           <el-button
+                           <el-button  v-if="scope.row.name != '教师'"
                                    v-aiocp="['sf']"
                                    size="mini"
                                    type="success"
@@ -77,7 +89,7 @@
                             <el-button class="aioc-btn1"
                                        size="mini"
                                        @click="editRow(scope.row)">编辑</el-button>
-                            <el-button
+                            <el-button  v-if="scope.row.name != '教师'"
                                     size="mini"
                                     type="success"
                                     @click="userConfig(scope.row)">人员配置</el-button>
@@ -94,6 +106,7 @@
                 </el-table-column>
             </el-table>
             <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+            </el-card>
         </el-card>
         <UserRoleConfig ref="userRoleConfigRef"></UserRoleConfig>
         <MenuAuthorityConfig ref="menuAuthorityConfigRef"></MenuAuthorityConfig>
@@ -167,6 +180,7 @@
                     id: row.id,
                     name: row.name,
                     remark: row.remark,
+                    superPermissions: row.superPermissions,
                 };
                 this.$refs.editRef.open();
             },
@@ -262,6 +276,7 @@
         },
         data() {
             return {
+                bgClass: "aiocw",
                 searchform: {
                     name: "",
                     account: "",

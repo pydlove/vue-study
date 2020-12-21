@@ -1,13 +1,13 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="增加注册码"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 width="1200px"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
                 center>
             <el-form class="aiocw-form mt-20"
                      ref="form"

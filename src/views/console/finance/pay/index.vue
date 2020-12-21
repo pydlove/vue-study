@@ -1,109 +1,112 @@
 <template>
-    <div class="f-main">
-        <el-card class="aioc-card" :style="'height:' + clientHeight + 'px;'">
-            <el-form class="aioc-form mt-20"
-                     ref="searchform"
-                     :model="searchform"
-                     :inline="true"
-                     :validate-on-rule-change="false"
-                     label-width="120px"
-                     label-position="right">
+        <div :class="bgClass + '-main'">
+            <el-card :class="bgClass + '-card'" :style="'height:' + clientHeight + 'px;'">
+                <el-card>
+                    <el-form :class="bgClass + '-form mt-20'"
+                             ref="searchform"
+                             :model="searchform"
+                             :inline="true"
+                             :validate-on-rule-change="false"
+                             label-width="80px"
+                             label-position="right">
 
-                <el-form-item label="支付账户描述" prop="name">
-                    <el-input
-                            v-model="searchform.name"
-                            class="wp-180 mr-10"
-                            placeholder="请输入支付账户描述"
-                            prefix-icon="el-icon-search">
-                    </el-input>
-                </el-form-item>
+                    <el-form-item label="支付账户描述" prop="name">
+                        <el-input
+                                v-model="searchform.name"
+                                class="wp-180 mr-10"
+                                placeholder="请输入支付账户描述"
+                                prefix-icon="el-icon-search">
+                        </el-input>
+                    </el-form-item>
 
-                <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
-                <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
-            </el-form>
+                    <el-button class="ml-20 aioc-btn1" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
+                    <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
+                </el-form>
 
-            <div class="mb-10 mt-40">
-                <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">配置</el-button>
-            </div>
+                <div class="mb-10 mt-40">
+                    <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">配置</el-button>
+                </div>
 
-            <el-table
-                    class="aioc-table"
-                    ref="codeTable"
-                    :data="tableData"
-                    @selection-change='onTableSelectChange'
-                    @row-click='tableRowClick'
-                    :row-style="{height:'20px'}"
-                    :cell-style="{padding:'9px 1px'}"
-            >
-                <el-table-column prop="name" label="支付账户描述" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="type" label="支付账户类型" :show-overflow-tooltip="true">
-                    <template slot-scope="scope">
-                        {{scope.row.type == 'wx'? '微信':'支付宝'}}
-                    </template>
-                </el-table-column>
-                <el-table-column prop="paySet" label="支付账户参数" :show-overflow-tooltip="true">
-                    <template slot-scope="scope">
-                        <div v-if="showPaySet(scope.row.id)">
-                           <span class="pd-5" v-for="(item, index) in scope.row.paySet" :key="index">
-                            {{ index}}: {{item}}<br/>
-                            </span>
-                            <el-button size="mini" @click="hidePaySet(scope.row.id)">隐藏参数</el-button>
-                        </div>
+                <el-table
+                        :class="bgClass == 'aiocw' ? '':'aioc-table'"
+                        :border="bgClass == 'aiocw'"
+                        ref="codeTable"
+                        :data="tableData"
+                        @selection-change='onTableSelectChange'
+                        @row-click='tableRowClick'
+                        :row-style="{height:'20px'}"
+                        :cell-style="{padding:'9px 1px'}"
+                >
+                    <el-table-column prop="name" label="支付账户描述" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="type" label="支付账户类型" :show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            {{scope.row.type == 'wx'? '微信':'支付宝'}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="paySet" label="支付账户参数" :show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            <div v-if="showPaySet(scope.row.id)">
+                               <span class="pd-5" v-for="(item, index) in scope.row.paySet" :key="index">
+                                {{ index}}: {{item}}<br/>
+                                </span>
+                                <el-button size="mini" @click="hidePaySet(scope.row.id)">隐藏参数</el-button>
+                            </div>
 
-                        <div v-else>
-                            <i class="yc"></i> <span class="fb mr-20">* * * * * *</span>
-                            <el-button size="mini" @click="showPaySetIds.push(scope.row.id);">查看参数</el-button>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
-                    <template slot-scope="scope">
-                        <el-tag v-if="scope.row.status == '0'" effect="dark">
-                            已启用
-                        </el-tag>
+                            <div v-else>
+                                <i class="yc"></i> <span class="fb mr-20">* * * * * *</span>
+                                <el-button size="mini" @click="showPaySetIds.push(scope.row.id);">查看参数</el-button>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            <el-tag v-if="scope.row.status == '0'" effect="dark">
+                                已启用
+                            </el-tag>
 
-                        <el-tag v-else type="info" effect="dark">
-                            已停用
-                        </el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作"  fixed="right" width="250">
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.status == '1'">
-                            <el-button type="success"
-                                       v-aba="['e']"
-                                       size="mini"
-                                       @click="startPaySet(scope.row)">启用</el-button>
-                            <el-button class="aioc-btn1"
-                                       v-aba="['e']"
-                                       size="mini"
-                                       @click="editRow(scope.row)">编辑</el-button>
-                            <el-button
-                                    v-aba="['d']"
-                                    size="mini"
-                                    type="danger"
-                                    @click="deleteRow(scope.$index, scope.row)">删除</el-button>
-                        </div>
+                            <el-tag v-else type="info" effect="dark">
+                                已停用
+                            </el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作"  fixed="right" width="250">
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.status == '1'">
+                                <el-button type="success"
+                                           v-aba="['e']"
+                                           size="mini"
+                                           @click="startPaySet(scope.row)">启用</el-button>
+                                <el-button class="aioc-btn1"
+                                           v-aba="['e']"
+                                           size="mini"
+                                           @click="editRow(scope.row)">编辑</el-button>
+                                <el-button
+                                        v-aba="['d']"
+                                        size="mini"
+                                        type="danger"
+                                        @click="deleteRow(scope.$index, scope.row)">删除</el-button>
+                            </div>
 
-                        <div v-else>
-                            <el-button type="info"
-                                       v-aba="['e']"
-                                       size="mini"
-                                       @click="stopPaySet(scope.row)">停用</el-button>
-                            <el-button class="aioc-btn1"
-                                       v-aba="['e']"
-                                       size="mini"
-                                       @click="editRow(scope.row)">编辑</el-button>
-                            <el-button
-                                    v-aba="['d']"
-                                    size="mini"
-                                    type="danger"
-                                    @click="deleteRow(scope.$index, scope.row)">删除</el-button>
-                        </div>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+                            <div v-else>
+                                <el-button type="info"
+                                           v-aba="['e']"
+                                           size="mini"
+                                           @click="stopPaySet(scope.row)">停用</el-button>
+                                <el-button class="aioc-btn1"
+                                           v-aba="['e']"
+                                           size="mini"
+                                           @click="editRow(scope.row)">编辑</el-button>
+                                <el-button
+                                        v-aba="['d']"
+                                        size="mini"
+                                        type="danger"
+                                        @click="deleteRow(scope.$index, scope.row)">删除</el-button>
+                            </div>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+            </el-card>
         </el-card>
         <Add ref="addRef"></Add>
         <Edit ref="editRef"></Edit>
@@ -292,6 +295,7 @@
         },
         data() {
             return {
+                bgClass: "aiocw",
                 searchform: {
                     name: "",
                 },

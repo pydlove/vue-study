@@ -1,13 +1,14 @@
 <template>
-    <div class="f-main">
-        <el-card class="aioc-card" :style="'height:' + clientHeight + 'px;'">
-            <el-form class="aioc-form mt-20"
-                    ref="searchform"
-                    :model="searchform"
-                    :inline="true"
-                    :validate-on-rule-change="false"
-                    label-width="80px"
-                    label-position="right">
+    <div :class="bgClass + '-main'">
+        <el-card :class="bgClass + '-card'" :style="'height:' + clientHeight + 'px;'">
+            <el-card>
+                <el-form :class="bgClass + '-form mt-20'"
+                         ref="searchform"
+                         :model="searchform"
+                         :inline="true"
+                         :validate-on-rule-change="false"
+                         label-width="80px"
+                         label-position="right">
 
                 <el-form-item label="用户名称" prop="name">
                     <el-input
@@ -25,40 +26,27 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="区域" prop="area">
-                    <el-cascader
-                            ref="areaCascaderRef"
-                            size="large"
-                            :props="{ checkStrictly: true }"
-                            :options="areaOptions"
-                            v-model="searchform.area"
-                            @change="handleAreaCascader"
-                            placeholder="请选择区域">
-                    </el-cascader>
-                </el-form-item>
-
-
-                <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
+                <el-button class="ml-20 aioc-btn1" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
                 <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
             </el-form>
 
             <div class="mb-10 mt-40">
-                <el-button v-aba="['a']" type="info" icon="el-icon-video-pause" size="small"  @click="setAutoDisable()">自动静默设置</el-button>
-                <el-button v-aba="['d']" type="warning" icon="el-icon-close" size="small" @click="toggleSelection">取消选择</el-button>
+                <el-button v-aiocp="['ass']" type="info" icon="el-icon-video-pause" size="small"  @click="setAutoDisable()">自动静默设置</el-button>
             </div>
 
             <el-table
-                    class="aioc-table"
-                    ref="codeTable"
+                    :class="bgClass == 'aiocw' ? '':'aioc-table'"
+                    :border="bgClass == 'aiocw'"
+                    ref="tableRef"
                     :data="tableData"
                     @selection-change='onTableSelectChange'
                     @row-click='tableRowClick'
-                    @expand-change='tableExpand'
+                    @cell-dblclick='seeDetail'
                     :row-style="{height:'20px'}"
                     :cell-style="{padding:'9px 1px'}"
             >
-                <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                <el-table-column prop="img" label="照片" width="121px">
+                <el-table-column fixed="left" type="selection" width="55" align="center"></el-table-column>
+                <el-table-column prop="img" label="照片" width="120px" align="center">
                     <template slot-scope="scope">
                         <el-image
                                 :style="'width:' + photoWidth + 'px;height:' + photoHeight + 'px;'"
@@ -68,153 +56,46 @@
                         ></el-image>
                     </template>
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="sex" label="性别" :show-overflow-tooltip="true">
+                <el-table-column prop="name" label="姓名" :show-overflow-tooltip="true" align="center"></el-table-column>
+                <el-table-column prop="sex" label="性别" :show-overflow-tooltip="true" align="center">
                     <template slot-scope="scope">
                         {{ scope.row.sex == "0" ? "男":"女" }}
                     </template>
                 </el-table-column>
                 <el-table-column prop="idcard" label="身份证" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="phone" label="联系方式" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="age" label="年龄" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="score" label="学分" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="status" label="状态">
+                <el-table-column prop="address" label="地址" :show-overflow-tooltip="true">
+                    <template slot-scope="scope">
+                        {{ scope.row.province }}{{ scope.row.city }}{{ scope.row.county }}({{ scope.row.address }})
+                    </template>
+                </el-table-column>
+                <el-table-column prop="age" label="年龄" :show-overflow-tooltip="true" align="center"></el-table-column>
+                <el-table-column prop="score" label="学分" :show-overflow-tooltip="true" align="center"></el-table-column>
+                <el-table-column prop="status" label="状态" align="center">
                     <template slot-scope="scope">
                         <el-tag :type="scope.row.status == '0' ? 'success':'info'" effect="dark">
                             {{ scope.row.status == '0' ? '活跃':'静默' }}
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="详情" type="expand" width="85" fixed="right">
-                    <template slot-scope="props">
-                        <el-form label-position="left" class="demo-table-expand">
-                            <div class="mp-top">
-                                <el-divider content-position="left">
-                                    学籍信息
-                                </el-divider>
-                            </div>
-                            <div class="dffn">
-                                <div class="wdi-400">
-                                    <div class="xx-lable">
-                                        <span>姓 <span class="ml-28"></span> 名</span>
-                                        <span>{{ props.row.name }}</span>
-                                    </div>
-                                    <div class="xx-lable">
-                                        <span>性 <span class="ml-28"></span> 别</span>
-                                        <span> {{ props.row.sex == "0" ? "男":"女" }} </span>
-                                    </div>
-                                    <div class="xx-lable">
-                                            <span>
-                                                身<span class="ml-5"></span>
-                                                份<span class="ml-5"></span>
-                                                证
-                                            </span>
-                                        <span>{{ props.row.idcard }}</span>
-                                    </div>
-                                    <div class="xx-lable">
-                                        <span>出生年月</span>
-                                        <span>{{ props.row.birth }}</span>
-                                    </div>
-                                    <div class="xx-lable">
-                                        <span>地 <span class="ml-28"></span> 址</span>
-                                        <span>
-                                            {{ props.row.province }}{{ props.row.city }}{{ props.row.county }}
-                                            ({{ props.row.address }})
-                                        </span>
-                                    </div>
-                                    <div class="xx-lable">
-                                        <span>联系方式</span>
-                                        <span>{{ props.row.phone }}</span>
-                                    </div>
-                                    <div class="xx-lable">
-                                        <span>学 <span class="ml-28"></span> 分</span>
-                                        <span>{{props.row.score}}</span>
-                                    </div>
-                                    <div class="xx-lable dffc">
-                                        <span>课程班级</span>
-                                        <el-tag  class="mb-10 colori-303133" v-for="item in props.row.classes" :key="item.id">
-                                            <span class="color-fa5c26">班级：</span>{{item.className}}， 课程：{{ item.subSubject }}，负责老师：{{ item.teacher }}
-                                        </el-tag>
-                                    </div>
-                                    <div class="xx-lable">
-                                        <span>学习用品</span>
-                                        <div class="dffw mb-10">
-                                            <el-tag type="" class="mr-10 colori-303133" v-for="item in props.row.schoolSupplies" :key="item.id">{{ item.name }}</el-tag>
-                                        </div>
-                                    </div>
-                                    <div class="xx-lable">
-                                        <span>状 <span class="ml-28"></span> 态</span>
-                                        <el-tag class="colori-ffffff" :type="props.row.status == '0' ? 'success':'info'" effect="dark">
-                                            {{ props.row.status == '0' ? '活跃':'静默' }}
-                                        </el-tag>
-                                    </div>
-                                </div>
-
-
-                                <div class="ml-50 wp-50">
-                                    <el-form-item label="备注">
-                                        <el-input
-                                                disabled
-                                                class="textarea xx-text"
-                                                type="textarea"
-                                                :autosize="{ minRows: 16, maxRows: 18}"
-                                                placeholder="暂无评语"
-                                                maxlength="3000"
-                                                show-word-limit
-                                                v-model="props.row.remark">
-                                        </el-input>
-                                    </el-form-item>
-                                </div>
-                            </div>
-                            <div class="xx-lable">
-                                    <span class="wdi-220">
-                                        已参加活动
-                                        <span class="color-b83f3f">(参加总数：{{totalAcCount}}个)</span>
-                                    </span>
-                                <el-card>
-                                    <el-table
-                                            class="aiocw-table"
-                                            ref="activityTableRef"
-                                            :data="props.row.activities"
-                                            @selection-change='onTableSelectChange'
-                                            @row-click='tableRowClick'
-                                            :row-style="{height:'20px'}"
-                                            :cell-style="{padding:'9px 1px'}"
-                                    >
-                                        <el-table-column prop="title" label="标题" :show-overflow-tooltip="true"></el-table-column>
-                                        <el-table-column prop="time" label="活动时间" :show-overflow-tooltip="true"></el-table-column>
-                                        <el-table-column prop="address" label="活动地点" :show-overflow-tooltip="true"></el-table-column>
-                                    </el-table>
-                                    <el-pagination
-                                            class="mt-10 pb-10 pt-20"
-                                            @size-change="acHandleSizeChange"
-                                            @current-change="acHandleCurrentChange"
-                                            :current-page="acCurrentPage"
-                                            :page-sizes="[10]"
-                                            :page-size="acPageSize"
-                                            layout="total, sizes, prev, pager, next, jumper"
-                                            :total="totalAcCount">
-                                    </el-pagination>
-                                </el-card>
-                            </div>
-                        </el-form>
-                    </template>
-                </el-table-column>
-                <el-table-column fixed="right" label="操作" width="200">
+                <el-table-column fixed="right" label="操作" width="300">
                     <template slot-scope="scope">
+                        <el-button
+                                   size="mini"
+                                   type="success"
+                                   @click="seeDetail(scope.row)">查看详情</el-button>
                         <el-button class="aioc-btn1"
-                                   v-aba="['e']"
+                                   v-aiocp="['bc']"
                                    size="mini"
                                    type="info"
                                    @click="setCertificate(scope.row)">绑定证书</el-button>
                         <el-button v-if="scope.row.status == '0'"
-                                   v-aba="['e']"
+                                   v-aiocp="['si']"
                                    size="mini"
                                    type="info"
                                    @click="setDisableRow(scope.row)">静默TA</el-button>
                         <el-button v-else-if="scope.row.status == '1'"
-                                v-aba="['e']"
+                                v-aiocp="['ac']"
                                 size="mini"
                                 type="success"
                                 @click="setAbleRow(scope.row)">激活</el-button>
@@ -222,42 +103,46 @@
                 </el-table-column>
             </el-table>
             <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+            </el-card>
         </el-card>
         <Certificate ref="certificateRef"></Certificate>
         <AutoDisable ref="autoDisableRef"></AutoDisable>
+        <Detail ref="detailRef"></Detail>
     </div>
 </template>
 
 <script>
     import Pagination from "@/components/Pagination";
-    import areaData from '@/assets/json/areaData.json'
     import Certificate from '@/views/console/student/certificate'
     import AutoDisable from '@/views/console/student/autoDisable'
+    import Detail from '@/views/console/student/detail'
     export default {
         name: "index",
-        components: {Pagination, Certificate, AutoDisable},
+        components: {Pagination, Certificate, AutoDisable, Detail},
         mounted() {
+            this.area = this.$utils.getStorage("area");
             this.search(0, 10);
-            this.initAreaOptions(areaData);
         },
         methods: {
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
                 let params = new FormData()
-                if(this.searchform.area != null && this.searchform.area != "" && this.searchform.area != undefined) {
-                    if(this.searchform.area.length == 1) {
-                        params.append("province", this.searchform.area[0]);
+                if(this.area != null && this.area != "" && this.area != undefined) {
+                    if(this.area.length == 1) {
+                        params.append("province", this.area[0]);
                     }
-                    if(this.searchform.area.length == 2) {
-                        params.append("province", this.searchform.area[0]);
-                        params.append("city", this.searchform.area[1]);
+                    if(this.area.length == 2) {
+                        params.append("province", this.area[0]);
+                        params.append("city", this.area[1]);
                     }
-                    if(this.searchform.area.length == 3) {
-                        params.append("province", this.searchform.area[0]);
-                        params.append("city", this.searchform.area[1]);
-                        params.append("county", this.searchform.area[2]);
+                    if(this.area.length == 3) {
+                        params.append("province", this.area[0]);
+                        params.append("city", this.area[1]);
+                        params.append("county", this.area[2]);
                     }
+                } else {
+                    params.append("province", "安徽省");
                 }
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
@@ -277,23 +162,20 @@
                     name: "",
                     phone: "",
                     status: "",
+                    area: "",
                 };
                 this.search(this.currentPage, this.pageSize)
             },
 
-            /**
-             * 处理地区条件选择变化
-             */
-            handleAreaCascader() {
-                if (this.$refs.areaCascaderRef) {
-                    this.$refs.areaCascaderRef.dropDownVisible = false; //监听值发生变化就关闭它
-                }
-                this.$(".cond span").removeClass("cond-selected");
+            seeDetail(row) {
+                this.$refs.detailRef.student = row;
+                this.$refs.detailRef.open();
             },
 
             setCertificate(row) {
                 this.$refs.certificateRef.open();
                 this.$refs.certificateRef.setUser(row);
+                this.$refs.certificateRef.search(0, 10);
             },
 
             setDisableRow(row) {
@@ -370,66 +252,21 @@
             /**
              * 分页方法
              */
-            acHandleSizeChange(val) {
-                this.acPageSize = val;
-                this.acCurrentPage = 1;
-            },
-            acHandleCurrentChange(val) {
-                this.acCurrentPage = val;
-            },
-            tableExpand(row) {
-                // this.totalAcCount = row.activities.length;
-                console.log(row)
-            },
-
             tableRowClick(row) {
-                this.$refs.codeTable.toggleRowSelection(row);
+                this.$refs.tableRef.toggleRowSelection(row);
             },
             onTableSelectChange(rows) {
                 this.checkRows = rows;
             },
             toggleSelection() {
-                this.$refs.codeTable.clearSelection();
+                this.$refs.tableRef.clearSelection();
             },
 
-            /**
-             * 初始化地域数据
-             */
-            initAreaOptions(area) {
-                var all = {
-                    label:"全国",
-                    value:"全国",
-                }
-                this.areaOptions.push(all);
-                for(let key in area){
-                    let province = area[key];
-                    var provinceObj = {
-                        label:key,
-                        value:key,
-                        children:[]
-                    }
-                    this.areaOptions.push(provinceObj);
-                    for(let cityKey in province){
-                        let city = province[cityKey];
-                        var cityObj={
-                            label:cityKey,
-                            value:cityKey,
-                            children:[]
-                        }
-                        provinceObj.children.push(cityObj);
-                        for(let areaKey in city) {
-                            var areaObj={
-                                label:areaKey,
-                                value:areaKey,
-                            }
-                            cityObj.children.push(areaObj);
-                        }
-                    }
-                }
-            },
         },
         data() {
             return {
+                bgClass: "aiocw",
+                clientHeight: document.body.clientHeight-2,
                 searchform: {
                     name: "",
                     phone: "",
@@ -438,42 +275,18 @@
                 tableData: [],
                 checkRows: [],
                 checkRowIds: [],
-                clientWidth: 1800,
-                clientHeight: document.body.clientHeight-2,
                 currentPage: 0,
                 pageSize: 10,
-                photoWidth: 207*0.2,
-                photoHeight: 313*0.2,
-
-                totalAcCount: 0,
-                acPageSize: 10,
-                acCurrentPage: 0,
-                areaOptions: [],
+                photoWidth: 80,
+                photoHeight: 80,
+                area: [],
             }
         },
     }
 </script>
 
 <style scoped>
-    .xx-lable > span:nth-of-type(1) {
-        display: inline-block;
-        width: 90px;
-        color: #99a9bf;
-    }
-    .xx-lable > span:nth-of-type(2) {
-        display: inline-block;
-        color: #303133;
-    }
-    .xx-lable {
-        line-height: 40px;
-    }
-    .xx-text {
-        width: 600px;
-    }
 </style>
 
 <style>
-    .el-table__expanded-cell:hover {
-        background: #ffffff !important;
-    }
 </style>

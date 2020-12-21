@@ -1,12 +1,13 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="增加用户信息"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
+                width="1200px"
                 center>
             <el-card class="auto-card wdi-900 pr">
                 <el-form class="user-f"
@@ -84,17 +85,31 @@
                             <el-input class="wdi-300" v-model="form.idCard" placeholder="请填写身份证号码"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="家庭住址" prop="address" required>
-                            <el-input class="wdi-300" v-model="form.address" placeholder="请填写家庭住址"></el-input>
+                        <el-form-item label="账号状态" prop="status" required>
+                            <el-select class="wdi-300" v-model="form.status" placeholder="请选择是否可用">
+                                <el-option label="在职" value="active"></el-option>
+                                <el-option label="离职" value="lock"></el-option>
+                            </el-select>
                         </el-form-item>
                     </div>
 
-                    <el-form-item label="账号状态" prop="status" required>
-                        <el-select class="wdi-300" v-model="form.status" placeholder="请选择是否可用">
-                            <el-option label="在职" value="active"></el-option>
-                            <el-option label="离职" value="lock"></el-option>
-                        </el-select>
-                    </el-form-item>
+                    <div class="dffn">
+                        <el-form-item label="所在区域" prop="area" required>
+                            <el-cascader  class="wdi-300"
+                                    ref="areaCascaderRef"
+                                    size="large"
+                                    :props="{ checkStrictly: true }"
+                                    :options="areaOptions"
+                                    v-model="form.area"
+                                    @change="handleAreaCascader"
+                                    placeholder="请选择区域">
+                            </el-cascader>
+                        </el-form-item>
+
+                        <el-form-item label="详细住址" prop="address" required>
+                            <el-input class="wdi-300" v-model="form.address" placeholder="请填写详细住址"></el-input>
+                        </el-form-item>
+                    </div>
 
                     <el-form-item label="描述">
                         <el-input class="wdi-700 textarea" :autosize="{ minRows: 6, maxRows: 8}"
@@ -105,7 +120,7 @@
             </el-card>
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
-              <el-button class="wdi-120" type="primary" @click="onSubmit">确 定</el-button>
+              <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -114,8 +129,7 @@
 <script>
     export default {
         name: "add",
-        components: {},
-
+        props: ["areaOptions"],
         mounted() {
 
         },
@@ -129,6 +143,15 @@
                 this.$nextTick(() => {
                     this.$refs["form"].clearValidate();
                 });
+            },
+
+            /**
+             * 处理地区条件选择变化
+             */
+            handleAreaCascader() {
+                if (this.$refs.areaCascaderRef) {
+                    this.$refs.areaCascaderRef.dropDownVisible = false; //监听值发生变化就关闭它
+                }
             },
 
             clearForm() {
@@ -147,6 +170,11 @@
                     address: '',
                     birthtime: '',
                     sex: '',
+                    province: '',
+                    city: '',
+                    county: '',
+                    township: '',
+                    area: [],
                 };
                 this.fileList = [];
                 this.fileName = "";
@@ -170,6 +198,18 @@
                 }
                 this.form.password = this.$md5(this.form.password);
                 this.form.pwdagain = this.$md5(this.form.pwdagain);
+                if(this.form.area.length == 1) {
+                    this.form.province = this.form.area[0];
+                }
+                if(this.form.area.length == 2) {
+                    this.form.province = this.form.area[0];
+                    this.form.city = this.form.area[1];
+                }
+                if(this.form.area.length == 3) {
+                    this.form.province = this.form.area[0];
+                    this.form.city = this.form.area[1];
+                    this.form.county = this.form.area[2];
+                }
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_teacher_add, this.form, "POST");
                 if(data.code == 200) {
                     this.$promptMsg("增加教师成功！", "success");
@@ -255,6 +295,7 @@
                     address: '',
                     birthtime: '',
                     sex: '',
+                    area: [],
                 },
                 rules: {
                     name: [
@@ -280,6 +321,9 @@
                     ],
                     idCard: [
                         { type: 'string', required: true, message: '请输入身份证号码', trigger: ['change', 'blur'] }
+                    ],
+                    area: [
+                        { type: 'array', required: true, message: '请选择所在区域', trigger: ['change', 'blur'] }
                     ],
                     address: [
                         { type: 'string', required: true, message: '请输入居住地址', trigger: ['change', 'blur'] }
@@ -366,5 +410,8 @@
         width: 200px !important;
         height: 200px !important;
         line-height: 200px !important;
+    }
+    .photo-up .el-upload-list__item {
+        transition: none;
     }
 </style>

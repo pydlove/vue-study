@@ -1,13 +1,14 @@
 <template>
-  <div class="f-main">
-    <el-card class="aioc-card" :style="'height:' + clientHeight + 'px;'">
-      <el-form class="aioc-form mt-20"
-               ref="searchform"
-               :model="searchform"
-               :inline="true"
-               :validate-on-rule-change="false"
-               label-width="80px"
-               label-position="right">
+  <div :class="bgClass + '-main'">
+    <el-card :class="bgClass + '-card'" :style="'height:' + clientHeight + 'px;'">
+      <el-card>
+        <el-form :class="bgClass + '-form mt-20'"
+                 ref="searchform"
+                 :model="searchform"
+                 :inline="true"
+                 :validate-on-rule-change="false"
+                 label-width="80px"
+                 label-position="right">
         <el-form-item label="菜单名称" prop="name">
           <el-input v-model="searchform.chName" placeholder="请搜索单位名称"></el-input>
         </el-form-item>
@@ -16,7 +17,7 @@
           <el-input v-model="searchform.parentName" placeholder="请搜索上级单位名称"></el-input>
         </el-form-item>
 
-        <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search()">搜索</el-button>
+        <el-button class="ml-20 aioc-btn1" type="primary" size="small" icon="el-icon-search" @click="search()">搜索</el-button>
         <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
       </el-form>
 
@@ -24,7 +25,8 @@
         <el-button class="aioc-btn1" v-aiocp="['ar']" type="primary" icon="el-icon-plus" size="small" @click="addRoot">增加根菜单</el-button>
       </div>
       <el-table
-              class="aioc-table"
+              :class="bgClass == 'aiocw' ? '':'aioc-table'"
+              :border="bgClass == 'aiocw'"
               :data="tableData"
               style="width: 100%;margin-bottom: 20px;"
               row-key="id"
@@ -64,12 +66,6 @@
                        type="primary"
                        size="mini"
                        @click="add(scope.row)">增加子节点</el-button>
-            <!--<el-button v-show="scope.row.level == '1' || (scope.row.level == '2' && scope.row.type != 'button')"-->
-                       <!--class="mli-10"-->
-                       <!--v-aba="['a']"-->
-                       <!--type="warning"-->
-                       <!--size="mini"-->
-                       <!--@click="addBtn(scope.$index, scope.row)">增加按钮</el-button>-->
             <el-button
                     v-aiocp="['e']"
                     size="mini"
@@ -83,6 +79,7 @@
           </template>
         </el-table-column>
       </el-table>
+      </el-card>
     </el-card>
     <ButtonDialog ref="buttonDialogRef" @search="search"></ButtonDialog>
     <Add ref="addRef" @search="search"></Add>
@@ -153,7 +150,7 @@
                   level: Number(row.level) + 1,
                   type: '',
                   openType: '',
-                  enabled: '',
+                  enabled: '1',
                   remark: '',
                   icon: '',
                   parentId: row.id,
@@ -279,6 +276,7 @@
       },
       data() {
           return {
+              bgClass: "aiocw",
               clientHeight: document.body.clientHeight-2,
               tableData: [],
               checkRowIds: [],

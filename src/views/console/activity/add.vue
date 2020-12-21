@@ -1,12 +1,13 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="创建活动"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 :before-close="close"
-                :fullscreen="true"
+                :fullscreen="false"
+                width="1200px"
                 center>
             <el-card class="auto-card wdi-800">
                 <el-form
@@ -48,34 +49,36 @@
                         </el-upload>
                     </el-form-item>
 
-                    <div class="dffn">
-                        <el-form-item label="活动开始时间" prop="startTime" required>
-                            <el-date-picker class="wdi-239"
-                                            v-model="form.startTime"
-                                            type="datetime"
-                                            placeholder="选择活动开始时间"
-                                            align="right"
-                                            value-format="yyyy-MM-dd HH:mm:SS"
-                                            :picker-options="pickerOptions">
-                            </el-date-picker>
-                        </el-form-item>
-
-                        <el-form-item label="活动结束时间" prop="endTime" required>
-                            <el-date-picker class="wdi-239"
-                                            v-model="form.endTime"
-                                            type="datetime"
-                                            placeholder="选择活动结束时间"
-                                            align="right"
-                                            value-format="yyyy-MM-dd HH:mm:SS"
-                                            :picker-options="pickerOptions">
-                            </el-date-picker>
-                        </el-form-item>
-
-                    </div>
-
-                    <el-form-item label="活动地点" prop="address" required>
-                        <el-input class="wdi-600" v-model="form.address" placeholder="请输入活动地点"></el-input>
+                    <el-form-item label="活动日期" prop="seTimeRange" required>
+                        <el-date-picker class="wdi-600"
+                                        v-model="form.seTimeRange"
+                                        type="datetimerange"
+                                        :picker-options="pickerMOptions"
+                                        range-separator="至"
+                                        start-placeholder="开始日期"
+                                        end-placeholder="结束日期"
+                                        value-format="yyyy-MM-dd HH:mm:SS"
+                                        align="right">
+                        </el-date-picker>
                     </el-form-item>
+
+                   <div class="dffn">
+                       <el-form-item label="所在区域" prop="area" required>
+                           <el-cascader  class="wdi-239"
+                                         ref="areaCascaderRef"
+                                         size="large"
+                                         :props="{ checkStrictly: true }"
+                                         :options="areaOptions"
+                                         v-model="form.area"
+                                         @change="handleAreaCascader"
+                                         placeholder="请选择区域">
+                           </el-cascader>
+                       </el-form-item>
+
+                       <el-form-item label="活动地点" prop="address" required>
+                           <el-input class="wdi-239" v-model="form.address" placeholder="请输入活动地点"></el-input>
+                       </el-form-item>
+                   </div>
 
                     <div class="dffn">
                         <el-form-item label="限定人数" prop="peopleLimit">
@@ -140,7 +143,7 @@
             </el-card>
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
-              <el-button class="wdi-120" type="primary" @click="onSubmit">确 定</el-button>
+              <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -153,7 +156,7 @@
     import 'quill/dist/quill.bubble.css'
     export default {
         name: "add",
-        props: ["activeTeachers"],
+        props: ["areaOptions"],
         components: { quillEditor },
         mounted() {
 
@@ -171,6 +174,42 @@
                     this.$refs["form"].clearValidate();
                 });
             },
+
+            /**
+             * 处理地区条件选择变化
+             */
+            handleAreaCascader() {
+                if (this.$refs.areaCascaderRef) {
+                    this.$refs.areaCascaderRef.dropDownVisible = false; //监听值发生变化就关闭它
+                }
+                this.initActiveTeacher();
+            },
+
+            async initActiveTeacher() {
+                let params = new FormData()
+                if (this.form.area != null && this.form.area != "" && this.form.area != undefined) {
+                    if (this.form.area.length == 1) {
+                        params.append("province", this.form.area[0]);
+                    }
+                    if (this.form.area.length == 2) {
+                        params.append("province", this.form.area[0]);
+                        params.append("city", this.form.area[1]);
+                    }
+                    if (this.form.area.length == 3) {
+                        params.append("province", this.form.area[0]);
+                        params.append("city", this.form.area[1]);
+                        params.append("county", this.form.area[2]);
+                    }
+                } else {
+                    params.append("province", "安徽省");
+                }
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_teacher_active, params, "POST");
+                if (data.code === 200) {
+                    this.activeTeachers = data.data;
+                    return true;
+                }
+            },
+
             clearForm() {
                 this.form = {
                     id: "",
@@ -179,6 +218,11 @@
                     poster: [],
                     startTime: "",
                     endTime: "",
+                    province: '',
+                    city: '',
+                    county: '',
+                    township: '',
+                    area: [],
                     address: "",
                     peopleLimit: "",
                     score: "",
@@ -190,6 +234,7 @@
                     status: "",
                     teacherIds: [],
                     timeRange: [],
+                    seTimeRange: [],
                 };
                 this.fileList = [];
                 this.fileName = "";
@@ -207,6 +252,20 @@
             async submitRequest() {
                 this.form.signupStart = this.form.timeRange[0];
                 this.form.signupEnd = this.form.timeRange[1];
+                this.form.startTime = this.form.seTimeRange[0];
+                this.form.endTime = this.form.seTimeRange[1];
+                if(this.form.area.length == 1) {
+                    this.form.province = this.form.area[0];
+                }
+                if(this.form.area.length == 2) {
+                    this.form.province = this.form.area[0];
+                    this.form.city = this.form.area[1];
+                }
+                if(this.form.area.length == 3) {
+                    this.form.province = this.form.area[0];
+                    this.form.city = this.form.area[1];
+                    this.form.county = this.form.area[2];
+                }
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_activity_add, this.form, "POST");
                 if(data.code == 200) {
                     this.$promptMsg(data.msg, "success");
@@ -268,6 +327,11 @@
                     poster: [],
                     startTime: "",
                     endTime: "",
+                    province: '',
+                    city: '',
+                    county: '',
+                    township: '',
+                    area: [],
                     address: "",
                     peopleLimit: "",
                     score: "",
@@ -279,6 +343,7 @@
                     status: "",
                     teacherIds: [],
                     timeRange: [],
+                    seTimeRange: [],
                 },
                 rules: {
                     title: [
@@ -310,6 +375,9 @@
                     ],
                     timeRange: [
                         { type: 'array', required: true, message: '请填写活动报名时间', trigger: ['change', 'blur'] }
+                    ],
+                    seTimeRange: [
+                        { type: 'array', required: true, message: '请填写活动时间', trigger: ['change', 'blur'] }
                     ],
                     content: [
                         { type: 'string', required: true, message: '请填写活动内容', trigger: ['change', 'blur'] }
@@ -367,6 +435,7 @@
                         }
                     }]
                 },
+                activeTeachers: [],
             }
         },
     }
@@ -400,8 +469,9 @@
         box-sizing: border-box;
         margin-top: 10px;
         padding: 0px;
-        height: 360px;
-        width: 600px;
+        height: 360px !important;
+        width: 600px !important;
+        transition: none;
     }
     .aioc-ac-upload .el-upload-dragger {
         width: 600px;
@@ -410,5 +480,4 @@
     .aioc-ac-upload .el-upload-list__item-name {
         display: none;
     }
-
 </style>

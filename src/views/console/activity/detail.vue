@@ -1,12 +1,12 @@
 <template>
     <div>
         <el-dialog
-                class="aioc-dialog"
+                class="aiocw-dialog"
                 title="活动预览"
                 :visible.sync="dialogVisible"
                 :close-on-click-modal="false"
                 width="1200px"
-                :fullscreen="true"
+                :fullscreen="false"
                 :before-close="close"
                 center>
             <el-card shadow="hover">
@@ -31,7 +31,7 @@
                                 {{activity.cost}}元
                             </span>
                             <div v-else>
-                                {{免费}}
+                                免费
                             </div>
                         </span>
                         <span class="item"><i class="fenshu new-icons"></i>累计学分：{{activity.score}}</span>
@@ -49,12 +49,12 @@
                 <div slot="header" class="clearfix">
                     <span class="fl color-fa5c26 fb">报名情况</span>
                     <span class="fl color-409EFF fb">
-                                    （{{signs.length}}）
+                                    （{{signupStudents.length}}）
                                 </span>
                 </div>
                 <div class="dffw">
-                    <div v-for="(item, index) in signs" :key="index" class="dffc mr-20">
-                        <el-avatar :size="50"  :src="item.avatar"></el-avatar>
+                    <div v-for="(item, index) in signupStudents" :key="index" class="dffc mr-20">
+                        <el-avatar :size="50"  :src="item.photo"></el-avatar>
                         <span class="bmxm">{{item.name}}</span>
                     </div>
                 </div>
@@ -70,6 +70,10 @@
                     </div>
                 </div>
             </el-card>
+
+            <span slot="footer" class="dialog-footer">
+              <el-button class="wdi-120" @click="close">取 消</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
@@ -85,6 +89,16 @@
             },
             open() {
                 this.dialogVisible = true;
+            },
+
+            async search() {
+                let params = new FormData()
+                params.append("activityId", this.activity.id);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_user_signup_info, params, "POST");
+                if (data.code === 200) {
+                    this.signupStudents = data.data;
+                    return true;
+                }
             },
 
             setActivity(activity) {
@@ -128,26 +142,7 @@
                     teacherIds: [],
                     teachers: [],
                 },
-                e1: require("@/assets/img/em/1.png"),
-                e2: require("@/assets/img/em/2.png"),
-                e3: require("@/assets/img/em/3.png"),
-                e4: require("@/assets/img/em/4.png"),
-                e5: require("@/assets/img/em/5.png"),
-                e6: require("@/assets/img/em/6.png"),
-                signs: [
-                    {
-                        name: "张辽",
-                        avatar: require("@/assets/img/avatar/avatar-1.jpg"),
-                    },
-                    {
-                        name: "李清照",
-                        avatar: require("@/assets/img/avatar/avatar-1.jpg"),
-                    },
-                    {
-                        name: "王豆豆",
-                        avatar: require("@/assets/img/avatar/avatar-1.jpg"),
-                    }
-                ],
+                signupStudents: [],
             }
         },
     }

@@ -1,96 +1,99 @@
 <template>
-    <div class="f-main">
-        <el-card class="aioc-card" :style="'height:' + clientHeight + 'px;'">
-            <el-form class="aioc-form mt-20"
-                     ref="searchform"
-                     :model="searchform"
-                     :inline="true"
-                     :validate-on-rule-change="false"
-                     label-width="80px"
-                     label-position="right">
+    <div :class="bgClass + '-main'">
+        <el-card :class="bgClass + '-card'" :style="'height:' + clientHeight + 'px;'">
+            <el-card>
+                <el-form :class="bgClass + '-form mt-20'"
+                         ref="searchform"
+                         :model="searchform"
+                         :inline="true"
+                         :validate-on-rule-change="false"
+                         label-width="80px"
+                         label-position="right">
 
-                <el-form-item label="证书名称" prop="name">
-                    <el-input
-                            v-model="searchform.name"
-                            class="wp-180 mr-10"
-                            placeholder="请输入证书名称">
-                    </el-input>
-                </el-form-item>
+                   <el-form-item label="证书名称" prop="name">
+                       <el-input
+                               v-model="searchform.name"
+                               class="wp-180 mr-10"
+                               placeholder="请输入证书名称">
+                       </el-input>
+                   </el-form-item>
 
-                <el-form-item label="证书编号" prop="name">
-                    <el-input
-                            v-model="searchform.uuid"
-                            class="wp-180 mr-10"
-                            placeholder="请输入证书编号">
-                    </el-input>
-                </el-form-item>
+                   <el-form-item label="证书编号" prop="name">
+                       <el-input
+                               v-model="searchform.uuid"
+                               class="wp-180 mr-10"
+                               placeholder="请输入证书编号">
+                       </el-input>
+                   </el-form-item>
 
-                <el-form-item label="获得学生姓名" prop="name">
-                    <el-input
-                            v-model="searchform.blUserName"
-                            class="wp-180 mr-10"
-                            placeholder="请输入获得学生姓名">
-                    </el-input>
-                </el-form-item>
+                   <el-form-item label="获得学生姓名" prop="name">
+                       <el-input
+                               v-model="searchform.blUserName"
+                               class="wp-180 mr-10"
+                               placeholder="请输入获得学生姓名">
+                       </el-input>
+                   </el-form-item>
 
-                <el-button class="ml-20 aioc-btn" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
-                <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
-            </el-form>
+                   <el-button class="ml-20 aioc-btn1" type="primary" size="small" icon="el-icon-search" @click="search(0, 10)">搜索</el-button>
+                   <el-button class="ml-20" type="" size="small" icon="el-icon-refresh" @click="reseta">重置</el-button>
+               </el-form>
 
-            <div class="mb-10 mt-40">
-                <el-button class="aioc-btn1" v-aba="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
-            </div>
+               <div class="mb-10 mt-40">
+                   <el-button class="aioc-btn1" v-aiocp="['a']" type="primary" icon="el-icon-plus" size="small" @click="add">增加</el-button>
+               </div>
 
-            <el-table
-                    class="aioc-table"
-                    ref="codeTable"
-                    :data="tableData"
-                    @selection-change='onTableSelectChange'
-                    @row-click='tableRowClick'
-                    :row-style="{height:'20px'}"
-                    :cell-style="{padding:'9px 1px'}"
-            >
-                <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                <el-table-column prop="img" label="证书图片" width="122px">
-                    <template slot-scope="scope">
-                        <el-image
-                                style="width: 100px; height: 50px"
-                                :src="scope.row.img"
-                                fit="fit"
-                                :preview-src-list="[scope.row.img]"
-                        ></el-image>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="uuid" label="序列号" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="name" label="证书名称" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="unit" label="颁发机构" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="blUserName" label="授予人" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="status" label="状态" fixed="right">
-                    <template slot-scope="scope">
-                        <el-tag :type="isNull(scope.row.blUserId) ? 'info':'success'" effect="dark">
-                            {{ isNull(scope.row.blUserId)  ? '未绑定':'已绑定' }}
-                        </el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作"  fixed="right" width="200">
-                    <template slot-scope="scope">
-                        <div v-if="isNull(scope.row.blUserId)">
-                            <el-button class="aioc-btn1"
-                                       v-aba="['e']"
+               <el-table
+                       :class="bgClass == 'aiocw' ? '':'aioc-table'"
+                       :border="bgClass == 'aiocw'"
+                       ref="codeTable"
+                       :data="tableData"
+                       @selection-change='onTableSelectChange'
+                       @row-click='tableRowClick'
+                       :row-style="{height:'20px'}"
+                       :cell-style="{padding:'9px 1px'}"
+               >
+                   <el-table-column fixed="left" type="selection" width="55"></el-table-column>
+                   <el-table-column prop="img" label="证书图片" width="122px">
+                       <template slot-scope="scope">
+                           <el-image
+                                   style="width: 100px; height: 50px"
+                                   :src="scope.row.img"
+                                   fit="fit"
+                                   :preview-src-list="[scope.row.img]"
+                           ></el-image>
+                       </template>
+                   </el-table-column>
+                   <el-table-column prop="uuid" label="序列号" :show-overflow-tooltip="true"></el-table-column>
+                   <el-table-column prop="name" label="证书名称" :show-overflow-tooltip="true"></el-table-column>
+                   <el-table-column prop="unit" label="颁发机构" :show-overflow-tooltip="true"></el-table-column>
+                   <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
+                   <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
+                   <el-table-column prop="blUserName" label="授予人" :show-overflow-tooltip="true"></el-table-column>
+                   <el-table-column prop="status" label="状态" fixed="right">
+                       <template slot-scope="scope">
+                           <el-tag :type="isNull(scope.row.blUserId) ? 'info':'success'" effect="dark">
+                               {{ isNull(scope.row.blUserId)  ? '未绑定':'已绑定' }}
+                           </el-tag>
+                       </template>
+                   </el-table-column>
+                   <el-table-column label="操作"  fixed="right" width="200">
+                       <template slot-scope="scope">
+                           <div v-if="isNull(scope.row.blUserId)">
+                               <el-button class="aioc-btn1"
+                                          v-aiocp="['e']"
+                                          size="mini"
+                                          @click="editRow(scope.row)">编辑</el-button>
+                               <el-button
+                                       v-aiocp="['d']"
                                        size="mini"
-                                       @click="editRow(scope.row)">编辑</el-button>
-                            <el-button
-                                    v-aba="['d']"
-                                    size="mini"
-                                    type="danger"
-                                    @click="deleteRow(scope.$index, scope.row)">删除</el-button>
-                        </div>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+                                       type="danger"
+                                       @click="deleteRow(scope.$index, scope.row)">删除</el-button>
+                           </div>
+                       </template>
+                   </el-table-column>
+               </el-table>
+               <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
+           </el-card>
         </el-card>
         <Add ref="addRef" @search="search"></Add>
         <Edit ref="editRef" @search="search" :currentPage="currentPage" :pageSize="pageSize"></Edit>
@@ -233,6 +236,7 @@
         },
         data() {
             return {
+                bgClass: "aiocw",
                 searchform: {
                     blUserName: "",
                     name: "",
