@@ -5,26 +5,30 @@
                 <div :class="'aioc-menu ' + (bgColor == null ? '':bgColor)">
                     <div class="aiocm-left">
                         <div class="aiocm-logo" @click="toMain">
-                            <el-image class="logo" :src="logo"></el-image>
+                            <el-image class="logo" :src="logo" fit="fill"></el-image>
                         </div>
-                        <span class="fs-24 ml-5 fb color-white">安徽柏林书画研究院</span>
-                        <div class="aiocm-page">
-                            <router-link
-                                    :class="activePage == item.name ? ((fontColor == null ? ' underline-white ' : ' underline-white color-white ') + (fontColor == null ? 'color-white hover-white' : (fontColor + ' hover-white '))) : (fontColor == null ? 'color-white hover-white' : (fontColor + ' hover-white ')) "
-                                    v-for="(item, index) in menus" :key="index" :to="item.path"
-                            >{{item.name}}</router-link>
-                        </div>
+                        <!--<span class="fs-24 ml-5 fb color-white">安徽柏林书画研究院学生天地</span>-->
+                        <!--<div class="aiocm-page">-->
+                            <!--<router-link-->
+                                    <!--:class="activePage == item.name ? ((fontColor == null ? ' underline-white ' : ' underline-white color-white ') + (fontColor == null ? 'color-white hover-white' : (fontColor + ' hover-white '))) : (fontColor == null ? 'color-white hover-white' : (fontColor + ' hover-white ')) "-->
+                                    <!--v-for="(item, index) in menus" :key="index" :to="item.path"-->
+                            <!--&gt;{{item.name}}</router-link>-->
+                        <!--</div>-->
                     </div>
 
                     <div class="aiocm-right">
+                        <div class="colori-ffffff fs-16 mr-10">
+                            欢迎你，{{bluser.name}}
+                        </div>
                         <div v-if="isLogin" class="login-container">
                             <div class="avatar-main mr-30" @mouseover="showUserMenus = true" @mouseout="showUserMenus = false">
                                 <img class="avatar show-avatar"
-                                     :src="avatar" alt="用户头像" />
+                                     :src="bluser.photo" alt="用户头像" />
                                 <el-card v-show="showUserMenus" class="user-cneter show-avatar">
                                     <ul class="show-avatar">
                                         <li @click="toPersonCenterPage('myProfile')"><span class="people mr-10"></span>个人中心</li>
                                         <li @click="toPersonCenterPage('myAccountSet')"><span class="accountSetting mr-10"></span>账号设置</li>
+                                        <li v-show="bluser.status != '1' && isRegisterAgain" @click="registerAgain('myAccountSet')"><span class="el-icon-s-order mr-10"></span>续注册</li>
                                         <li @click="logout"><span class="logout mr-10" ></span>退出</li>
                                     </ul>
                                 </el-card>
@@ -44,20 +48,30 @@
 <script>
     export default {
         name: "Header",
-        props: ["activePage", "fontColor", "bgColor"],
+        props: ["activePage", "fontColor", "bgColor", "bluser"],
         mounted() {
-            this.initLogin();
+            this.checkIsRegisterAgain();
         },
         methods: {
 
             toMain() {
                 this.$router.push({name: "main"});
             },
+
+            /**
+             * 再次注册科目
+             * @param {*} 参数 参数说明
+             * @author panyong
+             */
+            registerAgain() {
+                this.$router.push({name: "subject"});
+            },
+
             /**
              * 前往登录页
              */
             toLoginPage() {
-                this.$router.push({name: "login"});
+                this.$router.push({name: "studentLogin"});
             },
 
             /**
@@ -75,10 +89,12 @@
                 window.open(detail.href,'_blank');
             },
 
-            /**
-             * 初始化用户数据
-             */
-            async initLogin() {
+            async checkIsRegisterAgain() {
+                let params = new FormData()
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_bl_semester_check_registerAgain, params, "POST");
+                if (data.code == 200) {
+                    this.isRegisterAgain = data.data;
+                }
             },
 
             /**
@@ -92,7 +108,7 @@
                     cancelButtonText: '取消'
                 })
                 .then(() => {
-                    this.$router.push({name: "login"})
+                    this.$router.push({name: "studentLogin"})
                 })
                 .catch({
                 });
@@ -145,7 +161,8 @@
 
                 /* 显示用户菜单 */
                 showUserMenus: false,
-                logo: require('@/assets/img/logo/logo.png'),
+                logo: require('@/assets/img/logo/16.png'),
+                isRegisterAgain: false,
             }
         },
     }
@@ -170,8 +187,8 @@
     }
     .logo {
         line-height: 100px;
-        width: 62px;
-        height: 50px;
+        width: 360px;
+        height: 60px;
     }
     .header-container {
         position: absolute;
@@ -188,6 +205,7 @@
         display: flex;
         flex-wrap: nowrap;
         line-height: 100px;
+        height: 100px;
     }
     .aiocm-right {
         float: right;
@@ -195,7 +213,7 @@
         display: flex;
         flex-wrap: nowrap;
         justify-content: center;
-        margin-top: 30px;
+        align-items: center;
     }
     .bl {
         background: url("../assets/img/nothome_top_bg.webp") center center / cover no-repeat rgb(34, 34, 34);
@@ -265,8 +283,8 @@
     .avatar {
         margin-top: 5px;
         width: 40px;
+        height: 40px;
         border-radius: 20px;
-        border: 1px solid #cccccc;
     }
     .avatar-main, .info-main {
         position: relative;

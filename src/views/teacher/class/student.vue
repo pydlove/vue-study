@@ -66,17 +66,27 @@
                 <el-table-column prop="phone" label="联系方式" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="age" label="年龄" :show-overflow-tooltip="true" align="center"></el-table-column>
-                <el-table-column prop="score" label="学分" :show-overflow-tooltip="true" align="center"></el-table-column>
+                <el-table-column prop="score" label="本学期学分" :show-overflow-tooltip="true" align="center">
+                    <template slot-scope="scope">
+                        {{ scope.row.score == null ? 0:scope.row.score }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="lastScore" label="上学期学分" :show-overflow-tooltip="true" align="center">
+                    <template slot-scope="scope">
+                        {{ scope.row.lastScore == null ? 0:scope.row.lastScore }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="standardScore" label="上学期预警分数" :show-overflow-tooltip="true" align="center"></el-table-column>
                 <el-table-column prop="status" label="状态" align="center">
                     <template slot-scope="scope">
-                        <el-tag class="wd-80 tc" :type="scope.row.status == '0' ? 'success':'info'" effect="dark">
+                        <el-tag class=" tc" :type="scope.row.status == '0' ? 'success':'info'" effect="dark">
                             {{ scope.row.status == '0' ? '活跃':'静默' }}
                         </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="100" align="center">
                     <template slot-scope="scope">
-                        <el-button class="pd-10" type="text" @click="expand(scope.row)">{{scope.row.id == studentId && searchDetail ? '收起':'查看详情'}}</el-button>
+                        <el-button class="pd-10" type="text" @click="expand(scope.row)">查看详情</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column type="expand" width="1">
@@ -118,9 +128,17 @@
                                         <span>{{ props.row.phone }}</span>
                                     </div>
                                     <div class="xx-lable">
-                                        <span>学 <span class="ml-28"></span> 分</span>
+                                        <span>本学期学分</span>
                                         <el-input-number v-model="score" controls-position="right" :min="oldScore - addScore" :max="oldScore - addScore + 3" size="mini"></el-input-number>
                                         <div class="color-fa5c26 fs-13">可手动增加3个学分，已经增加 <span class="fs-15 fb">{{Number(score) - Number(oldScore) + Number(addScore)}}</span> 分</div>
+                                    </div>
+                                    <div class="xx-lable">
+                                        <span>上学期学分</span>
+                                        <span>{{props.row.lastScore}} 分</span>
+                                    </div>
+                                    <div class="xx-lable">
+                                        <span>上学期预警学分</span>
+                                        <span>{{props.row.standardScore}} 分</span>
                                     </div>
                                     <div class="xx-lable">
                                         <span>状 <span class="ml-28"></span> 态</span>
@@ -158,14 +176,26 @@
                                 <el-card>
                                     <el-table
                                             class="aiocw-table"
-                                            ref="activityTableRef"
+                                            ref="commodityTableRef"
                                             :data="commodities"
                                             :row-style="{height:'20px'}"
                                             :cell-style="{padding:'9px 1px'}"
                                     >
                                         <el-table-column prop="name" label="学习用品名称" :show-overflow-tooltip="true"></el-table-column>
-                                        <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
+                                        <el-table-column prop="num" label="购买数量" :show-overflow-tooltip="true"></el-table-column>
+                                        <el-table-column prop="unitPrice" label="单价（¥）" :show-overflow-tooltip="true"></el-table-column>
                                     </el-table>
+                                    <el-pagination
+                                            background
+                                            class="mt-10 pb-10 pt-20"
+                                            @size-change="coHandleSizeChange"
+                                            @current-change="coHandleCurrentChange"
+                                            :current-page="coCurrentPage"
+                                            :page-sizes="[10]"
+                                            :page-size="coPageSize"
+                                            layout="total, sizes, prev, pager, next, jumper"
+                                            :total="totalCoCount">
+                                    </el-pagination>
                                 </el-card>
                             </div>
 
@@ -178,7 +208,7 @@
                                 <el-card>
                                     <el-table
                                             class="aiocw-table"
-                                            ref="activityTableRef"
+                                            ref="classTableRef"
                                             :data="classes"
                                             :row-style="{height:'20px'}"
                                             :cell-style="{padding:'9px 1px'}"
@@ -233,9 +263,7 @@
                                         <el-table-column prop="teachers" label="负责人" show-overflow-tooltip="true"></el-table-column>
                                         <el-table-column prop="status" label="活动状态" show-overflow-tooltip="true">
                                             <template slot-scope="scope">
-                                                <el-tag :type="scope.row.status == 0 ? 'success':'info'" class="fb" effect="dark">
-                                                    {{fmtActivityStatus(scope.row.status)}}
-                                                </el-tag>
+                                                {{fmtActivityStatus(scope.row.status)}}
                                             </template>
                                         </el-table-column>
                                     </el-table>
@@ -304,7 +332,6 @@
                     this.initStudentList(this.stCurrentPage, this.stPageSize);
                 }
                 this.inSubmit = false;
-                this.searchDetail = false;
             },
 
             /**
@@ -337,8 +364,16 @@
                 this.clCurrentPage = val;
                 this.searchClass(this.clCurrentPage, this.clPageSize);
             },
+            coHandleSizeChange(val) {
+                this.coPageSize = val;
+                this.coCurrentPage = 1;
+                this.searchCommodity(this.coCurrentPage, this.coPageSize);
+            },
+            coHandleCurrentChange(val) {
+                this.coCurrentPage = val;
+                this.searchCommodity(this.coCurrentPage, this.coPageSize);
+            },
             expand(row) {
-                this.searchDetail = this.searchDetail ? false:true;
                 let $table = this.$refs.table;
                 this.tableData.map((item) => {
                     if (row.id != item.id) {
@@ -359,9 +394,11 @@
                     this.remark = row.remark;
                     this.searchActivity(0, 10);
                     this.searchClass(0, 10);
+                    this.searchCommodity(0, 10);
                     this.searchClassStudentScore();
                 }
             },
+
             async searchActivity(currentPage, pageSize) {
                 this.acCurrentPage = currentPage;
                 this.acPageSize = pageSize;
@@ -376,6 +413,7 @@
                     return true;
                 }
             },
+
             async searchClass(currentPage, pageSize) {
                 this.clCurrentPage = currentPage;
                 this.clPageSize = pageSize;
@@ -387,6 +425,21 @@
                 if (data.code === 200) {
                     this.classes = data.data;
                     this.totalClCount = data.totalCount;
+                    return true;
+                }
+            },
+
+            async searchCommodity(currentPage, pageSize) {
+                this.coCurrentPage = currentPage;
+                this.coPageSize = pageSize;
+                let params = new FormData()
+                params.append("page", this.coCurrentPage);
+                params.append("limit", this.coPageSize);
+                params.append("studentId", this.studentId);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_commodity_list, params, "POST");
+                if (data.code === 200) {
+                    this.commodities = data.data;
+                    this.totalCoCount = data.totalCount;
                     return true;
                 }
             },
@@ -436,13 +489,17 @@
             fmtActivityStatus(status) {
                 switch (status) {
                     case "0":
-                        return "报名中";
+                        return "已发布";
                     case "1":
                         return "未发布";
                     case "2":
                         return "进行中";
                     case "3":
                         return "已结束";
+                    case "4":
+                        return "报名中";
+                    case "5":
+                        return "报名结束";
                     default:
                         return status;
                 }
@@ -471,6 +528,10 @@
                 totalClCount: 0,
                 clPageSize: 10,
                 clCurrentPage: 0,
+                commodities: [],
+                totalCoCount: 0,
+                coPageSize: 10,
+                coCurrentPage: 0,
                 studentId: "",
                 score: "0",
                 oldScore: "0",
@@ -479,7 +540,6 @@
                 scoreId: "",
                 classId: "",
                 inSubmit: false,
-                searchDetail: false,
             }
         },
     }
@@ -488,7 +548,7 @@
 <style scoped>
     .xx-lable > span:nth-of-type(1) {
         display: inline-block;
-        width: 90px;
+        width: 120px;
         color: #99a9bf;
     }
     .xx-lable {

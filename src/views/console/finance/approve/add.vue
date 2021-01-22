@@ -7,44 +7,29 @@
                 :close-on-click-modal="false"
                 :before-close="close"
                 :fullscreen="false"
-                width="1200px"
+                width="900px"
                 center>
             <el-card class="auto-card wdi-800">
                 <el-form
                         class= "pt-20 pl-20"
                         ref="form"
                         :model="form"
+                        :rules="rules"
                         :validate-on-rule-change="false"
                         label-width="120px"
                         label-position="right">
 
-                    <el-form-item label="审批单号" prop="id">
-                        <el-input class="wp-214" v-model="form.id" disabled></el-input>
+                    <el-form-item label="审批单号" prop="appNum">
+                        <el-input class="wp-214" v-model="form.appNum" disabled></el-input>
                     </el-form-item>
 
-                    <el-form-item label="审批标题" prop="name">
-                        <el-input class="wp-620" v-model="form.name" placeholder="请输入审批标题" ></el-input>
+                    <el-form-item label="审批标题" prop="title">
+                        <el-input class="wp-620" v-model="form.title" placeholder="请输入申请工单标题" ></el-input>
                     </el-form-item>
 
-                    <el-form-item label="申请内容" prop="remark">
+                    <el-form-item label="申请内容" prop="content">
                         <el-input class="wp-620 textarea" type="textarea" :autosize="{ minRows: 10, maxRows: 12}"
-                                  placeholder="请输入申请内容" v-model="form.remark"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="附件上传" prop="remark">
-                        <el-upload
-                                class="upload-demo"
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :before-remove="beforeRemove"
-                                multiple
-                                :limit="3"
-                                :on-exceed="handleExceed"
-                                :file-list="fileList">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                        </el-upload>
+                                  placeholder="请输入申请工单内容" v-model="form.content"></el-input>
                     </el-form-item>
                 </el-form>
             </el-card>
@@ -61,7 +46,6 @@
         name: "student",
         components: {},
         mounted() {
-            this.setId();
         },
         methods: {
             close() {
@@ -69,13 +53,42 @@
             },
             open() {
                 this.dialogVisible = true;
+                this.setId();
+                this.$nextTick(() => {
+                    this.$refs["form"].clearValidate();
+                });
             },
+
+            clearForm() {
+                this.form = {
+                    appNum: "",
+                    title: "",
+                    content: "",
+                };
+            },
+
             onSubmit() {
-                this.$promptMsg("增加成功", "success");
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.submitRequest();
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
+            async submitRequest() {
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_approve_add, this.form, "POST");
+                if(data.code == 200) {
+                    this.$promptMsg(data.msg, "success");
+                    this.dialogVisible = false;
+                    this.clearForm();
+                    this.$emit("search", 1, 10);
+                }
             },
 
             setId() {
-              this.form.id = this.generateNo("BL", 4);
+              this.form.appNum = this.generateNo("BL", 4);
             },
 
             generateNo(orderPrefix, orderSuffix) {
@@ -92,11 +105,18 @@
             return {
                 dialogVisible: false,
                 form: {
-                    id: "",
-                    name: "",
-                    createTime: "",
-                    remark: "",
+                    appNum: "",
+                    title: "",
+                    content: "",
                 },
+                rules: {
+                    title: [
+                        {type: 'string', required: true, message: '请输入申请工单标题', trigger: ['change', 'blur']},
+                    ],
+                    content: [
+                        {type: 'string', required: true, message: '请输入申请工单内容', trigger: ['change', 'blur']},
+                    ],
+                }
             }
         },
     }

@@ -78,11 +78,21 @@
 								:cell-style="{padding:'9px 1px'}"
 						>
 							<el-table-column prop="content" label="评价内容" :show-overflow-tooltip="true"></el-table-column>
+							<el-table-column prop="teacherStar" label="老师评分" :show-overflow-tooltip="true">
+								<template slot-scope="scope">
+									<el-rate v-model="scope.row.teacherStar" :colors="colors"></el-rate>
+								</template>
+							</el-table-column>
+							<el-table-column prop="classStar" label="课程评分" :show-overflow-tooltip="true">
+								<template slot-scope="scope">
+									<el-rate v-model="scope.row.classStar" :colors="colors"></el-rate>
+								</template>
+							</el-table-column>
 							<el-table-column prop="className" label="班级名称" width="100" :show-overflow-tooltip="true"></el-table-column>
 							<el-table-column prop="studentName" label="评论人" width="100" :show-overflow-tooltip="true"></el-table-column>
-							<el-table-column prop="createTime" label="创建时间" width="160" :show-overflow-tooltip="true"></el-table-column>
+							<el-table-column prop="createTime" label="评价时间" width="160" :show-overflow-tooltip="true"></el-table-column>
 						</el-table>
-						<Pagination class="mt-20" ref="pageRef" @search="search"></Pagination>
+						<Pagination class="mt-20" ref="pageRef" @search="initComment"></Pagination>
 					</el-card>
 				</div>
 			</el-form>
@@ -96,7 +106,6 @@
         name: "detail",
 	    components: {Pagination},
         mounted() {
-
         },
         methods: {
             close() {
@@ -104,6 +113,7 @@
             },
             open() {
                 this.dialogVisible = true;
+                this.initComment(0, 10);
             },
             statusFormatMethod(value) {
                 switch (value) {
@@ -119,12 +129,28 @@
                         return value;
                 }
             },
+
+            async initComment(currentPage, pageSize) {
+                this.coCurrentPage = currentPage;
+                this.coPageSize = pageSize;
+                let params = new FormData()
+                params.append("page", this.coCurrentPage);
+                params.append("limit", this.coPageSize);
+                params.append("teacherId", this.teacher.id);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_teacher_comment_list, params, "POST");
+                if (data.code === 200) {
+                    this.comments = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
+                }
+            },
         },
         data() {
             return {
                 dialogVisible: false,
                 teacher: {},
                 comments: [],
+                colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
             }
         },
     }

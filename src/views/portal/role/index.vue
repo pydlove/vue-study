@@ -132,7 +132,7 @@
         },
         methods: {
             judgeIsAdmin() {
-                this.$refs.isAdminRef.form.pwd = "aiocloud@admin";
+                // this.$refs.isAdminRef.form.pwd = "aiocloud@admin";
                 this.$refs.isAdminRef.open();
             },
 

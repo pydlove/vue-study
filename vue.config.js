@@ -38,6 +38,13 @@ module.exports = {
               pathRewrite: {
               }
           },
+          '/blsh-service': {
+              target: 'http://localhost:9092',
+              changeOrigin: true,
+              ws: true,
+              pathRewrite: {
+              }
+          },
       }
   },
   pwa: {

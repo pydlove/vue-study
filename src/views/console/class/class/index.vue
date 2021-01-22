@@ -89,18 +89,31 @@
                     <el-table-column prop="mainName" label="课程大类" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="subName" label="课程小类" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="score" label="获得学分" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column label="操作"  fixed="right" width="200">
+                    <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
                         <template slot-scope="scope">
+                            <span :class="scope.row.status == '0' ? 'color-67C23A fb':'color-606266 fb'">
+                                {{scope.row.status == "0" ? "开课中":"已结课"}}
+                            </span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column label="操作"  fixed="right" width="300">
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.status == '0'">
                                 <el-button class="aioc-btn1"
-                                        v-aiocp="['e']"
-                                        size="mini"
-                                        @click="editRow(scope.row)">编辑</el-button>
+                                           v-aiocp="['e']"
+                                           size="mini"
+                                           @click="editRow(scope.row)">编辑</el-button>
                                 <el-button
                                         v-aiocp="['d']"
                                         size="mini"
                                         type="danger"
                                         @click="deleteRow(scope.row)">删除</el-button>
+                                <el-button type="success"
+                                           v-aiocp="['e']"
+                                           size="mini"
+                                           @click="endOfClass(scope.row)">结课</el-button>
+                            </div>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -114,6 +127,7 @@
               :pageSize="pageSize"
               :areaOptions="areaOptions"
         ></Edit>
+
     </div>
 </template>
 
@@ -366,6 +380,31 @@
                     subName: "",
                 };
                 this.search(this.currentPage, this.pageSize)
+            },
+
+            endOfClass(row) {
+                this.$confirm('是否确定结课?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.endOfClassRequest(row);
+                }).catch(() => {
+                });
+            },
+
+            async endOfClassRequest(row) {
+                let params = new FormData()
+                params.append("id", row.id);
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_class_end, params, "POST");
+                if (data.code === 200) {
+                    this.$notify({
+                        title: '提示',
+                        message: "结课成功",
+                    });
+                    this.search(this.currentPage, this.pageSize);
+                    return true;
+                }
             },
         },
         data() {

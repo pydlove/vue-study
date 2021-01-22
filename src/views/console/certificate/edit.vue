@@ -24,7 +24,7 @@
                     </el-form-item>
 
                     <el-form-item label="证书名称" prop="name">
-                        <el-input class="wdi-600" v-model="form.name" placeholder="请输入证书名称"></el-input>
+                        <el-input class="wdi-600" v-model="form.name" maxlength="6" show-word-limit placeholder="请输入证书名称"></el-input>
                     </el-form-item>
 
                     <el-form-item label="颁发机构" prop="unit">
@@ -59,7 +59,7 @@
             </el-card>
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
-              <el-button class="wdi-120" type="primary" @click="onSubmit">确 定</el-button>
+              <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
             </span>
         </el-dialog>
     </div>

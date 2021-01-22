@@ -296,6 +296,10 @@
                     birthtime: '',
                     sex: '',
                     area: [],
+                    province: '',
+                    city: '',
+                    county: '',
+                    township: '',
                 },
                 rules: {
                     name: [
@@ -338,7 +342,6 @@
                         { type: 'string', required: true, message: '请选择账号状态', trigger: ['change', 'blur'] }
                     ],
                 },
-
 
                 /**
                  * 照片

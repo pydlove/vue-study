@@ -1,4 +1,5 @@
 <template>
+    <!--eslint-disable-->
     <div>
         <el-dialog class="aiCloud-dialog"
                 :close-on-click-modal="false"
@@ -6,63 +7,81 @@
                 width="900px"
                 :title="title"
                 :close-on-press-escape="false"
-                :show-close="true">
+                :show-close="true"
+                :before-close="close">
             <div class="zfd">
-                {{order.title}}
+                {{order.subject}}订单信息
             </div>
             <div>
                 <el-card class="mb-10">
+                    <div slot="header" class="clearfix">
+                        <span class="color-409EFF fb fl">订单编号：{{order.outTradeNo}}</span>
+                    </div>
                     <div class="ddxq">
-                        <span>订单编号：{{order.no}}</span>
-                        <span>报名费用：<span class="jg"> {{order.cost}}元</span></span>
-                        <span>费用用途： {{order.remark}}</span>
+                        <span>报名费用：<span class="jg"> {{order.totalAmount}}元</span></span>
+                        <span>费用用途： {{order.description}}</span>
                     </div>
                 </el-card>
             </div>
             <el-card class="tr mt-10 mb-10">
-                订单费用合计：<span class="fs-20 color-fa5c26 fb">¥ {{order.cost}}</span> 元
+                订单费用合计：<span class="fs-20 color-fa5c26 fb">¥ {{order.totalAmount}}</span> 元
             </el-card>
             <el-card>
-                <div class="zfd">
-                    选择您的支付方式
+                <div slot="header" class="clearfix">
+                    <span class="fb fl">选择您的支付方式</span>
+                    <span class="color-fa5c26 fl mr-10">（提示: 支付过程中，请勿手动关闭任何界面）</span>
                 </div>
                 <div class="dffn mt-10">
-                    <div :class="(payWaySelect == 'wx' ? 'selected':'') + ' wx' " @click="pay('wx')">
+                    <div :class="(payWaySelect == '1' ? 'selected':'') + ' wx' " @click="pay('1')">
                         <i class="wxzf"></i>
                         <span>微信支付</span>
-                        <div v-show="payWaySelect == 'wx'" class="sjx">
+                        <div v-show="payWaySelect == '1'" class="sjx">
                             <i class="el-icon-check dh"></i>
                         </div>
                     </div>
-                    <div :class="(payWaySelect == 'zfb' ? 'selected':'') + ' ml-35 zfb'" @click="pay('zfb')">
+                    <div :class="(payWaySelect == '0' ? 'selected':'') + ' ml-35 zfb'" @click="pay('0')">
                         <i class="zfbzf"></i>
-                        <div v-show="payWaySelect == 'zfb'" class="sjx">
+                        <div v-show="payWaySelect == '0'" class="sjx">
                             <i class="el-icon-check dh"></i>
                         </div>
                     </div>
                 </div>
-                <div v-show="payWaySelect == 'wx'" class="dffc tl mt-20">
-                    <el-image :src="require('@/assets/img/ewm/wxewm.png')" :fit="fit" class="wd-200 hp-200"></el-image>
-                    <span class="zft">微信扫码支付</span>
+            </el-card>
+
+            <el-card class="mt-10" v-if="order.fresult != null && order.fresult != '' && payWaySelect == '1'">
+                <div slot="header" class="clearfix">
+                    <span class="fb fl">微信支付付款码，请打开微信扫一扫进行扫码付款,</span>
+                    <span class="ml-5 color-fa5c26 fl">{{remainingTime}}</span>
                 </div>
-                <div v-show="payWaySelect == 'zfb'" class="dffc tl mt-20">
-                    <el-image :src="require('@/assets/img/ewm/zfbewm.png')" :fit="fit" class="wd-200 hp-200"></el-image>
-                    <span class="zft">支付宝扫码支付</span>
-                </div>
+                <vue-qr class="wximg"
+                        :size="191"
+                        :margin="0"
+                        :auto-color="true"
+                        :dot-scale="1"
+                        :text="order.fresult"/>
             </el-card>
         </el-dialog>
     </div>
 </template>
-
+<!--eslint-disable-->
 <script>
+    import VueQr from 'vue-qr'
     export default {
         name: "Pay",
+        props: ["activity"],
+        components: {VueQr},
         mounted() {
 
         },
         methods: {
             close() {
                 this.dialogVisible = false;
+                this.wxPayFlag = false;
+                this.remainingTime = "";
+                clearInterval(this.timer);
+                this.timer = "";
+                this.order.fresult = "";
+                this.payWaySelect = "";
             },
             open() {
                 this.dialogVisible = true;
@@ -76,13 +95,118 @@
                 this.title = title;
             },
 
-            pay(way) {
+            /**
+             * 时间倒计时
+             * @param {*} rTime 剩余时间 秒
+             * @author panyong
+             */
+            timeCount(rTime) {
+                if(rTime > 0) {
+                    this.remainingTime = "剩余支付时间：" + rTime + "秒";
+                } else {
+                    this.wxPayFlag = false;
+                    this.remainingTime = "";
+                    clearInterval(this.timer);
+                    this.timer = "";
+                    this.order.fresult = "";
+                    this.payWaySelect = "";
+                }
+            },
+
+            async pay(way) {
                 this.payWaySelect = way;
-                // if(way == 'wx') {
-                //
-                // } else if (way == 'zfb') {
-                //
-                // }
+                let params = new FormData()
+                params.append("outTradeNo", this.order.outTradeNo);
+                params.append("subject", this.order.subject);
+                params.append("totalAmount", this.order.totalAmount);
+                params.append("body", this.order.description);
+                params.append("payWay", way);
+                if (way == '1') {
+                    if(this.wxPayFlag) {
+                        return;
+                    }
+                    this.wxPayFlag = true;
+                    params.append("notify_url", this.$aiocUrl.blsh_service_v1_wx_pay_activity_notify_url);
+                } else if (way == '0') {
+                    if(this.aliPayFlag) {
+                        return;
+                    }
+                    clearInterval(this.timer);
+                    this.timer = "";
+                    this.aliPayFlag = true;
+                    params.append("notify_url", this.$aiocUrl.blsh_service_v1_pay_activity_notify_url);
+                    params.append("return_url", this.$aiocUrl.blsh_service_v1_pay_activity_return_url);
+                }
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_pay_to, params, "POST");
+                if (data.code == 200) {
+                    if (way == '1') {
+                        this.order.fresult = data.data.code_url;
+                        // 3分钟计时
+                        var count = 3*60;
+                        if(data.data.remainingTime) {
+                            count = data.data.remainingTime;
+                        }
+                        var that = this;
+                        this.timer = setInterval (function () {
+                            console.log(count)
+                            count--;
+                            that.timeCount(count);
+                            if(count%3 == 0) {
+                                that.handlerWxPayOrder(that.order);
+                            }
+                        }, 1000);
+                    } else if (way == '0') {
+                        this.aliPayFlag = false;
+                        document.querySelector('body').innerHTML = data.data;
+                        document.forms[0].submit();
+                    }
+                    return true;
+                }
+            },
+
+            async handlerWxPayOrder(order) {
+                let params = new FormData()
+                params.append("outTradeNo", order.outTradeNo);
+                params.append("type", "activity");
+                this.$axios.post(
+                    this.$aiocUrl.blsh_service_v1_wx_pay_check2, params, {timeout: 200000}
+                )
+                .then(res => {
+                    let data = res.data;
+                    if (data.code === 200) {
+                        if(data.data == "success") {
+                            clearInterval(this.timer);
+                            this.timer = "";
+                            this.$router.push({
+                                name: 'activityDetail'
+                            });
+                            this.close();
+                            this.$notify({
+                                title: '提示',
+                                message: '订单支付成功'
+                            });
+                        }
+                        // else if(data.data == "fail") {
+                        //     this.$notify.error({
+                        //         title: '提示',
+                        //         message: '订单支付失败'
+                        //     });
+                        // } else if(data.data == "timeout") {
+                        //     this.$notify.error({
+                        //         title: '提示',
+                        //         message: '订单支付超时'
+                        //     });
+                        // }
+                    }
+                })
+                .catch(error => {
+                    clearInterval(this.timer);
+                    this.timer = "";
+                    this.$notify.error({
+                        title: '提示',
+                        message: '订单支付失败'
+                    });
+                });
             },
         },
         data() {
@@ -91,11 +215,17 @@
                 dialogVisible: false,
                 order: {
                     title: "",
-                    no: "",
-                    cost: "",
-                    remark: "",
+                    outTradeNo: "",
+                    totalAmount: "",
+                    subject: "",
+                    description: "",
+                    fresult: "",
                 },
                 payWaySelect: "",
+                remainingTime: "",
+                timer: "",
+                wxPayFlag: false,
+                aliPayFlag: false,
             }
         }
     }
@@ -104,7 +234,6 @@
 <style scoped>
         .zfd {
             text-align: left;
-            margin-top: 20px;
             padding-bottom: 10px;
             font-weight: 600;
             font-size: 16px;

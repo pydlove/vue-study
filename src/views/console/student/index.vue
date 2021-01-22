@@ -10,7 +10,7 @@
                          label-width="80px"
                          label-position="right">
 
-                <el-form-item label="用户名称" prop="name">
+                <el-form-item label="学员姓名" prop="name">
                     <el-input
                             v-model="searchform.name"
                             class="wp-180 mr-10"
@@ -31,7 +31,7 @@
             </el-form>
 
             <div class="mb-10 mt-40">
-                <el-button v-aiocp="['ass']" type="info" icon="el-icon-video-pause" size="small"  @click="setAutoDisable()">自动静默设置</el-button>
+                <el-button v-aiocp="['ses']" type="primary" icon="el-icon-video-pause" size="small"  @click="setSemester()">学期设置</el-button>
             </div>
 
             <el-table
@@ -70,7 +70,17 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="age" label="年龄" :show-overflow-tooltip="true" align="center"></el-table-column>
-                <el-table-column prop="score" label="学分" :show-overflow-tooltip="true" align="center"></el-table-column>
+                <el-table-column prop="score" label="本学期学分" :show-overflow-tooltip="true" align="center">
+                    <template slot-scope="scope">
+                        {{ scope.row.score == null ? 0:scope.row.score }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="lastScore" label="上学期学分" :show-overflow-tooltip="true" align="center">
+                    <template slot-scope="scope">
+                        {{ scope.row.lastScore == null ? 0:scope.row.lastScore }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="standardScore" label="上学期预警分数" :show-overflow-tooltip="true" align="center"></el-table-column>
                 <el-table-column prop="status" label="状态" align="center">
                     <template slot-scope="scope">
                         <el-tag :type="scope.row.status == '0' ? 'success':'info'" effect="dark">
@@ -108,6 +118,7 @@
         <Certificate ref="certificateRef"></Certificate>
         <AutoDisable ref="autoDisableRef"></AutoDisable>
         <Detail ref="detailRef"></Detail>
+        <Semester ref="semesterRef"></Semester>
     </div>
 </template>
 
@@ -116,9 +127,10 @@
     import Certificate from '@/views/console/student/certificate'
     import AutoDisable from '@/views/console/student/autoDisable'
     import Detail from '@/views/console/student/detail'
+    import Semester from '@/views/console/student/semester'
     export default {
         name: "index",
-        components: {Pagination, Certificate, AutoDisable, Detail},
+        components: {Pagination, Certificate, AutoDisable, Detail, Semester},
         mounted() {
             this.area = this.$utils.getStorage("area");
             this.search(0, 10);
@@ -245,8 +257,8 @@
                 }
             },
 
-            setAutoDisable() {
-                this.$refs.autoDisableRef.open();
+            setSemester() {
+                this.$refs.semesterRef.open();
             },
 
             /**

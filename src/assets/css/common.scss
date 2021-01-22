@@ -103,14 +103,14 @@ body {
 
 /* 全局按钮公共样式 ---start---*/
 .el-button--primary {
-  background: linear-gradient(to right, #ff8332, #f84820) !important;
-  border-color: #fff !important;
+  //background: linear-gradient(to right, #ff8332, #f84820) !important;
+  //border-color: #fff !important;
 }
 
 .el-button--default {
-  border-color: #FF6632;
-  background-color: #fff;
-  color: #FF6632;
+  //border-color: #FF6632;
+  //background-color: #fff;
+  //color: #FF6632;
 
   // &:hover {
   //   background-color: #fff !important;
@@ -158,16 +158,16 @@ body {
 
     &.el-message-box__btns button:nth-child(1) {
       &:hover {
-        background-color: #fff !important;
-        border-color: #fa3a00 !important;
-        color: #fa3a00;
+        //background-color: #fff !important;
+        //border-color: #fa3a00 !important;
+        //color: #fa3a00;
       }
 
       &.el-button--primary {
         &:hover {
-          background: linear-gradient(to right, #ff8332, #f84820) !important;
-          border-color: #fff !important;
-          color: #fff;
+          //background: linear-gradient(to right, #ff8332, #f84820) !important;
+          //border-color: #fff !important;
+          //color: #fff;
         }
       }
     }
@@ -763,7 +763,7 @@ body {
 .mt-2 {margin-top: 2px;}
 .mt-3 {margin-top: 3px;}
 .mt-4 {margin-top: 4px;}
-.mt-5 {margin-top: 5px;}
+.mt-5 {margin-top: 5px !important;}
 .mt-10 {margin-top: 10px;}
 .mt-13 {margin-top: 13px;}
 .mt-15 {margin-top: 15px;}
@@ -782,6 +782,8 @@ body {
 .mb-5 {margin-bottom: 5px;}
 .mb-10 {margin-bottom: 10px;}
 .mb-20 {margin-bottom: 20px;}
+.mb-40 {margin-bottom: 20px;}
+.mb-50 {margin-bottom: 50px;}
 .mb-100 {margin-bottom: 100px;}
 .mbi-10 {margin-bottom: 10px !important;}
 
@@ -791,6 +793,8 @@ body {
 .mr-20 {margin-right: 20px;}
 .mr-30 {margin-right: 30px;}
 .mr-40 {margin-right: 40px;}
+.mr-70 {margin-right: 70px;}
+.mr-165 {margin-right: 165px;}
 
 .mri-20 {margin-right: 20px !important;}
 .mri-30 {margin-right: 30px !important;}
@@ -805,20 +809,24 @@ body {
 .ml-50 {margin-left: 50px;}
 .ml-52 {margin-left: 52px;}
 .ml-80 {margin-left: 80px;}
+.ml-90 {margin-left: 90px;}
 .ml-150 {margin-left: 150px;}
 .ml-250 {margin-left: 250px;}
 
 .mta-10 {margin: 10px auto;}
+.mg-5 {margin: 5px}
 
 .mli-10 {margin-left: 10px !important;}
 .mli-280 {margin-left: 280px !important;}
 /* padding 公共样式 */
 .pr-10 {padding-right: 10px;}
 
+.pl-100 {padding-left: 100px;}
 .pt-5 {padding-top: 5px;}
 .pt-15 {padding-top: 15px;}
 
 .pb-20 {padding-bottom: 20px;}
+.pb-40 {padding-bottom: 40px;}
 
 
 .pd-5 {padding: 5px;}
@@ -847,7 +855,8 @@ body {
 .wdi-288 {width: 288px !important;}
 .wdi-300 {width: 300px !important;}
 .wdi-350 {width: 350px !important;}
-.wdi-390 {width: 350px !important;}
+.wdi-390 {width: 390px !important;}
+.wdi-395 {width: 395px !important;}
 .wdi-400 {width: 400px !important;}
 .wdi-420 {width: 420px !important;}
 .wdi-453 {width: 453px !important;}
@@ -899,6 +908,7 @@ body {
 .color-b83f3f {color: #b83f3f;}
 .color-ce0909 {color: #ce0909;}
 .color-ae0000a6 {color: #ae0000a6;}
+.color-ec2c2c {color: #ec2c2c;}
 .color-67C23A {color: #67C23A;}
 .color-F56C6C {color: #F56C6C;}
 .color-303133 {color: #303133;}
@@ -1354,6 +1364,83 @@ body {
   width: 14px;
   height: 14px;
 }
+.huodong {
+  background: url("../img/icon/huodong.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+.huo {
+  background: url("../img/icon/huo.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+}
+.rongyu1 {
+  background: url("../img/icon/rongyu1.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+.baoqian {
+  background: url("../img/icon/baoqian.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+.kecheng {
+  background: url("../img/icon/kecheng.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+}
+.huodong1 {
+  background: url("../img/icon/huodong1.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+.jiaofei {
+  background: url("../img/icon/jiaofei.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+.zhengshu {
+  background: url("../img/icon/zhengshu.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+.laoshi {
+  background: url("../img/icon/laoshi.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+.xuesheng {
+  background: url("../img/icon/xuesheng.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+.czwd {
+  background: url("../img/icon/czwd.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+}
 //修改el-dialog top 样式
 .aiCloud-dialog .el-dialog__header {
   background-image: linear-gradient(#2b90ff, #409EFF);
@@ -1368,6 +1455,9 @@ body {
 .aiCloud-dialog .el-dialog__title {
   color: #FFFFFF;
   font-size: 16px;
+}
+.el-dialog {
+  border-radius: 5px !important;
 }
 
 .aiCloud-dialog1 {
@@ -1501,7 +1591,7 @@ body {
 }
 .lotitle {
   position: absolute;
-  top: 40px;
+  top: 10px;
   font-size: 26px;
   color: #bf954b;
   font-family: 华文宋体;
@@ -1874,10 +1964,12 @@ body {
 }
 
 /************************************** aiocw dialog *******************************************/
+
 .aiocw-dialog .el-dialog {
   margin-top: 0vh !important;
   background: #ffffff !important;
   top: 50px;
+  border-radius: 5px;
 }
 .aiocw-dialog .el-dialog__header {
   background: #409EFF !important;
@@ -2333,4 +2425,9 @@ body {
 }
 .aioc-table .el-icon-arrow-right {
   color: #ffffff;
+}
+
+
+.el-image-viewer__close {
+  color: red !important;
 }

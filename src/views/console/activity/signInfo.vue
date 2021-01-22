@@ -66,7 +66,9 @@
                     <el-table-column prop="phone" label="联系方式" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="age" label="年龄" :show-overflow-tooltip="true" align="center"></el-table-column>
-                    <el-table-column prop="score" label="学分" :show-overflow-tooltip="true" align="center"></el-table-column>
+                    <el-table-column prop="score" label="本学期学分" :show-overflow-tooltip="true" align="center"></el-table-column>
+                    <el-table-column prop="lastScore" label="上学期学分" :show-overflow-tooltip="true" align="center"></el-table-column>
+                    <el-table-column prop="standardScore" label="上学期预警分数" :show-overflow-tooltip="true" align="center"></el-table-column>
                     <el-table-column prop="status" label="状态" align="center">
                         <template slot-scope="scope">
                             <el-tag :type="scope.row.status == '0' ? 'success':'info'" effect="dark">

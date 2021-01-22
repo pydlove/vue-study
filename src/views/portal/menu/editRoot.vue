@@ -158,10 +158,10 @@
                 this.form.icon = response.data.fileUrl;
             },
             beforeUpload(file) {
-                if( this.form.chName == null ||  this.form.chName == '') {
-                    this.$promptMsg("请先填写根菜单的名称！", "error");
-                    return false;
-                }
+                // if( this.form.chName == null ||  this.form.chName == '') {
+                //     this.$promptMsg("请先填写根菜单的名称！", "error");
+                //     return false;
+                // }
 
                 // 上传格式做限制
                 var testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
@@ -205,9 +205,9 @@
                 fileName: "",
 
                 rules: {
-                    chName: [
-                        { type: 'string', required: true, message: '请输入菜单名称', trigger: ['change'] },
-                    ],
+                    // chName: [
+                    //     { type: 'string', required: true, message: '请输入菜单名称', trigger: ['change'] },
+                    // ],
                     url: [
                         { type: 'string', required: true, message: '请输入菜单链接', trigger: ['change']},
                     ],
@@ -247,8 +247,8 @@
         background: #282d2f;
     }
     .aiocloud-logo-upload .el-upload-list__item-thumbnail {
-        width: 42px !important;
-        height: 30px !important;
+        width: 40px !important;
+        height: 40px !important;
         margin-left: 0px !important;
         background: #282d2f;
     }
@@ -256,7 +256,8 @@
         line-height: 57px !important;
         font-size: 18px;
         color: #ffffff;
-
+        font-family: 华文行楷;
+        font-size: 22px;
     }
     .aiocloud-logo-upload .el-upload-list__item {
         transition: none;

@@ -104,13 +104,17 @@
             getActivityStatus(status) {
                 switch (status) {
                     case "0":
-                        return "活动报名中";
+                        return "活动已发布";
                     case "1":
                         return "活动未发布";
                     case "2":
                         return "活动进行中";
                     case "3":
                         return "活动已结束";
+                    case "4":
+                        return "活动报名中";
+                    case "5":
+                        return "活动报名结束";
                     default:
                         return status;
                 }

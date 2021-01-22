@@ -296,7 +296,6 @@
                 params.append("teacherId", this.teacherId);
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_teacher_comment_list, params, "POST");
                 if (data.code === 200) {
-                    console.log(data.data)
                     this.comments = data.data;
                     this.totalAcCount = data.totalCount;
                     return true;

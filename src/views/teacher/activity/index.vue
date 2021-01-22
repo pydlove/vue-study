@@ -142,13 +142,17 @@
             fmtActivityStatus(status) {
                 switch (status) {
                     case "0":
-                        return "报名中";
+                        return "已发布";
                     case "1":
                         return "未发布";
                     case "2":
                         return "进行中";
                     case "3":
                         return "已结束";
+                    case "4":
+                        return "报名中";
+                    case "5":
+                        return "报名结束";
                     default:
                         return status;
                 }

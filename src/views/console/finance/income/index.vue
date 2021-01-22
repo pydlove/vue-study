@@ -10,14 +10,6 @@
                          label-width="80px"
                          label-position="right">
 
-                    <el-form-item label="月份" prop="name">
-                        <el-date-picker
-                                v-model="searchform.month"
-                                type="month"
-                                placeholder="请选择月份">
-                        </el-date-picker>
-                    </el-form-item>
-
                     <el-form-item label="时间区间" prop="name">
                         <el-date-picker
                                 v-model="searchform.dateRange"
@@ -46,13 +38,27 @@
                         :cell-style="{padding:'9px 1px'}"
                 >
                     <el-table-column fixed="left" type="selection" width="55"></el-table-column>
-                    <el-table-column prop="no" label="订单号" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="cost" label="金额（¥）" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="status" label="支付状态" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="time" label="支付时间" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="desc" label="收入描述" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="to" label="付款人" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="type" label="支付方式" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="outTradeNo" label="订单号" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="totalAmount" label="金额（¥）" :show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            <span class="color-fa5c26 fb">{{scope.row.totalAmount}}元</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="status" label="支付状态" :show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            <span :class="fmtOrderStatusColor(scope.row.status) + ' fb'">
+                                {{fmtOrderStatus(scope.row.status)}}
+                            </span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="payTime" label="支付时间" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="description" label="收入描述" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="createUserName" label="客户姓名" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="payWay" label="支付方式" :show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            <span >{{fmtPayWay(scope.row.payWay)}}</span>
+                        </template>
+                    </el-table-column>
                 </el-table>
                 <Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
             </el-card>
@@ -84,45 +90,81 @@
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
-                // let params = new FormData()
-                // params.append("page", this.currentPage);
-                // params.append("limit", this.pageSize);
-                // params.append("name",  this.searchform.name);
-                // let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_con_role_list, params, "POST");
-                // if (data.code === 200) {
-                //     this.tableData = data.data;
-                //     this.$refs.pageRef.totalCount = data.totalCount;
-                //     return true;
-                // }
-                this.tableData = [];
-                for(var i=0; i < 10; i++) {
-                    var uuidObj = {
-                        id: "1",
-                        no: "20200506898989",
-                        cost: "100",
-                        status: "已支付",
-                        time: "2020-11-5 15:30:16",
-                        desc: " 用于支付报名参加绘画-中国画12岁以上、摄影-摄影入门12岁以上学习所产生的报名费用",
-                        to: "典韦",
-                        type: "支付宝支付",
-                    };
-                    this.tableData.push(uuidObj);
+                let params = new FormData()
+                params.append("page", currentPage);
+                params.append("limit", pageSize);
+                if(this.searchform.dateRange != null && this.searchform.dateRange.length == 2) {
+                    params.append("startTime", this.searchform.dateRange[0]);
+                    params.append("endTime", this.searchform.dateRange[1]);
                 }
-                this.$refs.pageRef.totalCount = this.tableData.length;
+                let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_order_flow_list, params, "POST");
+                if (data.code === 200) {
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                }
             },
 
             reseta() {
                 this.searchform = {
-                    name: "",
-                    status: "",
+                    dateRange: "",
                 };
+            },
+
+            fmtOrderStatus(status) {
+                switch (status) {
+                    case "00":
+                        return "未支付";
+                    case "01":
+                        return "已成功";
+                    case "10":
+                        return "订单关闭";
+                    case "02":
+                        return "支付失败";
+                    case "03":
+                        return "已下单";
+                    case "04":
+                        return "申请退款";
+                    case "05":
+                        return "退款成功";
+                    case "06":
+                        return "退款失败";
+                    default:
+                        return status;
+                }
+            },
+
+            fmtOrderStatusColor(status) {
+                switch (status) {
+                    case "00":
+                        return "color-fa5c26";
+                    case "01":
+                        return "color-67C23A";
+                    case "10":
+                        return "color-909399";
+                    case "02":
+                        return "color-fa5c26";
+                    case "03":
+                        return "color-606266";
+                    default:
+                        return status;
+                }
+            },
+
+            fmtPayWay(payWay) {
+                switch (payWay) {
+                    case "0":
+                        return "支付宝";
+                    case "1":
+                        return "微信";
+                    default:
+                        return "";
+                }
             },
         },
         data() {
             return {
                 bgClass: "aiocw",
                 searchform: {
-                    month: "",
                     dateRange: "",
                 },
                 tableData: [],
@@ -131,7 +173,8 @@
                 clientWidth: 1800,
                 clientHeight: document.body.clientHeight-2,
                 currentPage: 0,
-                pageSize: 10,pickerOptions: {
+                pageSize: 10,
+                pickerOptions: {
                     shortcuts: [{
                         text: '最近一周',
                         onClick(picker) {

@@ -74,6 +74,13 @@
                     <el-table-column prop="mainName" label="课程大类" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="subName" label="课程小类" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="score" label="获得学分" :show-overflow-tooltip="true" align="center"></el-table-column>
+                    <el-table-column prop="status" label="状态" align="center">
+                        <template slot-scope="scope">
+                            <el-tag :type="scope.row.status == '0' ? 'success':'info'" effect="dark">
+                                {{ scope.row.status == '0' ? '持续中':'已结课' }}
+                            </el-tag>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column label="操作"  fixed="right" width="120" align="center">
                         <template slot-scope="scope">

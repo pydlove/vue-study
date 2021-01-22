@@ -185,9 +185,9 @@
                 fileName: "",
 
                 rules: {
-                    chName: [
-                        { type: 'string', required: true, message: '请输入菜单名称', trigger: ['change'] },
-                    ],
+                    // chName: [
+                    //     { type: 'string', required: true, message: '请输入菜单名称', trigger: ['change'] },
+                    // ],
                     url: [
                         { type: 'string', required: true, message: '请输入菜单链接', trigger: ['change']},
                     ],

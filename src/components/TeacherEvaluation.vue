@@ -8,18 +8,18 @@
                    center="true"
                    :before-close="close">
             <div>
-                <el-form ref="form" :model="evaluationForm" label-position="top" label-width="80px" class="mp-base-edit">
-                    <el-form-item label-width="100px" label="课程评分" prop="name">
-                        <el-rate v-model="evaluationForm.classRate" :colors="colors"></el-rate>
+                <el-form ref="form" :rules="rules" :model="evaluationForm" label-position="top" label-width="80px" class="mp-base-edit">
+                    <el-form-item label-width="100px" :label="'课程评分(' + className + ')'" prop="classStar">
+                        <el-rate v-model="evaluationForm.classStar" :colors="colors"></el-rate>
                     </el-form-item>
 
-                    <el-form-item  label-width="100px" label="老师评分" prop="name">
-                        <el-rate v-model="evaluationForm.teacherRate" :colors="colors"></el-rate>
+                    <el-form-item  label-width="100px" :label="'老师评分(' + teacherName + ')'" prop="teacherStar">
+                        <el-rate v-model="evaluationForm.teacherStar" :colors="colors"></el-rate>
                     </el-form-item>
 
-                    <el-form-item  label-width="100px" label="老师或者课程的评价" prop="name">
+                    <el-form-item  label-width="100px" label="老师或者课程的评价" prop="content">
                         <el-input class="textarea" type="textarea"
-                                  v-model="evaluationForm.evaluation" :autosize="{ minRows: 4, maxRows: 10}"  maxlength="2000" show-word-limit
+                                  v-model="evaluationForm.content" :autosize="{ minRows: 4, maxRows: 10}"  maxlength="2000" show-word-limit
                                   placeholder="请写下您对该课程或者该老师的评价，您的评价对我们来说十分宝贵。">
                         </el-input>
                     </el-form-item>
@@ -30,7 +30,7 @@
                 <el-button class="wdi-270" type="" @click="dialogVisible = false">返 回</el-button>
                 <el-button class="wdi-270" type="primary" @click="submit">提 交</el-button>
                 <div class="tip">
-                    评价时请就事论事，请勿提供对人产生辱骂、人身攻击或冒犯的相关内容段落或其他信息。感谢您与我们共同维护安徽柏林书画研究院的评价氛围。
+                    评价时请就事论事，请勿提供对人产生辱骂、人身攻击或冒犯的相关内容段落或其他信息。感谢您与我们共同维护安徽伯林书画研究院的评价氛围。
                 </div>
             </div>
         </el-dialog>
@@ -50,6 +50,9 @@
             },
             open() {
                 this.dialogVisible = true;
+                this.$nextTick(() => {
+                    this.$refs["form"].clearValidate();
+                });
             },
 
             setClassId(classId) {
@@ -60,16 +63,57 @@
                 this.className = className;
             },
 
-            setTeacher(teacher) {
-                this.teacher = teacher;
+            setTeacherName(teacherName) {
+                this.teacherName = teacherName;
+            },
+
+            setTeacherId(teacherId) {
+                this.teacherId = teacherId;
             },
 
             setTitle(title) {
                 this.title = title;
             },
 
-            submit() {
+            clearForm() {
+                this.evaluationForm = {
+                    classStar: "",
+                    teacherStar: "",
+                    content: "",
+                    teacherId: "",
+                    classId: "",
+                };
+            },
 
+            submit() {
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.$confirm('是否确定提交评价?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.submitRequest();
+                        }).catch(() => {
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
+            async submitRequest() {
+                this.evaluationForm.teacherId = this.teacherId;
+                this.evaluationForm.classId = this.classId;
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_bl_teacher_comment_add, this.evaluationForm, "POST");
+                if(data.code == 200) {
+                    this.$notify({
+                        title: '提示',
+                        message: '评价成功'
+                    });
+                    this.dialogVisible = false;
+                    this.clearForm();
+                }
             },
         },
         data() {
@@ -78,16 +122,48 @@
                 dialogVisible: false,
                 // 标题
                 title: "评价",
-                evaluation: "",
                 classId: "",
                 className: "",
-                teacher: "",
+                teacherName: "",
+                teacherId: "",
                 evaluationForm: {
-                    classRate: "",
-                    teacherRate: "",
-                    evaluation: "",
+                    classStar: "",
+                    teacherStar: "",
+                    content: "",
+                    teacherId: "",
+                    classId: "",
                 },
                 colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
+
+                rules: {
+                    classStar: [
+                        {type: 'number', required: true, message: '请选择课程评分', trigger: ['change', 'blur']},
+                        {
+                            validator: function (rule, value, callback) {
+                                if (value == 0) {
+                                    callback(new Error("请选择课程评分"));
+                                } else {
+                                    callback();
+                                }
+                            }, trigger: ['change', 'blur']
+                        }
+                    ],
+                    teacherStar: [
+                        {type: 'number', required: true, message: '请选择老师评分', trigger: ['change', 'blur']},
+                        {
+                            validator: function (rule, value, callback) {
+                                if (value == 0) {
+                                    callback(new Error("请选择老师评分"));
+                                } else {
+                                    callback();
+                                }
+                            }, trigger: ['change', 'blur']
+                        }
+                    ],
+                    content: [
+                        {type: 'string', required: true, message: '请输入评论内容', trigger: ['change', 'blur']},
+                    ],
+                },
             }
         }
     }

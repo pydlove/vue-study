@@ -5,13 +5,13 @@
         </div>
         <div class="page page1">
             <div class="ryzs">
-                <span>{{honorCertificate.honorName}}</span>
+                <span>{{honorCertificate.name}}</span>
                 <br/>
-                <span>荣誉证书</span>
             </div>
-            <i class="rongyu mt-20"></i>
+            <span class="rywz">荣誉证书</span>
+            <i class="rongyu mt-20 ryi"></i>
             <div class="qfdw">
-                {{honorCertificate.officialUnit}}
+                {{honorCertificate.unit}}
             </div>
         </div>
     </div>
@@ -51,10 +51,10 @@
             return {
                 page: 1,
                 honorCertificate: {
-                    id: "blsh2020111116",
-                    honorName: "三好学生",
-                    officialUnit: "安徽柏林书画研究院",
-                    img: require("@/assets/img/ryzs.jpg"),
+                    uuid: "",
+                    name: "",
+                    unit: "",
+                    img: "",
                 },
                 showCertificate: false,
                 indexObj: "",
@@ -90,19 +90,31 @@
         border-radius: 5px;
     }
     .ryzs {
-        font-size: 88px;
+        font-size: 60px;
         color: #bf954b;
         font-family: 华文宋体;
         font-weight: 800;
-        margin-top: 80px;
+        position: absolute;
+        top: 50px;
+        line-height: 60px;
     }
-    .ryzs > span:nth-of-type(2) {
-        font-size: 66px;
+    .rywz {
+        font-size: 50px;
+        font-weight: 800;
+        color: #bf954b;
+        font-family: 华文宋体;
+        position: absolute;
+        bottom: 330px;
+    }
+    .ryi {
+        position: absolute;
+        bottom: 200px;
     }
     .qfdw {
         font-size: 20px;
         color: #bf954b;
-        margin-top: 80px;
         line-height: 20px;
+        position: absolute;
+        bottom: 40px;
     }
 </style>

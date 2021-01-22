@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="aioc-pc">
-            <Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'" :bgColor="'bg-black'"></Header>
+            <Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'" :bgColor="'bg-black'" :bluser="bluser"></Header>
         </div>
         <div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
             <div class="pc-content-container">
@@ -67,42 +67,43 @@
         name: "index",
         components: {Header, MyProfile, MyClass, MyActivity, MyCertificate, MyPay, MyAccountSet},
         mounted() {
+            // 判断用户是否登录
+            this.judgeIsLogin();
             new this.$wow.WOW({
                 live: false
             }).init();
             let temp = this.$utils.getStorage("currentMenu");
-            if(temp == null) {
+            if(temp == null || temp == "" || temp == undefined) {
                 this.currentMenu = "myProfile";
             } else {
                 this.currentMenu = this.$utils.getStorage("currentMenu");
-                this.$utils.removeStorage("currentMenu");
             }
         },
         methods: {
-            selectMenu(menu) {
-                this.currentMenu = menu.id
-                if(this.currentMenu == "myProfile") {
-                   this.transferUser()
+            async judgeIsLogin() {
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_login_judgeIsLogin, {}, "GET");
+                if (data.code === 200) {
+                    if (data.data.isLogin == "login") {
+                        this.bluser = data.data.bluser;
+                    } else {
+                        this.$router.push({name: "studentLogin"});
+                    }
+                } else {
+                    this.$router.push({name: "studentLogin"});
                 }
             },
 
+            selectMenu(menu) {
+                this.$utils.setStorage("currentMenu", menu.id);
+                this.currentMenu = menu.id;
+            },
         },
         data() {
             return {
                 activePage: '个人中心',
+                bluser: "",
                 clientWidth: document.body.clientWidth,
                 clientHeight: document.body.clientHeight -100,
-
-                /* 用户信息 */
-                user: {
-                    nickname: "",
-                    introduction: "",
-                    avatar: require('@/assets/img/avatar/avatar-1.jpg'),
-                    name: "",
-                    sex: "",
-                    mail: "",
-                },
-
                 /* 个人中心的菜单 */
                 pcMenus: [
                     {name: "我的资料", id: "myProfile"},

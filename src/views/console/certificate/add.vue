@@ -19,13 +19,13 @@
                         label-width="120px"
                         label-position="right">
 
-                    <el-form-item label="证书唯一序列号" prop="uuid">
+                    <el-form-item label="证书唯一序列号" prop="uuid" required>
                         <el-input class="wdi-453" disabled v-model="form.uuid" placeholder="请生成证书唯一序列号"></el-input>
                         <el-button class="scxlh aioc-btn1" type="primary" size="small" @click="createUuid">重新生成序列号</el-button>
                     </el-form-item>
 
                     <el-form-item label="证书名称" prop="name">
-                        <el-input class="wdi-600" v-model="form.name" placeholder="请输入证书名称"></el-input>
+                        <el-input class="wdi-600" v-model="form.name" maxlength="6" show-word-limit placeholder="请输入证书名称"></el-input>
                     </el-form-item>
 
                     <el-form-item label="颁发机构" prop="unit">
@@ -60,7 +60,7 @@
             </el-card>
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
-              <el-button class="wdi-120" type="primary" @click="onSubmit">确 定</el-button>
+              <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -71,7 +71,6 @@
         name: "add",
         components: {},
         mounted() {
-            this.form.uuid = this.getUUID();
         },
         methods: {
             close() {
@@ -88,7 +87,7 @@
             },
             clearForm() {
                 this.form = {
-                    uuid: "",
+                    uuid: this.getUUID(),
                     name: "",
                     unit: "",
                     img: "",
@@ -174,6 +173,9 @@
                 },
 
                 rules: {
+                    uuid: [
+                        {type: 'string', required: true, message: '请生成证书序列化', trigger: ['change', 'blur']},
+                    ],
                     name: [
                         {type: 'string', required: true, message: '请输入证书名称', trigger: ['change', 'blur']},
                     ],

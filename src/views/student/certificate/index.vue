@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="aioc-pc">
-            <Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'" :bgColor="'bg-black'"></Header>
+            <Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'" :bgColor="'bg-black'" :bluser="bluser"></Header>
         </div>
         <div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
             <div class="jz dffn">
@@ -12,19 +12,15 @@
                     <div class="ml-40">
                         <div class="xxitem">
                             <span>姓 <span class="ml-28"></span> 名：</span>
-                            <span>{{user.name}}</span>
+                            <span>{{bluser.name}}</span>
                         </div>
                         <div class="xxitem">
                             <span>身份证件：</span>
-                            <span>{{user.idCard}}</span>
+                            <span>{{bluser.idcard}}</span>
                         </div>
                         <div class="xxitem">
                             <span>证书数量：</span>
-                            <span>{{user.honorCertificateTotal}}</span>
-                        </div>
-                        <div class="xxitem">
-                            <span>颁发机构：</span>
-                            <span>{{officialUnit}}</span>
+                            <span>{{certificates.length}}</span>
                         </div>
                     </div>
                     <div class="mt-40">
@@ -33,36 +29,32 @@
                         </el-divider>
                     </div>
                     <div class="cem">
-                        <div class="ce" v-for="item in user.honorCertificates" :key="item.id" @click="selectCertificate(item)">
+                        <div :id="key" class="ce" v-for="(item, key) in certificates" :key="key" @click="selectCertificate(item)">
                             <div class="cet">
-                                {{item.honorName}}<br/>荣誉证书
+                                {{item.name}}<br/>
+                            </div>
+                            <div class="ryzs">
+                                荣誉证书
                             </div>
                             <i class="rongyu cei"></i>
                             <div class="cejg">
-                                {{item.officialUnit}}
+                                {{item.unit}}
                             </div>
-                            <div v-show="certificateSelect == item.id" class="sjx">
+                            <div v-show="certificateSelect == item.uuid" class="sjx">
                                 <i class="el-icon-check dh"></i>
                             </div>
                         </div>
-                        <el-pagination  :hide-on-single-page="pageshow"
-                                        @size-change="handleSizeChange"
-                                        @current-change="handleCurrentChange"
-                                        :current-page="currentPage"
-                                        :page-sizes="pageSizes"
-                                        :page-size="pageSize"
-                                        layout="total, sizes, prev, pager, next"
-                                        :total="totalCount">
-                        </el-pagination>
                     </div>
                 </el-card>
                 <el-card class="cecard">
-                    <div class="tl fb">
-                        <span>证书编号：</span>
-                        <span class="color-fa5c26">{{honorCertificate.id}}</span>
-                    </div>
-                    <div>
-                        <Certificate ref="certificateRef" :pageLimit="pageLimit"></Certificate>
+                    <div v-if="certificates.length > 0">
+                        <div class="tl fb">
+                            <span>证书编号：</span>
+                            <span class="color-fa5c26">{{honorCertificate.uuid}}</span>
+                        </div>
+                        <div>
+                            <Certificate ref="certificateRef" :pageLimit="pageLimit"></Certificate>
+                        </div>
                     </div>
                 </el-card>
             </div>
@@ -73,77 +65,53 @@
 <script>
     import Header from  "@/components/Header"
     import Certificate from  "@/components/Certificate"
-
     export default {
         name: "index",
         components: {Header, Certificate},
         mounted() {
+            this.judgeIsLogin();
         },
         methods: {
             selectCertificate(item) {
-                this.certificateSelect = item.id;
+                this.certificateSelect = item.uuid;
                 this.honorCertificate = item;
                 this.$refs.certificateRef.setHonorCertificate(item);
-            }
+            },
+
+            async judgeIsLogin() {
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_login_judgeIsLogin, {}, "GET");
+                if (data.code === 200) {
+                    if (data.data.isLogin == "login") {
+                        this.bluser = data.data.bluser;
+                        this.initCertificates();
+                    } else {
+                        this.$router.push({name: "studentLogin"});
+                    }
+                } else {
+                    this.$router.push({name: "studentLogin"});
+                }
+            },
+
+            async initCertificates() {
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_bl_certificate_my_list, params, "POST");
+                if (data.code === 200) {
+                    this.certificates = data.data;
+                    this.selectCertificate(this.certificates[0]);
+                }
+            },
+
         },
         data() {
             return {
                 activePage: "证书信息",
                 clientWidth: document.body.clientWidth,
                 clientHeight: document.body.clientHeight -100,
-                pageLimit: 2,
-                user: {
-                    id: "1",
-                    name: "欧阳娜娜",
-                    sex: 0,
-                    idCard: "210448196602231235",
-                    birth: "2008-06-15",
-                    address: "广东省江门市",
-                    phone: "13645695968",
-                    honorCertificates: [
-                        {
-                            id: "blsh2020111116",
-                            honorName: "三好学生",
-                            officialUnit: "安徽柏林书画研究院",
-                            img: require("@/assets/img/ryzs.jpg"),
-                        },
-                        {
-                            id: "blsh2020111117",
-                            honorName: "优秀写手",
-                            officialUnit: "安徽柏林书画研究院",
-                            img: require("@/assets/img/ryzs.jpg"),
-                        },
-                        {
-                            id: "blsh2020111118",
-                            honorName: "优秀写手",
-                            officialUnit: "安徽柏林书画研究院",
-                            img: require("@/assets/img/ryzs.jpg"),
-                        },
-                        {
-                            id: "blsh2020111119",
-                            honorName: "优秀写手",
-                            officialUnit: "安徽柏林书画研究院",
-                            img: require("@/assets/img/ryzs.jpg"),
-                        },
-                    ],
-                    honorCertificateTotal: 8,
-                },
+                certificates: [],
+                bluser: "",
+                certificateSelect: "",
                 officialUnit: "安徽柏林书画研究院",
-                certificateSelect: "blsh2020111116",
-                honorCertificate:   {
-                    id: "blsh2020111116",
-                    honorName: "三好学生",
-                    officialUnit: "安徽柏林书画研究院",
-                    img: require("@/assets/img/ryzs.jpg"),
-                },
-                /**
-                 * 分页参数
-                 */
-                currentPage: 1,
-                pageSize: 10,
-                pageSizes: [4],
-                totalCount: 8,
-                pageshow: false,
+                honorCertificate: "",
             }
         },
     }
@@ -169,8 +137,10 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: left;
+            justify-content: center;
             height: 500px;
+            position: relative;
+            overflow: auto;
         }
         .ce {
             width: 140px;
@@ -185,22 +155,36 @@
             position: relative;
         }
         .cet {
-            font-size: 22px;
+            font-size: 16px;
             color: #bf954b;
             font-family: 华文宋体;
             font-weight: 800;
-            margin-top: 20px;
+            position: absolute;
+            top: 30px;
+            padding: 0px 10px;
+        }
+        .ryzs {
+            font-size: 14px;
+            color: #bf954b;
+            font-family: 华文宋体;
+            font-weight: 800;
+            position: absolute;
+            bottom: 100px;
+            padding: 0px 10px;
         }
         .cei {
             width: 40px;
             height: 40px;
             margin-top: 10px;
+            position: absolute;
+            bottom: 50px;
         }
         .cejg {
             font-size: 6px;
             color: #bf954b;
-            margin-top: 20px;
             line-height: 20px;
+            position: absolute;
+            bottom: 20px;
         }
         .dh {
             position: absolute;

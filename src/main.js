@@ -46,7 +46,9 @@ Vue.prototype.$axios = axios;
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
-Vue.prototype.$clientHeight = document.body.clientHeight - 57 - 91
+Vue.prototype.$clientHeight = document.body.clientHeight - 57 - 91;
+
+Vue.prototype.$blshUrl = "http://localhost:9091";
 
 /**
  * 权限指令

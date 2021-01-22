@@ -63,7 +63,7 @@
                            ></el-image>
                        </template>
                    </el-table-column>
-                   <el-table-column prop="uuid" label="序列号" :show-overflow-tooltip="true"></el-table-column>
+                   <el-table-column prop="uuid" label="证书编号" :show-overflow-tooltip="true"></el-table-column>
                    <el-table-column prop="name" label="证书名称" :show-overflow-tooltip="true"></el-table-column>
                    <el-table-column prop="unit" label="颁发机构" :show-overflow-tooltip="true"></el-table-column>
                    <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
@@ -122,7 +122,6 @@
                 params.append("uuid",  this.searchform.uuid.trim());
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_certificate_list, params, "POST");
                 if (data.code === 200) {
-                    console.log(data.data)
                     this.tableData = data.data;
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
@@ -133,6 +132,7 @@
              * 增加
              */
             add() {
+                this.$refs.addRef.createUuid();
                 this.$refs.addRef.open();
             },
 

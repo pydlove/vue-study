@@ -50,7 +50,11 @@
                     </el-table-column>
                     <el-table-column prop="title" label="活动主题" show-overflow-tooltip="true" width="150px"></el-table-column>
                     <el-table-column prop="description" label="活动描述" show-overflow-tooltip="true" width="150px"></el-table-column>
-                    <el-table-column prop="startTime" label="活动kai时间" show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="startTime" label="活动时间" show-overflow-tooltip="true">
+                        <template slot-scope="scope">
+                            {{ scope.row.startTime }} - {{ scope.row.endTime }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="address" label="活动地点" show-overflow-tooltip="true">
                         <template slot-scope="scope">
                             {{ scope.row.province }}{{ scope.row.city }}{{ scope.row.county }}({{ scope.row.address }})
@@ -73,9 +77,7 @@
                     <el-table-column prop="teachers" label="负责人" show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="status" label="活动状态" show-overflow-tooltip="true" align="center">
                         <template slot-scope="scope">
-                            <el-tag :type="scope.row.status == 0 ? 'success':'info'" class="fb" effect="dark">
-                                {{fmtActivityStatus(scope.row.status)}}
-                            </el-tag>
+                            {{fmtActivityStatus(scope.row.status)}}
                         </template>
                     </el-table-column>
                     <el-table-column label="操作"  fixed="right" width="260">
@@ -356,13 +358,17 @@
             fmtActivityStatus(status) {
                 switch (status) {
                     case "0":
-                        return "报名中";
+                        return "已发布";
                     case "1":
                         return "未发布";
                     case "2":
                         return "进行中";
                     case "3":
                         return "已结束";
+                    case "4":
+                        return "报名中";
+                    case "5":
+                        return "报名结束";
                     default:
                         return status;
                 }

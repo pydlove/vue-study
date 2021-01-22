@@ -37,7 +37,7 @@
 
                     <div class="dffn">
                         <el-form-item label="结束方式" prop="endType" required>
-                            <el-select class="wdi-288" v-model="form.endType" placeholder="请选择结束方式">
+                            <el-select class="wdi-288" v-model="form.endType" placeholder="请选择结束方式" disabled>
                                 <el-option @click.native="form.frequency = ''; form.endDate = ''; "
                                            v-for="item in endTypes"
                                            :key="item.value"
@@ -417,10 +417,10 @@
                     },
                 ],
                 endTypes: [
-                    {
-                        name: "限次数",
-                        value: "0",
-                    },
+                    // {
+                    //     name: "限次数",
+                    //     value: "0",
+                    // },
                     {
                         name: "限日期",
                         value: "1",
