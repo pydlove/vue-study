@@ -4,7 +4,7 @@
             <Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'" :bgColor="'bg-black'" :bluser="bluser"></Header>
         </div>
 
-        <div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
+        <div class="aioc-container1" :style="' height:' + clientHeight + 'px;'">
             <div class="tl xjxx" :style="'width:' + cardWidth + 'px;'">
                 <div class="dffn">
                     <el-card class="mr-10 fs-15 color-303133 wow bounceInLeft" :style="'width:' + (photoWidth + 40) + 'px;'">

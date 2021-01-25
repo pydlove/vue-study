@@ -1,5 +1,5 @@
 <template>
-    <div class="header-container">
+    <div>
         <div class="header-main">
             <div class="dfjc bl">
                 <div :class="'aioc-menu ' + (bgColor == null ? '':bgColor)">
@@ -40,6 +40,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="ct">
+            <div class="ct_title">
+                <span> 文化安徽 有你 有我</span>
             </div>
         </div>
     </div>
@@ -161,7 +166,7 @@
 
                 /* 显示用户菜单 */
                 showUserMenus: false,
-                logo: require('@/assets/img/logo/16.png'),
+                logo: require('@/assets/img/logo/21.png'),
                 isRegisterAgain: false,
             }
         },
@@ -169,7 +174,25 @@
 </script>
 
 <style scoped>
-
+    .ct_title {
+        width: 1500px;
+        height: 260px;
+        margin: 0px auto;
+        position: relative;
+    }
+    .ct_title span {
+        position: absolute;
+        top: 100px;
+        left: 20px;
+    }
+    .ct {
+        background: url("../assets/img/bg/1.jpg");
+        height: 260px;
+        background-size: 100% 100%;
+        font-family: 华文行楷;
+        color: #FFFFFF;
+        font-size: 30px;
+    }
     .underline-white {
         border-bottom: 1px solid #ffffff;
     }
@@ -187,7 +210,7 @@
     }
     .logo {
         line-height: 100px;
-        width: 360px;
+        width: 310px;
         height: 60px;
     }
     .header-container {
@@ -204,25 +227,24 @@
         float: left;
         display: flex;
         flex-wrap: nowrap;
-        line-height: 100px;
-        height: 100px;
+        line-height: 60px;
+        height: 60px;
     }
     .aiocm-right {
         float: right;
-        height: 100px;
+        height: 60px;
         display: flex;
         flex-wrap: nowrap;
         justify-content: center;
         align-items: center;
     }
     .bl {
-        background: url("../assets/img/nothome_top_bg.webp") center center / cover no-repeat rgb(34, 34, 34);
         width: 100%;
-        height: 100px;
+        height: 60px;
     }
     .aioc-menu {
         width: 1500px;
-        height: 100px;
+        height: 60px;
         background-color:transparent;
     }
     .aiocm-logo {
@@ -232,7 +254,7 @@
     }
     .aiocm-page {
         margin-left: 20px;
-        line-height: 100px;
+        line-height: 60px;
         color: #303133;
     }
     .aiocm-page > a {

@@ -343,6 +343,7 @@
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_bl_activity_page_list, params, "POST");
                 if (data.code === 200) {
                     this.tableData = data.data;
+                    console.log(data.data)
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
                 }

@@ -57,7 +57,7 @@
 						<el-button class="dl-btn" :type="type" @click="register" :disabled="disabled">立即注册</el-button>
 					</el-form>
 
-					<div class="rbt-tip bt mt-10 wd-350">
+					<div class="rbt-tip bt mt-10">
 						<a class="fr" @click="toLogin">去登录»</a>
 						<a class="fr">已有账号？</a>
 					</div>
@@ -131,11 +131,15 @@
                 params.append("phone", this.registerForm.phone.trim());
                 params.append("password", this.$md5(this.registerForm.password));
                 params.append("registrationCode", this.registerForm.registrationCode.trim());
+                this.disabled = true;
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_login_register, params, "POST");
                 if (data.code == 200) {
                     this.$promptMsg("注册成功，请前去登录！", "success");
+                    this.disabled = false;
                     this.clearForm();
                     this.toLogin();
+                } else {
+                    this.disabled = false;
                 }
             },
 
@@ -334,6 +338,7 @@
 		font-size: 14px;
 		position: absolute;
 		bottom: 40px;
+		right: 0px;
 	}
 
 	.rbt-tip a:nth-of-type(1) {

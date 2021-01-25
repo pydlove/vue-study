@@ -317,6 +317,22 @@ const router = new Router({
             name: 'log',
             component: (resolve) => require(['../views/portal/log/index.vue'], resolve),
         },
+        {
+            meta: {
+                title: '安徽伯林书画研究院控制台工作日志'
+            },
+            path: '/workLog',
+            name: 'workLog',
+            component: (resolve) => require(['../views/console/workLog/index.vue'], resolve),
+        },
+        {
+            meta: {
+                title: '安徽伯林书画研究院控制台工作审阅'
+            },
+            path: '/workReview',
+            name: 'workReview',
+            component: (resolve) => require(['../views/console/workLog/review.vue'], resolve),
+        },
 
 
         {

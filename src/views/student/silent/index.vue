@@ -5,7 +5,7 @@
 			<Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'"
 			        :bgColor="'bg-black'" :bluser="bluser"></Header>
 		</div>
-		<div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
+		<div class="aioc-container1" :style="'height:' + clientHeight + 'px;'">
 			<div class="main" :style="' height:' + (clientHeight - 60) + 'px;'">
 				<el-image class="logo" :src="img" fit="fill"></el-image>
 				<div class="color-999">

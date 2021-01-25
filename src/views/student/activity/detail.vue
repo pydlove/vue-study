@@ -72,9 +72,9 @@
                     </div>
                 </div>
             </div>
+            <Footer></Footer>
         </div>
         <Pay ref="payRef" :activity="activity"></Pay>
-        <Footer class="fter"></Footer>
     </div>
 </template>
 <!--eslint-disable-->
@@ -82,7 +82,6 @@
     import Header from  "@/components/Header"
     import Footer from  "@/components/Footer"
     import Pay from  "@/components/Pay"
-
     export default {
         name: "activityDetail",
         components: {Header, Pay, Footer},

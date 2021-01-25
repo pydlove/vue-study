@@ -1,5 +1,5 @@
 <template>
-    <div class="header-container">
+    <div>
         <div class="header-main">
             <div class="dfjc bl">
                 <div :class="'aioc-menu ' + (bgColor == null ? '':bgColor)">
@@ -12,7 +12,7 @@
                     <div class="aiocm-right">
                         <div class="login-container">
                             <div class="avatar-main mr-30" @mouseover="showUserMenus = true" @mouseout="showUserMenus = false">
-                                <el-avatar size="medium"
+                                <img class="avatar show-avatar"
                                      :src="bluser.photo" alt="用户头像" />
                                 <el-card v-show="showUserMenus" class="user-cneter show-avatar">
                                     <ul class="show-avatar">
@@ -23,6 +23,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="ct">
+            <div class="ct_title">
+                <span> 文化安徽 有你 有我</span>
             </div>
         </div>
     </div>
@@ -94,36 +99,6 @@
                  */
                 active: "首页",
 
-                /**
-                 * 菜单
-                 */
-                menus: [
-                    {
-                        name: "首页",
-                        path: "/main",
-                    },
-                    {
-                        name: "学科报名",
-                        path: "/subject",
-                    },
-                    {
-                        name: "活动中心",
-                        path: "/activity",
-                    },
-                    {
-                        name: "学籍信息",
-                        path: "/studentStatus",
-                    },
-                    {
-                        name: "个人中心",
-                        path: "/personCenter",
-                    },
-                    {
-                        name: "证书信息",
-                        path: "/certificate",
-                    },
-                ],
-
                 /* 是否登录 */
                 isLogin: true,
 
@@ -132,38 +107,39 @@
 
                 /* 显示用户菜单 */
                 showUserMenus: false,
-                logo: require('@/assets/img/logo/16.png'),
+                logo: require('@/assets/img/logo/21.png'),
             }
         },
     }
 </script>
 
 <style scoped>
-
-    .underline-white {
-        border-bottom: 1px solid #ffffff;
+    .ct_title {
+        width: 900px;
+        height: 260px;
+        margin: 0px auto;
+        position: relative;
     }
-    .underline-black {
-        border-bottom: 1px solid #303133;
+    .ct_title span {
+        position: absolute;
+        top: 100px;
+        left: 0px;
     }
-    .hover-black:hover {border-bottom: 1px solid #303133;}
-    .hover-white:hover {border-bottom: 1px solid #ffffff;}
-    .color-white {color: #ffffff;}
-    .color-black {color: #303133;}
-    .bg-white {background: #ffffff;}
-    .bg-black {background: #303133;}
+    .ct {
+        background: url("../assets/img/bg/1.jpg");
+        height: 260px;
+        background-size: 100% 100%;
+        font-family: 华文行楷;
+        color: #FFFFFF;
+        font-size: 30px;
+    }
     a {
         text-decoration: none;
     }
     .logo {
         line-height: 100px;
-        width: 360px;
+        width: 310px;
         height: 60px;
-    }
-    .header-container {
-        position: absolute;
-        top: 0px;
-        width: 100%;
     }
     .header-main {
         display: flex;
@@ -174,25 +150,26 @@
         float: left;
         display: flex;
         flex-wrap: nowrap;
-        line-height: 100px;
-        height: 100px;
+        line-height: 60px;
+        height: 60px;
     }
     .aiocm-right {
         float: right;
-        height: 100px;
+        height: 60px;
         display: flex;
         flex-wrap: nowrap;
         justify-content: center;
-        margin-top: 30px;
+        margin-top: 10px;
     }
     .bl {
-        background: url("../assets/img/nothome_top_bg.webp") center center / cover no-repeat rgb(34, 34, 34);
+        /*background: url("../assets/img/bg/1.jpg") center center / cover no-repeat rgb(34, 34, 34);*/
         width: 100%;
-        height: 100px;
+        height: 60px;
     }
     .aioc-menu {
-        width: 1500px;
-        height: 100px;
+        width: 1400px;
+        min-width: 1400px;
+        height: 60px;
         background-color:transparent;
     }
     .aiocm-logo {
@@ -202,7 +179,7 @@
     }
     .aiocm-page {
         margin-left: 20px;
-        line-height: 100px;
+        line-height: 60px;
         color: #303133;
     }
     .aiocm-page > a {
@@ -253,6 +230,7 @@
     .avatar {
         margin-top: 5px;
         width: 40px;
+        height: 40px;
         border-radius: 20px;
         border: 1px solid #cccccc;
     }

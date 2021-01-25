@@ -1,3 +1,5 @@
+// 解决360不兼容问题
+import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App.vue'
 import './assets/css/reset.css'

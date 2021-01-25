@@ -192,7 +192,7 @@
     .ct {
         padding: 50px;
         line-height: 20px;
-        text-align: unset;
+        text-align: center !important;
     }
     .ql-container.ql-snow {
       border: 0px;

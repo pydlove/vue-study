@@ -3,7 +3,7 @@
         <div class="aioc-pc">
             <Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'" :bgColor="'bg-black'" :bluser="bluser"></Header>
         </div>
-        <div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
+        <div class="aioc-container1" :style="'height:' + clientHeight + 'px;'">
             <div class="jz dffn">
                 <el-card class="gycard tl color-303133 fs-15">
                     <el-divider content-position="left">
@@ -32,10 +32,12 @@
                             <div class="ryzs">
                                 荣誉证书
                             </div>
-                            <i class="rongyu cei"></i>
-                            <div class="cejg">
-                                {{item.unit}}
+                            <div class="cei">
+                                <i class="rongyu2"></i>
                             </div>
+                            <!--<div class="cejg">-->
+                                <!--{{item.unit}}-->
+                            <!--</div>-->
                             <div v-show="certificateSelect == item.uuid" class="sjx">
                                 <i class="el-icon-check dh"></i>
                             </div>
@@ -53,15 +55,17 @@
                 </el-card>
             </div>
         </div>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
     import Header from  "@/components/Header"
     import Certificate from  "@/components/Certificate"
+    import Footer from "@/components/Footer"
     export default {
         name: "index",
-        components: {Header, Certificate},
+        components: {Header, Certificate, Footer},
         mounted() {
             this.judgeIsLogin();
         },
@@ -151,13 +155,15 @@
             position: relative;
         }
         .cet {
+            width: 140px;
+            text-align: center;
+            left: 0px;
             font-size: 16px;
             color: #bf954b;
             font-family: 华文宋体;
             font-weight: 800;
             position: absolute;
             top: 30px;
-            padding: 0px 10px;
         }
         .ryzs {
             font-size: 14px;
@@ -166,7 +172,9 @@
             font-weight: 800;
             position: absolute;
             bottom: 100px;
-            padding: 0px 10px;
+            width: 140px;
+            text-align: center;
+            left: 0px;
         }
         .cei {
             width: 40px;
@@ -174,13 +182,19 @@
             margin-top: 10px;
             position: absolute;
             bottom: 50px;
+            width: 140px;
+            text-align: center;
+            left: 0px;
         }
         .cejg {
-            font-size: 6px;
+            font-size: 9px;
             color: #bf954b;
             line-height: 20px;
             position: absolute;
             bottom: 20px;
+            width: 140px;
+            text-align: center;
+            left: 0px;
         }
         .dh {
             position: absolute;

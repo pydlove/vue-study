@@ -4,7 +4,7 @@
         <div class="aioc-pc">
             <Header :bluser="bluser"></Header>
         </div>
-        <div v-if="continueToPay" class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
+        <div v-if="continueToPay" class="aioc-container1" :style="' height:' + clientHeight + 'px;'">
             <el-card class="first-card">
                 <div>
                     <div class="zfd">
@@ -16,10 +16,10 @@
                                 <span class="color-409EFF fb fl">订单编号：{{order.outTradeNo}}</span>
                             </div>
                             <div class="ddxq" v-for="(item, index) in orderInfoMap" :key="index">
-                                <span>报名费用： <span class="jg"> 50元</span></span>
+                                <!--<span>报名费用： <span class="jg"> 50元</span></span>-->
                                 <span>大类科目： {{item.mainSubject.name}}</span>
                                 <span>小类科目： {{item.subSubject.name}}</span>
-                                <span>费用用途： 用于支付注册{{item.mainSubject.name}}-{{item.subSubject.name}}科目学习所产生的报名费用</span>
+                                <!--<span>费用用途： 用于支付注册{{item.mainSubject.name}}-{{item.subSubject.name}}科目学习所产生的报名费用</span>-->
 
                                 <el-table v-show="item.commodities.length > 0" class="mb-10" :data="item.commodities" border>
                                     <el-table-column prop="name" label="商品名称"></el-table-column>
@@ -31,11 +31,11 @@
                                             <span class="jg">{{scope.row.num*scope.row.unitPrice}} 元</span>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="unitPrice" label="总价">
-                                        <template slot-scope="scope">
-                                            <span>费用用途： 用于支付购买商品{{scope.row.name}}所产生的报名费用</span>
-                                        </template>
-                                    </el-table-column>
+                                    <!--<el-table-column prop="unitPrice" label="总价">-->
+                                        <!--<template slot-scope="scope">-->
+                                            <!--<span>费用用途： 用于支付购买商品{{scope.row.name}}所产生的报名费用</span>-->
+                                        <!--</template>-->
+                                    <!--</el-table-column>-->
                                 </el-table>
                             </div>
                         </el-card>
@@ -167,7 +167,6 @@
                                 <el-cascader class="wdi-300"
                                              ref="areaCascaderRef"
                                              size="large"
-                                             :props="{ checkStrictly: true }"
                                              :options="areaOptions"
                                              v-model="form1.area"
                                              @change="handleAreaCascader"
@@ -199,7 +198,7 @@
                                     <span>
 									班级名称：<span class="color-409EFF fb">{{item.class.name}}</span>
 									</span>
-                                    ，注册费用：50元
+                                    <!--，注册费用：50元-->
                                 </div>
 
                                 <div v-show="item.commodities.length > 0">
@@ -407,10 +406,10 @@
                                     <span class="color-409EFF fb fl">订单编号：{{orderForm.outTradeNo}}</span>
                                 </div>
                                 <div class="ddxq" v-for="(item, index) in subjectForms" :key="index">
-                                    <span>报名费用： <span class="jg"> 50元</span></span>
+                                    <!--<span>报名费用： <span class="jg"> 50元</span></span>-->
                                     <span>大类科目： {{item.mainSubject.name}}</span>
                                     <span>小类科目： {{item.subSubject.name}}</span>
-                                    <span>费用用途： 用于支付注册{{item.mainSubject.name}}-{{item.subSubject.name}}科目学习所产生的报名费用</span>
+                                    <!--<span>费用用途： 用于支付注册{{item.mainSubject.name}}-{{item.subSubject.name}}科目学习所产生的报名费用</span>-->
 
                                     <el-table v-show="item.commodities.length > 0" class="mb-10" :data="item.commodities" border>
                                         <el-table-column prop="name" label="商品名称"></el-table-column>
@@ -422,11 +421,11 @@
                                                 <span class="jg">{{scope.row.num*scope.row.unitPrice}} 元</span>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column prop="unitPrice" label="总价">
-                                            <template slot-scope="scope">
-                                                <span>费用用途： 用于支付购买商品{{scope.row.name}}所产生的报名费用</span>
-                                            </template>
-                                        </el-table-column>
+                                        <!--<el-table-column prop="unitPrice" label="总价">-->
+                                            <!--<template slot-scope="scope">-->
+                                                <!--<span>费用用途： 用于支付购买商品{{scope.row.name}}所产生的报名费用</span>-->
+                                            <!--</template>-->
+                                        <!--</el-table-column>-->
                                     </el-table>
                                 </div>
                             </el-card>
@@ -478,13 +477,13 @@
 
             <div slot="footer" class="dialog-footer">
                 <el-button v-show="stage == 1" class="wdi-120 aioc-btn1" type="primary" @click="toNext" :disabled="nextDisabled">下一步</el-button>
-                <el-button v-show="stage == 2 || stage == 3" class="wdi-120" type="primary" @click="toPrevious">上一步
-                </el-button>
+                <el-button v-show="stage == 2" class="wdi-120" type="primary" @click="toPrevious">上一步</el-button>
                 <el-button v-show="stage == 2" class="wdi-120" type="primary" @click="addSubject">加入注册科目</el-button>
                 <el-button v-show="stage == 2 && subjectForms.length > 0" class="wdi-120" type="primary" @click="submit">注 册</el-button>
+                <el-button v-show="stage == 3" class="wdi-120" type="primary" @click="toSubmitPrevious">上一步</el-button>
             </div>
         </div>
-
+        <UserNotice @createOrder="createOrder" ref="userNoticeRef"></UserNotice>
     </div>
 </template>
 <!--eslint-disable-->
@@ -493,9 +492,10 @@
     import areaData from '@/assets/json/areaData.json'
     import Pagination from "@/components/Pagination";
     import Header from "@/components/Header.vue"
+    import UserNotice from "@/views/student/firstLogin/userNotice.vue"
     export default {
         name: "FirstLogin",
-        components: {Pagination, Header, VueQr},
+        components: {Pagination, Header, VueQr, UserNotice},
         mounted() {
             this.judgeIsLogin();
             this.initAreaOptions(areaData);
@@ -653,6 +653,15 @@
                 }
             },
 
+            toSubmitPrevious() {
+                if(this.timer != null && this.timer != "") {
+                    clearInterval(this.timer);
+                    this.timer = "";
+                }
+                this.destroyOrder(this.orderForm.outTradeNo);
+                this.stage--;
+            },
+
             toNext() {
                 // 校验表单
                 this.$refs['form1'].validate((valid) => {
@@ -750,13 +759,17 @@
                     }).then(() => {
                     }).catch(() => {
                         //注册科目提交
-                        this.createOrder();
+                        this.beforeCreateOrder();
                     });
                 } else {
-                    this.createOrder();
+                    this.beforeCreateOrder();
                 }
             },
 
+            async beforeCreateOrder() {
+                // 同意用户须知
+                this.$refs.userNoticeRef.open();
+            },
             async createOrder() {
                 this.orderForm.outTradeNo = this.$utils.random_No(4);
                 this.calculationCost();
@@ -1060,6 +1073,18 @@
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
                 let params = new FormData()
+                if (this.form1.area.length == 1) {
+                    params.append("province", this.form1.area[0]);
+                }
+                if (this.form1.area.length == 2) {
+                    params.append("province", this.form1.area[0]);
+                    params.append("city", this.form1.area[1]);
+                }
+                if (this.form1.area.length == 3) {
+                    params.append("province", this.form1.area[0]);
+                    params.append("city", this.form1.area[1]);
+                    params.append("county", this.form1.area[2]);
+                }
                 params.append("subId", this.form2.subSubject.id);
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
@@ -1314,7 +1339,21 @@
                 clientHeight: document.body.clientHeight - 100,
                 continueToPay: false,
                 bluser: "",
-                order: "",
+                order: {
+                    id: "",
+                    outTradeNo: "",
+                    status: "",
+                    subject: "",
+                    totalAmount: "",
+                    description: "",
+                    createTime: "",
+                    payTime: "",
+                    payWay: "",
+                    tradeNo: "",
+                    createUser: "",
+                    fresult: "",
+                    type: "",
+                },
                 orderInfoMap: [],
                 areaOptions: [],
                 stage: 1,

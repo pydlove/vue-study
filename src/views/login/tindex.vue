@@ -54,11 +54,11 @@
 			</div>
 		</div>
 
-		<div class="zc">
-			目前不支持IE、360浏览器，建议使用谷歌、火狐、Microsoft Edge等浏览器访问
-		</div>
+		<!--<div class="zc">-->
+			<!--目前不支持IE、360浏览器，建议使用谷歌、火狐、Microsoft Edge等浏览器访问-->
+		<!--</div>-->
 
-		<Footer class="fter"></Footer>
+		<!--<Footer class="fter"></Footer>-->
 	</div>
 </template>
 <!--eslint-disable-->
@@ -131,7 +131,7 @@
                 clientHeight: 980,
                 loginForm: {
                     // account: "panyong",
-                    // // account: "wanglh",
+                    // account: "wanglh",
                     // password: "1q2w3e4R!Q",
                     // verificationCode: "aaaa",
                     account: "",
@@ -164,7 +164,7 @@
 		align-items: center;
 		justify-content: center;
 		font-weight: 800;
-		font-family: 华文行楷;
+		font-family: 华文行楷 !important;
 	}
 	.loginc {
 		background-repeat: no-repeat;

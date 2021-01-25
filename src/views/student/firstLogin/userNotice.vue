@@ -100,8 +100,16 @@
 					</div>
 				</div>
 			</el-card>
+			<div class="tl mt-30">
+				<el-checkbox @change="check" v-model="userNeedKnow">
+					<span :class="(disabled?'color-999':'color-409EFF') + ' yhxz'">
+						我已阅读并接受安徽柏林书画研究院用户须知
+					</span>
+				</el-checkbox>
+			</div>
 			<span slot="footer" class="dialog-footer">
-              <div class="fs-14 color-999">© 2020 安徽伯林书画研究院 - 用户须知 - 隐私声明</div>
+				<el-button class="wdi-190 mb-20" :type="type" :disabled="disabled" @click="submit">确 认</el-button>
+                <div class="fs-14 color-999">© 2020 安徽伯林书画研究院 - 用户须知 - 隐私声明</div>
             </span>
 		</el-dialog>
 	</div>
@@ -115,18 +123,45 @@
                 this.dialogVisible = false;
             },
             open() {
+                this.disabled = true;
+                this.userNeedKnow = false;
+                this.type = "info";
                 this.dialogVisible = true;
             },
+            check() {
+                if(this.userNeedKnow) {
+                    this.disabled = false;
+                    this.type = "primary";
+                } else {
+                    this.disabled = true;
+                    this.type = "info";
+                }
+            },
+            submit() {
+                this.dialogVisible = false;
+                this.$emit("createOrder");
+            }
 	    },
 	    data() {
             return {
                 dialogVisible: false,
+                disabled: true,
+                userNeedKnow: false,
+                type: "info"
             }
 	    }
     }
 </script>
 
 <style scoped>
+	.yhxz {
+		margin-left: 5px;
+		font-size: 12px;
+		letter-spacing: 0.5px;
+	}
+	.yhxz > span {
+		margin-left: 2px;
+	}
 	.yh {
 		font: 14px,Arial,宋体;
 		color: #000000;

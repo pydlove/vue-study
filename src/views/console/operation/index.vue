@@ -2,10 +2,8 @@
 	<!--eslint-disable-->
 	<div class="dffn">
 		<div class="wdi-350 aioc-scroll bg-ffffff" :style="{minHeight: clientHeight + 'px'}">
-			<div style="height: 100px; line-height: 50px; font-family: 华文行楷; font-size: 22px; border-bottom: 1px solid #eeeeee;text-align: left;padding-left: 20px;">
-				安徽伯林书画研究院管理系统
-				<br>
-				操作说明书
+			<div style="height: 60px; line-height: 50px; font-family: 华文行楷; font-size: 22px; border-bottom: 1px solid #eeeeee;text-align: left;padding-left: 20px;">
+				<el-image class="logo" :src="logo" fit="fill"></el-image>
 			</div>
 			<div class="tl">
 				<ul class="menu">
@@ -410,6 +408,7 @@
 	    },
 	    data() {
             return {
+                logo: require('@/assets/img/logo/21.png'),
                 selectMenuId: 'know',
                 clientWidth: document.body.clientWidth,
                 clientHeight: document.body.clientHeight,
@@ -439,6 +438,11 @@
 </script>
 
 <style scoped>
+	.logo {
+		line-height: 100px;
+		width: 260px;
+		height: 50px;
+	}
 	.menu li {
 		line-height: 40px;
 		font-size: 16px;

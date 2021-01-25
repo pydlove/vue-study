@@ -14,7 +14,7 @@
 			<div class="gnc wow bounceInRight">
 				<div class="gnm">
 					<div class="xstd">安徽省伯林书画研究院</div>
-					<div class="xstd mb-20"> <i class="xuesheng mr-10"></i>学生天地</div>
+					<div class="xstd mb-20"> <i class="xuesheng mr-10"></i>学生端</div>
 
 					<el-form class="login-form" ref="form" :rules="rules" label-width="0px" :model="loginForm">
 						<el-form-item label="" prop="phone" required>
@@ -44,7 +44,7 @@
 						<el-button class="dl-btn" type="primary" @click="login">立即登录</el-button>
 					</el-form>
 
-					<div class="lbt-tip bt mt-10 wd-350">
+					<div class="lbt-tip bt mt-10">
 						<!--<a class="fl" @click="toForget">忘记密码»</a>-->
 						<a class="fr" @click="toRegister">点击注册»</a>
 						<a class="fr">还没有帐号？</a>
@@ -53,10 +53,10 @@
 			</div>
 		</div>
 
-		<div class="zc">
-			目前不支持IE、360浏览器，建议使用谷歌、火狐、Microsoft Edge等浏览器访问
-		</div>
-		<Footer class="fter"></Footer>
+		<!--<div class="zc">-->
+			<!--目前不支持IE、360浏览器，建议使用谷歌、火狐、Microsoft Edge等浏览器访问-->
+		<!--</div>-->
+		<!--<Footer class="fter"></Footer>-->
 	</div>
 </template>
 <!--eslint-disable-->
@@ -207,7 +207,7 @@
 		align-items: center;
 		justify-content: center;
 		font-weight: 800;
-		font-family: 华文行楷;
+		font-family: 华文行楷 !important;
 	}
 	.loginc {
 		background-repeat: no-repeat;
@@ -299,6 +299,7 @@
 		font-size: 14px;
 		position: absolute;
 		bottom: 40px;
+		right: 0px;
 	}
 
 	.lbt-tip a:nth-of-type(1) {

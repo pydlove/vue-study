@@ -25,9 +25,10 @@
 			<div class="am-fl tpl-header-logo"
 			     :style="'background:' + background + ';color:' + color + ';border:' + border">
 				<a class="mr-5" href="javascript:;">
-					<el-image :src="project.icon" style="width: 38px; height: 38px;" alt=""> </el-image>
+					<img class="logo" :src="logo" fit="fill"></img>
+					<!--<el-image :src="project.icon" style="width: 38px; height: 38px;" alt=""> </el-image>-->
 				</a>
-				<span class="main-title">{{project.chName}}</span>
+				<!--<span class="main-title">{{project.chName}}</span>-->
 			</div>
 			<!-- 右侧内容 -->
 			<div class="tpl-header-fluid"
@@ -119,7 +120,7 @@
 			     :style="'background:' + background + ';color:' + color + ';border:' + border">
 				<div class="dffc tl">
 					<div class="tpl-user-panel-profile-picture">
-						<el-avatar class="ava" :size="avatarSize" :src="user.avatar"></el-avatar>
+						<img class="ava" :size="avatarSize" :src="user.avatar"/>
 					</div>
 					<span class="user-panel-logged-in-text">
                         <i v-if="user.sex == '1'" class="el-icon-female"></i>
@@ -208,7 +209,7 @@
 				</el-breadcrumb-item>
 			</el-breadcrumb>
 
-			<iframe id="iframe" class="frame-con" :src="currentUrl" scrolling="no"
+			<iframe id="iframe" class="frame-con" :src="currentUrl" scrolling="no" allowtransparency="true"
 			        :style="'height:' + clientHeight + 'px;'">
 			</iframe>
 		</div>
@@ -666,7 +667,7 @@
         data() {
             return {
                 clientHeight: document.body.clientHeight - 57 - 88,
-                logo: require('@/assets/img/logo/logo.png'),
+                logo: require('@/assets/img/logo/22.png'),
                 avatar: require('@/assets/img/ouynn.jpg'),
                 avatarSize: "80",
                 menuShow: false,
@@ -709,6 +710,11 @@
 </script>
 
 <style scoped>
+	.logo {
+		line-height: 100px;
+		width: 200px;
+		height: 45px;
+	}
 	a {
 		text-decoration: none;
 	}
@@ -730,10 +736,10 @@
 		float: left;
 	}
 
-	.tpl-header-logo img {
-		width: 42px;
-		height: 30px;
-	}
+	/*.tpl-header-logo img {*/
+		/*width: 42px;*/
+		/*height: 30px;*/
+	/*}*/
 
 	.main-title {
 		text-decoration: none;

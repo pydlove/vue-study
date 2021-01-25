@@ -209,4 +209,10 @@ export default {
     // 日志
     console_service_v1_con_log_list: "/console-service/v1/con_log/list",
 
+    // 工作日志
+    console_service_v1_bl_work_log_add: "/console-service/v1/bl_work_log/add",
+    console_service_v1_bl_work_log_edit: "/console-service/v1/bl_work_log/edit",
+    console_service_v1_bl_work_log_delete: "/console-service/v1/bl_work_log/delete",
+    console_service_v1_bl_work_log_list: "/console-service/v1/bl_work_log/list",
+    console_service_v1_bl_work_log_leader: "/console-service/v1/bl_work_log/leader",
 }

@@ -9,10 +9,12 @@
                 <br/>
             </div>
             <span class="rywz">荣誉证书</span>
-            <i class="rongyu mt-20 ryi"></i>
-            <div class="qfdw">
-                {{honorCertificate.unit}}
+            <div class="mt-20 ryi">
+                <i class="rongyu "></i>
             </div>
+            <!--<div class="qfdw">-->
+                <!--{{honorCertificate.unit}}-->
+            <!--</div>-->
         </div>
     </div>
 </template>
@@ -96,6 +98,9 @@
         font-weight: 800;
         position: absolute;
         top: 50px;
+        width: 400px;
+        text-align: center;
+        left: 0px;
         line-height: 60px;
     }
     .rywz {
@@ -105,10 +110,16 @@
         font-family: 华文宋体;
         position: absolute;
         bottom: 330px;
+        width: 400px;
+        text-align: center;
+        left: 0px;
     }
     .ryi {
         position: absolute;
-        bottom: 200px;
+        bottom: 160px;
+        width: 400px;
+        text-align: center;
+        left: 0px;
     }
     .qfdw {
         font-size: 20px;
@@ -116,5 +127,8 @@
         line-height: 20px;
         position: absolute;
         bottom: 40px;
+        width: 400px;
+        text-align: center;
+        left: 0px;
     }
 </style>

@@ -3,7 +3,7 @@
         <div class="aioc-pc">
             <Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'" :bgColor="'bg-black'" :bluser="bluser"></Header>
         </div>
-        <div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
+        <div class="aioc-container1" :style="' height:' + clientHeight + 'px;'">
             <div class="pc-content-container">
                 <el-card class="pc-menu wow bounceInLeft">
                     <ul>
@@ -51,6 +51,7 @@
                 </el-card>
             </div>
         </div>
+        <Footer></Footer>
     </div>
 </template>
 
@@ -62,10 +63,10 @@
     import MyCertificate from  "@/components/MyCertificate"
     import MyPay from  "@/components/MyPay"
     import MyAccountSet from  "@/components/MyAccountSet"
-
+    import Footer from "@/components/Footer"
     export default {
         name: "index",
-        components: {Header, MyProfile, MyClass, MyActivity, MyCertificate, MyPay, MyAccountSet},
+        components: {Header, MyProfile, MyClass, MyActivity, MyCertificate, MyPay, MyAccountSet, Footer},
         mounted() {
             // 判断用户是否登录
             this.judgeIsLogin();
@@ -137,6 +138,7 @@
         }
         .avatar {
             width: 100px;
+            height: 100px;
             border-radius: 50px;
             border: 1px solid #cccccc;
             margin-left: 100px;

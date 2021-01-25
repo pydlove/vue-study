@@ -5,7 +5,7 @@
 			<Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'"
 			        :bgColor="'bg-black'" :bluser="bluser"></Header>
 		</div>
-		<div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
+		<div :style="'height:' + clientHeight + 'px;'">
 			<div class="main">
 				<div class="hdt mt-40">
 					<i class="huodong"></i>
@@ -17,10 +17,9 @@
 				<div class="top1">
 					<el-carousel class="elca" interval="5000" :autoplay="true" @mouseover.native="showMore = true;" @mouseout.native="showMore = false;">
 						<el-carousel-item v-if="index < 4" v-for="(item, index) in adActivities" :key="item.id" @click.native="toActivityDetailPage(item)">
-							<el-image
+							<img
 									style="width: 600px; height: 300px"
-									:src="item.poster"
-									fit="fill"></el-image>
+									:src="item.poster"/>
 							<span class="title">{{item.title.length > 19 ? (item.title.substring(0,19) + "..."):(item.title)}}</span>
 							<span class="title-container"></span>
 						</el-carousel-item>
@@ -30,10 +29,9 @@
 
 					<div class="tl1">
 						<div class="pr" v-for="(item, index) in adActivities" :key="index" @click="toActivityDetailPage(item)">
-							<el-image :class="(index < 4 ? 'mb-5':'mt-5') + ' ml-10'"
+							<img :class="(index < 4 ? 'mb-5':'mt-5') + ' ml-10'"
 									style="width: 215px; height: 145px"
-									:src="item.poster"
-									fit="fill"></el-image>
+									:src="item.poster" />
 							<span class="title1">{{item.title.length > 13 ? (item.title.substring(0,13) + "..."):(item.title)}}</span>
 							<span class="title-container1"></span>
 						</div>
@@ -51,10 +49,10 @@
 						<div class="xf dffn">
 							<Score class="ml-50" :score="bluser.score"></Score>
 							<div class="tl xfts">
-								<div class="mt-20 ml-90">
+								<div class="mt-20 ml-20">
 									<span class="fs-20">{{bluser.name}}</span>，你好，本学期的累计学分为<span class="fs-30 color-fa5c26">{{bluser.score}}</span>分
 								</div>
-								<div class="mt-20 fs-12 lh-20 color-ec2c2c dffn">
+								<div class="mt-20 fs-12 lh-20 colori-ffffff dffn">
 									<div>
 										<el-image :src="require('@/assets/img/avatar/longmao.png')"></el-image>
 									</div>
@@ -90,10 +88,12 @@
 										<div class="ryzs">
 											荣誉证书
 										</div>
-										<i class="rongyu cei"></i>
-										<div class="cejg">
-											{{item.unit}}
+										<div class="cei">
+											<i class="rongyu2"></i>
 										</div>
+										<!--<div class="cejg">-->
+											<!--{{item.unit}}-->
+										<!--</div>-->
 										<div v-show="certificateSelect == item.uuid" class="sjx">
 											<i class="el-icon-check dh"></i>
 										</div>
@@ -279,9 +279,9 @@
 
 			<Footer></Footer>
 
-			<div v-show="congratulate" class="zbz" :style="{width: clientWidth + 'px', height: clientHeight + 'px',}"></div>
-			<Special v-show="congratulate" class="spec" :style="{left: ((clientWidth-640)/2) + 'px', top: ((clientHeight + 100 - 630)/2) + 'px',}"></Special>
-			<i v-show="congratulate" class="el-icon-error con-close" :style="{right: ((clientWidth-640)/2 - 50) + 'px', top: ((clientHeight + 100 - 630)/2) + 'px',}"
+			<div v-show="congratulate" class="zbz" :style="{width: clientWidth + 'px', height: (clientHeight+100) + 'px',}"></div>
+			<Special v-show="congratulate" class="spec" :style="{left: ((clientWidth-640)/2) + 'px', top: ((clientHeight + 100 - 630)/2 + 120) + 'px',}"></Special>
+			<i v-show="congratulate" class="el-icon-error con-close" :style="{right: ((clientWidth-640)/2 - 120) + 'px', top: ((clientHeight + 100 - 630)/2 + 120) + 'px',}"
 				@click="closeCon"
 			></i>
 		</div>
@@ -294,20 +294,21 @@
     import Score from  "@/components/Score"
     import Pagination from  "@/components/Pagination"
     import TeacherEvaluation from "@/components/TeacherEvaluation"
-    import Special from "@/views/student/main/special.vue"
+    import Special from "@/views/student/main/special1.vue"
     export default {
         name: "index",
         components: {Header, Score, Pagination, TeacherEvaluation, Footer, Special},
         created() {
             // 判断用户是否登录
+	        this.judgeIsLogin();
         },
         mounted() {
-            this.judgeIsLogin();
             new this.$wow.WOW({
                 live: false
             }).init();
         },
         methods: {
+
             async judgeIsLogin() {
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_login_judgeIsLogin, {}, "GET");
                 if (data.code === 200) {
@@ -575,7 +576,7 @@
             return {
                 activePage: '首页',
                 bluser: "",
-                congratulate: false,
+                congratulate: true,
                 clientWidth: document.body.clientWidth,
                 clientHeight: document.body.clientHeight - 100,
                 adActivities: [],
@@ -601,6 +602,7 @@
 <style scoped>
 	.main {
 		width: 1500px;
+		min-width: 1500px;
 		margin: 10px auto;
 	}
 	.hdt {
@@ -667,6 +669,7 @@
 	}
 	.pr {
 		position: relative;
+		height: 145px;
 	}
 	.title1 {
 		position: absolute;
@@ -731,49 +734,65 @@
 		position: relative;
 	}
 	.cet {
+		width: 140px;
+		text-align: center;
 		font-size: 16px;
 		color: #bf954b;
 		font-family: 华文宋体;
 		font-weight: 800;
 		position: absolute;
 		top: 30px;
-		padding: 0px 10px;
+		left: 0px;
 	}
 	.ryzs {
+		width: 140px;
+		text-align: center;
 		font-size: 14px;
 		color: #bf954b;
 		font-family: 华文宋体;
 		font-weight: 800;
 		position: absolute;
 		bottom: 100px;
-		padding: 0px 10px;
+		left: 0px;
 	}
 	.cei {
+		width: 140px !important;
+		text-align: center;
 		width: 40px;
 		height: 40px;
 		margin-top: 10px;
 		position: absolute;
 		bottom: 50px;
+		left: 0px;
 	}
 	.cejg {
-		font-size: 6px;
+		width: 140px;
+		text-align: center;
+		font-size: 9px;
 		color: #bf954b;
 		line-height: 20px;
 		position: absolute;
 		bottom: 20px;
+		left: 0px;
 	}
 	.spec {
 		position: absolute;
 		z-index: 3000;
-		border-radius: 50px;
 	}
 	.zbz {
-		z-index: 2000;
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		background: #000000;
-		opacity: 0.5;
+		/*z-index: 2000;*/
+		/*position: absolute;*/
+		/*top: 0px;*/
+		/*left: 0px;*/
+		/*background: #000000;*/
+		/*opacity: 0.5;*/
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1000;
+		background: rgba(0,0,0,0.3);
 	}
 	.con-close {
 		position: absolute;

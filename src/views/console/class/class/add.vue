@@ -102,7 +102,6 @@
                             <el-cascader  class="wdi-300"
                                           ref="areaCascaderRef"
                                           size="large"
-                                          :props="{ checkStrictly: true }"
                                           :options="areaOptions"
                                           v-model="form.area"
                                           @change="handleAreaCascader"

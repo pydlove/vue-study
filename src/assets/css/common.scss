@@ -781,7 +781,7 @@ body {
 .mb-2 {margin-bottom: 2px;}
 .mb-5 {margin-bottom: 5px;}
 .mb-10 {margin-bottom: 10px;}
-.mb-20 {margin-bottom: 20px;}
+.mb-20 {margin-bottom: 20px !important;}
 .mb-40 {margin-bottom: 20px;}
 .mb-50 {margin-bottom: 50px;}
 .mb-100 {margin-bottom: 100px;}
@@ -1322,6 +1322,13 @@ body {
   width: 128px;
   height: 128px;
 }
+.rongyu2 {
+  background: url("../img/icon/rongyu.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
 .fenlie {
   background: url("../img/icon/fenlie.png") 0 0 no-repeat;
   background-size: 100% 100%;
@@ -1514,10 +1521,6 @@ body {
   margin-top: 50px;
 }
 .aioc-container1 {
-  position: absolute;
-  top: 100px;
-  overflow: auto;
-  width: 100%;
 }
 .header {
   //height: 50px;
@@ -1586,6 +1589,7 @@ body {
 .fter {
   position: absolute;
   bottom: 0px;
+  left: 0px;
   width: 100%;
   z-index: 1000;
 }

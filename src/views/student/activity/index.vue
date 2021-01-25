@@ -3,7 +3,7 @@
         <div class="aioc-pc">
             <Header ref="headerRef" :activePage="activePage" :fontColor="fontColor = 'color-white'" :bgColor="'bg-black'" :bluser="bluser"></Header>
         </div>
-        <div class="aioc-container1" :style="'width:' + clientWidth + 'px; height:' + clientHeight + 'px;'">
+        <div class="aioc-container1" :style="'height:' + clientHeight + 'px;'">
             <div class="dfjc">
                 <div class="hdm">
                     <el-card shadow="always">
@@ -66,6 +66,7 @@
                     </el-card>
                 </div>
             </div>
+            <Footer></Footer>
         </div>
         <Pay ref="orderPayRef"></Pay>
     </div>
@@ -74,9 +75,10 @@
 <script>
     import Header from  "@/components/Header"
     import Pay from  "@/components/Pay"
+    import Footer from "@/components/Footer"
     export default {
         name: "index",
-        components: {Header, Pay},
+        components: {Header, Pay, Footer},
         created() {
             // 判断用户是否登录
             this.judgeIsLogin();
