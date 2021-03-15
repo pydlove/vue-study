@@ -10,7 +10,7 @@ Router.prototype.push = function push(location) {
 Vue.use(Router)
 
 const router = new Router({
-    mode: 'history',
+    // mode: 'history',
     routes: [
         {
             path: '*',

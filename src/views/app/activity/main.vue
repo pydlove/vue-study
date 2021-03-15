@@ -414,12 +414,12 @@
 			>
 				<div class="app_code_box">
 					<van-field class="app_code_in"
-							v-model="verificationCode"
-							label=""
-							type="textarea"
-							placeholder="请输入验证码"
-							autosize
-							:border="false"
+					           v-model="verificationCode"
+					           label=""
+					           type="textarea"
+					           placeholder="请输入验证码"
+					           autosize
+					           :border="false"
 					/>
 					<img id="imgIdentifyingCode" src="/console-service/v1/login/captcha.jpg"
 					     class="app_code_img" alt="点击更换" title="点击更换" @click="getIdentifyingCode()"/>
@@ -693,7 +693,7 @@
         mounted() {
             this.areaList = Area;
             let path = window.location.href.split("?")
-	        this.fmtParam(path);
+            this.fmtParam(path);
             // this.wxShare();
         },
         methods: {
@@ -707,7 +707,7 @@
                 params.append("url", "http://192.168.0.102:8080/#/am");
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_wx_sign, params, "POST");
                 if (data.code == 200) {
-                alert(data.data.nonceStr)
+                    alert(data.data.nonceStr)
                     this.$wx.config({
                         debug: true, // 开启调试模式,开发时可以开启 
                         appId: "wx10b9490a067b1e61",   // 必填，公众号的唯一标识   由接口返回
@@ -761,7 +761,7 @@
             },
 
             fmtParam(path) {
-	            if(path.length > 1) {
+                if(path.length > 1) {
                     const params = path[1].split("&");
                     var pageParams = params[0].split("=");
                     var workIdParams = params[1].split("=");
@@ -771,22 +771,22 @@
                             this.work = this.rankings[i];
                         }
                     }
-	            }
+                }
             },
 
             returnPage() {
-              this.page = "vote";
+                this.page = "vote";
             },
 
-	        closePoster() {
+            closePoster() {
                 this.showVotePoster = false;
                 this.$refs.voteQrcodeRef.innerHTML = '';
-	        },
+            },
 
             createPoster() {
                 this.getQrcode(
                     this.rootUrl + "/#/am?page=detail&workId=" + this.work.id,
-	                this.$refs.voteQrcodeRef,
+                    this.$refs.voteQrcodeRef,
                     90, 90
                 );
                 // 生成海报
@@ -952,7 +952,7 @@
                 showVotePoster: false,
                 showVerificationCode: false,
                 verificationCode: "",
-	            voteStatus: "0",
+                voteStatus: "0",
                 work: {
                     id: "1",
                     imgs: [
@@ -1805,7 +1805,7 @@
 	}
 	.app_poster_dialog {
 		position: absolute !important;
-		top: 40%;
+		top: 40%px;
 		left: 50%;
 		width: 320px;
 		overflow: hidden;
@@ -1879,7 +1879,7 @@
 	}
 	.el-dropdown-menu {
 		z-index: 2010 !important;
-	    padding: 0px;
+		padding: 0px;
 		margin: 20px 0;
 	}
 	.el-dropdown-menu__item {

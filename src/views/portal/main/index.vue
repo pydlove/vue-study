@@ -66,29 +66,29 @@
 						</li>
 
 						<!--<el-dropdown>-->
-							<!--<li class="wdi-80">-->
-								<!--<el-badge :value="remindNotice.length" :max="99" class="item">-->
-									<!--<i class="el-icon-message"-->
-									   <!--:style="background == '#ffffff' ? 'color:#333':'color:#ffffff'"></i>-->
-								<!--</el-badge>-->
-							<!--</li>-->
-							<!--<el-dropdown-menu slot="dropdown">-->
-								<!--<el-dropdown-item v-for="(item, index) in remindNotice" :key="index">-->
-									<!--<div class="noice-list" @click="toNoticeDetail(item)">-->
-										<!--<div class="dffn">-->
-											<!--<div class="dfac mr-20">-->
-												<!--<el-avatar size="small" :src="item.userAvatar"></el-avatar>-->
-											<!--</div>-->
-											<!--<div class="lh-20">-->
-												<!--<div class="fs-14 color-303133">{{item.username}}</div>-->
-												<!--<div :style="{color: fmtLevelColor(item.level)}"-->
-												     <!--class="fs-12 color-999">{{item.title}}-->
-												<!--</div>-->
-											<!--</div>-->
-										<!--</div>-->
-									<!--</div>-->
-								<!--</el-dropdown-item>-->
-							<!--</el-dropdown-menu>-->
+						<!--<li class="wdi-80">-->
+						<!--<el-badge :value="remindNotice.length" :max="99" class="item">-->
+						<!--<i class="el-icon-message"-->
+						<!--:style="background == '#ffffff' ? 'color:#333':'color:#ffffff'"></i>-->
+						<!--</el-badge>-->
+						<!--</li>-->
+						<!--<el-dropdown-menu slot="dropdown">-->
+						<!--<el-dropdown-item v-for="(item, index) in remindNotice" :key="index">-->
+						<!--<div class="noice-list" @click="toNoticeDetail(item)">-->
+						<!--<div class="dffn">-->
+						<!--<div class="dfac mr-20">-->
+						<!--<el-avatar size="small" :src="item.userAvatar"></el-avatar>-->
+						<!--</div>-->
+						<!--<div class="lh-20">-->
+						<!--<div class="fs-14 color-303133">{{item.username}}</div>-->
+						<!--<div :style="{color: fmtLevelColor(item.level)}"-->
+						<!--class="fs-12 color-999">{{item.title}}-->
+						<!--</div>-->
+						<!--</div>-->
+						<!--</div>-->
+						<!--</div>-->
+						<!--</el-dropdown-item>-->
+						<!--</el-dropdown-menu>-->
 						<!--</el-dropdown>-->
 
 						<li>
@@ -250,7 +250,7 @@
             },
 
             switchRole(item) {
-				this.defaultRole = item;
+                this.defaultRole = item;
                 this.$utils.setStorage("roleId", item.id);
                 this.$utils.removeStorage("activeMenu");
                 location.reload();
@@ -415,9 +415,9 @@
 
             async loadUserAndAuthority(roleId) {
                 let params = new FormData()
-	            if(roleId != null && roleId != undefined) {
+                if(roleId != null && roleId != undefined) {
                     params.append("roleId", roleId);
-	            }
+                }
                 let res = await this.$aiorequest(this.$aiocUrl.console_service_v1_login_user_authority, params, "POST");
                 if (res.code === 200) {
                     var data = res.data;
@@ -693,9 +693,9 @@
                 breadcrumbs: [],
                 currentUrl: "",
                 activeMenuId: "",
-                // baseUrl: "http://localhost:8080/#",
-                baseUrl: "http://121.196.160.142:8083/#",
-                background: "#ffffff",
+                baseUrl: "http://localhost:8080/#",
+                // baseUrl: "http://121.196.160.142:8084/#",
+                background: "#F9F9F9",
                 color: "#333",
                 activeColor: "#409EFF",
                 border: "1px solid #eeeeee",
@@ -737,8 +737,8 @@
 	}
 
 	/*.tpl-header-logo img {*/
-		/*width: 42px;*/
-		/*height: 30px;*/
+	/*width: 42px;*/
+	/*height: 30px;*/
 	/*}*/
 
 	.main-title {
@@ -843,7 +843,6 @@
 	}
 
 	.tpl-content-wrapper {
-		/*background: #3a4144;*/
 		transition: all 0.4s ease-in-out;
 		position: relative;
 		margin-left: 240px;
