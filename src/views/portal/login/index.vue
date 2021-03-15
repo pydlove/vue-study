@@ -76,13 +76,13 @@
         data() {
             return {
                 // 背景图
-                mainBackground: require("../../assets/img/logo/shuhua1.jpg"),
+                mainBackground: require("../../../assets/img/logo/shuhua1.jpg"),
                 advertisingBackgrounds: [
-                    require("../../assets/img/huangshan.jpg"),
-                    require("../../assets/img/daozi.jpg"),
-                    require("../../assets/img/reqiqiu.jpg"),
-                    require("../../assets/img/badalag.jpg"),
-                    require("../../assets/img/shuig.jpg"),
+                    require("../../../assets/img/huangshan.jpg"),
+                    require("../../../assets/img/daozi.jpg"),
+                    require("../../../assets/img/reqiqiu.jpg"),
+                    require("../../../assets/img/badalag.jpg"),
+                    require("../../../assets/img/shuig.jpg"),
                 ],
                 clientWidth: 1580,
                 clientHeight: 980,
