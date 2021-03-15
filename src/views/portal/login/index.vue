@@ -58,16 +58,13 @@
         <!--目前不支持IE、360浏览器，建议使用谷歌、火狐、Microsoft Edge等浏览器访问-->
         <!--</div>-->
 
-        <!--<Footer class="fter"></Footer>-->
     </div>
 </template>
 <!--eslint-disable-->
 <script>
-    import Footer from "@/components/Footer"
 
     export default {
         name: "tindex",
-        components: {Footer},
         mounted() {
             this.clientWidth = document.body.clientWidth;
             this.clientHeight = document.body.clientHeight;

@@ -116,7 +116,7 @@
         data() {
             return {
                 clientHeight: document.body.clientHeight-2,
-                page: "edit",
+                page: "main",
                 tableData: [
                     {
                         title: "2020年国庆中秋文艺晚会最受欢迎节目投票开始啦！等你来投",
