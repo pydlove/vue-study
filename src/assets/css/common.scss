@@ -1,10 +1,10 @@
 body {
   margin: 0;
-  background: #F9F9F9;
+  //background: #F9F9F9;
   font-family: "Helvetica", "Tahoma", "Arial", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", "STXihei", "STHeiti", "Heiti", "SimSun", "sans-serif";
   width: 100%;
-  min-width: 1200px;
-  min-height: 600px;
+  //min-width: 1200px;
+  //min-height: 600px;
   overflow: auto;
   overflow-y: hidden;
 }
@@ -352,10 +352,10 @@ body {
     }
 
     // .operate-box {
-      // height: 70px;
-      // display: flex;
-      // align-items: center;
-      // justify-content: center;
+    // height: 70px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
     // }
 
     .el-form-item__label {
@@ -956,12 +956,12 @@ body {
   height: 12px;
 }
 .accountSetting {
-   background: url("../img/icon/accountSetting.png") 0 0 no-repeat;
-   background-size: 100% 100%;
-   display: inline-block;
+  background: url("../img/icon/accountSetting.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
   width: 12px;
   height: 12px;
- }
+}
 .attention {
   background: url("../img/icon/attention.png") 0 0 no-repeat;
   background-size: 100% 100%;
@@ -1447,6 +1447,11 @@ body {
   display: inline-block;
   width: 22px;
   height: 22px;
+}
+.app_flower {
+  background: url("../img/icon/xianhua.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
 }
 //修改el-dialog top 样式
 .aiCloud-dialog .el-dialog__header {
@@ -2434,4 +2439,21 @@ body {
 
 .el-image-viewer__close {
   color: red !important;
+}
+
+.elh-jieshao1:before {
+  content: "\e611";
+}
+
+.elh-paihangbang:before {
+  content: "\e63f";
+}
+
+.elh-personnel:before {
+  content: "\e65a";
+}
+
+.app_main_card {
+  overflow: auto;
+  margin-bottom: 40px;
 }

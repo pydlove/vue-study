@@ -1,8 +1,8 @@
 <template>
 	<!--eslint-disable-->
-	<div class="app_container" :style="{height: clientHeight + 'px'}">
+	<div class="app_container" :style="{height: clientHeight + 'px', width: clientWidth + 'px'}">
 		<!--投票-->
-		<div class="app_main" v-if="active == '0'">
+		<div class="app_main" v-if="active == '0'" :style="{height: (clientHeight - 50) + 'px',}">
 			<!--投票-->
 			<div v-if="page=='vote'">
 				<van-image v-if="activityForm.top == 'single'"
@@ -16,7 +16,7 @@
 						<van-image
 								width="100%"
 								height="200px"
-								fit="contain"
+								fit="fill"
 								:src="require('@/assets/img/em/tp2.png')"
 						/>
 					</el-carousel-item>
@@ -691,6 +691,12 @@
         name: "app",
         components: {Dialog},
         mounted() {
+            let htmlWidth = document.documentElement.clientWidth || document.body.clientWidth;
+            this.clientWidth = htmlWidth;
+            let htmlHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            this.clientHeight = htmlHeight;
+            console.log('htmlHeight',htmlHeight)
+
             this.areaList = Area;
             let path = window.location.href.split("?")
             this.fmtParam(path);
@@ -943,8 +949,8 @@
         data() {
             return {
                 rootUrl: "http://192.168.1.6:8080/",
-                clientWidth: document.body.scrollWidth,
-                clientHeight: document.body.scrollHeight,
+                clientWidth: 360,
+                clientHeight: 667,
                 qrcode: "",
                 showOverlay: false,
                 showPosterScreenshot: false,
@@ -1747,7 +1753,6 @@
 		font-size: 18px;
 	}
 	.app_main {
-		height: 590px;
 		overflow-y: auto;
 	}
 	.app_footer {
@@ -1756,8 +1761,8 @@
 		left: 0;
 	}
 	.app_container {
-		height: 100%;
-		width: 100%;
+		/*height: 100%;*/
+		/*width: 100%;*/
 		position: relative;
 	}
 	div::-webkit-scrollbar {
@@ -1918,4 +1923,22 @@
 	.app_card .el-card__body {
 		padding: 0 10px;
 	}
+
+	/*body {*/
+		/*overflow-y: auto !important;*/
+		/*width: 360px !important;*/
+		/*height: 640px !important;*/
+		/*min-width: 360px !important;*/
+		/*min-height: 640px !important;*/
+		/*overflow: hidden !important;*/
+	/*}*/
+	/*#app {*/
+		/*font-family: Avenir, Helvetica, Arial, sans-serif;*/
+		/*-webkit-font-smoothing: antialiased;*/
+		/*-moz-osx-font-smoothing: grayscale;*/
+		/*text-align: center;*/
+		/*overflow: hidden;*/
+		/*width: 360px;*/
+		/*height: 640px;*/
+	/*}*/
 </style>
