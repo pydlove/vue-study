@@ -40,7 +40,7 @@
 						<div>
 							<div class="ai_table_tit">{{ scope.row.title }}</div>
 							<div class="ai_table_time">创建时间：{{ scope.row.createTime }}</div>
-							<div class="ai_table_time">投票时间：{{ scope.row.startTime }} ~ {{ scope.row.endTime }}</div>
+							<div class="ai_table_time">投票时间：{{ scope.row.voteStart }} ~ {{ scope.row.voteEnd }}</div>
 						</div>
 					</template>
 				</el-table-column>
@@ -68,7 +68,7 @@
 				</el-table-column>
 			</el-table>
 			<div class="tl">
-				<Pagination class="page" ref="pageRef"></Pagination>
+				<Pagination class="page" ref="pageRef"  @search="search"></Pagination>
 			</div>
 		</el-card>
 
@@ -86,7 +86,33 @@
     export default {
         name: "index",
 	    components: { Pagination, Add, Edit, Sign },
+	    mounted() {
+			this.search(0, 10);
+	    },
         methods: {
+
+            /**
+             * 初始化数据
+             * @param {*} 参数 参数说明
+             * @author panyong
+             */
+            async search(currentPage, pageSize) {
+                this.currentPage = currentPage;
+                this.pageSize = pageSize;
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("title",  this.searchform.title.trim());
+                params.append("status",  this.searchform.status);
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_list, params, "POST");
+                if (data.code === 200) {
+                    this.tableData = data.data;
+                    console.log(this.tableData)
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
+                }
+            },
+
             toPage() {
 				this.page = "main";
             },
@@ -94,9 +120,11 @@
             fmtStatus(status) {
                 switch (status) {
                     case "0":
-                        return "未开始";
+                        return "草稿箱";
                     case "1":
-                        return "进行中";
+                        return "已发布";
+                    case "2":
+                        return "已结束";
                     default:
                         break;
                 }
@@ -108,6 +136,8 @@
                         return "#bfbfbf";
                     case "1":
                         return "#52c41a";
+                    case "1":
+                        return "#c4192a";
                     default:
                         break;
                 }
@@ -118,17 +148,13 @@
                 clientHeight: document.body.clientHeight-2,
                 page: "main",
                 tableData: [
-                    {
-                        title: "2020年国庆中秋文艺晚会最受欢迎节目投票开始啦！等你来投",
-                        status: "1",
-                        totalVotes: "91042",
-                        players: "16",
-                        views: "109738",
-                        createTime: "2021-2-24 15:26:00",
-                        startTime: "2021-2-25 00:00:00",
-                        endTime: "2021-3-25 00:00:00",
-                    }
                 ],
+                currentPage: 0,
+                pageSize: 10,
+                searchform: {
+                    title: "",
+	                status: "",
+                }
             }
         }
     }

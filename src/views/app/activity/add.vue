@@ -16,15 +16,15 @@
 					label-position="top"
 					:validate-on-rule-change="false"
 					label-width="80px">
-				<el-form-item label="活动名称">
-					<el-input class="aa_form_item" v-model="form.name" placeholder="请输入活动名称"></el-input>
+				<el-form-item label="活动名称" prop="title">
+					<el-input class="aa_form_item" v-model="form.title" placeholder="请输入活动名称"></el-input>
 				</el-form-item>
 
-				<el-form-item label="活动时间">
+				<el-form-item label="报名时间" prop="signTimeRange">
 					<el-date-picker class="aa_form_item"
-							v-model="form.timeRange"
-					        placeholder="请输入活动时间"
+							v-model="form.signTimeRange"
 							type="datetimerange"
+					        value-format="yyyy-MM-dd HH:mm:SS"
 							:picker-options="pickerOptions"
 							range-separator="至"
 							start-placeholder="开始日期"
@@ -33,8 +33,21 @@
 					</el-date-picker>
 				</el-form-item>
 
-				<el-form-item label="活动介绍">
-					<tinymce-text id="tinymce" @release="release" :btnName="'创建活动'"></tinymce-text>
+				<el-form-item label="投票时间" prop="voteTimeRange">
+					<el-date-picker class="aa_form_item"
+					                v-model="form.voteTimeRange"
+					                value-format="yyyy-MM-dd HH:mm:SS"
+					                type="datetimerange"
+					                :picker-options="pickerOptions"
+					                range-separator="至"
+					                start-placeholder="开始日期"
+					                end-placeholder="结束日期"
+					                align="right">
+					</el-date-picker>
+				</el-form-item>
+
+				<el-form-item label="活动介绍" prop="content">
+					<tinymce-text id="tinymce" @release="onSubmit" :btnName="'创建活动'"></tinymce-text>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -47,6 +60,52 @@
         name: "add",
 	    components: { 'tinymce-text':TinymceText },
 	    methods: {
+			/**
+			 * 提交
+			 * @param {*} 参数 参数说明
+			 * @author panyong
+			 */
+            onSubmit(content) {
+                this.form.content = content;
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        this.submitRequest(content);
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
+            async submitRequest() {
+                this.form.signStart = this.form.signTimeRange[0];
+                this.form.signEnd = this.form.signTimeRange[1];
+                this.form.voteStart = this.form.voteTimeRange[0];
+                this.form.voteEnd = this.form.voteTimeRange[1];
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_add, this.form, "POST");
+                if(data.code == 200) {
+                    this.$notify({
+                        title: '成功',
+                        message: '增加活动成功',
+                        type: 'success'
+                    });
+                    this.dialogVisible = false;
+                    this.clearForm();
+                    this.$emit("search", 1, 10);
+                }
+            },
+
+            clearForm() {
+                this.form = {
+                    title: "",
+                    signStart: "",
+                    signEnd: "",
+                    voteStart: "",
+                    voteEnd: "",
+                    signTimeRange: [],
+                    voteTimeRange: [],
+                };
+            },
+
             toMainPage() {
                 this.$emit("toPage", "main");
             }
@@ -54,9 +113,29 @@
 	    data() {
             return {
                 form: {
-
+                    title: "",
+	                signStart: "",
+	                signEnd: "",
+	                voteStart: "",
+                    voteEnd: "",
+                    signTimeRange: [],
+                    voteTimeRange: [],
+                    content: "",
                 },
-                rules: [],
+                rules: {
+                    title: [
+                        {type: 'string', required: true, message: '请输入活动名称', trigger: ['change', 'blur']},
+                    ],
+                    signTimeRange: [
+                        {type: 'array', required: true, message: '请输入报名时间', trigger: ['change', 'blur']},
+                    ],
+                    voteTimeRange: [
+                        {type: 'array', required: true, message: '请输入投票时间', trigger: ['change', 'blur']},
+                    ],
+                    content: [
+                        {type: 'string', required: true, message: '请输入活动介绍', trigger: ['change', 'blur']},
+                    ],
+                },
                 pickerOptions: {
                     shortcuts: [{
                         text: '最近一周',
@@ -110,5 +189,15 @@
 	}
 	.aa_form {
 		text-align: left;
+	}
+</style>
+<style>
+	.aa_form .el-form-item {
+		position: relative;
+	}
+	.aa_form .el-form-item__error {
+		position: absolute;
+		top: -39px;
+		left: 75px;
 	}
 </style>
