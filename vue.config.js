@@ -18,10 +18,10 @@ module.exports = {
                 router:{
                     mode:'hash',
                     routes:[
-                        {
-                            path: '/',
-                            skeletonId: 'skeleton1'
-                        },
+                        // {
+                        //     path: '/',
+                        //     skeletonId: 'skeleton1'
+                        // },
                         {
                             path: '/am',
                             skeletonId: 'skeleton2'

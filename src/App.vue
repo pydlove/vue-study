@@ -1,22 +1,20 @@
 <template>
-  <div id="app" :style="'height: ' + height + 'px;'">
+  <div id="app">
     <router-view />
   </div>
 </template>
 
 <script>
 
-  export default {
-      name: 'App',
-      mounted() {
-          this.height = document.body.clientHeight;
-      },
-      data() {
-          return {
-              height: 947,
-          }
-      }
-  }
+    export default {
+        name: 'App',
+        mounted() {
+        },
+        data() {
+            return {
+            }
+        }
+    }
 </script>
 
 <style>
