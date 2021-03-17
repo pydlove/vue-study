@@ -117,6 +117,12 @@ module.exports = {
                 ws: true,
                 pathRewrite: {}
             },
+            '/blsh-h5-service': {
+                target: 'http://localhost:9093',
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {}
+            },
         }
     },
     pwa: {
