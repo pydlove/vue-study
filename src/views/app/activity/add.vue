@@ -47,7 +47,7 @@
 				</el-form-item>
 
 				<el-form-item class="ae_limit_label" label="活动介绍" prop="content">
-					<tinymce-text id="tinymce" @release="onSubmit" :btnName="'创建活动'"></tinymce-text>
+					<tinymce-text ref="tinymceRef" id="tinymce" @release="onSubmit" :btnName="'创建活动'"></tinymce-text>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -88,9 +88,9 @@
                         message: '增加活动成功',
                         type: 'success'
                     });
-                    this.dialogVisible = false;
                     this.clearForm();
-                    this.$emit("search", 1, 10);
+                    this.$refs.tinymceRef.setContent("");
+                    this.toMainPage();
                 }
             },
 
@@ -108,7 +108,7 @@
 
             toMainPage() {
                 this.$emit("toPage", "main");
-                this.$emit("search");
+                this.$emit("search", 0, 10);
             }
 	    },
 	    data() {
