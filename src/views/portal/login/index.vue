@@ -39,7 +39,7 @@
                                 <el-input class="srin vcf" placeholder="请输入验证码" v-model="loginForm.verificationCode"
                                           autocomplete="off"></el-input>
                             </el-form-item>
-                            <img id="imgIdentifyingCode" src="/console-service/v1/login/captcha.jpg"
+                            <img id="imgIdentifyingCode" src="/blsh-h5-service/v1/login/captcha.jpg"
                                  class="vcimg" alt="点击更换" title="点击更换" @click="getIdentifyingCode()"/>
                             <!--<div class="testimg">-->
                             <!--<span>5</span>-->
