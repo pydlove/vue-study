@@ -45,7 +45,7 @@
                         <a href="https://www.aiocloud.ltd/#/" target="_blank" style="color: #0C2AA4">爱启云科技</a>提供支持
                     </div>
                 </div>
-                <div class="as_works_full">
+                <div :class="showWorksDetailFlag ? 'as_works_full_400':'as_works_full'">
                     <el-table
                             class="as_table"
                             :data="tableData"
@@ -70,8 +70,8 @@
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item @click.native="showWorksDetail">作品详情</el-dropdown-item>
                                         <el-dropdown-item @click.native="showWorksVoteLog">投票日志</el-dropdown-item>
-                                        <el-dropdown-item>礼物日志</el-dropdown-item>
-                                        <el-dropdown-item>修改票数</el-dropdown-item>
+                                        <el-dropdown-item @click.native="showWorksGiftLog">礼物日志</el-dropdown-item>
+                                        <el-dropdown-item @click.native="showWorksAlterTicket">修改票数</el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
                             </template>
@@ -82,15 +82,19 @@
             </div>
         </el-card>
         <VoteLog ref="voteLogRef"></VoteLog>
+        <GiftLog ref="giftLogRef"></GiftLog>
+        <AlterTicket ref="alterTicketRef"></AlterTicket>
     </div>
 </template>
 <!--eslint-disable-->
 <script>
     import Pagination from "@/components/Pagination.vue"
     import VoteLog from "@/views/app/activity/voteLog.vue"
+    import GiftLog from "@/views/app/activity/giftLog.vue"
+    import AlterTicket from "@/views/app/activity/alterTicket.vue"
     export default {
         name: "sign",
-        components: {Pagination,VoteLog},
+        components: {Pagination,VoteLog,GiftLog,AlterTicket},
         methods: {
 
             /**
@@ -102,10 +106,27 @@
 
 
             },
-
+            /**
+             * @desc 显示投票日志
+             * @author lvjian
+             */
             showWorksVoteLog() {
                 this.showWorksDetailFlag = true;
                 this.$refs.voteLogRef.open();
+            },
+            /**
+             * @desc 显示礼物日志
+             * @author lvjian
+             */
+            showWorksGiftLog() {
+                this.$refs.giftLogRef.open();
+            },
+            /**
+             * @desc 显示修改票数
+             * @author lvjian
+             */
+            showWorksAlterTicket() {
+                this.$refs.alterTicketRef.open();
             },
 
             toMainPage() {
@@ -114,7 +135,7 @@
         },
         data() {
             return {
-                showWorksDetailFlag: true,
+                showWorksDetailFlag: false,
                 tableData: [
                     {
                         id: "1",
@@ -307,8 +328,11 @@
         line-height: 150px;
         margin: 0;
     }
-    .as_works_full {
+    .as_works_full_400 {
         width: calc(100% - 400px);
+    }
+    .as_works_full {
+        width: 100%;
     }
     .as_works_detail_continer {
         width: 370px;

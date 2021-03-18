@@ -58,7 +58,7 @@
 						<el-dropdown trigger="click">
 						    <span class="el-dropdown-link">设置<i class="el-icon-arrow-down el-icon--right"></i></span>
 							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item @click.native="page='edit'">编 辑</el-dropdown-item>
+								<el-dropdown-item @click.native="edit(scope.row)">编 辑</el-dropdown-item>
 								<el-dropdown-item >删除</el-dropdown-item>
 								<el-dropdown-item divided @click.native="page='sign'">报名统计</el-dropdown-item>
 								<el-dropdown-item>发布活动</el-dropdown-item>
@@ -73,7 +73,7 @@
 		</el-card>
 
 		<Add v-else-if="page=='add'" @toPage="toPage"></Add>
-		<Edit v-else-if="page=='edit'" @toPage="toPage"></Edit>
+		<Edit v-else-if="page=='edit'" ref="editRef" @toPage="toPage"></Edit>
 		<Sign v-else-if="page=='sign'" @toPage="toPage"></Sign>
 	</div>
 </template>
@@ -90,6 +90,13 @@
 			this.search(0, 10);
 	    },
         methods: {
+
+			edit(row) {
+				this.page = "edit";
+				this.$nextTick(function () {
+					this.$refs.editRef.setFormContent(row);
+				})
+			},
 
             /**
              * 初始化数据

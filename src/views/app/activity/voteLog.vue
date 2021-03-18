@@ -9,7 +9,6 @@
             :fullscreen="false"
             width="1000px"
             center>
-        <el-card class="auto-card wdi-900 pr">
             <el-table class="as_table"
                       :data="tableData"
                       stripe
@@ -30,11 +29,6 @@
                 <el-table-column prop="voteTime" label="投票时间"></el-table-column>
             </el-table>
             <Pagination class="page" ref="pageRef"></Pagination>
-        </el-card>
-             <span slot="footer" class="dialog-footer">
-              <el-button class="wdi-120" @click="close">取 消</el-button>
-              <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
-            </span>
         </el-dialog>
     </div>
 </template>

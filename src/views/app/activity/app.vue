@@ -24,7 +24,7 @@
 
 				<el-card class="app_card">
 					<div class="app_tit">
-						{{ activityForm.name }}
+						{{ activityForm.title }}
 					</div>
 					<div class="app_tit_container" :style="{ background: color }">
 						<div class="app_tit_item">
@@ -55,11 +55,11 @@
 					</div>
 					<div class="app_rule_item">
 						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票开始：
-						{{ activityForm.timeRange[0] }}
+						{{ activityForm.voteTimeRange[0] }}
 					</div>
 					<div class="app_rule_item">
 						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票截止：
-						{{ activityForm.timeRange[1] }}
+						{{ activityForm.voteTimeRange[1] }}
 					</div>
 					<div class="app_rule_item mb-10">
 						<van-icon class="app_rule_icon" name="info-o" :style="{ color: color }" />
@@ -305,9 +305,9 @@
 								<el-input class="aa_form_item" v-model="form.title" placeholder="请输入作品名称"></el-input>
 							</el-form-item>
 
-							<el-form-item class="app_up_eitem" :label="'上传作品（最多上传'+ activityForm.uploadNum +'张）'" required>
+							<el-form-item class="app_up_eitem" :label="'上传作品（最多上传'+ activityForm.uploadLimit +'张）'" required>
 								<van-uploader :file-list="form.fileList"
-								              :max-count="activityForm.uploadNum"
+								              :max-count="activityForm.uploadLimit"
 								              :after-read="afterRead" />
 							</el-form-item>
 
@@ -423,7 +423,7 @@
 
 					<el-card class="app_poster_card">
 						<div slot="header" class="app_poster_header">
-							<span>{{ activityForm.name }}</span>
+							<span>{{ activityForm.title }}</span>
 						</div>
 
 						<div class="app_poster_author">
@@ -505,7 +505,7 @@
 
 			<el-card class="app_card">
 				<div class="app_tit">
-					{{ activityForm.name }}
+					{{ activityForm.title }}
 				</div>
 				<div class="app_tit_container"  :style="{ background: color }">
 					<div class="app_tit_item">
@@ -558,7 +558,7 @@
 
 			<el-card class="app_card">
 				<div class="app_tit">
-					{{ activityForm.name }}
+					{{ activityForm.title }}
 				</div>
 				<div class="app_tit_container" :style="{ background: color }">
 					<div class="app_tit_item">
@@ -589,11 +589,11 @@
 				</div>
 				<div class="app_rule_item">
 					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票开始：
-					{{ activityForm.timeRange[0] }}
+					{{ activityForm.voteTimeRange[0] }}
 				</div>
 				<div class="app_rule_item">
 					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票截止：
-					{{ activityForm.timeRange[1] }}
+					{{ activityForm.voteTimeRange[1] }}
 				</div>
 				<div class="app_rule_item mb-10">
 					<van-icon class="app_rule_icon" name="info-o" :style="{ color: color }" />投票规则： 每个微信号投票期间只能投1次
@@ -730,7 +730,7 @@
             },
 
             setColor() {
-                this.color = this.activityForm.color;
+                this.color = this.activityForm.colorStyle;
             },
 
             toPage(item, index) {
@@ -853,7 +853,7 @@
 	    },
 	    data() {
             return {
-                rootUrl: "http://192.168.1.6:8080/",
+                rootUrl: "http://192.168.1.4:8080/",
                 qrcode: "",
                 showOverlay: false,
                 showPosterScreenshot: false,

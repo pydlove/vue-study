@@ -31,13 +31,12 @@
 						<el-tabs v-model="activeName" @tab-click="handleClick">
 							<el-tab-pane label="基本设置" name="base">
 								<el-form-item label="活动名称">
-									<el-input class="aa_form_item" v-model="form.name" placeholder="请输入活动名称"></el-input>
+									<el-input class="aa_form_item" v-model="form.title" placeholder="请输入活动名称"></el-input>
 								</el-form-item>
 
-								<el-form-item label="活动时间">
+								<el-form-item label="报名时间">
 									<el-date-picker class="aa_form_item"
-									                v-model="form.timeRange"
-									                placeholder="请输入活动时间"
+									                v-model="form.signTimeRange"
 									                type="datetimerange"
 									                :picker-options="pickerOptions"
 									                value-format="yyyy-MM-dd HH:mm:SS"
@@ -48,16 +47,23 @@
 									</el-date-picker>
 								</el-form-item>
 
-								<el-form-item label="活动状态">
-									<el-switch
-											v-model="form.status"
-											active-color="#1890ff"
-											inactive-color="#bfbfbf"
-											active-text="启动活动"
-											inactive-text="关闭活动">
-									>
-									</el-switch>
+
+								<el-form-item label="投票时间">
+									<el-date-picker class="aa_form_item"
+													v-model="form.voteTimeRange"
+													type="datetimerange"
+													:picker-options="pickerOptions"
+													value-format="yyyy-MM-dd HH:mm:SS"
+													range-separator="至"
+													start-placeholder="开始日期"
+													end-placeholder="结束日期"
+													align="right">
+									</el-date-picker>
 								</el-form-item>
+								<el-form-item label="上传数量">
+									<el-input-number v-model="form.uploadLimit" @change="handleChange" :min="1" :max="10"></el-input-number>
+								</el-form-item>
+
 
 								<el-form-item label="类型">
 									<el-radio-group v-model="form.top">
@@ -78,32 +84,16 @@
 								<el-form-item label="颜色风格">
 									<el-color-picker v-model="form.color" @change="setColor"></el-color-picker>
 								</el-form-item>
-							</el-tab-pane>
 
+								<span slot="footer" class="dialog-footer">
+						        <el-button @click="close" >取 消</el-button>
+						        <el-button type="primary" @click="onSubmit" >保 存</el-button>
+					        </span>
+
+							</el-tab-pane>
 							<el-tab-pane label="活动介绍" name="activity">
 								<tinymce-text ref="tinymceRef" id="tinymce" @release="release" :btnName="'保存'"></tinymce-text>
 							</el-tab-pane>
-
-							<el-tab-pane label="报名设置" name="sign">
-								<el-form-item label="报名时间">
-									<el-date-picker class="aa_form_item"
-									                v-model="form.signTimeRange"
-									                placeholder="请输入活动时间"
-									                type="datetimerange"
-									                :picker-options="pickerOptions"
-									                value-format="yyyy-MM-dd HH:mm:SS"
-									                range-separator="至"
-									                start-placeholder="开始日期"
-									                end-placeholder="结束日期"
-									                align="right">
-									</el-date-picker>
-								</el-form-item>
-
-								<el-form-item label="上传数量">
-									<el-input-number v-model="form.uploadNum" @change="handleChange" :min="1" :max="10"></el-input-number>
-								</el-form-item>
-							</el-tab-pane>
-
 						</el-tabs>
 					</el-form>
 
@@ -143,20 +133,20 @@
 					</div>
 					<div class="ae_over_tc">
 						<div class="ae_over_rc">
-							<div class="app_over_rule" :style="{ color: form.color }">
-								<div class="app_over_hline" :style="{ borderColor: form.color }"></div>
+							<div class="app_over_rule" :style="{ color: form.colorStyle }">
+								<div class="app_over_hline" :style="{ borderColor: form.colorStyle }"></div>
 								活动规则
-								<div class="app_over_hline" :style="{ borderColor: form.color }"></div>
+								<div class="app_over_hline" :style="{ borderColor: form.colorStyle }"></div>
 							</div>
-							<div class="ae_over_time" :style="{ color: form.color }">
+							<div class="ae_over_time" :style="{ color: form.colorStyle }">
 								<van-icon class="app_over_rule_icon" name="clock-o" />
 								<div>报名时间：{{ form.signTimeRange[0] }} - {{ form.signTimeRange[1] }}</div>
 							</div>
-							<div class="ae_over_time" :style="{ color: form.color }">
+							<div class="ae_over_time" :style="{ color: form.colorStyle }">
 								<van-icon class="app_over_rule_icon" name="clock-o" />
-								<div>投票时间：{{ form.timeRange[0] }} - {{ form.signTimeRange[1] }}</div>
+								<div>投票时间：{{ form.voteTimeRange[0] }} - {{ form.voteTimeRange[1] }}</div>
 							</div>
-							<div class="ae_over_time" :style="{ color: form.color }">
+							<div class="ae_over_time" :style="{ color: form.colorStyle }">
 								<van-icon class="app_over_rule_icon" name="info-o" />
 								投票规则：每个微信号每天限制投三票
 							</div>
@@ -180,9 +170,22 @@
         name: "add",
         components: { 'tinymce-text':TinymceText, 'ac-app':AcApp, },
 	    mounted() {
-		    this.setContent();
 	    },
         methods: {
+			setFormContent(row) {
+        		this.form.title = row.title;
+			},
+
+			onSubmit() {
+				this.showOverlay = false;
+			},
+			close() {
+				this.showOverlay = false;
+			},
+			open() {
+				this.showOverlay = true;
+			},
+
 			savePoster() {
                 // 保存海报
 				this.showLoading = true;
@@ -258,59 +261,19 @@
                 showAppPreview: true,
                 activeName: 'base',
                 form: {
-                    uploadNum: "3",
-                    color: "#0C2AA4",
-                    name: "默认活动标题",
-                    timeRange: ["2021-02-27 14:14:36", "2021-03-27 14:14:36"],
-                    signTimeRange: ["2021-02-27 14:14:36", "2021-03-27 14:14:36"],
+					id: "",
+					accessNum: "",
+					createUser: "",
+					remark: "",
+                    uploadLimit: 3,
+                    colorStyle: "#0C2AA4",
+                    title: "",
+					voteTimeRange: [],
+                    signTimeRange: [],
                     status: "",
                     top: "banner",
 	                img: require('@/assets/img/em/tp2.png'),
-                    content: "<h1 class=\"ql-align-center\" style=\"margin: 12px 0px; font-size: 18px; font-weight: normal; text-align: center;\"><strong style=\"color: #e60000;\">​活动主题</strong></h1>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">为庆祝XXXX节，弘扬XXXX精神，由XXXX主办的XXXX评选活动。</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">&nbsp;</p>\n" +
-                    "<h1 class=\"ql-align-center\" style=\"margin: 12px 0px; font-size: 18px; font-weight: normal; text-align: center;\"><strong style=\"color: #e60000;\">活动时间</strong></h1>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">报名时间：</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">2019-05-10 09:00至2019-05-20 20:00</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\"><strong style=\"color: #e60000;\">投票时间：</strong></p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">2019-05-14 09:00至2019-05-20 20:00</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">&nbsp;</p>\n" +
-                    "<h1 class=\"ql-align-center\" style=\"margin: 12px 0px; font-size: 18px; font-weight: normal; text-align: center;\"><strong style=\"color: #e60000;\">参赛对象</strong></h1>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">XXXXXXXX</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">&nbsp;</p>\n" +
-                    "<h1 class=\"ql-align-center\" style=\"margin: 12px 0px; font-size: 18px; font-weight: normal; text-align: center;\"><strong style=\"color: #e60000;\">活动流程</strong></h1>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">第一阶段：报名阶段</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">报名时间：5月10日-5月13日</p>\n" +
-                    "<ul class=\" list-paddingleft-2\" style=\"margin: 16px 0px 16px 18px; width: 341px; list-style-position: initial; list-style-image: initial; padding-left: 0px; max-width: calc(100% - 18px) !important;\">\n" +
-                    "<li style=\"clear: both; list-style: disc;\">\n" +
-                    "<p style=\"margin: 10px 0px;\">点击投票页&ldquo;立即报名&rdquo;按钮即可报名；</p>\n" +
-                    "</li>\n" +
-                    "<li style=\"clear: both; list-style: disc;\">\n" +
-                    "<p style=\"margin: 10px 0px;\">禁止上传任何非法、侵权内容。</p>\n" +
-                    "</li>\n" +
-                    "</ul>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">第二阶段：投票阶段</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">投票时间：5月14日-5月20日（20日20：00结束投票）</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">&nbsp;</p>\n" +
-                    "<h1 class=\"ql-align-center\" style=\"margin: 12px 0px; font-size: 18px; font-weight: normal; text-align: center;\"><strong style=\"color: #e60000;\">评选规则</strong></h1>\n" +
-                    "<ul class=\" list-paddingleft-2\" style=\"margin: 16px 0px 16px 18px; width: 341px; list-style-position: initial; list-style-image: initial; padding-left: 0px; max-width: calc(100% - 18px) !important;\">\n" +
-                    "<li style=\"clear: both; list-style: disc;\">\n" +
-                    "<p style=\"margin: 10px 0px;\">投票规则：每个微信每天可投3票，只能为同一选手投1票</p>\n" +
-                    "</li>\n" +
-                    "<li style=\"clear: both; list-style: disc;\">\n" +
-                    "<p style=\"margin: 10px 0px;\">投票声明：严禁任何作弊行为，系统会进行自动监测，一经发现立即取消投票资格</p>\n" +
-                    "</li>\n" +
-                    "</ul>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">&nbsp;</p>\n" +
-                    "<h1 class=\"ql-align-center\" style=\"margin: 12px 0px; font-size: 18px; font-weight: normal; text-align: center;\"><strong style=\"color: #e60000;\">奖项设置</strong></h1>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">一等奖X名：奖励XXXX</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">二等奖X名：奖励XXXX</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">三等奖X名：奖励XXXX</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">入围奖X名：奖励XXXX</p>\n" +
-                    "<p class=\"ql-align-justify\" style=\"margin: 10px 0px; text-align: justify;\">&nbsp;</p>\n" +
-                    "<p class=\"ql-align-center\" style=\"margin: 10px 0px; text-align: center;\">本活动最终解释权归XXX所有</p>\n" +
-                    "<p style=\"margin: 10px 0px;\">&nbsp;</p>\n" +
-                    "<p style=\"margin: 10px 0px;\">&nbsp;</p>",
+                    content: "",
                 },
                 rules: [],
                 pickerOptions: {
