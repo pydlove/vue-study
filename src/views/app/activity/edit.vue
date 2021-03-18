@@ -113,9 +113,9 @@
 			             }">
 				保存海报中，请稍后...
 			</van-loading>
-			<div class="ae_overapp_container" v-show="showOverApp">
+			<div class="ae_overapp_container" v-if="showOverApp">
 				<div class="ae_over_app" ref="overImageWrapper">
-					<el-image style="border-top-left-radius: 3px; border-top-right-radius: 3px; height: 200px;" :src="form.fileList[0].url" fit="fill"></el-image>
+					<el-image style="border-top-left-radius: 3px; border-top-right-radius: 3px; height: 200px;" :src="form.fileList.length == 0? (''):(form.fileList[0].url)" fit="fill"></el-image>
 					<div class="ae_over_tc">
 						<div class="ae_over_title">
 							{{ form.title.length >= 20 ? (form.title.substring(0, 20)+"..."):(form.title) }}
@@ -373,6 +373,7 @@
                         this.form.fileList.push({ name: fileName, url: imgItem });
                     }
 		        }
+        		console.log(this.form)
                 this.$refs.acAppRef.setColor();
                 this.$refs.tinymceRef.setContent(this.form.content);
 			},
