@@ -59,7 +59,7 @@
 						    <span class="el-dropdown-link">设置<i class="el-icon-arrow-down el-icon--right"></i></span>
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item @click.native="edit(scope.row)">编 辑</el-dropdown-item>
-								<el-dropdown-item >删除</el-dropdown-item>
+								<el-dropdown-item @click.native="deleteRow(scope.row)">删除</el-dropdown-item>
 								<el-dropdown-item divided @click.native="page='sign'">报名统计</el-dropdown-item>
 								<el-dropdown-item>发布活动</el-dropdown-item>
 							</el-dropdown-menu>
@@ -85,12 +85,15 @@
 	import Sign from "@/views/app/activity/sign.vue"
     export default {
         name: "index",
-	    components: { Pagination, Add, Edit, Sign },
+	    components: { Pagination, Add, Edit, Sign},
 	    mounted() {
 			this.search(0, 10);
 	    },
         methods: {
 
+        	/**
+        	编辑
+			 */
 			edit(row) {
 				this.page = "edit";
 				this.$nextTick(function () {
@@ -98,6 +101,30 @@
 				})
 			},
 
+			deleteRow(row) {
+				this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(()=> {
+					this.deleteRequest(row);
+				}).catch(()=> {
+				});
+			},
+			async deleteRequest(row){
+				let params=new FormData()
+				params.append("id",row.id);
+				let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_delete, params, "POST");
+				if (data.code === 200) {
+					this.$notify({
+						title: '删除活动',
+						message: '删除活动成功！',
+						type: 'success'
+					});
+					this.search(this.currentPage,this.pageSize);
+					return true;
+				}
+			},
             /**
              * 初始化数据
              * @param {*} 参数 参数说明
