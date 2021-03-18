@@ -11,6 +11,8 @@ export default {
     blsh_h5_service_v1_bh_activity_add : "/blsh-h5-service/v1/bh_activity/add",
     blsh_h5_service_v1_bh_activity_edit : "/blsh-h5-service/v1/bh_activity/edit",
     blsh_h5_service_v1_bh_activity_delete : "/blsh-h5-service/v1/bh_activity/delete",
+    blsh_h5_service_v1_bh_activity_top_upload: "/blsh-h5-service/v1/bh_activity/top/upload",
+    blsh_h5_service_v1_bh_activity_top_delete: "/blsh-h5-service/v1/bh_activity/top/delete",
 
 
     // 控制台

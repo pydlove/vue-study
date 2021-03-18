@@ -30,69 +30,65 @@
 					         label-width="80px">
 						<el-tabs v-model="activeName" @tab-click="handleClick">
 							<el-tab-pane label="基本设置" name="base">
-								<el-form-item label="活动名称">
-									<el-input class="aa_form_item" v-model="form.title" placeholder="请输入活动名称"></el-input>
+								<el-form-item label="活动名称" prop="title">
+									<el-input class="aa_form_item" v-model="form.title" placeholder="请输入活动名称" @change="handlerTitle"></el-input>
 								</el-form-item>
 
-								<el-form-item label="报名时间">
-									<el-date-picker class="aa_form_item"
+								<el-form-item label="报名时间" prop="signTimeRange">
+									<el-date-picker class="aa_form_item" @change="handlerSignTime"
 									                v-model="form.signTimeRange"
 									                type="datetimerange"
-									                :picker-options="pickerOptions"
 									                value-format="yyyy-MM-dd HH:mm:SS"
+									                :picker-options="pickerOptions"
 									                range-separator="至"
 									                start-placeholder="开始日期"
 									                end-placeholder="结束日期"
+									                :clearable="true"
 									                align="right">
 									</el-date-picker>
 								</el-form-item>
 
-
-								<el-form-item label="投票时间">
-									<el-date-picker class="aa_form_item"
-													v-model="form.voteTimeRange"
-													type="datetimerange"
-													:picker-options="pickerOptions"
-													value-format="yyyy-MM-dd HH:mm:SS"
-													range-separator="至"
-													start-placeholder="开始日期"
-													end-placeholder="结束日期"
-													align="right">
+								<el-form-item label="投票时间" prop="voteTimeRange">
+									<el-date-picker class="aa_form_item" @change="handlerVoteTime"
+									                v-model="form.voteTimeRange"
+									                value-format="yyyy-MM-dd HH:mm:SS"
+									                type="datetimerange"
+									                :picker-options="pickerOptions"
+									                range-separator="至"
+									                start-placeholder="开始日期"
+									                end-placeholder="结束日期"
+									                :clearable="true"
+									                align="right">
 									</el-date-picker>
 								</el-form-item>
-								<el-form-item label="上传数量">
-									<el-input-number v-model="form.uploadLimit" @change="handleChange" :min="1" :max="10"></el-input-number>
+
+								<el-form-item label="顶部图片" prop="fileList">
+									<el-upload
+											class="ae_upload"
+											:action="uploadAction"
+											:before-remove="beforeRemove"
+											:on-success="onSuccess"
+											:before-upload="beforeUpload"
+											:file-list="form.fileList"
+											list-type="picture">
+										<el-button size="small" type="primary">点击上传顶部图片</el-button>
+										<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过3M</div>
+									</el-upload>
 								</el-form-item>
 
-
-								<el-form-item label="类型">
-									<el-radio-group v-model="form.top">
-										<el-radio label="banner">banner模式</el-radio>
-										<el-radio label="single">单图模式</el-radio>
-									</el-radio-group>
+								<el-form-item label="颜色风格" prop="colorStyle">
+									<el-color-picker v-model="form.colorStyle" @change="setColor"></el-color-picker>
 								</el-form-item>
 
-								<el-upload
-										class="ae_upload"
-										action="https://jsonplaceholder.typicode.com/posts/"
-										:on-change="handleChange"
-										:file-list="fileList">
-									<el-button size="small" type="primary">点击上传顶部图片</el-button>
-									<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过3M</div>
-								</el-upload>
-
-								<el-form-item label="颜色风格">
-									<el-color-picker v-model="form.color" @change="setColor"></el-color-picker>
+								<el-form-item class="ae_limit_label" label="上传作品数量限制" prop="uploadLimit">
+									<el-input-number v-model="form.uploadLimit" @change="handleChange" size="small" :min="1" :max="100"></el-input-number>
 								</el-form-item>
-
-								<span slot="footer" class="dialog-footer">
-						        <el-button @click="close" >取 消</el-button>
-						        <el-button type="primary" @click="onSubmit" >保 存</el-button>
-					        </span>
 
 							</el-tab-pane>
 							<el-tab-pane label="活动介绍" name="activity">
-								<tinymce-text ref="tinymceRef" id="tinymce" @release="release" :btnName="'保存'"></tinymce-text>
+								<el-form-item class="ae_limit_label ae_ef_content" label="活动介绍" prop="content" label-width="120px">
+									<tinymce-text ref="tinymceRef" id="tinymce" @release="saveContent" :btnName="'保存'"></tinymce-text>
+								</el-form-item>
 							</el-tab-pane>
 						</el-tabs>
 					</el-form>
@@ -119,10 +115,10 @@
 			</van-loading>
 			<div class="ae_overapp_container" v-show="showOverApp">
 				<div class="ae_over_app" ref="overImageWrapper">
-					<el-image style="border-top-left-radius: 3px; border-top-right-radius: 3px;" :src="form.img" fit="fill"></el-image>
+					<el-image style="border-top-left-radius: 3px; border-top-right-radius: 3px; height: 200px;" :src="form.fileList[0].url" fit="fill"></el-image>
 					<div class="ae_over_tc">
 						<div class="ae_over_title">
-							{{ form.name }}
+							{{ form.title.length >= 20 ? (form.title.substring(0, 20)+"..."):(form.title) }}
 						</div>
 					</div>
 					<div class="ae_over_qc">
@@ -169,11 +165,216 @@
     export default {
         name: "add",
         components: { 'tinymce-text':TinymceText, 'ac-app':AcApp, },
+	    props: ["currentPage", "pageSize"],
 	    mounted() {
 	    },
+	    watch: {
+            "form.signTimeRange"(newVal) {
+                if(newVal == null) {
+                    this.form.signTimeRange = [];
+                }
+            },
+            "form.voteTimeRange"(newVal) {
+				if(newVal == null) {
+				    this.form.voteTimeRange = [];
+				}
+		    }
+	    },
         methods: {
+            saveContent(content) {
+                this.form.content = content;
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        let params = {
+                            id: this.form.id,
+                            content: this.form.content,
+                        };
+                        this.updateRequest(params);
+                    } else {
+                        this.$notify({
+                            title: '必填提示',
+                            message: '请输入活动介绍',
+                            type: 'warning'
+                        });
+                        return false;
+                    }
+                });
+            },
+
+            handlerTitle() {
+                if(this.form.title == "") {
+                    this.$notify({
+                        title: '必填提示',
+                        message: '请输入活动标题',
+                        type: 'warning'
+                    });
+                    return false;
+                }
+                let params = {
+                    id: this.form.id,
+                    title: this.form.title,
+                };
+                this.updateRequest(params);
+            },
+
+            handlerSignTime() {
+                if(this.form.signTimeRange != null && this.form.signTimeRange.length > 0) {
+                    let params = {};
+                    params.id = this.form.id;
+                    params.signStart = this.form.signTimeRange[0];
+                    params.signEnd = this.form.signTimeRange[1];
+                    this.updateRequest(params);
+                } else {
+                    this.$notify({
+                        title: '必填提示',
+                        message: '请输入活动报名时间',
+                        type: 'warning'
+                    });
+                    return false;
+                }
+            },
+
+            handlerVoteTime() {
+                if(this.form.voteTimeRange != null && this.form.voteTimeRange.length > 0) {
+                    let params = {};
+                    params.id = this.form.id;
+                    params.voteStart = this.form.voteTimeRange[0];
+                    params.voteEnd = this.form.voteTimeRange[1];
+                    this.updateRequest(params);
+                } else {
+                    this.$notify({
+                        title: '必填提示',
+                        message: '请输入活动投票时间',
+                        type: 'warning'
+                    });
+                    return false;
+                }
+            },
+
+            handleChange() {
+                let params = {
+                    id: this.form.id,
+                    uploadLimit: this.form.uploadLimit,
+                };
+                this.updateRequest(params);
+            },
+
+            /**
+             * 照片上传、删除
+             */
+            beforeRemove(file) {
+                if (file && file.status==="success") {
+                    this.$confirm('确认要删除该照片吗？', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                        center: false
+                    })
+                    .then(() => {
+                        this.handleRemove(file);
+                    })
+                    .catch(() => {
+                    });
+                    return false;
+                }
+            },
+            handleRemove(file) {
+                let fileListTemp = this.form.fileList.filter(function (item) {
+                    if(item.name == file.name) {
+                        return false;
+                    }
+                    return true;
+                });
+                this.form.fileList = fileListTemp;
+                this.deletePhotoRequest(file.name);
+                // 更新到数据库
+	            if(this.form.fileList.length == 0) {
+                    this.form.imgs = "";
+	            } else {
+                    for(var i in this.form.fileList) {
+                        let fileListElement = this.form.fileList[i];
+                        this.form.imgs = this.form.imgs + "," + fileListElement.url;
+                    }
+                    this.form.imgs = this.form.imgs.substring(1 , this.form.imgs.length);
+	            }
+                let params = {
+                    id: this.form.id,
+                    imgs: this.form.imgs,
+                };
+                this.updateRequest(params);
+            },
+            onSuccess(response) {
+                this.form.fileList.push({name: response.data.fileName, url: response.data.fileUrl});
+                // 更新到数据库
+                this.form.imgs = "";
+                for(var i in this.form.fileList) {
+                    let fileListElement = this.form.fileList[i];
+                    this.form.imgs = this.form.imgs + "," + fileListElement.url;
+                }
+                this.form.imgs = this.form.imgs.substring(1 , this.form.imgs.length);
+	            let params = {
+					id: this.form.id,
+		            imgs: this.form.imgs,
+	            };
+	            this.updateRequest(params);
+            },
+            beforeUpload(file) {
+                // 上传格式做限制
+                var testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
+                const extension = testmsg === 'png'
+                const extension2 = testmsg === 'jpg'
+                const extension3 = testmsg === 'jpeg'
+                if(!extension && !extension2 && !extension3) {
+                    this.$notify({
+                        title: '错误格式',
+                        message: '图片仅支持png、jpg、jpeg格式，请选择正确的格式！',
+                        type: 'error'
+                    });
+                    return false;
+                }
+            },
+	        async updateRequest(params) {
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_edit, params, "POST");
+                if (data.code == 200) {
+                    this.$notify({
+                        title: '成功',
+                        message: '保存成功！',
+                        type: 'success'
+                    });
+                }
+	        },
+            async deletePhotoRequest(fileName) {
+                let params = new FormData();
+                params.append("fileName", fileName);
+                await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_top_delete, params, "POST");
+            },
+
 			setFormContent(row) {
-        		this.form.title = row.title;
+        		this.form = {
+                    id: row.id,
+                    accessNum: row.accessNum,
+                    uploadLimit: row.uploadLimit,
+                    colorStyle: row.colorStyle,
+                    title: row.title,
+                    voteTimeRange: [row.voteStart, row.voteEnd],
+                    signTimeRange: [row.signStart, row.signEnd],
+                    status: row.status,
+                    imgType: row.imgType,
+                    imgs: row.imgs,
+                    fileList: [],
+                    content: row.content,
+		        }
+		        if(this.form.imgs != "") {
+                    let imgArrTemp = this.form.imgs.split(",");
+                    for(var i in imgArrTemp) {
+                        let imgItem = imgArrTemp[i]
+                        var photoArray = imgItem.split("/")
+                        let fileName = photoArray[photoArray.length - 1];
+                        this.form.fileList.push({ name: fileName, url: imgItem });
+                    }
+		        }
+                this.$refs.acAppRef.setColor();
+                this.$refs.tinymceRef.setContent(this.form.content);
 			},
 
 			onSubmit() {
@@ -211,13 +412,23 @@
             },
 
             showPoster() {
+			    // 1、校验是否提供数据  【 顶部图片、颜色风格、报名时间、投票时间 】
+	            if(this.form.imgs == "" || this.form.colorStyle == "" || this.form.signTimeRange.length == 0 || this.form.voteTimeRange.length == 0 ) {
+                    this.$notify({
+                        title: '必填提示',
+                        message: '请补充顶部图片、颜色风格、报名时间、投票时间数据',
+                        type: 'warning'
+                    });
+	                return false;
+	            }
+
                 this.showOverlay = true;
                 this.$nextTick(function () {
                     this.posterQrcode = new QRCode(this.$refs.posterQrcodeRef, {
                         width: 160,
                         height: 160,
                         text: this.rootUrl + "/#/am",
-                        colorDark : this.form.color,
+                        colorDark : this.form.colorStyle,
                         colorLight : "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
@@ -234,10 +445,16 @@
 
             setColor() {
                 this.$refs.acAppRef.setColor();
+                let params = {
+                    id: this.form.id,
+	                colorStyle: this.form.colorStyle,
+                };
+                this.updateRequest(params);
             },
 
             toMainPage() {
                 this.$emit("toPage", "main");
+                this.$emit("search", this.currentPage, this.pageSize);
             },
 
             release(content) {
@@ -250,6 +467,7 @@
         },
         data() {
             return {
+                uploadAction: this.$aiocUrl.blsh_h5_service_v1_bh_activity_top_upload,
                 rootUrl: "http://192.168.1.6:8080/",
                 showLoading: false,
                 showOverApp: true,
@@ -265,17 +483,40 @@
 					accessNum: "",
 					createUser: "",
 					remark: "",
-                    uploadLimit: 3,
-                    colorStyle: "#0C2AA4",
+                    uploadLimit: "",
+                    colorStyle: "",
                     title: "",
 					voteTimeRange: [],
                     signTimeRange: [],
                     status: "",
-                    top: "banner",
-	                img: require('@/assets/img/em/tp2.png'),
+                    imgType: "",
+                    imgs: "",
+                    fileList: [],
                     content: "",
                 },
-                rules: [],
+                rules: {
+                    title: [
+                        {type: 'string', required: true, message: '请输入活动名称', trigger: ['change', 'blur']},
+                    ],
+                    signTimeRange: [
+                        {type: 'array', required: true, message: '请输入报名时间', trigger: ['change', 'blur']},
+                    ],
+                    voteTimeRange: [
+                        {type: 'array', required: true, message: '请输入投票时间', trigger: ['change', 'blur']},
+                    ],
+                    uploadLimit: [
+                        {type: 'number', required: true, message: '请输入上传作品数量限制', trigger: ['change', 'blur']},
+                    ],
+                    colorStyle: [
+                        {type: 'string', required: true, message: '请输入上传作品数量限制', trigger: ['change', 'blur']},
+                    ],
+                    fileList: [
+                        {type: 'array', required: true, message: '请上传顶部图片', trigger: ['change', 'blur']},
+                    ],
+                    content: [
+                        {type: 'string', required: true, message: '请输入活动介绍', trigger: ['change', 'blur']},
+                    ],
+                },
                 pickerOptions: {
                     shortcuts: [{
                         text: '最近一周',
@@ -439,5 +680,15 @@
 </style>
 
 <style>
-
+	.ae_limit_label .el-form-item__label {
+		line-height: 20px !important;
+	}
+	.ae_ef_content {
+		position: relative;
+	}
+	.ae_ef_content .el-form-item__error {
+		position: absolute;
+		top: 26px !important;
+		left: -110px !important;
+	}
 </style>

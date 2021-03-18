@@ -5,22 +5,20 @@
 		<div class="app_main" v-if="active == '0'">
 			<!--投票-->
 			<div v-if="page=='vote'">
-				<van-image v-if="activityForm.top == 'single'"
-				           width="100%"
-				           height="200px"
-				           fit="contain"
-				           :src="require('@/assets/img/em/tp2.png')"
-				/>
-				<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-					<el-carousel-item v-for="item in 4" :key="item">
+				<el-carousel class="app_el_carousel" height="200px" v-if="activityForm.fileList.length > 0">
+					<el-carousel-item v-for="(item, index) in activityForm.fileList" :key="index">
 						<van-image
 								width="100%"
 								height="200px"
-								fit="contain"
-								:src="require('@/assets/img/em/tp2.png')"
+								fit="fill"
+								:src="item.url"
 						/>
 					</el-carousel-item>
 				</el-carousel>
+
+				<div v-else class="app_no_img">
+					请上传顶部图片
+				</div>
 
 				<el-card class="app_card">
 					<div class="app_tit">
@@ -730,7 +728,9 @@
             },
 
             setColor() {
-                this.color = this.activityForm.colorStyle;
+                this.$nextTick(function () {
+                    this.color = this.activityForm.colorStyle;
+                });
             },
 
             toPage(item, index) {
@@ -1128,6 +1128,15 @@
 </script>
 
 <style scoped>
+	.app_no_img {
+		height: 200px;
+		width: 100%;
+		line-height: 200px;
+		text-align: center;
+		background: #eeeeee;
+		color: #f5222d;
+		font-size: 14px;
+	}
 	#qrcode{
 		width: 100px;
 		height: 100px;
@@ -1567,6 +1576,7 @@
 	.app_tit {
 		padding: 10px 0;
 		text-align: left;
+		line-height: 26px;
 	}
 	.app_status {
 		padding: 10px;

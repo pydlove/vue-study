@@ -72,8 +72,8 @@
 			</div>
 		</el-card>
 
-		<Add v-else-if="page=='add'" @toPage="toPage"></Add>
-		<Edit v-else-if="page=='edit'" ref="editRef" @toPage="toPage"></Edit>
+		<Add v-else-if="page=='add'" @toPage="toPage" @search="search"></Add>
+		<Edit v-else-if="page=='edit'" ref="editRef" @toPage="toPage" @search="search" :currentPage="currentPage" :pageSize="pageSize"></Edit>
 		<Sign v-else-if="page=='sign'" @toPage="toPage"></Sign>
 	</div>
 </template>

@@ -46,7 +46,7 @@
 					</el-date-picker>
 				</el-form-item>
 
-				<el-form-item label="活动介绍" prop="content">
+				<el-form-item class="ae_limit_label" label="活动介绍" prop="content">
 					<tinymce-text id="tinymce" @release="onSubmit" :btnName="'创建活动'"></tinymce-text>
 				</el-form-item>
 			</el-form>
@@ -108,6 +108,7 @@
 
             toMainPage() {
                 this.$emit("toPage", "main");
+                this.$emit("search");
             }
 	    },
 	    data() {

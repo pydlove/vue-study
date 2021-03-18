@@ -500,7 +500,7 @@
 			<van-image v-if="activityForm.top == 'single'"
 			           width="100%"
 			           height="200px"
-			           fit="contain"
+			           fit="fill"
 			           :src="require('@/assets/img/em/tp2.png')"
 			/>
 			<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
@@ -508,7 +508,7 @@
 					<van-image
 							width="100%"
 							height="200px"
-							fit="contain"
+							fit="fill"
 							:src="require('@/assets/img/em/tp2.png')"
 					/>
 				</el-carousel-item>

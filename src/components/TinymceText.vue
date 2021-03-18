@@ -3,7 +3,7 @@
 	<div>
 		<textarea :id="id" class="aa">
 		</textarea>
-		<el-button class="btn" @click="cancle">取消</el-button>
+		<!--<el-button class="btn" @click="cancle">取消</el-button>-->
 		<el-button class="btn1" type="primary" @click="release">{{btnName}}</el-button>
 	</div>
 </template>
@@ -86,5 +86,6 @@
 	}
 	.btn1 {
 		width: 100px;
+		margin-top: 20px;
 	}
 </style>
