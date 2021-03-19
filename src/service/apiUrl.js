@@ -16,6 +16,7 @@ export default {
     blsh_h5_service_v1_bh_activity_top_upload: "/blsh-h5-service/v1/bh_activity/top/upload",
     blsh_h5_service_v1_bh_activity_top_delete: "/blsh-h5-service/v1/bh_activity/top/delete",
 
+    blsh_h5_service_v1_bh_sign_list: "/blsh-h5-service/v1/bh_sign/list",
 
     // 控制台
     console_service_v1_login_captcha : "/blsh-h5-service/v1/login/captcha.jpg",

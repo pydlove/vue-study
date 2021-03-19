@@ -65,7 +65,7 @@
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item v-show="scope.row.status != '2'" @click.native="edit(scope.row)">编 辑</el-dropdown-item>
 								<el-dropdown-item @click.native="deleteRow(scope.row)">删 除</el-dropdown-item>
-								<el-dropdown-item divided @click.native="page='sign'">报名统计</el-dropdown-item>
+								<el-dropdown-item divided @click.native="registration(scope.row)">报名统计</el-dropdown-item>
 								<el-dropdown-item v-show="scope.row.status != '1' && scope.row.status != '2'" @click.native="release(scope.row)">发布活动</el-dropdown-item>
 								<el-dropdown-item v-show="scope.row.status != '2'" @click.native="close(scope.row)">关闭活动</el-dropdown-item>
 							</el-dropdown-menu>
@@ -80,7 +80,7 @@
 
 		<Add v-else-if="page=='add'" @toPage="toPage" @search="search"></Add>
 		<Edit v-else-if="page=='edit'" ref="editRef" @toPage="toPage" @search="search" :currentPage="currentPage" :pageSize="pageSize"></Edit>
-		<Sign v-else-if="page=='sign'" @toPage="toPage"></Sign>
+		<Sign v-else-if="page=='sign'" ref="registrationRef" @search="search" :currentPage="currentPage" :pageSize="pageSize" @toPage="toPage"></Sign>
 	</div>
 </template>
 <!--eslint-disable-->
@@ -163,6 +163,17 @@
             },
 
         	/**
+			 * 报名统计
+			 * */
+			registration(row){
+				 this.page="sign";
+				 this.$nextTick(function () {
+					this.$refs.registrationRef.setFormContent(row);
+				})
+	        },
+
+
+			/**
              * 编辑
 			 */
 			edit(row) {
