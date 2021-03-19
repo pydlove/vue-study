@@ -31,7 +31,7 @@
 						</div>
 						<div class="app_vline"></div>
 						<div class="app_tit_item">
-							<div>6</div>
+							<div>0</div>
 							<div>选手数</div>
 						</div>
 						<div class="app_vline"></div>

@@ -15,8 +15,8 @@
 						<ac-app ref="acAppRef" :activityForm="form"></ac-app>
 					</div>
 					<div class="ae_btn">
-						<el-button class="ae_btn_item" type="primary">发布活动</el-button>
-						<el-button class="ae_btn_item" type="primary" @click="showPoster">活动海报</el-button>
+						<el-button class="ae_btn_item" type="primary" @click="releaseActivity">发布活动</el-button>
+						<el-button class="ae_btn_item" type="primary" @click="showPoster" >活动海报</el-button>
 					</div>
 				</div>
 
@@ -181,6 +181,33 @@
 		    }
 	    },
         methods: {
+            releaseActivity() {
+                this.$confirm('确认是否发布活动？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(()=> {
+                    this.releaseRequest();
+                }).catch(()=> {
+                });
+            },
+
+            async releaseRequest() {
+                let params = {
+                    id: this.form.id,
+                    status: "1",
+                };
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_edit, params, "POST");
+                if (data.code == 200) {
+                    this.$notify({
+                        title: '成功',
+                        message: '活动发布成功！',
+                        type: 'success'
+                    });
+                    this.search(this.currentPage, this.pageSize);
+                }
+            },
+
             saveContent(content) {
                 this.form.content = content;
                 this.$refs['form'].validate((valid) => {
@@ -364,7 +391,7 @@
                     fileList: [],
                     content: row.content,
 		        }
-		        if(this.form.imgs != "") {
+		        if(this.form.imgs != "" && this.form.imgs != null ) {
                     let imgArrTemp = this.form.imgs.split(",");
                     for(var i in imgArrTemp) {
                         let imgItem = imgArrTemp[i]
@@ -373,7 +400,6 @@
                         this.form.fileList.push({ name: fileName, url: imgItem });
                     }
 		        }
-        		console.log(this.form)
                 this.$refs.acAppRef.setColor();
                 this.$refs.tinymceRef.setContent(this.form.content);
 			},
@@ -414,7 +440,7 @@
 
             showPoster() {
 			    // 1、校验是否提供数据  【 顶部图片、颜色风格、报名时间、投票时间 】
-	            if(this.form.imgs == "" || this.form.colorStyle == "" || this.form.signTimeRange.length == 0 || this.form.voteTimeRange.length == 0 ) {
+	            if(this.form.fileList.length == 0 || this.form.colorStyle == "" || this.form.signTimeRange.length == 0 || this.form.voteTimeRange.length == 0 ) {
                     this.$notify({
                         title: '必填提示',
                         message: '请补充顶部图片、颜色风格、报名时间、投票时间数据',
@@ -428,7 +454,7 @@
                     this.posterQrcode = new QRCode(this.$refs.posterQrcodeRef, {
                         width: 160,
                         height: 160,
-                        text: this.rootUrl + "/#/am",
+                        text: this.rootUrl + "/#/am?activityId=" + this.form.id,
                         colorDark : this.form.colorStyle,
                         colorLight : "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
@@ -469,7 +495,7 @@
         data() {
             return {
                 uploadAction: this.$aiocUrl.blsh_h5_service_v1_bh_activity_top_upload,
-                rootUrl: "http://192.168.1.6:8080/",
+                rootUrl: "http://192.168.1.14:8080/",
                 showLoading: false,
                 showOverApp: true,
                 posterQrcode: "",

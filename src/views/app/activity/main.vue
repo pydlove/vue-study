@@ -5,40 +5,34 @@
 		<div class="app_main" v-if="active == '0'" :style="{height: (clientHeight - 50) + 'px',}">
 			<!--投票-->
 			<div v-if="page=='vote'">
-				<van-image v-if="activityForm.top == 'single'"
-				           width="100%"
-				           height="200px"
-				           fit="contain"
-				           :src="require('@/assets/img/em/tp2.png')"
-				/>
-				<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-					<el-carousel-item v-for="item in 4" :key="item">
+				<el-carousel class="app_el_carousel" height="200px">
+					<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
 						<van-image
 								width="100%"
 								height="200px"
 								fit="fill"
-								:src="require('@/assets/img/em/tp2.png')"
+								:src="item"
 						/>
 					</el-carousel-item>
 				</el-carousel>
 
 				<el-card class="app_card">
 					<div class="app_tit">
-						{{ activityForm.name }}
+						{{ activity.title }}
 					</div>
 					<div class="app_tit_container" :style="{ background: color }">
 						<div class="app_tit_item">
-							<div>0</div>
+							<div>{{ activity.totalVoteNum }}</div>
 							<div>总票数</div>
 						</div>
 						<div class="app_vline"></div>
 						<div class="app_tit_item">
-							<div>6</div>
+							<div>{{ activity.totalPlayersNum }}</div>
 							<div>选手数</div>
 						</div>
 						<div class="app_vline"></div>
 						<div class="app_tit_item">
-							<div>0</div>
+							<div>{{ activity.accessNum }}</div>
 							<div>访问量</div>
 						</div>
 					</div>
@@ -55,11 +49,11 @@
 					</div>
 					<div class="app_rule_item">
 						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票开始：
-						{{ activityForm.timeRange[0] }}
+						{{ activity.voteStart }}
 					</div>
 					<div class="app_rule_item">
 						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票截止：
-						{{ activityForm.timeRange[1] }}
+						{{ activity.voteEnd }}
 					</div>
 					<div class="app_rule_item mb-10">
 						<van-icon class="app_rule_icon" name="info-o" :style="{ color: color }" />投票规则： 每个微信号投票期间只能投1次
@@ -185,40 +179,34 @@
 
 			<!--在线报名-->
 			<div v-else-if="page=='signup'">
-				<van-image v-if="activityForm.top == 'single'"
-				           width="100%"
-				           height="200px"
-				           fit="contain"
-				           :src="require('@/assets/img/em/tp2.png')"
-				/>
-				<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-					<el-carousel-item v-for="item in 4" :key="item">
+				<el-carousel class="app_el_carousel" height="200px">
+					<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
 						<van-image
 								width="100%"
 								height="200px"
-								fit="contain"
-								:src="require('@/assets/img/em/tp2.png')"
+								fit="fill"
+								:src="item"
 						/>
 					</el-carousel-item>
 				</el-carousel>
 
 				<el-card class="app_card">
 					<div class="app_tit">
-						{{ activityForm.name }}
+						{{ activity.title }}
 					</div>
 					<div class="app_tit_container" :style="{ background: color }">
 						<div class="app_tit_item">
-							<div>0</div>
+							<div>{{ activity.totalVoteNum }}</div>
 							<div>总票数</div>
 						</div>
 						<div class="app_vline"></div>
 						<div class="app_tit_item">
-							<div>6</div>
+							<div>{{ activity.totalPlayersNum }}</div>
 							<div>选手数</div>
 						</div>
 						<div class="app_vline"></div>
 						<div class="app_tit_item">
-							<div>0</div>
+							<div>{{ activity.accessNum }}</div>
 							<div>访问量</div>
 						</div>
 					</div>
@@ -235,11 +223,11 @@
 					</div>
 					<div class="app_rule_item">
 						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />报名开始：
-						{{ activityForm.signTimeRange[0] }}
+						{{ activity.signStart }}
 					</div>
 					<div class="app_rule_item mb-20">
 						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />报名截止：
-						{{ activityForm.signTimeRange[1] }}
+						{{ activity.signEnd }}
 					</div>
 				</el-card>
 
@@ -305,9 +293,9 @@
 								<el-input class="aa_form_item" v-model="form.title" placeholder="请输入作品名称"></el-input>
 							</el-form-item>
 
-							<el-form-item class="app_up_eitem" :label="'上传作品（最多上传'+ activityForm.uploadNum +'张）'" required>
+							<el-form-item class="app_up_eitem" :label="'上传作品（最多上传'+ activity.uploadLimit +'张）'" required>
 								<van-uploader :file-list="form.fileList"
-								              :max-count="activityForm.uploadNum"
+								              :max-count="activity.uploadLimit"
 								              :after-read="afterRead" />
 							</el-form-item>
 
@@ -338,20 +326,13 @@
 				<div class="app_al">
 					<van-icon name="arrow-left" @click="returnPage"/>
 				</div>
-
-				<van-image v-if="activityForm.top == 'single'"
-				           width="100%"
-				           height="200px"
-				           fit="contain"
-				           :src="require('@/assets/img/em/tp2.png')"
-				/>
-				<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-					<el-carousel-item v-for="item in 4" :key="item">
+				<el-carousel class="app_el_carousel" height="200px">
+					<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
 						<van-image
 								width="100%"
 								height="200px"
-								fit="contain"
-								:src="require('@/assets/img/em/tp2.png')"
+								fit="fill"
+								:src="item"
 						/>
 					</el-carousel-item>
 				</el-carousel>
@@ -434,7 +415,7 @@
 
 				<el-card class="app_poster_card">
 					<div slot="header" class="app_poster_header">
-						<span>{{ activityForm.name }}</span>
+						<span>{{ activity.title }}</span>
 					</div>
 
 					<div class="app_poster_author">
@@ -497,40 +478,34 @@
 
 		<!--介绍-->
 		<div v-else-if="active == '1'" class="app_main">
-			<van-image v-if="activityForm.top == 'single'"
-			           width="100%"
-			           height="200px"
-			           fit="fill"
-			           :src="require('@/assets/img/em/tp2.png')"
-			/>
-			<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-				<el-carousel-item v-for="item in 4" :key="item">
+			<el-carousel class="app_el_carousel" height="200px">
+				<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
 					<van-image
 							width="100%"
 							height="200px"
 							fit="fill"
-							:src="require('@/assets/img/em/tp2.png')"
+							:src="item"
 					/>
 				</el-carousel-item>
 			</el-carousel>
 
 			<el-card class="app_card">
 				<div class="app_tit">
-					{{ activityForm.name }}
+					{{ activity.title }}
 				</div>
-				<div class="app_tit_container"  :style="{ background: color }">
+				<div class="app_tit_container" :style="{ background: color }">
 					<div class="app_tit_item">
-						<div>0</div>
+						<div>{{ activity.totalVoteNum }}</div>
 						<div>总票数</div>
 					</div>
 					<div class="app_vline"></div>
 					<div class="app_tit_item">
-						<div>6</div>
+						<div>{{ activity.totalPlayersNum }}</div>
 						<div>选手数</div>
 					</div>
 					<div class="app_vline"></div>
 					<div class="app_tit_item">
-						<div>0</div>
+						<div>{{ activity.accessNum }}</div>
 						<div>访问量</div>
 					</div>
 				</div>
@@ -540,7 +515,7 @@
 			</el-card>
 
 			<el-card class="app_card">
-				<div v-html="activityForm.content"></div>
+				<div v-html="activity.content"></div>
 			</el-card>
 
 			<div class="app_bot">
@@ -550,19 +525,13 @@
 
 		<!--排行榜-->
 		<div v-else-if="active == '2'" class="app_main">
-			<van-image v-if="activityForm.top == 'single'"
-			           width="100%"
-			           height="200px"
-			           fit="contain"
-			           :src="require('@/assets/img/em/tp2.png')"
-			/>
-			<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-				<el-carousel-item v-for="item in 4" :key="item">
+			<el-carousel class="app_el_carousel" height="200px">
+				<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
 					<van-image
 							width="100%"
 							height="200px"
-							fit="contain"
-							:src="require('@/assets/img/em/tp2.png')"
+							fit="fill"
+							:src="item"
 					/>
 				</el-carousel-item>
 			</el-carousel>
@@ -573,17 +542,17 @@
 				</div>
 				<div class="app_tit_container" :style="{ background: color }">
 					<div class="app_tit_item">
-						<div>0</div>
+						<div>{{ activity.totalVoteNum }}</div>
 						<div>总票数</div>
 					</div>
 					<div class="app_vline"></div>
 					<div class="app_tit_item">
-						<div>6</div>
+						<div>{{ activity.totalPlayersNum }}</div>
 						<div>选手数</div>
 					</div>
 					<div class="app_vline"></div>
 					<div class="app_tit_item">
-						<div>0</div>
+						<div>{{ activity.accessNum }}</div>
 						<div>访问量</div>
 					</div>
 				</div>
@@ -600,11 +569,11 @@
 				</div>
 				<div class="app_rule_item">
 					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票开始：
-					{{ activityForm.timeRange[0] }}
+					{{ activityForm.voteStart }}
 				</div>
 				<div class="app_rule_item">
 					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票截止：
-					{{ activityForm.timeRange[1] }}
+					{{ activityForm.voteEnd }}
 				</div>
 				<div class="app_rule_item mb-10">
 					<van-icon class="app_rule_icon" name="info-o" :style="{ color: color }" />投票规则： 每个微信号投票期间只能投1次
@@ -695,11 +664,11 @@
             this.clientWidth = htmlWidth;
             let htmlHeight = document.documentElement.clientHeight || document.body.clientHeight;
             this.clientHeight = htmlHeight;
-            console.log('htmlHeight',htmlHeight)
 
             this.areaList = Area;
-            let path = window.location.href.split("?")
-            this.fmtParam(path);
+            // let path = window.location.href.split("?")
+            // this.fmtParam(path);
+	        this.searchActivityInfo();
             // this.wxShare();
         },
         methods: {
@@ -769,13 +738,40 @@
             fmtParam(path) {
                 if(path.length > 1) {
                     const params = path[1].split("&");
-                    var pageParams = params[0].split("=");
-                    var workIdParams = params[1].split("=");
-                    this.page = pageParams[1].toString();
-                    for(var i in this.rankings) {
-                        if(workIdParams[1] == this.rankings[i].id) {
-                            this.work = this.rankings[i];
+                    if(params.length == 1) {
+                        var pageParams = params[0].split("=");
+						if(pageParams[0] == "activityId") {
+							this.searchActivityInfo(pageParams[1]);
+						}
+                    } else if(params.length == 2) {
+                        // var pageParams = params[0].split("=");
+                        // var workIdParams = params[1].split("=");
+                        // this.page = pageParams[1].toString();
+                        // for(var i in this.rankings) {
+                        //     if(workIdParams[1] == this.rankings[i].id) {
+                        //         this.work = this.rankings[i];
+                        //     }
+                        // }
+                    }
+
+                }
+            },
+
+            async searchActivityInfo(activityId) {
+                let params = new FormData()
+                // params.append("id", activityId);
+                params.append("id", "248424e4e4f4459c9554ce97d737f981");
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_info, params, "POST");
+                if (data.code === 200) {
+                    if(data.data.status == "9") {
+                        //跳转到活动已结束界面
+                    } else {
+                        this.activity = data.data.activity;
+                        if(this.activity.imgs != null && this.activity.imgs != "") {
+                            this.activityBanners = this.activity.imgs.split(",");
                         }
+                        this.color = this.activity.colorStyle;
+                        return true;
                     }
                 }
             },
@@ -948,6 +944,9 @@
         },
         data() {
             return {
+                activityBanners: [],
+                activity: "",
+                color: "#0C2AA4",
                 rootUrl: "http://192.168.1.6:8080/",
                 clientWidth: 360,
                 clientHeight: 667,
@@ -984,7 +983,6 @@
                     fileList: [],
                 },
                 page: "vote",
-                color: "#0C2AA4",
                 gift: "",
                 giftNum: 1,
                 gifts: [

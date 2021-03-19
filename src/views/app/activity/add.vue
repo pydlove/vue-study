@@ -46,8 +46,8 @@
 					</el-date-picker>
 				</el-form-item>
 
-				<el-form-item class="ae_limit_label" label="活动介绍" prop="content">
-					<tinymce-text ref="tinymceRef" id="tinymce" @release="onSubmit" :btnName="'创建活动'"></tinymce-text>
+				<el-form-item class="ae_ty_label" label="活动介绍" prop="content">
+					<tinymce-text ref="tinymceRef" id="tinymce" @release="onSubmit" :btnName="'创建活动'" :disabled="disabled"></tinymce-text>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -77,6 +77,7 @@
             },
 
             async submitRequest() {
+                this.disabled = true;
                 this.form.signStart = this.form.signTimeRange[0];
                 this.form.signEnd = this.form.signTimeRange[1];
                 this.form.voteStart = this.form.voteTimeRange[0];
@@ -88,6 +89,7 @@
                         message: '增加活动成功',
                         type: 'success'
                     });
+                    this.disabled = false;
                     this.clearForm();
                     this.$refs.tinymceRef.setContent("");
                     this.toMainPage();
@@ -113,6 +115,7 @@
 	    },
 	    data() {
             return {
+                disabled: false,
                 form: {
                     title: "",
 	                signStart: "",
@@ -199,6 +202,11 @@
 	.aa_form .el-form-item__error {
 		position: absolute;
 		top: -39px;
+		left: 75px;
+	}
+	.ae_ty_label .el-form-item__error {
+		position: absolute;
+		top: -41px !important;
 		left: 75px;
 	}
 </style>

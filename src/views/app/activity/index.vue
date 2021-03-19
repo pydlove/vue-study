@@ -12,8 +12,8 @@
 					<el-avatar class="ai_avatar" :size="80" fit="fill"
 					           :src="require('@/assets/img/icon/ing.png')"></el-avatar>
 					<div class="ai_item">
-						<div>0</div>
-						<div>进行中活动</div>
+						<div>{{ releaseNum }}</div>
+						<div>已发布的活动</div>
 					</div>
 				</div>
 				<div class="ai_line"></div>
@@ -21,7 +21,7 @@
 					<el-avatar class="ai_avatar1" :size="80" fit="fill"
 					           :src="require('@/assets/img/icon/all.png')"></el-avatar>
 					<div class="ai_item">
-						<div>0</div>
+						<div>{{ totalNum }}</div>
 						<div>全部活动</div>
 					</div>
 				</div>
@@ -30,6 +30,10 @@
 			<div class="ai_tit mt-20">
 				<div class="vertical_line"></div>
 				<div>活动管理</div>
+				<div class="ai_cond_container">
+					<el-input class="ai_in_cond" v-model="searchform.title" prefix-icon="el-icon-search" placeholder="请输入活动名称" clearable @change="search(0, 10)"></el-input>
+					<div :class="fmtStatusCode()==item.code?'cond_active ai_cond_item':'ai_cond_item'" v-for="(item, index) in statusConds" :key="index" @click="switchStatus(item)">{{ item.name }}</div>
+				</div>
 			</div>
 			<el-table class="ai_table"
 			          :data="tableData"
@@ -50,18 +54,20 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column prop="totalVotes" label="总票数"></el-table-column>
-				<el-table-column prop="players" label="选手数"></el-table-column>
-				<el-table-column prop="views" label="访问量"></el-table-column>
+				<el-table-column prop="totalVoteNum" label="总票数"></el-table-column>
+				<el-table-column prop="totalPlayersNum" label="选手数"></el-table-column>
+				<el-table-column prop="accessNum" label="访问量"></el-table-column>
+				<el-table-column prop="createUserName" label="创建人"></el-table-column>
 				<el-table-column prop="option" label="操作" fixed="right" width="120">
 					<template slot-scope="scope">
 						<el-dropdown trigger="click">
 						    <span class="el-dropdown-link">设置<i class="el-icon-arrow-down el-icon--right"></i></span>
 							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item @click.native="edit(scope.row)">编 辑</el-dropdown-item>
-								<el-dropdown-item @click.native="deleteRow(scope.row)">删除</el-dropdown-item>
+								<el-dropdown-item v-show="scope.row.status != '2'" @click.native="edit(scope.row)">编 辑</el-dropdown-item>
+								<el-dropdown-item @click.native="deleteRow(scope.row)">删 除</el-dropdown-item>
 								<el-dropdown-item divided @click.native="page='sign'">报名统计</el-dropdown-item>
-								<el-dropdown-item>发布活动</el-dropdown-item>
+								<el-dropdown-item v-show="scope.row.status != '1' && scope.row.status != '2'" @click.native="release(scope.row)">发布活动</el-dropdown-item>
+								<el-dropdown-item v-show="scope.row.status != '2'" @click.native="close(scope.row)">关闭活动</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
 					</template>
@@ -87,12 +93,77 @@
         name: "index",
 	    components: { Pagination, Add, Edit, Sign},
 	    mounted() {
+			this.getStatisticsInfo();
 			this.search(0, 10);
 	    },
         methods: {
 
+            async getStatisticsInfo() {
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_statistics, {}, "POST");
+                if (data.code === 200) {
+                    console.log(data)
+	                this.releaseNum = data.data.releaseNum;
+	                this.totalNum = data.data.totalNum;
+                    return true;
+                }
+            },
+
+            release(row) {
+                this.$confirm('确认是否发布活动？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(()=> {
+                    this.releaseRequest(row);
+                }).catch(()=> {
+                });
+            },
+
+            async releaseRequest(row) {
+                let params = {
+					id: row.id,
+					status: "1",
+                };
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_edit, params, "POST");
+                if (data.code == 200) {
+                    this.$notify({
+                        title: '成功',
+                        message: '活动发布成功！',
+                        type: 'success'
+                    });
+                    this.search(this.currentPage, this.pageSize);
+                }
+            },
+
+            close(row) {
+                this.$confirm('确认是否关闭活动？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(()=> {
+                    this.closeRequest(row);
+                }).catch(()=> {
+                });
+            },
+
+            async closeRequest(row) {
+                let params = {
+					id: row.id,
+					status: "2",
+                };
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_edit, params, "POST");
+                if (data.code == 200) {
+                    this.$notify({
+                        title: '成功',
+                        message: '活动关闭成功！',
+                        type: 'success'
+                    });
+                    this.search(this.currentPage, this.pageSize);
+                }
+            },
+
         	/**
-        	编辑
+             * 编辑
 			 */
 			edit(row) {
 				this.page = "edit";
@@ -141,7 +212,6 @@
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_list, params, "POST");
                 if (data.code === 200) {
                     this.tableData = data.data;
-                    console.log(this.tableData)
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
                 }
@@ -170,17 +240,35 @@
                         return "#bfbfbf";
                     case "1":
                         return "#52c41a";
-                    case "1":
+                    case "2":
                         return "#c4192a";
                     default:
                         break;
                 }
-            }
+            },
+
+            switchStatus(item) {
+				if(item.code == '-1') {
+				    this.searchform.status = "";
+				} else {
+                    this.searchform.status = item.code;
+				}
+				this.search(0, 10);
+            },
+            fmtStatusCode() {
+                if(this.searchform.status == "") {
+                    return "-1";
+                } else {
+                    return this.searchform.status;
+                }
+            },
         },
         data() {
             return {
                 clientHeight: document.body.clientHeight-2,
                 page: "main",
+                releaseNum: 0,
+                totalNum: 0,
                 tableData: [
                 ],
                 currentPage: 0,
@@ -188,13 +276,41 @@
                 searchform: {
                     title: "",
 	                status: "",
-                }
+                },
+                statusConds: [
+	                {code: "-1",name:"全部"},
+	                {code: "0",name:"草稿箱"},
+	                {code: "1",name:"已发布"},
+	                {code: "2",name:"已结束"},
+                ],
             }
         }
     }
 </script>
 
 <style scoped>
+	.ai_in_cond {
+		margin-right: 40px;
+	}
+	.cond_active {
+		border-bottom: 2px solid red !important;
+	}
+	.ai_cond_item {
+		font-size: 14px;
+		min-width: 60px;
+		line-height: 28px;
+		margin-top: 10px;
+		border: 2px solid #ffffff;
+		margin: 0 10px;
+	}
+	.ai_cond_container {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		align-items: center;
+		margin-left: 50px;
+	}
+
 	.cjhd {
 		background: #ef5252;
 		border: 1px solid #ef5252;

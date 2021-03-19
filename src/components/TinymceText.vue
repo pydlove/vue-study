@@ -4,7 +4,7 @@
 		<textarea :id="id" class="aa">
 		</textarea>
 		<!--<el-button class="btn" @click="cancle">取消</el-button>-->
-		<el-button class="btn1" type="primary" @click="release">{{btnName}}</el-button>
+		<el-button class="btn1" type="primary" @click="release" :disabled="disabled">{{btnName}}</el-button>
 	</div>
 </template>
 <!--eslint-disable-->
@@ -30,6 +30,7 @@
         props:{
             id:String,
             btnName: String,
+            disabled: String,
         },
 	    mounted() {
             tinymce.get(this.id).setContent(this.content);
