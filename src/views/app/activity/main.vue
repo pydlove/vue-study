@@ -948,7 +948,7 @@
         },
         data() {
             return {
-                rootUrl: "http://192.168.1.6:8080/",
+                rootUrl: "http://192.168.1.4:8080/",
                 clientWidth: 360,
                 clientHeight: 667,
                 qrcode: "",
