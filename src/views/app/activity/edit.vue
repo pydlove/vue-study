@@ -448,7 +448,6 @@
                     });
 	                return false;
 	            }
-
                 this.showOverlay = true;
                 this.$nextTick(function () {
                     this.posterQrcode = new QRCode(this.$refs.posterQrcodeRef, {
