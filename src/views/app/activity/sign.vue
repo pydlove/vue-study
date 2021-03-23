@@ -11,7 +11,7 @@
 
 			<div class="as_works_continer">
 				<div v-show="showWorksDetailFlag" class="as_works_detail_continer">
-					<i class="el-icon-circle-close" style="float: right;color: red" @click="toTableDate"></i>
+					<i class="el-icon-circle-close" @click="toTableDate"></i>
 					<el-carousel height="160px">
 						<el-carousel-item v-for="item in 4" :key="item">
 							<el-image
@@ -34,7 +34,7 @@
 					<div class="as_work_works">作品名称：{{showWorks.worksName}}</div>
 					<div class="as_works_fill">
 						<el-image v-for="(item, index) in this.worksImgArray" :key="index"
-						          style="width: 100%; height: 400px; border-radius: 5px"
+						          style="width: 100%; height: 200px; border-radius: 5px"
 						          :src=item
 						          fit="fill"></el-image>
 					</div>
@@ -200,15 +200,14 @@
 
 <style scoped>
 	.el-icon-circle-close {
-		left: -25px;
-		top: -4px;
-		/*   font-weight: bold;*/
+		left: 0px;
+		top: 0px;
 		font-size: 25px;
-		position: relative;
+		position: absolute;
 		width: 10px;
 		height: 10px;
 		z-index: 3001;
-
+		color: red;
 	}
 
 	.as_works_connect {
@@ -231,7 +230,6 @@
 		text-align: center;
 		height: 50px;
 		line-height: 50px;
-		width: 370px;
 		font-size: 20px;
 	}
 
@@ -240,7 +238,6 @@
 		text-align: center;
 		height: 50px;
 		line-height: 50px;
-		width: 370px;
 		font-size: 20px;
 	}
 
@@ -248,7 +245,6 @@
 		height: 50px;
 		background: #0C2AA4;
 		margin: 10px;
-
 		display: flex;
 		flex-wrap: nowrap;
 		padding: 10px;
@@ -289,12 +285,13 @@
 	}
 
 	.as_works_detail_continer {
-		width: 450px;
-		min-width: 450px;
+		width: 360px;
+		min-width: 360px;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 		margin-right: 30px;
 		height: 760px;
 		overflow: auto;
+		position: relative;
 	}
 
 	.as_works_continer {
