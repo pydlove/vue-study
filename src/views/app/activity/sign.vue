@@ -11,6 +11,7 @@
 
             <div class="as_works_continer">
                 <div v-show="showWorksDetailFlag" class="as_works_detail_continer">
+                        <i class="el-icon-circle-close" style="float: right;color: red" @click="toTableDate"></i>
                     <el-carousel height="160px">
                         <el-carousel-item v-for="item in 4" :key="item">
                             <el-image
@@ -21,25 +22,21 @@
                     </el-carousel>
                     <div class="as_works_info">
                         <div>
-                            <div style="font-size: 18px">1</div>
+                            <div style="font-size: 18px">{{showWorks.rank}}</div>
                             <div style="font-size: 16px">排名</div>
                         </div>
                         <div>
-                            <div style="font-size: 18px">12530</div>
+                            <div style="font-size: 18px">{{showWorks.voteNum}}</div>
                             <div style="font-size: 16px">票数</div>
                         </div>
-                        <div>
-                            <div style="font-size: 18px">榜首</div>
-                            <div style="font-size: 16px">当前</div>
-                        </div>
                     </div>
-                    <div class="as_work_people">1号 徐腾 38岁</div>
-                    <div class="as_work_works">作品名称：我为祖国献石油</div>
+                    <div class="as_work_people">编号:{{showWorks.id}}  姓名:{{showWorks.name}}  年龄:{{showWorks.age}}</div>
+                    <div class="as_work_works">作品名称：{{showWorks.worksName}}</div>
                     <div class="as_works_fill">
-                        <el-image
-                                style="width: 100%; height: 400px; border-radius: 5px"
-                                :src="require('@/assets/img/avatar/chengxiao.jpg')"
-                                fit="fill"></el-image>
+                            <el-image v-for="(item, index) in this.worksImgArray" :key="index"
+                                    style="width: 100%; height: 400px; border-radius: 5px"
+                                    :src=item
+                                    fit="fill"></el-image>
                     </div>
                     <div class="as_works_connect">
                         <a href="https://www.aiocloud.ltd/#/" target="_blank" style="color: #0C2AA4">爱启云科技</a>提供支持
@@ -72,7 +69,7 @@
                                 <el-dropdown trigger="click">
                                     <span class="el-dropdown-link"><i class="el-icon-more"></i></span>
                                     <el-dropdown-menu slot="dropdown">
-                                        <el-dropdown-item @click.native="showWorksDetail">作品详情</el-dropdown-item>
+                                        <el-dropdown-item @click.native="showWorksDetail(scope.row,scope.$index + 1 )">作品详情</el-dropdown-item>
                                         <el-dropdown-item @click.native="showWorksVoteLog">投票日志</el-dropdown-item>
                                         <el-dropdown-item @click.native="showWorksGiftLog">礼物日志</el-dropdown-item>
                                         <el-dropdown-item @click.native="showWorksAlterTicket">修改票数</el-dropdown-item>
@@ -117,8 +114,18 @@
              * @desc 显示作品详情
              * @author lvjian
              */
-            showWorksDetail() {
+            showWorksDetail(row, index) {
                 this.showWorksDetailFlag = true;
+                  this.showWorks = {
+                       id: row.id,
+                       name: row.name,
+                       age: row.age,
+                       voteNum: row.voteNum,
+                       worksName: row.worksName,
+                       worksImage: row.worksImage,
+                       rank: index
+                };
+                this.worksImgArray = row.worksImage.split(",")
             },
 
             /**
@@ -143,7 +150,9 @@
             showWorksAlterTicket() {
                 this.$refs.alterTicketRef.open();
             },
-
+            toTableDate(){
+                this.showWorksDetailFlag=null;
+            },
             toMainPage() {
                 this.$emit("toPage", "main");
             },
@@ -179,6 +188,8 @@
         data() {
             return {
                 showWorksDetailFlag: false,
+                worksImgArray:[],
+                showWorks:{},
                 tableData: [],
                 currentPage: 0,
                 pageSize: 10,
@@ -188,6 +199,18 @@
 </script>
 
 <style scoped>
+    .el-icon-circle-close {
+        left: -25px;
+        top: -4px;
+     /*   font-weight: bold;*/
+        font-size: 25px;
+        position:relative;
+        width: 10px;
+        height: 10px;
+        z-index: 3001;
+
+
+    }
     .as_works_connect {
         margin: 20px;
         font-size: 14px;
@@ -199,7 +222,8 @@
 
     .as_works_fill {
         margin: 10px;
-        border-radius: 5px
+        border-radius: 5px;
+
     }
 
     .as_work_works {
@@ -233,7 +257,7 @@
 
     .as_works_info > div:nth-of-type(1) {
         /*background: #1f2224;*/
-        width: 33.33%;
+        width: 50%;
         height: 50px;
         border-right: 1px solid #ffffff;
         line-height: 25px;
@@ -241,16 +265,9 @@
 
     .as_works_info > div:nth-of-type(2) {
         /*background: #2b90ff;*/
-        width: 33.33%;
+        width: 50%;
         height: 50px;
-        border-right: 1px solid #ffffff;
-        line-height: 25px;
-    }
-
-    .as_works_info > div:nth-of-type(3) {
-        /*background: #4caf50;*/
-        width: 33.33%;
-        height: 50px;
+     /*   border-right: 1px solid #ffffff;*/
         line-height: 25px;
     }
 
@@ -272,10 +289,12 @@
     }
 
     .as_works_detail_continer {
-        width: 370px;
-        min-width: 370px;
+        width: 450px;
+        min-width: 450px;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         margin-right: 30px;
+        height: 760px;
+        overflow: auto;
     }
 
     .as_works_continer {
@@ -293,6 +312,7 @@
         margin-right: 10px;
     }
 
+
     .aa_return {
         display: flex;
         flex-wrap: nowrap;
@@ -300,6 +320,11 @@
         justify-content: flex-start;
         font-size: 16px;
     }
+
+
+      .aa_close:hover {
+          color: #2b90ff;
+      }
 
     .aa_return:hover {
         color: #2b90ff;
