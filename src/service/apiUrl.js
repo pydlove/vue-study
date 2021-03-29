@@ -22,7 +22,9 @@ export default {
     blsh_h5_service_v1_bh_sign_works_delete: "/blsh-h5-service/v1/bh_sign/works/delete",
     blsh_h5_service_v1_bh_sign_sign: "/blsh-h5-service/v1/bh_sign/sign",
     blsh_h5_service_v1_bh_sign_rank: "/blsh-h5-service/v1/bh_sign/rank",
-
+    blsh_h5_service_v1_bh_vote_list: "/blsh-h5-service/v1/bh_vote/list",
+    blsh_h5_service_v1_bh_gift_list: "/blsh-h5-service/v1/bh_gift_order/list",
+    blsh_h5_service_v1_bh_vote_voteTicket: "/blsh-h5-service/v1/bh_vote/voteTicket",
     // 控制台
     console_service_v1_login_captcha : "/blsh-h5-service/v1/login/captcha.jpg",
     console_service_v1_login : "/blsh-h5-service/v1/login/",
