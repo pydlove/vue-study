@@ -13,34 +13,39 @@
 				<div v-show="showWorksDetailFlag" class="as_works_detail_continer">
 					<i class="el-icon-circle-close" @click="toTableDate"></i>
 					<el-carousel height="160px">
-						<el-carousel-item v-for="item in 4" :key="item">
+						<el-carousel-item v-for="item in this.worksImgArray" :key="item">
 							<el-image
 									style="width: 100%; height: 160px"
-									:src="require('@/assets/img/em/tp2.png')"
+									:src=item
 									fit="fill"></el-image>
 						</el-carousel-item>
 					</el-carousel>
+					<el-card class="aa_inf">
 					<div class="as_works_info">
 						<div>
 							<div style="font-size: 18px">{{showWorks.rank}}</div>
-							<div style="font-size: 16px">排名</div>
+							<div style="font-size: 14px">排名</div>
 						</div>
 						<div>
 							<div style="font-size: 18px">{{showWorks.voteNum}}</div>
-							<div style="font-size: 16px">票数</div>
+							<div style="font-size: 14px">票数</div>
 						</div>
 					</div>
-					<div class="as_work_people">编号:{{showWorks.id}} 姓名:{{showWorks.name}} 年龄:{{showWorks.age}}</div>
-					<div class="as_work_works">作品名称：{{showWorks.worksName}}</div>
+					<div class="as_work_works">{{showWorks.worksName}}</div>
+					<div class="as_work_people">{{showWorks.no}}号   {{showWorks.name}}   {{showWorks.age}}岁</div>
+
 					<div class="as_works_fill">
 						<el-image v-for="(item, index) in this.worksImgArray" :key="index"
-						          style="width: 100%; height: 200px; border-radius: 5px"
+						          style="width: 100%; height: 200px; border-radius: 5px; margin-bottom: 20px"
 						          :src=item
-						          fit="fill"></el-image>
+								  :preview-src-list="[item]"
+						          fit="fill"
+								  ></el-image>
 					</div>
-					<div class="as_works_connect">
-						<a href="https://www.aiocloud.ltd/#/" target="_blank" style="color: #0C2AA4">爱启云科技</a>提供支持
-					</div>
+						<div class="as_works_connect">
+							<a href="https://www.aiocloud.ltd/#/" target="_blank" style="color: #0C2AA4">爱启云科技</a>提供支持
+						</div>
+					</el-card>
 				</div>
 				<div :class="showWorksDetailFlag ? 'as_works_full_400':'as_works_full'">
 					<el-table
@@ -49,21 +54,26 @@
 							stripe
 							border
 							style="width: 100%">
-						<el-table-column prop="id" label="编号"></el-table-column>
-						<el-table-column prop="author" label="作品">
-							<template slot-scope="scope">
-								<el-image style="width: 40px;height: 40px;" :src="fmtWorkImgs(scope.row)"
-								          fit="fill"></el-image>
-							</template>
-						</el-table-column>
-						<el-table-column prop="name" label="选手"></el-table-column>
-						<el-table-column prop="age" label="年龄"></el-table-column>
 						<el-table-column prop="rank" label="排名">
 							<template slot-scope="scope">
 								{{ scope.$index + 1 }}
 							</template>
 						</el-table-column>
 						<el-table-column prop="voteNum" label="票数"></el-table-column>
+						<el-table-column prop="name" label="选手"></el-table-column>
+						<el-table-column prop="age" label="年龄"></el-table-column>
+						<el-table-column prop="author" label="作品">
+							<template slot-scope="scope">
+								<el-image style="width: 40px;height: 40px;" :src="fmtWorkImgs(scope.row)"
+										  fit="fill"
+										  :preview-src-list="[fmtWorkImgs(scope.row)]"></el-image>
+							</template>
+						</el-table-column>
+						<el-table-column prop="no" label="编号">
+							  <template slot-scope="scope">
+                                       {{scope.row.no}} 号
+							  </template>
+						</el-table-column>
 						<el-table-column prop="option" label="操作" fixed="right" width="120">
 							<template slot-scope="scope">
 								<el-dropdown trigger="click">
@@ -72,21 +82,23 @@
 										<el-dropdown-item @click.native="showWorksDetail(scope.row,scope.$index + 1 )">
 											作品详情
 										</el-dropdown-item>
-										<el-dropdown-item @click.native="showWorksVoteLog">投票日志</el-dropdown-item>
-										<el-dropdown-item @click.native="showWorksGiftLog">礼物日志</el-dropdown-item>
-										<el-dropdown-item @click.native="showWorksAlterTicket">修改票数</el-dropdown-item>
+										<el-dropdown-item @click.native="showWorksVoteLog(scope.row)">投票日志</el-dropdown-item>
+										<el-dropdown-item @click.native="showWorksGiftLog(scope.row)">礼物日志</el-dropdown-item>
+										<el-dropdown-item @click.native="showWorksAlterTicket(scope.row)">修改票数</el-dropdown-item>
 									</el-dropdown-menu>
 								</el-dropdown>
 							</template>
 						</el-table-column>
 					</el-table>
-					<Pagination class="page" ref="pageRef"></Pagination>
+					<div class="tl">
+						<Pagination class="page" ref="pageRef"  @search="search"></Pagination>
+					</div>
 				</div>
 			</div>
 		</el-card>
 		<VoteLog ref="voteLogRef"></VoteLog>
 		<GiftLog ref="giftLogRef"></GiftLog>
-		<AlterTicket ref="alterTicketRef"></AlterTicket>
+		<AlterTicket ref="alterTicketRef" @search="search" :currentPage="currentPage" :pageSize="pageSize"></AlterTicket>
 	</div>
 </template>
 <!--eslint-disable-->
@@ -104,8 +116,8 @@
         methods: {
 
             fmtWorkImgs(row) {
-                if (row.imgs != null && row.imgs != "") {
-                    var imgArray = row.imgs.split(",");
+                if (row.worksImage != null && row.worksImage != "") {
+                    var imgArray = row.worksImage.split(",");
                     return imgArray[0];
                 } else {
                     return require('@/assets/img/icon/nopeople.jpg');
@@ -119,7 +131,7 @@
             showWorksDetail(row, index) {
                 this.showWorksDetailFlag = true;
                 this.showWorks = {
-                    id: row.id,
+                    no: row.no,
                     name: row.name,
                     age: row.age,
                     voteNum: row.voteNum,
@@ -134,29 +146,42 @@
              * @desc 显示投票日志
              * @author lvjian
              */
-            showWorksVoteLog() {
-                this.showWorksDetailFlag = true;
+            showWorksVoteLog(row) {
                 this.$refs.voteLogRef.open();
+				this.$nextTick(function () {
+					this.$refs.voteLogRef.setFormContent(row);
+				})
             },
 
             /**
              * @desc 显示礼物日志
              * @author lvjian
              */
-            showWorksGiftLog() {
+            showWorksGiftLog(row) {
                 this.$refs.giftLogRef.open();
+				this.$nextTick(function () {
+					this.$refs.giftLogRef.setListContent(row);
+				})
             },
 
             /**
              * @desc 显示修改票数
              * @author lvjian
              */
-            showWorksAlterTicket() {
+            showWorksAlterTicket(row) {
                 this.$refs.alterTicketRef.open();
+                this.$nextTick(function () {
+                    this.$refs.alterTicketRef.updateTicket(row);
+				})
             },
             toTableDate() {
-                this.showWorksDetailFlag = null;
+                this.showWorksDetailFlag = false;
             },
+
+			toPage() {
+              this.page = "main";
+			},
+
             toMainPage() {
                 this.$emit("toPage", "main");
             },
@@ -164,13 +189,13 @@
             /**
              * 刷新页面的数据，从后台获取数据
              */
-            async search(currentPage, pageSize, row) {
+            async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pagesize = pageSize;
                 let params = new FormData();
                 params.append("page", this.currentPage);
                 params.append("limit", this.pagesize);
-                params.append("activityId", row.id);
+                params.append("activityId", this.activity.id);
                 params.append("order", "vote_num DESC");
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_list, params, "POST");
                 if (data.code === 200) {
@@ -181,12 +206,14 @@
             },
 
             setFormContent(row) {
-                this.search(0, 10, row);
+            	this.activity = row;
+                this.search(0, 10);
             }
 
         },
         data() {
             return {
+            	activity: "",
                 showWorksDetailFlag: false,
                 worksImgArray: [],
                 showWorks: {},
@@ -226,11 +253,12 @@
 	}
 
 	.as_work_works {
+		padding: 20px 20px;
 		margin: 10px;
 		text-align: center;
 		height: 50px;
-		line-height: 50px;
-		font-size: 20px;
+		line-height: 15px;
+		font-size: 16px;
 	}
 
 	.as_work_people {
@@ -238,7 +266,8 @@
 		text-align: center;
 		height: 50px;
 		line-height: 50px;
-		font-size: 20px;
+		color: #666;
+		font-size: 14px;
 	}
 
 	.as_works_info {
@@ -283,7 +312,6 @@
 	.as_works_full {
 		width: 100%;
 	}
-
 	.as_works_detail_continer {
 		width: 360px;
 		min-width: 360px;
