@@ -25,6 +25,9 @@ export default {
     blsh_h5_service_v1_bh_vote_list: "/blsh-h5-service/v1/bh_vote/list",
     blsh_h5_service_v1_bh_gift_list: "/blsh-h5-service/v1/bh_gift_order/list",
     blsh_h5_service_v1_bh_vote_voteTicket: "/blsh-h5-service/v1/bh_vote/voteTicket",
+
+    blsh_h5_service_v1_bh_gift_census: "/blsh-h5-service/v1/bh_gift_order/giftList",
+
     // 控制台
     console_service_v1_login_captcha : "/blsh-h5-service/v1/login/captcha.jpg",
     console_service_v1_login : "/blsh-h5-service/v1/login/",

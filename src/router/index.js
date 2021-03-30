@@ -104,6 +104,14 @@ const router = new Router({
             name: 'skeleton',
             component: (resolve) => require(['../components/Skeleton/skeleton-2.vue'], resolve),
         },
+        {
+            meta: {
+                title: '安徽伯林书画研究院财务统计'
+            },
+            path: '/financial',
+            name: 'financial',
+            component: (resolve) => require(['../views/app/activity/financial.vue'], resolve),
+        },
     ]
 })
 
