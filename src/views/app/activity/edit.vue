@@ -453,7 +453,7 @@
                     this.posterQrcode = new QRCode(this.$refs.posterQrcodeRef, {
                         width: 160,
                         height: 160,
-                        text: this.rootUrl + "/#/am?activityId=" + this.form.id,
+                        text: this.$aiocUrl.rootUrl + "am?activityId=" + this.form.id,
                         colorDark : this.form.colorStyle,
                         colorLight : "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
@@ -494,7 +494,6 @@
         data() {
             return {
                 uploadAction: this.$aiocUrl.blsh_h5_service_v1_bh_activity_top_upload,
-                rootUrl: "http://192.168.1.14:8080/",
                 showLoading: false,
                 showOverApp: true,
                 posterQrcode: "",

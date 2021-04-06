@@ -23,6 +23,10 @@ import { Toast } from "vant";
 Vue.use(Toast);
 Vue.prototype.$toast = Toast;
 
+import { Notify } from "vant";
+Vue.use(Notify);
+Vue.prototype.$notify = Notify;
+
 // 微信
 import wx from 'weixin-js-sdk'
 Vue.use(wx);

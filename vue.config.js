@@ -104,6 +104,7 @@ module.exports = {
         }])
     },
     devServer: {
+        disableHostCheck: true,
         proxy: {
             '/console-service': {
                 target: 'http://localhost:9091',

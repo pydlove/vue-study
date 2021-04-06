@@ -698,7 +698,7 @@
 
             createPoster() {
                 this.getQrcode(
-                    this.rootUrl + "/#/am?page=detail&workId=" + this.work.id,
+                    this.$aiocUrl.rootUrl + "am?page=detail&workId=" + this.work.id,
                     this.$refs.voteQrcodeRef,
                     90, 90
                 );
@@ -825,7 +825,7 @@
                     this.qrcode = new QRCode(this.$refs.qrcodeRef, {
                         width: 160,
                         height: 160,
-                        text: this.rootUrl + "/#/am",
+                        text: this.$aiocUrl.rootUrl + "am",
                         colorDark : "#000000",
                         colorLight : "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
@@ -853,7 +853,6 @@
 	    },
 	    data() {
             return {
-                rootUrl: "http://192.168.1.5:8080/",
                 qrcode: "",
                 showOverlay: false,
                 showPosterScreenshot: false,

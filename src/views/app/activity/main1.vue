@@ -12,8 +12,7 @@
 						:color="color"
 						:clientHeight="clientHeight"
 						:originalHeight="originalHeight"
-						:voteUserId="voteUserId"
-						:openId="openId"
+						:voteUser="voteUser"
 						@changePage="changePage"
 						@toDetail="toDetail"
 				></AppVote>
@@ -39,7 +38,6 @@
 						:activity="activity"
 						:activityBanners="activityBanners"
 						:color="color"
-						:voteUserId="voteUserId"
 						@changePage="changePage"
 				></AppDetail>
 			</div>
@@ -114,12 +112,6 @@
             AppRank,
         },
         mounted() {
-            // var useragent = navigator.userAgent;
-            // if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
-            //     this.$router.push({name: "errorPage"});
-            // }
-
-            // 解析参数 初始化数据
             let path = window.location.href;
             if( path.indexOf("code") != -1 ) {
                 let pathArray = path.split("?");
@@ -131,13 +123,18 @@
                 let stateStr = paramArray[1];
                 let stateArray = stateStr.split("=");
                 let state = stateArray[1];
-                this.searchActivityInfo(state)
-                this.getWxAccessToken(code);
+                let localVoteUser = this.$utils.getStorage("voteUser");
+                if(localVoteUser != undefined && localVoteUser != null && localVoteUser != "") {
+                    this.voteUser = localVoteUser;
+                    this.searchActivityInfo(state)
+                } else {
+                    this.getWxAccessToken(code, state);
+                }
             } else {
                 let pathStr = path.split("?")
                 this.fmtParam(pathStr);
             }
-
+            // this.wxShare();
             this.originalHeight = document.documentElement.clientHeight ||document.body.clientHeight;
             window.onresize = ()=>{
                 return(()=>{
@@ -156,40 +153,15 @@
         },
         methods: {
             async getWxAccessToken(code) {
-                const openIdTemp = this.$utils.getStorage("openId");
-                if(openIdTemp == undefined || openIdTemp == null || openIdTemp == "") {
-                    let params = new FormData()
-	                params.append("code", code);
-	                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_wx_openId, params, "POST");
-	                if (data.code == 200) {
-	                    this.openId = data.data;
-	                    alert(this.openId)
-	                    this.$utils.setStorage("openId", this.openId);
-	                }
-                } else {
-                    this.openId = openIdTemp;
-                }
-            },
-
-	        addAccessNum() {
                 let params = new FormData()
-                params.append("id", this.activityId);
-                this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_add_access, params, "POST");
-            },
-
-            async createUserInfo() {
-                const userId = this.$utils.getStorage("voteUserId");
-                if(userId != null && userId != undefined && userId != "") {
-					this.voteUserId = userId;
-                } else {
-                    let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_create, {}, "POST");
-                    if (data.code === 200) {
-                        this.voteUserId = data.data;
-                        this.$utils.setStorage("voteUserId", this.voteUserId);
-                        return true;
-                    }
+	            params.append("code", code);
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_wx_token, params, "POST");
+                if (data.code == 200) {
+                    this.voteUser = data.data;
+                    this.$utils.setStorage("voteUser", this.voteUser);
                 }
             },
+
 
             /**
              * 跳转到选手作品详情
@@ -316,8 +288,7 @@
                     if (params.length == 1) {
                         var pageParams = params[0].split("=");
                         if (pageParams[0] == "activityId") {
-                            this.activityId = pageParams[1];
-                            this.searchActivityInfo(this.activityId);
+                            this.searchActivityInfo(pageParams[1]);
                         }
                     } else if (params.length == 3) {
                         var pageStr = params[0];
@@ -329,16 +300,11 @@
                         if (pageArr[0] == "page" && activityIdArr[0] == "activityId" && signIdArr[0] == "signId") {
                             this.page = pageArr[1];
                             this.detailPageParams.activityId = activityIdArr[1];
-                            this.activityId = activityIdArr[1];
                             this.detailPageParams.signId = signIdArr[1];
                             this.initDetailInfo();
                         }
                     }
-                    // 增加活动访问量 +1
-                    this.addAccessNum();
 
-                    // 为用户生成id
-                    this.createUserInfo();
                 }
             },
 
@@ -361,6 +327,7 @@
                         }
                         this.color = this.activity.colorStyle;
                         this.searchSignPlayer();
+                        this.getWxUser();
                         return true;
                     }
                 }
@@ -416,21 +383,33 @@
                         this.color = this.activity.colorStyle;
                         this.$refs.appVoteRef.activityId = activityId;
                         this.$refs.appVoteRef.searchPlayer();
+                        this.getWxUser();
                         return true;
                     }
                 }
             },
 
+
+	        getWxUser() {
+                let localVoteUser = this.$utils.getStorage("voteUser");
+                if(localVoteUser != undefined && localVoteUser != null && localVoteUser != "") {
+                    this.voteUser = localVoteUser;
+                } else {
+                    const appid = "wx2441b99c49dbe988";
+                    const url = "http://aiocloud.nat300.top/am"; //获取#之前的当前路径\
+                    var scope = "snsapi_userinfo";
+                    window.location.href =
+                        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + url + "&response_type=code&scope=" + scope + "&state=" + this.activity.id + "#wechat_redirect "
+                }
+	        }
         },
         data() {
             return {
-                openId: "",
-                voteUserId: "",
+                voteUser: "",
                 detailPageParams: {
                     sign: "",
                     activityId: "",
                 },
-                activityId: "",
                 signPlayer: "",
                 playerWorks: [],
                 activityBanners: [],
@@ -1036,8 +1015,8 @@
 	}
 
 	.app_code_dialog {
-		position: fixed !important;
-		top: 50%;
+		position: absolute !important;
+		top: 45%;
 		left: 50%;
 		width: 320px;
 		overflow: hidden;

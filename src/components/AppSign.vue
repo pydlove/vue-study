@@ -98,7 +98,7 @@
 					<van-divider/>
 
 					<el-form-item label="手机号码" required>
-						<el-input class="aa_form_item" v-model="form.phone" placeholder="请输入联系方式"></el-input>
+						<el-input ref="asPhoneRef"  @click.native="changeHeight" class="aa_form_item" v-model="form.phone" placeholder="请输入联系方式"></el-input>
 					</el-form-item>
 					<van-divider/>
 
@@ -152,11 +152,28 @@
 
     export default {
         name: "AppSign",
-        props: [ "activity", "activityBanners", "color" ],
+        props: [ "activity", "activityBanners", "color", "originalHeight", "clientHeight" ],
+        watch: {
+            clientHeight :function() {
+                if( this.originalHeight != this.clientHeight ){
+                    //键盘弹出操作
+                    setTimeout(()=>{
+                        document.activeElement.scrollIntoView(false);
+                        window.scrollTo(0, 50);
+                    },200)
+                }else{
+                    //键盘收起操作
+                }
+            }
+        },
 	    mounted() {
             this.areaList = Area;
 	    },
 	    methods: {
+            changeHeight() {
+                // document.getElementsByClassName("app_container")[0].scrollTop = 500;
+            },
+
             /**
              * 提交
              * @param {*} 参数 参数说明
@@ -319,26 +336,6 @@
                     worksImage: "",
                     acitvityId: "",
                 },
-                // rules: {
-                //     name: [
-                //         {type: 'string', required: true, message: '请输入姓名', trigger: ['change', 'blur']},
-                //     ],
-                //     sex: [
-                //         {type: 'string', required: true, message: '请选择性别', trigger: ['change', 'blur']},
-                //     ],
-                //     area: [
-                //         {type: 'string', required: true, message: '请选择所在地', trigger: ['change', 'blur']},
-                //     ],
-                //     phone: [
-                //         {type: 'string', required: true, message: '请输入手机号码', trigger: ['change', 'blur'], validator: validPhone},
-                //     ],
-                //     worksName: [
-                //         {type: 'string', required: true, message: '请输入作品名称', trigger: ['change', 'blur']},
-                //     ],
-                //     fileList: [
-                //         {type: 'array', required: true, message: '请上传作品', trigger: ['change', 'blur']},
-                //     ],
-                // },
             }
 	    }
     }
@@ -365,11 +362,10 @@
 	}
 
 	.app_form {
-		padding-top: 20px;
-		padding-bottom: 20px;
+		padding-top: 10px;
+		padding-bottom: 10px;
 		text-align: left;
 	}
-
 
 	.app_bot {
 		font-size: 14px;
@@ -547,189 +543,7 @@
 	div::-webkit-scrollbar {
 		width: 0;
 	}
-</style>
-
-<style>
-	.app_code_in .van-field__control {
-		height: 43px !important;
-		line-height: 43px !important;
-	}
-
-	.app_code_dialog {
-		position: absolute !important;
-		top: 45%;
-		left: 50%;
-		width: 320px;
-		overflow: hidden;
-		font-size: 16px;
-		background-color: #fff;
-		border-radius: 3px;
-		-webkit-transform: translate3d(-50%, -50%, 0);
-		transform: translate3d(-50%, -50%, 0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
-		-webkit-transition: .3s;
-		transition: .3s;
-		-webkit-transition-property: opacity, -webkit-transform;
-		transition-property: opacity, -webkit-transform;
-		transition-property: transform, opacity;
-		transition-property: transform, opacity, -webkit-transform;
-	}
-
-	.app_code_dialog .van-dialog__header {
-		padding-top: 0px;
-		font-weight: 500;
-		line-height: 50px;
-		text-align: center;
-		background: #eeeeee;
-	}
-
-	.app_poster_card .el-card__header {
-		background: #ffffff;
-	}
-
-	.app_poster_card .el-card__body {
-		background: #ffffff;
-	}
-
-	.app_poster_dialog {
-		position: absolute !important;
-		top: 40% px;
-		left: 50%;
-		width: 320px;
-		overflow: hidden;
-		font-size: 16px;
-		background-color: #fff;
-		border-radius: 3px;
-		-webkit-transform: translate3d(-50%, -50%, 0);
-		transform: translate3d(-50%, -50%, 0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
-		-webkit-transition: .3s;
-		transition: .3s;
-		-webkit-transition-property: opacity, -webkit-transform;
-		transition-property: opacity, -webkit-transform;
-		transition-property: transform, opacity;
-		transition-property: transform, opacity, -webkit-transform;
-
-	}
-
-	.app_dialog .van-dialog__header {
-		padding: 20px;
-		color: #f5222d;
-	}
-
-	.app_dialog {
-		position: absolute !important;
-		top: 45%;
-		left: 50%;
-		width: 320px;
-		overflow: hidden;
-		font-size: 16px;
-		background-color: #fff;
-		border-radius: 16px;
-		-webkit-transform: translate3d(-50%, -50%, 0);
-		transform: translate3d(-50%, -50%, 0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
-		-webkit-transition: .3s;
-		transition: .3s;
-		-webkit-transition-property: opacity, -webkit-transform;
-		transition-property: opacity, -webkit-transform;
-		transition-property: transform, opacity;
-		transition-property: transform, opacity, -webkit-transform;
-	}
-
-	.app_up_eitem .el-form-item__label {
-		float: none;
-	}
-
-	.app_vcell {
-		padding: 10px 0px;
-	}
-
-	.van-cell::after {
-		position: absolute;
-		box-sizing: border-box;
-		content: ' ';
-		pointer-events: none;
-		right: 16px;
-		bottom: 0;
-		left: 16px;
-		border-bottom: 0px solid #ebedf0;
-		-webkit-transform: scaleY(.5);
-		transform: scaleY(.5);
-	}
-
-	.app_form .el-input__inner {
-		border-radius: 0px;
-		border: 0px;
-		padding: 0px;
-	}
-
-	.app_form .el-form-item__content {
-		position: unset;
-	}
-
-	.app_form .el-form-item {
-		margin-bottom: 10px !important;
-		/*position: relative;*/
-	}
-	.app_form .el-form-item__error {
-		position: absolute;
-		top: 12px;
-		right: 20px;
-		left: unset;
-	}
-
-	.el-dropdown-menu {
-		z-index: 2010 !important;
-		padding: 0px;
-		margin: 20px 0;
-	}
-
-	.el-dropdown-menu__item {
-		width: 60px !important;
-		text-align: center;
-		border-bottom: 1px solid #eee;
-	}
-
 	.van-popup {
-		position: absolute;
-		bottom: 0px;
-	}
-
-	.van-search__action {
-		padding: 0px;
-	}
-
-	.app_search .van-search__content {
-		height: 40px;
-		background-color: #ffffff;
-		border: 1px solid #d9d9d9;
-		border-top-right-radius: 0px;
-		border-bottom-right-radius: 0px;
-		border-right: 0px;
-	}
-
-	.app_search .van-field__left-icon {
-		line-height: 30px;
-	}
-
-	.app_search .van-field__control {
-		line-height: 30px;
-	}
-
-	[class*=" el-icon-"], [class^=el-icon-] {
-		/*font-weight: 500 !important;*/
-	}
-
-	.app_card1 .el-card__body {
-		padding: 0px;
-		padding-bottom: 10px;
-	}
-
-	.app_card .el-card__body {
-		padding: 0 10px;
+		position: fixed !important;
 	}
 </style>

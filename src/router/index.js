@@ -10,7 +10,7 @@ Router.prototype.push = function push(location) {
 Vue.use(Router)
 
 const router = new Router({
-    // mode: 'history',
+    mode: 'history',
     routes: [
         {
             path: '*',
@@ -92,6 +92,14 @@ const router = new Router({
             meta: {
                 title: '安徽伯林书画研究院投票活动'
             },
+            path: '/amVote',
+            name: 'amVote',
+            component: (resolve) => require(['../views/app/activity/mainVote.vue'], resolve),
+        },
+        {
+            meta: {
+                title: '安徽伯林书画研究院投票活动'
+            },
             path: '/voteApp',
             name: 'voteApp',
             component: (resolve) => require(['../views/app/activity/app.vue'], resolve),
@@ -103,6 +111,14 @@ const router = new Router({
             path: '/skeleton',
             name: 'skeleton',
             component: (resolve) => require(['../components/Skeleton/skeleton-2.vue'], resolve),
+        },
+        {
+            meta: {
+                title: '安徽伯林书画研究院投票活动'
+            },
+            path: '/errorPage',
+            name: 'errorPage',
+            component: (resolve) => require(['../components/WxErrorPage.vue'], resolve),
         },
         {
             meta: {

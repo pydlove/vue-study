@@ -2,7 +2,7 @@
  * apiurl list
  */
 export default {
-    cpcmAddress: "localhost:8080",
+    rootUrl: "http://192.168.1.5:8080/",
 
     example: '/example', // example
 
@@ -22,6 +22,15 @@ export default {
     blsh_h5_service_v1_bh_sign_works_delete: "/blsh-h5-service/v1/bh_sign/works/delete",
     blsh_h5_service_v1_bh_sign_sign: "/blsh-h5-service/v1/bh_sign/sign",
     blsh_h5_service_v1_bh_sign_rank: "/blsh-h5-service/v1/bh_sign/rank",
+    blsh_h5_service_v1_bh_sign_player: "/blsh-h5-service/v1/bh_sign/player",
+
+    blsh_h5_service_v1_bh_wx_token: "/blsh-h5-service/v1/bh_wx/token",
+    blsh_h5_service_v1_bh_wx_openId: "/blsh-h5-service/v1/bh_wx/openId",
+
+    blsh_h5_service_v1_bh_vote_create: "/blsh-h5-service/v1/bh_vote/create",
+    blsh_h5_service_v1_bh_activity_add_access: "/blsh-h5-service/v1/bh_activity/add/access",
+
+    blsh_h5_service_v1_bh_wx_to: "/blsh-h5-service/v1/bh_wx/to",
     blsh_h5_service_v1_bh_vote_list: "/blsh-h5-service/v1/bh_vote/list",
     blsh_h5_service_v1_bh_gift_list: "/blsh-h5-service/v1/bh_gift_order/list",
     blsh_h5_service_v1_bh_vote_voteTicket: "/blsh-h5-service/v1/bh_vote/voteTicket",
