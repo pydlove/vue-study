@@ -32,8 +32,8 @@
 					<div>访问量</div>
 				</div>
 			</div>
-			<div class="app_status">
-				活动未开始
+			<div class="app_status" :style="{ color: fmtStatusColor(activity.status) }">
+				{{ fmtStatus(activity.status) }}
 			</div>
 		</el-card>
 
@@ -53,7 +53,7 @@
 		</el-card>
 
 		<div class="app_fun_container" :style="{ background: color }">
-			<div class="app_fun_item" @click="toOrder">
+			<div class="app_fun_item" @click="toRankPage">
 				<i class="el-icon-trophy"></i>
 				<div>查看排名</div>
 			</div>
@@ -64,12 +64,13 @@
 			</div>
 		</div>
 
-		<van-search class="app_search"
+		<van-search class="app_search av_search" ref="avSearchRef"
 		            v-model="search"
 		            show-action
 		            placeholder="请输入姓名或编号搜索"
 		            background="#ffffff"
 		            @clear="onSearch"
+		            @click.native="changeHeight"
 		>
 			<div class="app_search_prefix" slot="action" @click="onSearch"
 			     :style="{ background: color, borderColor: color }"
@@ -79,14 +80,15 @@
 
 		<div class="infinite-list-wrapper">
 			<div class="app_works list"
-			     :style="{ height: worksHeight + 'px'}"
-			     infinite-scroll-distance="1200px"
+			     :style="{ height: worksHeight + 'px',}"
+			     infinite-scroll-distance="1586px"
 			     v-infinite-scroll="loadingPlayer"
 			     :infinite-scroll-disabled="infiniteDisabled"
+			     infinite-scroll-immediate="false"
 			>
 				<div class="app_works_item"
 				     v-for="(item, index) in players" :key="index"
-				     :style="{ marginRight: (index%2==0?'2%':'0px')}"
+				     :style="{ marginRight: (index%2==0?'4%':'0px')}"
 				>
 					<el-image class="app_works_img"
 					          width="100%"
@@ -95,7 +97,11 @@
 					          fit="fill" @click="toDetail(item)"></el-image>
 					<div class="app_works_info">
 						<div>
-							作品名：{{ item.worksName }}
+							<el-tooltip :content="item.worksName" placement="top" effect="light">
+								<div style="color: #333; font-size: 16px">
+									{{ item.worksName.length > 8 ? (item.worksName.substring(0, 8)+"..."):(item.worksName) }}
+								</div>
+							</el-tooltip>
 						</div>
 						<div>
 							作者：{{ item.name }}
@@ -173,7 +179,7 @@
 							<el-dropdown-item command="5">5</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
-					<span class="app_eld_btn_send" :style="{ background: color, borderColor: color }">
+					<span class="app_eld_btn_send" :style="{ background: color, borderColor: color }" @click="payl">
 						赠送
 					</span>
 				</div>
@@ -211,10 +217,99 @@
 
     export default {
         name: "AppTop",
-	    props: [ "activity", "activityBanners", "color" ],
-	    mounted() {
-	    },
+	    props: [ "activity", "activityBanners", "color", "originalHeight", "clientHeight", "voteUserId", "openId" ],
+        watch: {
+            clientHeight :function() {
+                if( this.originalHeight != this.clientHeight ){
+                    //键盘弹出操作
+                    setTimeout(()=>{
+                        this.$refs.avSearchRef.scrollIntoView(false);
+                        window.scrollTo(0, 50);
+                    },200)
+                }else{
+                    //键盘收起操作
+                }
+            }
+        },
+        mounted() {
+        },
 	    methods: {
+            async payl(){
+                // 1、判断openId是否存储在
+	            // 2、判断存储里面 openId
+	            // 3、根据 voteUserId 去查
+	            // 4、没有就获取微信授权
+				if(this.openId == undefined || this.openId == null || this.openId == "") {
+				    const openIdTemp = this.$utils.getStorage("openId");
+				    alert(openIdTemp)
+                    if(openIdTemp == undefined || openIdTemp == null || openIdTemp == "") {
+                        const appid = "wx2441b99c49dbe988";
+                        const url = "http://aiocloud.nat300.top/am"; //获取#之前的当前路径\
+                        var scope = "snsapi_userinfo";
+                        window.location.href =
+                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + url + "&response_type=code&scope=snsapi_userinfo&state=" + this.activity.id + "#wechat_redirect ";
+                    } else {
+                        this.openId = openIdTemp;
+                        this.toPay();
+                    }
+				} else {
+				    this.toPay();
+				}
+            },
+
+		    async toPay() {
+                let params = new FormData()
+                params.append("outTradeNo", this.$utils.random_No(4));
+                params.append("subject", "爱启云测试");
+                params.append("totalAmount", "1");
+                params.append("body", "爱启云测试");
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_wx_to, params, "POST");
+                if (data.code === 200) {
+                    var res = data.data;//后台返回的微信支付参数
+                    let vm = this;
+                    if (typeof WeixinJSBridge === 'undefined') {
+                        if (document.addEventListener) {
+                            document.addEventListener('WeixinJSBridgeReady', vm.onBridgeReady(data), false)
+                        } else if (document.attachEvent) {
+                            document.attachEvent('WeixinJSBridgeReady', vm.onBridgeReady(data))
+                            document.attachEvent('onWeixinJSBridgeReady', vm.onBridgeReady(data))
+                        }
+                    } else {
+                        vm.onBridgeReady(res)
+                    }
+                }
+		    },
+
+            onBridgeReady(data){
+                alert(data.timestamp)
+                WeixinJSBridge.invoke(
+                    "getBrandWCPayRequest",
+                    {
+                        appId: data.appid, //公众号名称，由商户传入
+                        timeStamp: data.timestamp, //时间戳，自1970年以来的秒数
+                        nonceStr: data.nonce_str, //随机串
+                        package: "prepay_id=" + data.prepay_id, //订单详情扩展字符串
+                        signType: data.signType, //微信签名方式：
+                        paySign: data.sign, //微信签名
+                        openId: this.openId, //微信签名
+                    },
+                    res => {
+                        if(res.err_msg == "get_brand_wcpay_request:ok"){
+                            // ...
+                        }else{
+                            alert("支付失败！");
+                        }
+                    }
+                );
+            },
+
+            resetData() {
+                this.currentPage = 1;
+                this.pageSize = 10;
+                this.totalCount = 0;
+                this.players = [];
+            },
+
             getFirstImg(worksImage) {
                 if(worksImage != null && worksImage != "") {
                     let imgs = worksImage.split(",");
@@ -223,17 +318,52 @@
                 return "";
             },
 
+            /**
+             * 格式化状态
+             * @param {*} 参数 参数说明
+             * @author panyong
+             */
+            fmtStatus(status) {
+                switch (status) {
+                    case "0":
+                        return "活动未开始";
+                    case "1":
+                        return "活动进行中";
+                    case "2":
+                        return "活动已结束";
+                    default:
+                        break;
+                }
+            },
+
+            fmtStatusColor(status) {
+                switch (status) {
+                    case "0":
+                        return "#bfbfbf";
+                    case "1":
+                        return "#52c41a";
+                    case "2":
+                        return "#c4192a";
+                    default:
+                        break;
+                }
+            },
+
 		    /**
 		     * 处理高度
 		     * @param {*} 参数 参数说明
 		     * @author panyong
 		     */
             handlerHeight() {
-				if(this.totalCount >= 10) {
-				    this.worksHeight = 1200;
-				} else if(this.totalCount < 10) {
-                    this.worksHeight = Math.ceil(this.totalCount/2)*1200/5;
-				}
+			    if(this.currentPage == 1) {
+                    if(this.totalCount >= 10) {
+                        this.worksHeight = 1586 + 50;
+                    } else if(this.totalCount < 10) {
+                        this.worksHeight = Math.ceil(this.totalCount/2)*1586/5 + 50;
+                    }
+			    } else {
+                    this.worksHeight = Math.ceil(this.totalCount/2)*1586/5 + 50;
+			    }
             },
 
 		    /**
@@ -242,7 +372,24 @@
 		     * @author panyong
 		     */
             async onSearch() {
-                this.searchPlayer();
+                if(this.search == "") {
+					this.resetData();
+					this.searchPlayer();
+                } else {
+                    let params = new FormData()
+                    params.append("page", 0);
+                    params.append("limit", 10);
+                    params.append("activityId", this.activityId);
+                    params.append("order", "t1.no ASC");
+                    params.append("noOrName", this.search);
+                    let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_list, params, "POST");
+                    if (data.code === 200) {
+                        this.players = data.data;
+                        this.totalCount = data.totalCount;
+                        this.handlerHeight();
+                        return true;
+                    }
+                }
             },
 
             /**
@@ -251,13 +398,12 @@
              * @author panyong
              */
             loadingPlayer() {
-	            if(this.totalCount > this.pageSize) {
-                   if(!this.infiniteDisabled) {
-                       this.infiniteDisabled = true;
-                       this.currentPage = 0;
-                       this.pageSize = this.pageSize+10;
-                       this.searchPlayer();
-                   }
+	            if(this.totalCount > (this.pageSize*this.currentPage)) {
+                    if(!this.infiniteDisabled) {
+                        this.infiniteDisabled = true;
+                        this.currentPage++;
+                        this.searchPlayer();
+                    }
 	            } else {
                     this.infiniteDisabled = true;
 	            }
@@ -266,12 +412,12 @@
                 let params = new FormData()
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
-                params.append("activityId", "248424e4e4f4459c9554ce97d737f981");
+                params.append("activityId", this.activityId);
                 params.append("order", "t1.no ASC");
                 params.append("noOrName", this.search);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_list, params, "POST");
                 if (data.code === 200) {
-                    this.players = data.data;
+                    this.players.push.apply(this.players, data.data);
                     this.totalCount = data.totalCount;
                     this.infiniteDisabled = false;
                     this.handlerHeight();
@@ -283,8 +429,8 @@
                 this.$emit("changePage", "signup");
             },
 
-            toOrder() {
-                this.active = 2;
+            toRankPage() {
+                this.$emit("changePage", "ranking");
             },
 
             toDetail(item) {
@@ -299,7 +445,7 @@
             async giveVote(item) {
                 // 校验是否有票权
                 let params = new FormData()
-                params.append("voteUserId", this.voteUser.id);
+                params.append("voteUserId", this.voteUserId);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_check, params, "POST");
                 if (data.code === 200) {
                     if(data.data) {
@@ -312,8 +458,12 @@
                 }
             },
             async confirmVote() {
+                if( this.verificationCode == "") {
+                    this.$toast.fail('投票失败，未输入验证码');
+                    return false;
+                }
                 let params = new FormData()
-                params.append("voteUserId", this.voteUser.id);
+                params.append("voteUserId", this.voteUserId);
                 params.append("signId", this.signPlayer.id);
                 params.append("verificationCode", this.verificationCode);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_giveVote, params, "POST");
@@ -321,13 +471,14 @@
                     if(data.data == "codeError") {
                         this.showVerificationCode = false;
                         this.getIdentifyingCode();
-                        this.$toast.success('验证码错误，投票失败');
+                        this.verificationCode = "";
+                        this.$toast.fail('投票失败，未输入验证码');
                     } else {
                         this.showVerificationCode = false;
                         this.verificationCode = "";
                         this.getIdentifyingCode();
                         this.$toast.success('投票成功');
-                        this.searchPlayer();
+                        this.updateVote();
                     }
                     return true;
                 }
@@ -341,7 +492,18 @@
                 objs.src = identifyCodeSrc;
             },
 
-
+			// 更新票数
+            updateVote() {
+                let tempArr = [];
+				for(var i in this.players) {
+                    const player = this.players[i];
+                    if(player.id == this.signPlayer.id) {
+                        player.voteNum++;
+                    }
+                    tempArr.push(player);
+				}
+                this.players = tempArr;
+            },
 
             boost() {
                 this.showGift = true;
@@ -358,22 +520,13 @@
 	    },
 	    data() {
             return {
+                activityId: "",
                 signPlayer: "",
-                voteUser: {
-                    id: "3",
-                    openid: "",
-                    nickname: "",
-                    sex: "",
-                    country: "",
-                    province: "",
-                    city: "",
-                    head_img_url: "",
-                },
-                worksHeight: 1200,
+                worksHeight: 1586,
                 infiniteDisabled: false,
                 players: [],
                 totalCount: 0,
-                currentPage: 0,
+                currentPage: 1,
                 pageSize: 10,
                 verificationCode: "",
                 showVerificationCode: false,
@@ -589,7 +742,6 @@
 		font-size: 14px;
 		text-align: left;
 		line-height: 22px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 		background: #FFFFFF;
 		padding: 4px;
 		color: #666;
@@ -602,19 +754,17 @@
 		align-items: center;
 		height: 30px;
 		font-size: 14px;
-		border-bottom-left-radius: 5px;
-		border-bottom-right-radius: 5px;
 	}
 
 	.app_works_img {
 		border-top-right-radius: 5px;
 		border-top-left-radius: 5px;
 		min-width: 170px;
-		height: 95px;
+		height: 180px;
 	}
 
 	.app_works_item {
-		width: 49%;
+		width: 48%;
 		margin-bottom: 10px;
 		position: relative;
 	}
@@ -728,182 +878,4 @@
 	div::-webkit-scrollbar {
 		width: 0;
 	}
-</style>
-
-<style>
-	.app_code_in .van-field__control {
-		height: 43px !important;
-		line-height: 43px !important;
-	}
-
-	.app_code_dialog {
-		position: absolute !important;
-		top: 45%;
-		left: 50%;
-		width: 320px;
-		overflow: hidden;
-		font-size: 16px;
-		background-color: #fff;
-		border-radius: 3px;
-		-webkit-transform: translate3d(-50%, -50%, 0);
-		transform: translate3d(-50%, -50%, 0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
-		-webkit-transition: .3s;
-		transition: .3s;
-		-webkit-transition-property: opacity, -webkit-transform;
-		transition-property: opacity, -webkit-transform;
-		transition-property: transform, opacity;
-		transition-property: transform, opacity, -webkit-transform;
-	}
-
-	.app_code_dialog .van-dialog__header {
-		padding-top: 0px;
-		font-weight: 500;
-		line-height: 50px;
-		text-align: center;
-		background: #eeeeee;
-	}
-
-	.app_poster_card .el-card__header {
-		background: #ffffff;
-	}
-
-	.app_poster_card .el-card__body {
-		background: #ffffff;
-	}
-
-	.app_poster_dialog {
-		position: absolute !important;
-		top: 40% px;
-		left: 50%;
-		width: 320px;
-		overflow: hidden;
-		font-size: 16px;
-		background-color: #fff;
-		border-radius: 3px;
-		-webkit-transform: translate3d(-50%, -50%, 0);
-		transform: translate3d(-50%, -50%, 0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
-		-webkit-transition: .3s;
-		transition: .3s;
-		-webkit-transition-property: opacity, -webkit-transform;
-		transition-property: opacity, -webkit-transform;
-		transition-property: transform, opacity;
-		transition-property: transform, opacity, -webkit-transform;
-
-	}
-
-	.app_dialog .van-dialog__header {
-		padding: 20px;
-		color: #f5222d;
-	}
-
-	.app_dialog {
-		position: absolute !important;
-		top: 45%;
-		left: 50%;
-		width: 320px;
-		overflow: hidden;
-		font-size: 16px;
-		background-color: #fff;
-		border-radius: 16px;
-		-webkit-transform: translate3d(-50%, -50%, 0);
-		transform: translate3d(-50%, -50%, 0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
-		-webkit-transition: .3s;
-		transition: .3s;
-		-webkit-transition-property: opacity, -webkit-transform;
-		transition-property: opacity, -webkit-transform;
-		transition-property: transform, opacity;
-		transition-property: transform, opacity, -webkit-transform;
-	}
-
-	.app_up_eitem .el-form-item__label {
-		float: none;
-	}
-
-	.app_vcell {
-		padding: 10px 0px;
-	}
-
-	.van-cell::after {
-		position: absolute;
-		box-sizing: border-box;
-		content: ' ';
-		pointer-events: none;
-		right: 16px;
-		bottom: 0;
-		left: 16px;
-		border-bottom: 0px solid #ebedf0;
-		-webkit-transform: scaleY(.5);
-		transform: scaleY(.5);
-	}
-
-	.app_form .el-input__inner {
-		border-radius: 0px;
-		border: 0px;
-		padding: 0px;
-	}
-
-	.app_form .el-form-item__content {
-		position: unset;
-	}
-
-	.app_form .el-form-item {
-		margin-bottom: 10px !important;
-	}
-
-	.el-dropdown-menu {
-		z-index: 2010 !important;
-		padding: 0px;
-		margin: 20px 0;
-	}
-
-	.el-dropdown-menu__item {
-		width: 60px !important;
-		text-align: center;
-		border-bottom: 1px solid #eee;
-	}
-
-	.van-popup {
-		position: absolute;
-		bottom: 0px;
-	}
-
-	.van-search__action {
-		padding: 0px;
-	}
-
-	.app_search {
-		background: unset !important;
-	}
-
-	.app_search .van-search__content {
-		height: 40px;
-		background-color: #ffffff;
-		border: 1px solid #d9d9d9;
-		border-top-right-radius: 0px;
-		border-bottom-right-radius: 0px;
-		border-right: 0px;
-	}
-
-	.app_search .van-field__left-icon {
-		line-height: 30px;
-	}
-
-	.app_search .van-field__control {
-		line-height: 30px;
-	}
-
-	[class*=" el-icon-"], [class^=el-icon-] {
-		/*font-weight: 500 !important;*/
-	}
-
-	.app_card .el-card__body {
-		padding: 0 10px;
-	}
-
 </style>

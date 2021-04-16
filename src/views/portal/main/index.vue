@@ -693,7 +693,7 @@
                 breadcrumbs: [],
                 currentUrl: "",
                 activeMenuId: "",
-                baseUrl: "http://localhost:8080/#",
+                baseUrl: "http://localhost:8080",
                 // baseUrl: "http://121.196.160.142:8084/#",
                 background: "#F9F9F9",
                 color: "#333",

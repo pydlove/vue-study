@@ -93,6 +93,7 @@
 					<div class="tl">
 						<Pagination class="page" ref="pageRef"  @search="search"></Pagination>
 					</div>
+					<Pagination class="page" ref="pageRef" @search="search"></Pagination>
 				</div>
 			</div>
 		</el-card>
@@ -207,18 +208,19 @@
 
             setFormContent(row) {
             	this.activity = row;
-                this.search(0, 10);
+                this.search(1, 10);
             }
 
         },
         data() {
             return {
             	activity: "",
+                activity: "",
                 showWorksDetailFlag: false,
                 worksImgArray: [],
                 showWorks: {},
                 tableData: [],
-                currentPage: 0,
+                currentPage: 1,
                 pageSize: 10,
             }
         }
