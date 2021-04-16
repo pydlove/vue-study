@@ -1,14 +1,14 @@
 <template>
     <div>
         <el-dialog
-            class="aiovl-dialog"
-            title="投票日志信息"
-            :visible.sync="dialogVisible"
-            :close-on-click-modal="false"
-            :before-close="close"
-            :fullscreen="false"
-            width="1000px"
-            center>
+                class="aiovl-dialog"
+                title="投票日志信息"
+                :visible.sync="dialogVisible"
+                :close-on-click-modal="false"
+                :before-close="close"
+                :fullscreen="false"
+                width="1000px"
+                center>
             <el-table class="as_table"
                       :data="tableData"
                       stripe
@@ -19,31 +19,56 @@
                         <div>
                             <div class="dffn ac">
                                 <el-image
-                                    style="width: 50px; height: 50px; margin: 10px"
-                                    :src="scope.row.headImgUrl"></el-image> {{ scope.row.nickName }}</div>
+                                        style="width: 50px; height: 50px; margin: 10px"
+                                        :src="imgUrl"></el-image>
+                                        {{ scope.row.nickName }}
+                            </div>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="sex" label="性别"></el-table-column>
-                <el-table-column prop="platId" label="平台编号"></el-table-column>
-                <el-table-column prop="voteTime" label="投票时间"></el-table-column>
+                <el-table-column prop="openId" label="平台编号"></el-table-column>
+                <el-table-column prop="createTime" label="投票时间"></el-table-column>
             </el-table>
-            <Pagination class="page" ref="pageRef"></Pagination>
+            <Pagination class="page" ref="pageRef" @search="search"></Pagination>
         </el-dialog>
     </div>
 </template>
-
+<!--eslint-disable-->
 <script>
-      import Pagination from "@/components/Pagination.vue"
+    import Pagination from "@/components/Pagination.vue"
 
-      export default {
-          name: "log",
-          components: {Pagination},
-
+    export default {
+        name: "log",
+        components: {Pagination},
         mounted() {
-
         },
         methods: {
+
+            /**
+             * 刷新页面的数据，从后台获取数据
+             */
+            async search(currentPage, pageSize) {
+                this.currentPage = currentPage;
+                this.pagesize = pageSize;
+                let params = new FormData();
+                params.append("page", this.currentPage);
+                params.append("limit", this.pagesize);
+                params.append("signId", this.player.id);
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_list, params, "POST");
+                console.log(data);
+                if (data.code === 200) {
+                    this.tableData = data.data;
+                    this.$refs.pageRef.totalCount = data.totalCount;
+                    return true;
+                }
+            },
+
+            setFormContent(row) {
+                this.player = row;
+                this.search(0, 10);
+            },
+
             close() {
                 this.dialogVisible = false;
 
@@ -56,78 +81,12 @@
 
         data() {
             return {
+                imgUrl: require('@/assets/img/icon/nopeople.jpg'),
+                currentPage: 0,
+                pageSize: 10,
                 dialogVisible: false,
+                player: "",
                 tableData: [
-                    {
-                    headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                    nickName: "吕建",
-                    sex: "男",
-                    platId: "1",
-                    voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
-                    {
-                        headImgUrl: require('@/assets/img/avatar/longmao.png'),
-                        nickName: "吕建",
-                        sex: "男",
-                        platId: "1",
-                        voteTime: "2021.3.16",
-                    },
 
                 ]
             }
