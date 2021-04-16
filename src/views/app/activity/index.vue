@@ -1,7 +1,7 @@
 <template>
 	<!--eslint-disable-->
 	<div class="ai_container" :style="{height: ( clientHeight ) + 'px'}" >
-		<el-card class="ai_main" v-if="page=='main'">
+            <el-card class="ai_main" v-if="page=='main'">
 			<div class="ai_tit">
 				<div class="vertical_line"></div>
 				<div>数据统计</div>
