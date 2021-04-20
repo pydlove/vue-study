@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-clipboard="http://www.w3.org/1999/xhtml">
 	<!--eslint-disable-->
 	<div>
 		<el-card class="app_main_card">
@@ -164,9 +164,11 @@
 				:fullscreen="false"
 				width="400px"
 				center>
-				<div>
+				<div class="gm_copy">
 					<span>{{this.$aiocUrl.rootUrl + "am?activityId=" + this.form.id}}</span>
-					<i class="el-icon-copy-document"></i>
+					<i class="el-icon-copy-document" v-clipboard:copy="this.$aiocUrl.rootUrl + 'am?activityId=' + this.form.id"
+					   v-clipboard:success="onCopy"
+					   v-clipboard:error="onError"></i>
 				</div>
 		</el-dialog>
 	</div>
@@ -197,6 +199,22 @@
 		    }
 	    },
         methods: {
+            onCopy(e){
+                this.$notify({
+                    title: '成功',
+                    message: '复制成功',
+                    type: 'success'
+                });
+            },
+            onError(e){
+                alert("失败");
+                this.$notify.error({
+                    title: '失败',
+                    message: '复制失败',
+                    type: 'success'
+                });
+            },
+
             openLink() {
                 this.showActivityLink = true;
             },
@@ -600,6 +618,10 @@
 </script>
 
 <style scoped>
+	.gm_copy {
+		font-size: 18px;
+		line-height: 26px;
+	}
 	.el-icon-copy-document {
 		color: #2b90ff;
 		margin-left: 10px;
