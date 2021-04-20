@@ -15,8 +15,9 @@
 						<ac-app ref="acAppRef" :activityForm="form"></ac-app>
 					</div>
 					<div class="ae_btn">
-						<el-button class="ae_btn_item" type="primary" @click="releaseActivity">发布活动</el-button>
-						<el-button class="ae_btn_item" type="primary" @click="showPoster" >活动海报</el-button>
+						<el-button v-aiocp="['lau']" class="ae_btn_item" type="primary" @click="releaseActivity">发布活动</el-button>
+						<el-button v-aiocp="['lau']" class="ae_btn_item" type="primary" @click="showPoster" >活动海报</el-button>
+						<el-button v-aiocp="['lau']" class="ae_btn_item" type="primary" @click="openLink" >活动链接</el-button>
 					</div>
 				</div>
 
@@ -153,6 +154,21 @@
 				<el-button class="ae_over_btn" @click="closeOverlay">关 闭</el-button>
 			</div>
 		</van-overlay>
+
+		<el-dialog
+				class="aiovl-dialog"
+				title="活动链接"
+				:visible.sync="showActivityLink"
+				:close-on-click-modal="false"
+				:before-close="closeLink"
+				:fullscreen="false"
+				width="400px"
+				center>
+				<div>
+					<span>{{this.$aiocUrl.rootUrl + "am?activityId=" + this.form.id}}</span>
+					<i class="el-icon-copy-document"></i>
+				</div>
+		</el-dialog>
 	</div>
 </template>
 <!--eslint-disable-->
@@ -181,6 +197,14 @@
 		    }
 	    },
         methods: {
+            openLink() {
+                this.showActivityLink = true;
+            },
+
+            closeLink() {
+              this.showActivityLink = false;
+            },
+
             releaseActivity() {
                 this.$confirm('确认是否发布活动？', '提示', {
                     confirmButtonText: '确定',
@@ -493,6 +517,7 @@
         },
         data() {
             return {
+                showActivityLink: false,
                 uploadAction: this.$aiocUrl.blsh_h5_service_v1_bh_activity_top_upload,
                 showLoading: false,
                 showOverApp: true,
@@ -575,6 +600,10 @@
 </script>
 
 <style scoped>
+	.el-icon-copy-document {
+		color: #2b90ff;
+		margin-left: 10px;
+	}
 	.app_over_rule {
 		display: flex;
 		flex-wrap: nowrap;

@@ -56,7 +56,7 @@
 							style="width: 100%">
 						<el-table-column prop="rank" label="排名">
 							<template slot-scope="scope">
-								{{ scope.$index + 1 }}
+								{{ (currentPage-1)*pageSize + scope.$index + 1 }}
 							</template>
 						</el-table-column>
 						<el-table-column prop="voteNum" label="票数"></el-table-column>
@@ -79,12 +79,12 @@
 								<el-dropdown trigger="click">
 									<span class="el-dropdown-link"><i class="el-icon-more"></i></span>
 									<el-dropdown-menu slot="dropdown">
-										<el-dropdown-item @click.native="showWorksDetail(scope.row,scope.$index + 1 )">
+										<el-dropdown-item v-aiocp2="['wod']" @click.native="showWorksDetail(scope.row,scope.$index + 1 )">
 											作品详情
 										</el-dropdown-item>
-										<el-dropdown-item @click.native="showWorksVoteLog(scope.row)">投票日志</el-dropdown-item>
-										<el-dropdown-item @click.native="showWorksGiftLog(scope.row)">礼物日志</el-dropdown-item>
-										<el-dropdown-item @click.native="showWorksAlterTicket(scope.row)">修改票数</el-dropdown-item>
+										<!--<el-dropdown-item @click.native="showWorksVoteLog(scope.row)">投票日志</el-dropdown-item>-->
+										<el-dropdown-item v-aiocp2="['gif']" @click.native="showWorksGiftLog(scope.row)">礼物日志</el-dropdown-item>
+										<el-dropdown-item v-aiocp2="['mod']" @click.native="showWorksAlterTicket(scope.row)">修改票数</el-dropdown-item>
 									</el-dropdown-menu>
 								</el-dropdown>
 							</template>
@@ -93,7 +93,6 @@
 					<div class="tl">
 						<Pagination class="page" ref="pageRef"  @search="search"></Pagination>
 					</div>
-					<Pagination class="page" ref="pageRef" @search="search"></Pagination>
 				</div>
 			</div>
 		</el-card>
@@ -192,10 +191,10 @@
              */
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
-                this.pagesize = pageSize;
+                this.pageSize = pageSize;
                 let params = new FormData();
                 params.append("page", this.currentPage);
-                params.append("limit", this.pagesize);
+                params.append("limit", this.pageSize);
                 params.append("activityId", this.activity.id);
                 params.append("order", "vote_num DESC");
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_list, params, "POST");

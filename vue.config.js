@@ -106,18 +106,6 @@ module.exports = {
     devServer: {
         disableHostCheck: true,
         proxy: {
-            '/console-service': {
-                target: 'http://localhost:9091',
-                changeOrigin: true,
-                ws: true,
-                pathRewrite: {}
-            },
-            '/blsh-service': {
-                target: 'http://localhost:9092',
-                changeOrigin: true,
-                ws: true,
-                pathRewrite: {}
-            },
             '/blsh-h5-service': {
                 target: 'http://localhost:9093',
                 changeOrigin: true,

@@ -2,9 +2,19 @@
  * apiurl list
  */
 export default {
-    rootUrl: "http://192.168.1.5:8080/",
+    // rootUrl: "http://www.aiocloud.ltd:8071/",
+    // baseUrl: "http://www.aiocloud.ltd",
+
+    rootUrl: "http://localhost:8080/",
+    baseUrl: "http://localhost:8080",
 
     example: '/example', // example
+
+    // 投票
+    blsh_h5_service_v1_bh_vote_openid: "/blsh-h5-service/v1/bh_vote/openid",
+
+    // 订单
+    blsh_h5_service_v1_bh_gift_order_finish: "/blsh-h5-service/v1/bh_gift_order/finish",
 
     // 活动管理
     blsh_h5_service_v1_bh_activity_list : "/blsh-h5-service/v1/bh_activity/list",
@@ -27,6 +37,7 @@ export default {
     blsh_h5_service_v1_bh_wx_token: "/blsh-h5-service/v1/bh_wx/token",
     blsh_h5_service_v1_bh_wx_openId: "/blsh-h5-service/v1/bh_wx/openId",
 
+    blsh_h5_service_v1_bh_vote_userid: "/blsh-h5-service/v1/bh_vote/userid",
     blsh_h5_service_v1_bh_vote_create: "/blsh-h5-service/v1/bh_vote/create",
     blsh_h5_service_v1_bh_activity_add_access: "/blsh-h5-service/v1/bh_activity/add/access",
 

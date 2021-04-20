@@ -39,11 +39,13 @@
 
 		<el-card class="app_card">
 			<div class="app_rule_item">
-				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />报名开始：
+				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }"/>
+				报名开始：
 				{{ activity.signStart }}
 			</div>
 			<div class="app_rule_item">
-				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />报名截止：
+				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }"/>
+				报名截止：
 				{{ activity.signEnd }}
 			</div>
 		</el-card>
@@ -98,7 +100,8 @@
 					<van-divider/>
 
 					<el-form-item label="手机号码" required>
-						<el-input ref="asPhoneRef"  @click.native="changeHeight" class="aa_form_item" v-model="form.phone" placeholder="请输入联系方式"></el-input>
+						<el-input ref="asPhoneRef" @click.native="changeHeight" class="aa_form_item"
+						          v-model="form.phone" placeholder="请输入联系方式"></el-input>
 					</el-form-item>
 					<van-divider/>
 
@@ -152,24 +155,24 @@
 
     export default {
         name: "AppSign",
-        props: [ "activity", "activityBanners", "color", "originalHeight", "clientHeight" ],
+        props: ["activity", "activityBanners", "color", "originalHeight", "clientHeight"],
         watch: {
-            clientHeight :function() {
-                if( this.originalHeight != this.clientHeight ){
+            clientHeight: function () {
+                if (this.originalHeight != this.clientHeight) {
                     //键盘弹出操作
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         document.activeElement.scrollIntoView(false);
-                        window.scrollTo(0, 50);
-                    },200)
-                }else{
+                        window.scrollTo(0, 50);
+                    }, 200)
+                } else {
                     //键盘收起操作
                 }
             }
         },
-	    mounted() {
+        mounted() {
             this.areaList = Area;
-	    },
-	    methods: {
+        },
+        methods: {
             changeHeight() {
                 // document.getElementsByClassName("app_container")[0].scrollTop = 500;
             },
@@ -180,18 +183,18 @@
              * @author panyong
              */
             submit() {
-                if(this.form.worksName == null || this.form.worksName == "") {
+                if (this.form.worksName == null || this.form.worksName == "") {
                     this.$toast.fail('请输入作品名称');
                     return false;
                 }
-                if(this.form.fileList == null || this.form.fileList == "" || this.form.fileList.length == 0) {
+                if (this.form.fileList == null || this.form.fileList == "" || this.form.fileList.length == 0) {
                     this.$toast.fail('请上传作品');
                     return false;
                 }
                 this.submitRequest();
             },
             async submitRequest() {
-                for(var i in this.form.fileList) {
+                for (var i in this.form.fileList) {
                     var item = this.form.fileList[i];
                     this.form.worksImage = this.form.worksImage + "," + item.url;
                 }
@@ -200,16 +203,17 @@
                 console.log(this.form)
                 this.submitDisabled = true;
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_sign, this.form, "POST");
-                if(data.code == 200) {
+                if (data.code == 200) {
+                    let signer = data.data;
                     this.$toast.success('报名成功');
                     this.submitDisabled = false;
                     this.clearForm();
-                    this.$emit("changePage", "detail");
+                    this.$emit("toDetail", signer);
                 }
             },
 
             clearForm() {
-				this.form = {
+                this.form = {
                     areaCode: "",
                     area: "",
                     phone: "",
@@ -224,23 +228,27 @@
             },
 
             toNext() {
-                if(this.form.name == null || this.form.name == "") {
+                if (this.form.name == null || this.form.name == "") {
                     this.$toast.fail('请输入姓名');
-					return false;
+                    return false;
                 }
-                if(this.form.age == null || this.form.age == "") {
+                if (this.form.age == null || this.form.age == "") {
                     this.$toast.fail('请输入年龄');
                     return false;
                 }
-                if(this.form.sex == null || this.form.sex == "") {
+                if (!this.isAge(this.form.age)) {
+                    this.$toast.fail('请输入正确的年龄');
+                    return false;
+                }
+                if (this.form.sex == null || this.form.sex == "") {
                     this.$toast.fail('请选择性别');
                     return false;
                 }
-                if(this.form.area == null || this.form.area == "") {
+                if (this.form.area == null || this.form.area == "") {
                     this.$toast.fail('请选择所在地');
                     return false;
                 }
-                if(this.form.phone == null || this.form.phone == "") {
+                if (this.form.phone == null || this.form.phone == "") {
                     this.$toast.fail('请输入手机号码');
                     return false;
                 } else if (!(/^1[3|4|5|7|8]\d{9}$/.test(this.form.phone))) {
@@ -250,48 +258,54 @@
                 this.next = 2;
             },
 
+            isAge(str) {
+                var age = parseInt(str);
+                let pattern = /^(([0-9]|[1-9][1-9]|1[0-7][0-9])(\\.[0-9]+)?|180)$/;
+                return pattern.test(age);
+            },
+
             toPrevious() {
                 this.next = 1;
             },
 
-		    /**
-		     * 图片上传 删除 审计
-		     * @param {*} 参数 参数说明
-		     * @author panyong
-		     */
+            /**
+             * 图片上传 删除 审计
+             * @param {*} 参数 参数说明
+             * @author panyong
+             */
             async uploadImgs(file) {
                 let params = new FormData();
                 params.append("file", file.file);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_upload, params, "POST");
                 if (data.code === 200) {
-	                this.form.fileList.push({ url: data.data.fileUrl, name: data.data.fileName });
+                    this.form.fileList.push({url: data.data.fileUrl, name: data.data.fileName});
                     return true;
                 }
             },
-		    async uploadDelete(file) {
+            async uploadDelete(file) {
                 let params = new FormData();
                 params.append("fileName", file.name);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_works_delete, params, "POST");
                 if (data.code === 200) {
-	                var files = [];
-	                for(var i in this.form.fileList) {
+                    var files = [];
+                    for (var i in this.form.fileList) {
                         var item = this.form.fileList[i];
-                        if(file.name != item.name) {
+                        if (file.name != item.name) {
                             files.push(item);
                         }
-	                }
+                    }
                     this.form.fileList = files;
                     return true;
                 }
-		    },
+            },
 
-		    /**
-		     * 显示区域地理选择栏
-		     * @param {*} 参数 参数说明
-		     * @author panyong
-		     */
+            /**
+             * 显示区域地理选择栏
+             * @param {*} 参数 参数说明
+             * @author panyong
+             */
             showPopup() {
-				this.showArea = true;
+                this.showArea = true;
             },
 
             //value=0改变省，1改变市，2改变区
@@ -317,8 +331,8 @@
                 this.showArea = false;
                 this.$refs.myArea.reset();
             },
-	    },
-	    data() {
+        },
+        data() {
             return {
                 submitDisabled: false,
                 showArea: false,
@@ -337,7 +351,7 @@
                     acitvityId: "",
                 },
             }
-	    }
+        }
     }
 </script>
 
@@ -346,7 +360,6 @@
 	.app_poster_bottom > div:nth-of-type(1) {
 		min-width: 150px;
 	}
-
 
 	.app_next_btn {
 		width: 150px;
@@ -543,6 +556,7 @@
 	div::-webkit-scrollbar {
 		width: 0;
 	}
+
 	.van-popup {
 		position: fixed !important;
 	}

@@ -11,9 +11,6 @@ import store from './store'
 import * as filters from './utils/filters.js'
 import "./assets/icon/iconfont.css"
 
-// 骨架屏
-// import Skeleton from './components/Skeleton/skeleton-2';
-
 // Vant
 import Vant from 'vant';
 import 'vant/lib/index.css';
@@ -87,6 +84,19 @@ Vue.directive('aiocp', {
     }
 });
 
+Vue.directive('aiocp2', {
+    bind: function (el, value) {
+        var activeBtnAuthority = Vue.prototype.$utils.getCookie('activeBtnAuthority');
+        if (activeBtnAuthority == "no*aiocloud*p") {
+            el.style.display = 'none';
+        } else if (activeBtnAuthority.indexOf(("[" + value.value[0] + "]")) == -1) {
+            el.style.display = 'none';
+        } else {
+            el.style.display = 'block';
+        }
+    }
+});
+
 /**
  * 弹出层封装
  */
@@ -117,11 +127,7 @@ Object.keys(filters).forEach((key) => {
 })
 
 new Vue({
-    // components: {
-    //     Skeleton,
-    // },
     router,
     store,
-    // render: h => h(Skeleton),
     render: (h) => h(App),
 }).$mount('#app')

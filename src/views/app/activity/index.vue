@@ -5,7 +5,7 @@
 			<div class="ai_tit">
 				<div class="vertical_line"></div>
 				<div>数据统计</div>
-				<el-button class="cjhd" icon="el-icon-plus" @click="page='add'">创建活动</el-button>
+				<el-button v-aiocp2="['a']" class="cjhd" icon="el-icon-plus" @click="page='add'">创建活动</el-button>
 			</div>
 			<div class="ai_top_ct">
 				<div class="ai_top_main">
@@ -62,12 +62,12 @@
 					<template slot-scope="scope">
 						<el-dropdown trigger="click">
 						    <span class="el-dropdown-link">设置<i class="el-icon-arrow-down el-icon--right"></i></span>
-							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item v-show="scope.row.status != '2'" @click.native="edit(scope.row)">编 辑</el-dropdown-item>
-								<el-dropdown-item @click.native="deleteRow(scope.row)">删 除</el-dropdown-item>
-								<el-dropdown-item divided @click.native="registration(scope.row)">报名统计</el-dropdown-item>
-								<el-dropdown-item v-show="scope.row.status != '1' && scope.row.status != '2'" @click.native="release(scope.row)">发布活动</el-dropdown-item>
-								<el-dropdown-item v-show="scope.row.status != '2'" @click.native="close(scope.row)">关闭活动</el-dropdown-item>
+							<el-dropdown-menu class="gm_eld" slot="dropdown">
+								<el-dropdown-item v-aiocp2="['e']" v-show="scope.row.status != '2'" @click.native="edit(scope.row)">编 辑</el-dropdown-item>
+								<el-dropdown-item v-aiocp2="['d']" @click.native="deleteRow(scope.row)">删 除</el-dropdown-item>
+								<el-dropdown-item v-aiocp2="['regs']" divided @click.native="registration(scope.row)">报名统计</el-dropdown-item>
+								<el-dropdown-item v-aiocp2="['lau']" v-show="scope.row.status != '1' && scope.row.status != '2'" @click.native="release(scope.row)">发布活动</el-dropdown-item>
+								<el-dropdown-item v-aiocp2="['cloe']" v-show="scope.row.status != '2'" @click.native="close(scope.row)">关闭活动</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
 					</template>
@@ -425,7 +425,11 @@
 </style>
 
 <style>
-	.el-dropdown-menu__item {
+	/*.el-dropdown-menu {*/
+		/*display: flex;*/
+		/*flex-direction: column;*/
+	/*}*/
+ 	.el-dropdown-menu__item {
 		width: 80px !important;
 		text-align: center;
 		border-bottom: 0px solid #eee;

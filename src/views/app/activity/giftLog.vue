@@ -26,11 +26,7 @@
                     </el-table-column>
                     <el-table-column prop="sex" label="性别"></el-table-column>
                     <el-table-column prop="id" label="平台编号"></el-table-column>
-                    <el-table-column prop="createTime" label="赠礼时间">
-                        <template slot-scope="scope">
-                            <div style="width: 150px">{{scope.row.giftTime}}</div>
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="createTime" label="赠礼时间"></el-table-column>
                     <el-table-column prop="gift" label="赠送的礼物"></el-table-column>
                     <el-table-column prop="giftNum" label="礼物数量"></el-table-column>
                 </el-table>
@@ -63,7 +59,6 @@
                 params.append("limit", this.pagesize);
                 params.append("signId", this.gift.id);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_gift_list, params, "POST");
-                console.log(data);
                 if (data.code === 200) {
                     this.tableData = data.data;
                     this.$refs.pageRef.totalCount = data.totalCount;

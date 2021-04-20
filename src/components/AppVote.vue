@@ -118,7 +118,7 @@
 							<div>投票</div>
 						</div>
 						<div class="app_vline1"></div>
-						<div class="app_witem" @click="boost">
+						<div class="app_witem" @click="boost(item)">
 							<el-tooltip class="item" effect="dark" content="点我为好友再点个赞吧" placement="top-start">
 								<div class="app_witem_zan">
 									<i class="app_flower"></i>助力
@@ -234,38 +234,52 @@
         mounted() {
         },
 	    methods: {
-            async payl(){
+            async boost(item) {
+                this.signPlayer = item;
                 // 1、判断openId是否存储在
-	            // 2、判断存储里面 openId
-	            // 3、根据 voteUserId 去查
-	            // 4、没有就获取微信授权
-				if(this.openId == undefined || this.openId == null || this.openId == "") {
-				    const openIdTemp = this.$utils.getStorage("openId");
-				    alert(openIdTemp)
-                    if(openIdTemp == undefined || openIdTemp == null || openIdTemp == "") {
-                        const appid = "wx2441b99c49dbe988";
-                        const url = "http://aiocloud.nat300.top/am"; //获取#之前的当前路径\
-                        var scope = "snsapi_userinfo";
-                        window.location.href =
-                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + url + "&response_type=code&scope=snsapi_userinfo&state=" + this.activity.id + "#wechat_redirect ";
-                    } else {
-                        this.openId = openIdTemp;
-                        this.toPay();
+                // 2、判断存储里面 openId
+                // 3、根据 voteUserId 去查
+                // 4、没有就获取微信授权
+                if(this.openId == undefined || this.openId == null || this.openId == "") {
+                    let params = new FormData()
+                    let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_openid, params, "POST");
+                    if (data.code === 200) {
+                        let openid = data.data;
+                        if(openid == undefined || openid == null || openid == "") {
+                            const appid = "wx10b9490a067b1e61";
+                            const url = "http://www.aiocloud.ltd/am";
+                            window.location.href =
+                                "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+                                + appid + "&redirect_uri="
+                                + url
+                                + "&response_type=code&scope=snsapi_userinfo&state="
+                                + this.activity.id
+                                + "#wechat_redirect ";
+                        } else {
+                            this.openId = openid;
+                            this.showGift = true;
+                        }
                     }
-				} else {
-				    this.toPay();
-				}
+                } else {
+                    this.showGift = true;
+                }
             },
 
-		    async toPay() {
+            async payl(){
                 let params = new FormData()
                 params.append("outTradeNo", this.$utils.random_No(4));
                 params.append("subject", "爱启云测试");
                 params.append("totalAmount", "1");
                 params.append("body", "爱启云测试");
+                params.append("openid", this.openId);
+                params.append("activityId", this.activity.id);
+                params.append("signId", this.signPlayer.id);
+                params.append("gift", this.gift.name);
+                params.append("giftNum", this.giftNum);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_wx_to, params, "POST");
                 if (data.code === 200) {
-                    var res = data.data;//后台返回的微信支付参数
+                    var res = data.data;
+                    console.log("%返回参数params:", res);
                     let vm = this;
                     if (typeof WeixinJSBridge === 'undefined') {
                         if (document.addEventListener) {
@@ -278,29 +292,72 @@
                         vm.onBridgeReady(res)
                     }
                 }
-		    },
+            },
 
             onBridgeReady(data){
-                alert(data.timestamp)
+                let vm = this;
                 WeixinJSBridge.invoke(
-                    "getBrandWCPayRequest",
-                    {
-                        appId: data.appid, //公众号名称，由商户传入
-                        timeStamp: data.timestamp, //时间戳，自1970年以来的秒数
-                        nonceStr: data.nonce_str, //随机串
-                        package: "prepay_id=" + data.prepay_id, //订单详情扩展字符串
-                        signType: data.signType, //微信签名方式：
-                        paySign: data.sign, //微信签名
-                        openId: this.openId, //微信签名
-                    },
-                    res => {
-                        if(res.err_msg == "get_brand_wcpay_request:ok"){
-                            // ...
-                        }else{
-                            alert("支付失败！");
-                        }
+                'getBrandWCPayRequest', {
+                    "appId" : data.appId,   //公众号ID，由商户传入
+                    "timeStamp": data.timeStamp,       //时间戳，自1970年以来的秒数
+                    "nonceStr": data.nonceStr, //随机串
+                    "package": data.package,
+                    "signType": data.signType,         //微信签名方式：
+                    "paySign": data.paySign,
+                },
+                function(res){
+                    if(res.err_msg == "get_brand_wcpay_request:ok"){
+                        console.log("支付成功")
+                        vm.showGift = false;
+                        vm.carryOutPayOrder(data.orderNo);
+                    }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                        console.log("取消支付!");
+                    }else{
+                        console.log("支付失败!");
                     }
-                );
+                });
+            },
+
+            async carryOutPayOrder(outTradeNo) {
+                // 计算票数
+	            let votes = this.calVotes();
+                let params = new FormData()
+                params.append("outTradeNo", outTradeNo);
+                params.append("signId", this.signPlayer.id);
+                params.append("votes", votes);
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_gift_order_finish, params, "POST");
+                if (data.code === 200) {
+                    // 更新投票信息
+	                let temp = [];
+	                for(var i in this.players) {
+                        const player = this.players[i];
+						if(this.signPlayer.id == player.id) {
+                            player.voteNum = player.voteNum + votes;
+						}
+                        temp.push(player);
+	                }
+	                this.players = temp;
+                    return true;
+                }
+            },
+
+            calVotes() {
+                if(this.gift.code) {
+                    switch (this.gift.code) {
+	                    case "applause":
+	                        return 5*this.giftNum;
+                        case "flower":
+                            return 5*this.giftNum;
+                        case "chocolate":
+                            return 5*this.giftNum;
+                        case "crystalBall":
+                            return 5*this.giftNum;
+                        case "crown":
+                            return 5*this.giftNum;
+                        case "castle":
+                            return 5*this.giftNum;
+                    }
+                }
             },
 
             resetData() {
@@ -505,10 +562,6 @@
                 this.players = tempArr;
             },
 
-            boost() {
-                this.showGift = true;
-            },
-
             setGiftNum(value) {
                 this.giftNum = value;
             },
@@ -530,36 +583,47 @@
                 pageSize: 10,
                 verificationCode: "",
                 showVerificationCode: false,
-                gift: "",
+                gift: {
+                    img: require('@/assets/img/icon/zhangsheng.png'),
+                    name: "掌声",
+                    code: "applause",
+                    votes: "5",
+                    price: "5"
+                },
                 giftNum: 1,
                 gifts: [
                     {
                         img: require('@/assets/img/icon/zhangsheng.png'),
                         name: "掌声",
+	                    code: "applause",
                         votes: "5",
                         price: "5"
                     },
                     {
                         img: require('@/assets/img/icon/xianhua1.png'),
                         name: "鲜花",
+                        code: "flower",
                         votes: "10",
                         price: "10"
                     },
                     {
                         img: require('@/assets/img/icon/qiaokeli.png'),
                         name: "巧克力",
+                        code: "chocolate",
                         votes: "20",
                         price: "15"
                     },
                     {
                         img: require('@/assets/img/icon/shuijinqiu.png'),
                         name: "水晶球",
+                        code: "crystalBall",
                         votes: "30",
                         price: "24"
                     },
                     {
                         img: require('@/assets/img/icon/huangguan.png'),
                         name: "皇冠",
+                        code: "crown",
                         votes: "50",
                         price: "40"
                     },
@@ -567,6 +631,7 @@
                     {
                         img: require('@/assets/img/icon/chengbao.png'),
                         name: "城堡",
+                        code: "castle",
                         votes: "100",
                         price: "80"
                     }

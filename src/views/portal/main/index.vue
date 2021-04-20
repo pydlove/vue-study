@@ -226,6 +226,7 @@
         name: "index",
         components: {AccountSet},
         created() {
+            this.baseUrl = this.$aiocUrl.baseUrl;
             // 判断用户是否登录
             this.judgeIsLogin();
             document.addEventListener('click', (e) => {
@@ -693,8 +694,8 @@
                 breadcrumbs: [],
                 currentUrl: "",
                 activeMenuId: "",
-                baseUrl: "http://localhost:8080",
-                // baseUrl: "http://121.196.160.142:8084/#",
+                // baseUrl: "http://localhost:8080",
+                baseUrl: "http://www.aiocloud.ltd",
                 background: "#F9F9F9",
                 color: "#333",
                 activeColor: "#409EFF",

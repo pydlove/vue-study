@@ -1,6 +1,6 @@
 <template>
 	<!--eslint-disable-->
-	<div class="app_container" :style="{height: clientHeight + 'px', width: clientWidth + 'px'}">
+	<div class="app_container" :style="{height: (clientHeight-50) + 'px', width: clientWidth + 'px'}">
 		<!--投票-->
 		<div class="app_main" v-if="active == '0'">
 			<!--投票-->
@@ -27,7 +27,7 @@
 						:color="color"
 						:clientHeight="clientHeight"
 						:originalHeight="originalHeight"
-						@changePage="changePage"
+						@toDetail="toDetail"
 				></AppSign>
 			</div>
 
@@ -114,13 +114,20 @@
             AppRank,
         },
         mounted() {
-            // var useragent = navigator.userAgent;
-            // if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
-            //     this.$router.push({name: "errorPage"});
-            // }
+            this.clientWidth = document.documentElement.clientWidth;
+            this.clientHeight = document.documentElement.clientHeight;
+
+            var useragent = navigator.userAgent;
+            if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
+                this.$router.push({name: "errorPage"});
+            }
+			// TODO 还需要判断微信版本
 
             // 解析参数 初始化数据
             let path = window.location.href;
+
+            console.log("%请求路径:", path);
+
             if( path.indexOf("code") != -1 ) {
                 let pathArray = path.split("?");
                 let params = pathArray[1];
@@ -156,18 +163,22 @@
         },
         methods: {
             async getWxAccessToken(code) {
-                const openIdTemp = this.$utils.getStorage("openId");
-                if(openIdTemp == undefined || openIdTemp == null || openIdTemp == "") {
-                    let params = new FormData()
-	                params.append("code", code);
-	                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_wx_openId, params, "POST");
-	                if (data.code == 200) {
-	                    this.openId = data.data;
-	                    alert(this.openId)
-	                    this.$utils.setStorage("openId", this.openId);
-	                }
-                } else {
-                    this.openId = openIdTemp;
+                console.log("%返回code:", code);
+                let params = new FormData()
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_openid, params, "POST");
+                if (data.code === 200) {
+                    let openid = data.data;
+                    if(openid == undefined || openid == null || openid == "") {
+                        let params = new FormData()
+                        params.append("code", code);
+                        let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_wx_openId, params, "POST");
+                        if (data.code == 200) {
+                            this.openId = data.data;
+                            console.log("%返回openId:", this.openId);
+                        }
+                    } else {
+                        this.openId = openid;
+                    }
                 }
             },
 
@@ -178,16 +189,19 @@
             },
 
             async createUserInfo() {
-                const userId = this.$utils.getStorage("voteUserId");
-                if(userId != null && userId != undefined && userId != "") {
-					this.voteUserId = userId;
-                } else {
-                    let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_create, {}, "POST");
-                    if (data.code === 200) {
-                        this.voteUserId = data.data;
-                        this.$utils.setStorage("voteUserId", this.voteUserId);
-                        return true;
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_userid, {}, "POST");
+                if (data.code === 200) {
+                    let userid = data.data;
+                    if(userid != null && userid != undefined && userid != "") {
+                        this.voteUserId = userid;
+					}else {
+                        let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_create, {}, "POST");
+                        if (data.code === 200) {
+                            this.voteUserId = data.data;
+                            return true;
+                        }
                     }
+                    return true;
                 }
             },
 
@@ -289,7 +303,6 @@
                             },
                             cancel: function () {
                                 // 用户取消分享后执行的回调函数
-                                // alert('cancel')
                             }
                         })
                         //分享到朋友圈
@@ -424,6 +437,7 @@
         },
         data() {
             return {
+                clientWidth: 360,
                 openId: "",
                 voteUserId: "",
                 detailPageParams: {
@@ -436,7 +450,6 @@
                 activityBanners: [],
                 activity: "",
                 color: "#0C2AA4",
-                clientWidth: 360,
                 clientHeight: 667,
                 originalHeight: 667,
                 qrcode: "",
