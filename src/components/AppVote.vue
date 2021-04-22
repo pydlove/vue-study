@@ -246,8 +246,8 @@
                     if (data.code === 200) {
                         let openid = data.data;
                         if(openid == undefined || openid == null || openid == "") {
-                            const appid = "wx10b9490a067b1e61";
-                            const url = "http://www.aiocloud.ltd/am";
+                            const appid = "wx2c6a92b7b529b35c";
+                            const url = this.$aiocUrl.rootUrl + "am";
                             window.location.href =
                                 "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
                                 + appid + "&redirect_uri="

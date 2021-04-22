@@ -479,7 +479,7 @@
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_login_logout, {}, "GET");
                 if (data.code === 200) {
                     this.$utils.removeStorage("aioctoken");
-                    this.$router.push({name: "teacherLogin"});
+                    this.$router.push({name: "login"});
                 }
             },
 
@@ -487,10 +487,10 @@
                 let data = await this.$aiorequest(this.$aiocUrl.console_service_v1_login_judgeIsLogin, {}, "GET");
                 if (data.code === 200) {
                     if(data.data != "login") {
-                        this.$router.push({name: "teacherLogin"});
+                        this.$router.push({name: "login"});
                     }
                 } else {
-                    this.$router.push({name: "studentLogin"});
+                    this.$router.push({name: "login"});
                 }
             },
 

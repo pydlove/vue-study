@@ -5,8 +5,11 @@ export default {
     // rootUrl: "http://www.aiocloud.ltd:8071/",
     // baseUrl: "http://www.aiocloud.ltd",
 
-    rootUrl: "http://localhost:8080/",
-    baseUrl: "http://localhost:8080",
+    // rootUrl: "http://localhost:8080/",
+    // baseUrl: "http://localhost:8080",
+
+    rootUrl: "http://ahbfi.org.cn/",
+    baseUrl: "http://ahbfi.org.cn",
 
     example: '/example', // example
 

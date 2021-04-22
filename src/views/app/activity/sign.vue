@@ -79,7 +79,7 @@
 								<el-dropdown trigger="click">
 									<span class="el-dropdown-link"><i class="el-icon-more"></i></span>
 									<el-dropdown-menu slot="dropdown">
-										<el-dropdown-item v-aiocp2="['wod']" @click.native="showWorksDetail(scope.row,scope.$index + 1 )">
+										<el-dropdown-item v-aiocp2setFormContent="['wod']" @click.native="showWorksDetail(scope.row,scope.$index + 1 )">
 											作品详情
 										</el-dropdown-item>
 										<!--<el-dropdown-item @click.native="showWorksVoteLog(scope.row)">投票日志</el-dropdown-item>-->
