@@ -16,6 +16,7 @@
 					label-position="top"
 					:validate-on-rule-change="false"
 					label-width="80px">
+
 				<el-form-item label="活动名称" prop="title">
 					<el-input class="aa_form_item" v-model="form.title" placeholder="请输入活动名称"></el-input>
 				</el-form-item>
@@ -46,6 +47,18 @@
 					</el-date-picker>
 				</el-form-item>
 
+				<el-form-item label="活动区域" prop="area">
+					<el-cascader
+								 ref="areaCascaderRef"
+								 size="large"
+								 :props="{ checkStrictly: false }"
+								 :options="areaOptions"
+								 v-model="form.area"
+								 @change="handleAreaCascader"
+								 placeholder="请选择活动区域">
+					</el-cascader>
+				</el-form-item>
+
 				<el-form-item class="ae_ty_label" label="活动介绍" prop="content">
 					<tinymce-text ref="tinymceRef" id="tinymce" @release="onSubmit" :btnName="'创建活动'" :disabled="disabled"></tinymce-text>
 				</el-form-item>
@@ -58,8 +71,18 @@
     import TinymceText from '@/components/TinymceText'
     export default {
         name: "add",
+		props: ["areaOptions"],
 	    components: { 'tinymce-text':TinymceText },
 	    methods: {
+            /**
+             * 处理地区条件选择变化
+             */
+            handleAreaCascader() {
+                if (this.$refs.areaCascaderRef) {
+                    this.$refs.areaCascaderRef.dropDownVisible = false; //监听值发生变化就关闭它
+                }
+            },
+
 			/**
 			 * 提交
 			 * @param {*} 参数 参数说明
@@ -82,6 +105,13 @@
                 this.form.signEnd = this.form.signTimeRange[1];
                 this.form.voteStart = this.form.voteTimeRange[0];
                 this.form.voteEnd = this.form.voteTimeRange[1];
+
+                this.form.province = this.form.area[0];
+                this.form.city = this.form.area[1];
+                this.form.county = this.form.area[2];
+
+
+
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_add, this.form, "POST");
                 if(data.code == 200) {
                     this.$notify({
@@ -105,6 +135,8 @@
                     voteEnd: "",
                     signTimeRange: [],
                     voteTimeRange: [],
+                    content: "",
+                    area: [],
                 };
             },
 
@@ -125,6 +157,10 @@
                     signTimeRange: [],
                     voteTimeRange: [],
                     content: "",
+                    area: [],
+                    province: "",
+					city: "",
+					county: "",
                 },
                 rules: {
                     title: [
@@ -138,6 +174,9 @@
                     ],
                     content: [
                         {type: 'string', required: true, message: '请输入活动介绍', trigger: ['change', 'blur']},
+                    ],
+                    area: [
+                        {type: 'array', required: true, message: '请输入活动区域', trigger: ['change', 'blur']},
                     ],
                 },
                 pickerOptions: {

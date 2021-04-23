@@ -78,8 +78,8 @@
 			</div>
 		</el-card>
 
-		<Add v-else-if="page=='add'" @toPage="toPage" @search="search"></Add>
-		<Edit v-else-if="page=='edit'" ref="editRef" @toPage="toPage" @search="search" :currentPage="currentPage" :pageSize="pageSize"></Edit>
+		<Add v-else-if="page=='add'" @toPage="toPage" @search="search" :areaOptions="areaOptions"></Add>
+		<Edit v-else-if="page=='edit'" ref="editRef" @toPage="toPage" @search="search" :currentPage="currentPage" :pageSize="pageSize" :areaOptions="areaOptions"></Edit>
 		<Sign v-else-if="page=='sign'" ref="registrationRef" @search="search" :currentPage="currentPage" :pageSize="pageSize" @toPage="toPage"></Sign>
 	</div>
 </template>
@@ -89,14 +89,50 @@
 	import Add from "@/views/app/activity/add.vue"
 	import Edit from "@/views/app/activity/edit.vue"
 	import Sign from "@/views/app/activity/sign.vue"
+    import areaData from '@/assets/json/areaData.json'
+
     export default {
         name: "index",
 	    components: { Pagination, Add, Edit, Sign},
 	    mounted() {
 			this.getStatisticsInfo();
 			this.search(0, 10);
+            this.initAreaOptions(areaData);
 	    },
         methods: {
+
+            /**
+             * 初始化地域数据
+             */
+            initAreaOptions(area) {
+                for (let key in area) {
+                    let province = area[key];
+                    if (key == '安徽省') {
+                        var provinceObj = {
+                            label: key,
+                            value: key,
+                            children: []
+                        }
+                        this.areaOptions.push(provinceObj);
+                        for (let cityKey in province) {
+                            let city = province[cityKey];
+                            var cityObj = {
+                                label: cityKey,
+                                value: cityKey,
+                                children: []
+                            }
+                            provinceObj.children.push(cityObj);
+                            for (let areaKey in city) {
+                                var areaObj = {
+                                    label: areaKey,
+                                    value: areaKey,
+                                }
+                                cityObj.children.push(areaObj);
+                            }
+                        }
+                    }
+                }
+            },
 
             async getStatisticsInfo() {
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_statistics, {}, "POST");
@@ -276,6 +312,7 @@
         },
         data() {
             return {
+                areaOptions: [],
                 clientHeight: document.body.clientHeight-2,
                 page: "main",
                 releaseNum: 0,

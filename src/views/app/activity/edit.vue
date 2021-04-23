@@ -62,6 +62,17 @@
 									                align="right">
 									</el-date-picker>
 								</el-form-item>
+								<el-form-item label="活动区域" prop="area">
+									<el-cascader
+											ref="areaCascaderRef"
+											size="large"
+											:props="{ checkStrictly: false }"
+											:options="areaOptions"
+											v-model="form.area"
+											@change="handleAreaCascader"
+											placeholder="请选择活动区域">
+									</el-cascader>
+								</el-form-item>
 
 								<el-form-item label="顶部图片" prop="fileList">
 									<el-upload
@@ -195,7 +206,7 @@
     export default {
         name: "add",
         components: { 'tinymce-text':TinymceText, 'ac-app':AcApp, },
-	    props: ["currentPage", "pageSize"],
+	    props: ["currentPage", "pageSize", "areaOptions"],
 	    mounted() {
 	    },
 	    watch: {
@@ -449,6 +460,7 @@
                     title: row.title,
                     voteTimeRange: [row.voteStart, row.voteEnd],
                     signTimeRange: [row.signStart, row.signEnd],
+					area:[row.province, row.city, row.county],
                     status: row.status,
                     imgType: row.imgType,
                     imgs: row.imgs,
@@ -470,6 +482,7 @@
 
 			onSubmit() {
 				this.showOverlay = false;
+				this.area =false;
 			},
 			close() {
 				this.showOverlay = false;
@@ -587,6 +600,7 @@
                     title: "",
 					voteTimeRange: [],
                     signTimeRange: [],
+					area:[],
                     status: "",
                     imgType: "",
                     imgs: "",
@@ -602,6 +616,9 @@
                     ],
                     voteTimeRange: [
                         {type: 'array', required: true, message: '请输入投票时间', trigger: ['change', 'blur']},
+                    ],
+                    area: [
+                        {type: 'array', required: true, message: '请输入活动区域', trigger: ['change', 'blur']},
                     ],
                     uploadLimit: [
                         {type: 'number', required: true, message: '请输入上传作品数量限制', trigger: ['change', 'blur']},
