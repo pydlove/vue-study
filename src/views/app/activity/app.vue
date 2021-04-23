@@ -24,19 +24,19 @@
 					<div class="app_tit">
 						{{ activityForm.title }}
 					</div>
-					<div class="app_tit_container" :style="{ background: color }">
-						<div class="app_tit_item">
-							<div>0</div>
+					<div class="app_tit_container">
+						<div class="app_tit_item" :style="{ background: colorStyle.total }">
+							<div>1000</div>
 							<div>总票数</div>
 						</div>
 						<div class="app_vline"></div>
-						<div class="app_tit_item">
-							<div>0</div>
+						<div class="app_tit_item" :style="{ background: colorStyle.player }">
+							<div>100</div>
 							<div>选手数</div>
 						</div>
 						<div class="app_vline"></div>
-						<div class="app_tit_item">
-							<div>0</div>
+						<div class="app_tit_item" :style="{ background: colorStyle.access }">
+							<div>10000</div>
 							<div>访问量</div>
 						</div>
 					</div>
@@ -46,26 +46,26 @@
 				</el-card>
 
 				<el-card class="app_card">
-					<div class="app_rule" :style="{ color: color }">
-						<div class="app_hline" :style="{ borderColor: color }"></div>
+					<div class="app_rule" :style="{ color: colorStyle.main }">
+						<div class="app_hline" :style="{ borderColor: colorStyle.main }"></div>
 						活动规则
-						<div class="app_hline" :style="{ borderColor: color }"></div>
+						<div class="app_hline" :style="{ borderColor: colorStyle.main }"></div>
 					</div>
 					<div class="app_rule_item">
-						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票开始：
+						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票开始：
 						{{ activityForm.voteTimeRange[0] }}
 					</div>
 					<div class="app_rule_item">
-						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票截止：
+						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票截止：
 						{{ activityForm.voteTimeRange[1] }}
 					</div>
 					<div class="app_rule_item mb-10">
-						<van-icon class="app_rule_icon" name="info-o" :style="{ color: color }" />
+						<van-icon class="app_rule_icon" name="info-o" :style="{ color: colorStyle.main }" />
 						投票规则： 每个微信号每天限制投三票
 					</div>
 				</el-card>
 
-				<div class="app_fun_container" :style="{ background: color }">
+				<div class="app_fun_container" :style="{ background: colorStyle.main }">
 					<div class="app_fun_item" @click="toOrder">
 						<i class="el-icon-trophy"></i>
 						<div>查看排名</div>
@@ -85,7 +85,7 @@
 				            background="#ffffff"
 				>
 					<div class="app_search_prefix" slot="action" @click="onSearch"
-					     :style="{ background: color, borderColor: color }"
+					     :style="{ background: colorStyle.main, borderColor: colorStyle.main }"
 					>搜索</div>
 				</van-search>
 
@@ -113,7 +113,7 @@
 								票数：{{ item.votes }}票
 							</div>
 						</div>
-						<div class="app_works_container" :style="{ background: color }">
+						<div class="app_works_container" :style="{ background: colorStyle.main }">
 							<div class="app_witem">
 								<div>投票</div>
 							</div>
@@ -132,11 +132,11 @@
 					</div>
 				</div>
 				<div class="app_bot">
-					<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: color, }" >爱启云科技</a>提供支持
+					<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: colorStyle.main, }" >爱启云科技</a>提供支持
 				</div>
 				<van-action-sheet v-model="showGift" title="礼物">
 					<div class="app_action">
-						<div class="app_desc" :style="{ background: color }">为好友再点个赞吧！给选手赠送礼物，可以增加相应票数！</div>
+						<div class="app_desc" :style="{ background: colorStyle.main }">为好友再点个赞吧！给选手赠送礼物，可以增加相应票数！</div>
 						<div class="app_action_container">
 							<div :class="(gift.name == item.name ? 'app_active':'') + ' app_item'"
 							     v-for="(item, index) in gifts" :key="index"
@@ -161,7 +161,7 @@
 						<div>
 							<el-dropdown placement="top-start" trigger="click" @command="setGiftNum">
 								<el-button class="app_eld_btn" size="medium"
-								           :style="{ borderColor: color, color: color }"
+								           :style="{ borderColor: colorStyle.main, color: colorStyle.main }"
 								>
 									{{ giftNum }}<i class="el-icon-arrow-down el-icon--right"></i>
 								</el-button>
@@ -173,7 +173,7 @@
 									<el-dropdown-item command="5">5</el-dropdown-item>
 								</el-dropdown-menu>
 							</el-dropdown>
-							<span class="app_eld_btn_send" :style="{ background: color, borderColor: color }">
+							<span class="app_eld_btn_send" :style="{ background: colorStyle.main, borderColor: colorStyle.main }">
 							赠送
 						</span>
 						</div>
@@ -183,39 +183,37 @@
 
 			<!--在线报名-->
 			<div v-else-if="page=='signup'">
-				<van-image v-if="activityForm.top == 'single'"
-				           width="100%"
-				           height="200px"
-				           fit="contain"
-				           :src="require('@/assets/img/em/tp2.png')"
-				/>
-				<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-					<el-carousel-item v-for="item in 4" :key="item">
+				<el-carousel class="app_el_carousel" height="200px" v-if="activityForm.fileList.length > 0">
+					<el-carousel-item v-for="(item, index) in activityForm.fileList" :key="index">
 						<van-image
 								width="100%"
 								height="200px"
-								fit="contain"
-								:src="require('@/assets/img/em/tp2.png')"
+								fit="fill"
+								:src="item.url"
 						/>
 					</el-carousel-item>
 				</el-carousel>
+
+				<div v-else class="app_no_img">
+					请上传顶部图片
+				</div>
 
 				<el-card class="app_card">
 					<div class="app_tit">
 						{{ activityForm.name }}
 					</div>
-					<div class="app_tit_container" :style="{ background: color }">
-						<div class="app_tit_item">
+					<div class="app_tit_container">
+						<div class="app_tit_item" :style="{ background: colorStyle.total }">
 							<div>0</div>
 							<div>总票数</div>
 						</div>
 						<div class="app_vline"></div>
-						<div class="app_tit_item">
+						<div class="app_tit_item" :style="{ background: colorStyle.player }">
 							<div>6</div>
 							<div>选手数</div>
 						</div>
 						<div class="app_vline"></div>
-						<div class="app_tit_item">
+						<div class="app_tit_item" :style="{ background: colorStyle.access }">
 							<div>0</div>
 							<div>访问量</div>
 						</div>
@@ -226,17 +224,17 @@
 				</el-card>
 
 				<el-card class="app_card">
-					<div class="app_rule" :style="{ color: color }">
-						<div class="app_hline" :style="{ borderColor: color }"></div>
+					<div class="app_rule" :style="{ color: colorStyle.main }">
+						<div class="app_hline" :style="{ borderColor: colorStyle.main }"></div>
 						报名时间
-						<div class="app_hline" :style="{ borderColor: color }"></div>
+						<div class="app_hline" :style="{ borderColor: colorStyle.main }"></div>
 					</div>
 					<div class="app_rule_item">
-						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />报名开始：
+						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />报名开始：
 						{{ activityForm.signTimeRange[0] }}
 					</div>
 					<div class="app_rule_item mb-20">
-						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />报名截止：
+						<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />报名截止：
 						{{ activityForm.signTimeRange[1] }}
 					</div>
 				</el-card>
@@ -313,12 +311,12 @@
 
 							<div class="app_next">
 								<el-button class="app_next_btn" @click="next=1"
-								           :style="{ borderColor: color,  background: color }">
+								           :style="{ borderColor: colorStyle.main,  background: colorStyle.main }">
 									上一步
 								</el-button>
 
 								<el-button class="app_next_btn" @click="sign"
-								           :style="{ borderColor: color,  background: color }">
+								           :style="{ borderColor: colorStyle.main,  background: colorStyle.main }">
 									报名
 								</el-button>
 							</div>
@@ -326,7 +324,7 @@
 					</el-form>
 				</el-card>
 				<div class="app_bot">
-					<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: color, }" >爱启云科技</a>提供支持
+					<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: colorStyle.main, }" >爱启云科技</a>提供支持
 				</div>
 			</div>
 
@@ -336,24 +334,22 @@
 					<van-icon name="arrow-left" @click="returnPage"/>
 				</div>
 
-				<van-image v-if="activityForm.top == 'single'"
-				           width="100%"
-				           height="200px"
-				           fit="contain"
-				           :src="require('@/assets/img/em/tp2.png')"
-				/>
-				<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-					<el-carousel-item v-for="item in 4" :key="item">
+				<el-carousel class="app_el_carousel" height="200px" v-if="activityForm.fileList.length > 0">
+					<el-carousel-item v-for="(item, index) in activityForm.fileList" :key="index">
 						<van-image
 								width="100%"
 								height="200px"
-								fit="contain"
-								:src="require('@/assets/img/em/tp2.png')"
+								fit="fill"
+								:src="item.url"
 						/>
 					</el-carousel-item>
 				</el-carousel>
 
-				<div class="app_tit_container1" :style="{ background: color }">
+				<div v-else class="app_no_img">
+					请上传顶部图片
+				</div>
+
+				<div class="app_tit_container1" :style="{ background: colorStyle.main }">
 					<div class="app_tit_item">
 						<div>{{ work.rank }}</div>
 						<div>排名</div>
@@ -383,7 +379,7 @@
 							:src="item"
 					/>
 				</div>
-				<div class="app_work_btn_main" :style="{ background: color }">
+				<div class="app_work_btn_main" :style="{ background: colorStyle.main }">
 					<div class="app_work_item" @click="showVoteM">
 						<div>投 票</div>
 					</div>
@@ -394,7 +390,7 @@
 				</div>
 
 				<div class="app_bot">
-					<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: color, }" >爱启云科技</a>提供支持
+					<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: colorStyle.main, }" >爱启云科技</a>提供支持
 				</div>
 			</div>
 
@@ -415,7 +411,7 @@
 
 			<!--为 我 拉 票 海报-->
 			<div ref="imageWrapper" v-show="showPosterScreenshot" id="appPosterMain"
-				     :style="{ background: color, padding: '15px', margin: '15px', height: '442px' }">
+				     :style="{ background: colorStyle.main, padding: '15px', margin: '15px', height: '442px' }">
 					<van-image :style="{ width: '100%', height: '160px', marginBottom: '10px', }"
 					           :src="require('@/assets/img/em/tp2.png')" />
 
@@ -425,7 +421,7 @@
 						</div>
 
 						<div class="app_poster_author">
-							<div :style="{ border: '2px solid ' + color , borderRadius: '3px',}">
+							<div :style="{ border: '2px solid ' + colorStyle.main , borderRadius: '3px',}">
 								<van-image :style="{ width: '50px', height: '50px', display: 'block', }"
 								           :src="work.imgs[0]" />
 							</div>
@@ -441,7 +437,7 @@
 										长按识别二维码
 									</div>
 
-									<div class="app_tp" :style="{ background: color, }">
+									<div class="app_tp" :style="{ background: colorStyle.main, }">
 										请帮我投一票
 										<div class="app_poster_right">
 											<i class="el-icon-caret-right"></i>
@@ -484,39 +480,37 @@
 
 		<!--介绍-->
 		<div v-else-if="active == '1'" class="app_main">
-			<van-image v-if="activityForm.top == 'single'"
-			           width="100%"
-			           height="200px"
-			           fit="contain"
-			           :src="require('@/assets/img/em/tp2.png')"
-			/>
-			<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-				<el-carousel-item v-for="item in 4" :key="item">
+			<el-carousel class="app_el_carousel" height="200px" v-if="activityForm.fileList.length > 0">
+				<el-carousel-item v-for="(item, index) in activityForm.fileList" :key="index">
 					<van-image
 							width="100%"
 							height="200px"
-							fit="contain"
-							:src="require('@/assets/img/em/tp2.png')"
+							fit="fill"
+							:src="item.url"
 					/>
 				</el-carousel-item>
 			</el-carousel>
+
+			<div v-else class="app_no_img">
+				请上传顶部图片
+			</div>
 
 			<el-card class="app_card">
 				<div class="app_tit">
 					{{ activityForm.title }}
 				</div>
-				<div class="app_tit_container"  :style="{ background: color }">
-					<div class="app_tit_item">
+				<div class="app_tit_container">
+					<div class="app_tit_item" :style="{ background: colorStyle.total }">
 						<div>0</div>
 						<div>总票数</div>
 					</div>
 					<div class="app_vline"></div>
-					<div class="app_tit_item">
+					<div class="app_tit_item" :style="{ background: colorStyle.player }">
 						<div>6</div>
 						<div>选手数</div>
 					</div>
 					<div class="app_vline"></div>
-					<div class="app_tit_item">
+					<div class="app_tit_item" :style="{ background: colorStyle.access }">
 						<div>0</div>
 						<div>访问量</div>
 					</div>
@@ -531,45 +525,43 @@
 			</el-card>
 
 			<div class="app_bot">
-				<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: color, }" >爱启云科技</a>提供支持
+				<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: colorStyle.main, }" >爱启云科技</a>提供支持
 			</div>
 		</div>
 
 		<!--排行榜-->
 		<div v-else-if="active == '2'" class="app_main">
-			<van-image v-if="activityForm.top == 'single'"
-			           width="100%"
-			           height="200px"
-			           fit="contain"
-			           :src="require('@/assets/img/em/tp2.png')"
-			/>
-			<el-carousel class="app_el_carousel" height="200px" v-else-if="activityForm.top == 'banner'">
-				<el-carousel-item v-for="item in 4" :key="item">
+			<el-carousel class="app_el_carousel" height="200px" v-if="activityForm.fileList.length > 0">
+				<el-carousel-item v-for="(item, index) in activityForm.fileList" :key="index">
 					<van-image
 							width="100%"
 							height="200px"
-							fit="contain"
-							:src="require('@/assets/img/em/tp2.png')"
+							fit="fill"
+							:src="item.url"
 					/>
 				</el-carousel-item>
 			</el-carousel>
+
+			<div v-else class="app_no_img">
+				请上传顶部图片
+			</div>
 
 			<el-card class="app_card">
 				<div class="app_tit">
 					{{ activityForm.title }}
 				</div>
-				<div class="app_tit_container" :style="{ background: color }">
-					<div class="app_tit_item">
+				<div class="app_tit_container" >
+					<div class="app_tit_item" :style="{ background: colorStyle.total }">
 						<div>0</div>
 						<div>总票数</div>
 					</div>
 					<div class="app_vline"></div>
-					<div class="app_tit_item">
+					<div class="app_tit_item" :style="{ background: colorStyle.player }">
 						<div>6</div>
 						<div>选手数</div>
 					</div>
 					<div class="app_vline"></div>
-					<div class="app_tit_item">
+					<div class="app_tit_item" :style="{ background: colorStyle.access }">
 						<div>0</div>
 						<div>访问量</div>
 					</div>
@@ -580,26 +572,26 @@
 			</el-card>
 
 			<el-card class="app_card">
-				<div class="app_rule" :style="{ color: color }">
-					<div class="app_hline" :style="{ borderColor: color }"></div>
+				<div class="app_rule" :style="{ color: colorStyle.main }">
+					<div class="app_hline" :style="{ borderColor: colorStyle.main }"></div>
 					活动规则
-					<div class="app_hline" :style="{ borderColor: color }"></div>
+					<div class="app_hline" :style="{ borderColor: colorStyle.main }"></div>
 				</div>
 				<div class="app_rule_item">
-					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票开始：
+					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票开始：
 					{{ activityForm.voteTimeRange[0] }}
 				</div>
 				<div class="app_rule_item">
-					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票截止：
+					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票截止：
 					{{ activityForm.voteTimeRange[1] }}
 				</div>
 				<div class="app_rule_item mb-10">
-					<van-icon class="app_rule_icon" name="info-o" :style="{ color: color }" />投票规则： 每个微信号投票期间只能投1次
+					<van-icon class="app_rule_icon" name="info-o" :style="{ color: colorStyle.main }" />投票规则： 每个微信号投票期间只能投1次
 				</div>
 			</el-card>
 
 			<el-card class="app_card1">
-				<div class="app_rank_top" :style="{ background: color }">
+				<div class="app_rank_top" :style="{ background: colorStyle.main }">
 					活动排行榜
 				</div>
 
@@ -631,7 +623,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="app_rank_bottom" :style="{ background: color }">
+				<div class="app_rank_bottom" :style="{ background: colorStyle.main }">
 					显示更多
 				</div>
 			</el-card>
@@ -644,17 +636,17 @@
 			            background="#ffffff"
 			>
 				<div class="app_search_prefix" slot="action" @click="onSearch"
-				     :style="{ background: color, borderColor: color }"
+				     :style="{ background: colorStyle.main, borderColor: colorStyle.main }"
 				>搜索</div>
 			</van-search>
 
 			<div class="app_bot">
-				<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: color, }" >爱启云科技</a>提供支持
+				<a href="https://www.aiocloud.ltd/#/" target="_blank" :style="{ color: colorStyle.main, }" >爱启云科技</a>提供支持
 			</div>
 		</div>
 
 		<van-tabbar class="app_footer" v-model="active"
-		            :active-color="color"
+		            :active-color="colorStyle.main"
 		            inactive-color="#999"
 		>
 			<van-tabbar-item v-for="(item, index) in menus" :key="index"
@@ -729,7 +721,7 @@
 
             setColor() {
                 this.$nextTick(function () {
-                    this.color = this.activityForm.colorStyle;
+                    this.colorStyle = this.activityForm.colorStyle;
                 });
             },
 
@@ -884,7 +876,12 @@
                     fileList: [],
                 },
                 page: "vote",
-                color: "#0C2AA4",
+                colorStyle: {
+                    main: "#0C2AA4",
+                    total: "#0C2AA4",
+                    player: "#0C2AA4",
+                    access: "#0C2AA4",
+                },
                 gift: "",
                 giftNum: 1,
                 gifts: [
@@ -1599,6 +1596,7 @@
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;
+		padding: 10px 0;
 	}
 	.app_tit_item div:nth-of-type(1) {
 		font-size: 18px;

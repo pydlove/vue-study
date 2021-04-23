@@ -15,7 +15,7 @@
 						<ac-app ref="acAppRef" :activityForm="form"></ac-app>
 					</div>
 					<div class="ae_btn">
-						<el-button v-aiocp="['lau']" class="ae_btn_item" type="primary" @click="releaseActivity">发布活动</el-button>
+						<el-button v-aiocp="['lau']" class="ae_btn_item" type="primary" @click="releaseActivity" :disabled="form.status == '1'">发布活动</el-button>
 						<el-button v-aiocp="['lau']" class="ae_btn_item" type="primary" @click="showPoster" >活动海报</el-button>
 						<el-button v-aiocp="['lau']" class="ae_btn_item" type="primary" @click="openLink" >活动链接</el-button>
 					</div>
@@ -28,7 +28,7 @@
 					         :rules="rules"
 					         label-position="left"
 					         :validate-on-rule-change="false"
-					         label-width="80px">
+					         label-width="100px">
 						<el-tabs v-model="activeName" @tab-click="handleClick">
 							<el-tab-pane label="基本设置" name="base">
 								<el-form-item label="活动名称" prop="title">
@@ -77,8 +77,20 @@
 									</el-upload>
 								</el-form-item>
 
-								<el-form-item label="颜色风格" prop="colorStyle">
-									<el-color-picker v-model="form.colorStyle" @change="setColor"></el-color-picker>
+								<el-form-item label="总体色系" prop="colorStyle">
+									<el-color-picker v-model="form.colorStyle.main" @change="setColor()"></el-color-picker>
+								</el-form-item>
+
+								<el-form-item label="总票数色系" prop="totalColorStyle">
+									<el-color-picker v-model="form.colorStyle.total" @change="setColor()"></el-color-picker>
+								</el-form-item>
+
+								<el-form-item label="选手数色系" prop="playerColorStyle">
+									<el-color-picker v-model="form.colorStyle.player" @change="setColor()"></el-color-picker>
+								</el-form-item>
+
+								<el-form-item label="访问量色系" prop="accessColorStyle">
+									<el-color-picker v-model="form.colorStyle.access" @change="setColor()"></el-color-picker>
 								</el-form-item>
 
 								<el-form-item class="ae_limit_label" label="上传作品数量限制" prop="uploadLimit">
@@ -207,7 +219,6 @@
                 });
             },
             onError(e){
-                alert("失败");
                 this.$notify.error({
                     title: '失败',
                     message: '复制失败',
@@ -235,6 +246,7 @@
             },
 
             async releaseRequest() {
+                this.form.status = "1";
                 let params = {
                     id: this.form.id,
                     status: "1",
@@ -246,7 +258,6 @@
                         message: '活动发布成功！',
                         type: 'success'
                     });
-                    this.search(this.currentPage, this.pageSize);
                 }
             },
 
@@ -419,11 +430,22 @@
             },
 
 			setFormContent(row) {
+                let colorTemp = {};
+				if(row.colorStyle == null || row.colorStyle == "") {
+                    colorTemp = {
+                        main: "",
+                        total: "",
+                        player: "",
+                        access: "",
+                    };
+				} else {
+                    colorTemp = JSON.parse(row.colorStyle);
+				}
         		this.form = {
                     id: row.id,
                     accessNum: row.accessNum,
                     uploadLimit: row.uploadLimit,
-                    colorStyle: row.colorStyle,
+                    colorStyle: colorTemp,
                     title: row.title,
                     voteTimeRange: [row.voteStart, row.voteEnd],
                     signTimeRange: [row.signStart, row.signEnd],
@@ -515,7 +537,7 @@
                 this.$refs.acAppRef.setColor();
                 let params = {
                     id: this.form.id,
-	                colorStyle: this.form.colorStyle,
+	                colorStyle: JSON.stringify(this.form.colorStyle),
                 };
                 this.updateRequest(params);
             },
@@ -552,7 +574,16 @@
 					createUser: "",
 					remark: "",
                     uploadLimit: "",
-                    colorStyle: "",
+                    colorStyle: {
+					    main: "",
+	                    total: "",
+	                    player: "",
+	                    access: "",
+                    },
+                    mainColorStyle: "",
+                    totalColorStyle: "",
+                    playerColorStyle: "",
+                    accessColorStyle: "",
                     title: "",
 					voteTimeRange: [],
                     signTimeRange: [],
@@ -575,8 +606,8 @@
                     uploadLimit: [
                         {type: 'number', required: true, message: '请输入上传作品数量限制', trigger: ['change', 'blur']},
                     ],
-                    colorStyle: [
-                        {type: 'string', required: true, message: '请输入上传作品数量限制', trigger: ['change', 'blur']},
+                    mainColorStyle: [
+                        {type: 'string', required: true, message: '请选择总体色', trigger: ['change', 'blur']},
                     ],
                     fileList: [
                         {type: 'array', required: true, message: '请上传顶部图片', trigger: ['change', 'blur']},
