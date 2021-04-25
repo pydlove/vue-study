@@ -12,6 +12,7 @@
 						:colorStyle="colorStyle"
 						:clientHeight="clientHeight"
 						:originalHeight="originalHeight"
+						:clientWidth="clientWidth"
 						:voteUserId="voteUserId"
 						:openId="openId"
 						@changePage="changePage"
@@ -28,6 +29,7 @@
 						:clientHeight="clientHeight"
 						:originalHeight="originalHeight"
 						@toDetail="toDetail"
+						@changePage="changePage"
 				></AppSign>
 			</div>
 
@@ -114,6 +116,18 @@
             AppRank,
         },
         mounted() {
+            window.onload = function() {
+                document.addEventListener('touchstart', function(event) {
+                    if (event.touches.length > 1) {
+                        event.preventDefault()
+                    }
+                });
+                document.addEventListener('gesturestart', function(event) {
+                    event.preventDefault()
+                })
+            };
+
+
             this.clientWidth = document.documentElement.clientWidth;
             this.clientHeight = document.documentElement.clientHeight;
 
@@ -159,7 +173,7 @@
                         this.clientHeight = this.originalHeight;
                     }
                 })()
-            }
+            };
         },
         methods: {
             async getWxAccessToken(code) {
@@ -255,6 +269,7 @@
                         this.$refs.rankRef.searchRank(this.activity.id);
                     });
                 } else if (pageName == "returnPage") {
+                    console.log(1)
                     if(this.active == 0) {
                         this.page = "vote";
                         this.$nextTick(function () {
@@ -736,7 +751,7 @@
 		font-size: 14px;
 		color: #ffffff;
 		background: #8c8c8c;
-		border-radius: 5px;
+		border-radius: 10px;
 	}
 
 	.app_active {
@@ -1196,6 +1211,8 @@
 		border-top-right-radius: 0px;
 		border-bottom-right-radius: 0px;
 		border-right: 0px;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
 	}
 
 	.app_search .van-field__left-icon {

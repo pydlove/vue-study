@@ -1613,7 +1613,7 @@
 	.app_tit_item {
 		text-align: center;
 		width: 33%;
-		height: 40px;
+		height: 60px;
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;
@@ -1751,6 +1751,8 @@
 		background-color: #ffffff;
 		border: 1px solid #d9d9d9;
 		border-right: 0px;
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px;
 		border-bottom-left-radius: 10px;
 		border-top-left-radius: 10px;
 	}

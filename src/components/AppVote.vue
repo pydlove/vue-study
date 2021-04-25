@@ -17,7 +17,7 @@
 				{{ activity.title }}
 			</div>
 			<div class="app_tit_container" >
-				<div class="app_tit_item" :style="{ background: colorStyle.total }">
+				<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 					<div>{{ activity.totalVoteNum }}</div>
 					<div>总票数</div>
 				</div>
@@ -27,7 +27,7 @@
 					<div>选手数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item" :style="{ background: colorStyle.access }">
+				<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 					<div>{{ activity.accessNum }}</div>
 					<div>访问量</div>
 				</div>
@@ -64,7 +64,7 @@
 			</div>
 		</div>
 
-		<van-search class="app_search av_search" ref="avSearchRef"
+		<van-search class="app_search" ref="avSearchRef"
 		            v-model="search"
 		            show-action
 		            placeholder="请输入姓名或编号搜索"
@@ -88,11 +88,10 @@
 			>
 				<div class="app_works_item"
 				     v-for="(item, index) in players" :key="index"
-				     :style="{ marginRight: (index%2==0?'4%':'0px')}"
+					 :style="{ marginRight: (index%2==0?'10px':'0px'), width: (clientWidth-30)/2 + 'px' }"
 				>
 					<el-image class="app_works_img"
-					          width="100%"
-					          height="100%"
+					          style="width: 100%;"
 					          :src="getFirstImg(item.worksImage)"
 					          fit="fill" @click="toDetail(item)"></el-image>
 					<div class="app_works_info">
@@ -113,7 +112,7 @@
 							票数：{{ item.voteNum }}票
 						</div>
 					</div>
-					<div class="app_works_container" :style="{ background: colorStyle.main }">
+					<div class="app_works_container1" :style="{ background: colorStyle.main }">
 						<div class="app_witem" @click="giveVote(item)">
 							<div>投票</div>
 						</div>
@@ -128,14 +127,15 @@
 					</div>
 					<div class="app_num_container">
 					</div>
-					<div class="app_num">
+					<div class="app_num1">
 						{{ item.no }}号
 					</div>
 				</div>
 				<div class="app_works_item" v-show="totalCount%2 != 0">
 				</div>
 				<div class="app_bot">
-					<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
+					<a href="http://debugtbs.qq.com" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
+					<!--<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持-->
 				</div>
 			</div>
 		</div>
@@ -217,7 +217,7 @@
 
     export default {
         name: "AppTop",
-	    props: [ "activity", "activityBanners", "colorStyle", "originalHeight", "clientHeight", "voteUserId", "openId" ],
+	    props: [ "activity", "activityBanners", "colorStyle", "originalHeight", "clientHeight", "voteUserId", "openId", "clientWidth" ],
         watch: {
             clientHeight :function() {
                 if( this.originalHeight != this.clientHeight ){
@@ -600,7 +600,7 @@
                         price: "5"
                     },
                     {
-                        img: require('@/assets/img/icon/xianhua1.png'),
+                        img: require('@/assets/img/icon/xianhua.png'),
                         name: "鲜花",
                         code: "flower",
                         votes: "10",
@@ -669,9 +669,10 @@
 		background: #8c8c8c;
 		border-radius: 5px;
 		opacity: 0.6;
+		border-radius: 10px;
 	}
 
-	.app_num {
+	.app_num1 {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -681,6 +682,7 @@
 		font-size: 14px;
 		text-align: center;
 		color: #ffffff;
+		border-radius: 10px !important;
 	}
 
 	.app_active {
@@ -812,19 +814,20 @@
 		color: #666;
 	}
 
-	.app_works_container {
+	.app_works_container1 {
 		/*background: #0C2AA4;*/
 		display: flex;
 		flex-wrap: nowrap;
 		align-items: center;
 		height: 30px;
 		font-size: 14px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
 	}
 
 	.app_works_img {
-		border-top-right-radius: 5px;
-		border-top-left-radius: 5px;
-		min-width: 170px;
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
 		height: 180px;
 	}
 
@@ -832,6 +835,8 @@
 		width: 48%;
 		margin-bottom: 10px;
 		position: relative;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
 	}
 
 	.app_works {
@@ -848,8 +853,8 @@
 		/*border: 1px solid #0C2AA4;*/
 		/*background: #0C2AA4;*/
 		color: #ffffff;
-		border-top-right-radius: 2px;
-		border-bottom-right-radius: 2px;
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
 		margin-right: 10px;
 	}
 
@@ -882,6 +887,7 @@
 		height: 40px;
 		margin: 10px;
 		font-size: 14px;
+		border-radius: 10px;
 	}
 
 	.app_rule_icon {
@@ -902,6 +908,7 @@
 
 	.app_card {
 		margin: 15px 10px;
+		border-radius: 10px;
 	}
 
 	.app_tit {
@@ -930,7 +937,7 @@
 	.app_tit_item {
 		text-align: center;
 		width: 33%;
-		height: 40px;
+		height: 60px;
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;
@@ -944,4 +951,6 @@
 	div::-webkit-scrollbar {
 		width: 0;
 	}
+</style>
+<style>
 </style>

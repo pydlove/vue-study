@@ -16,7 +16,7 @@ module.exports = {
                 minimize: true,
                 quiet: true,
                 router:{
-                    mode:'hash',
+                    mode:'history',
                     routes:[
                         // {
                         //     path: '/',

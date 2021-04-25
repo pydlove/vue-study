@@ -2462,3 +2462,23 @@ body {
   overflow: auto;
   margin-bottom: 40px;
 }
+
+.app_item_br {
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+.app_item_bl {
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+}
+
+.app_br {
+  border-radius: 10px !important;
+}
+
+.app_br_20 {
+  border-radius: 20px !important;
+}
+.app_tit {
+  font-size: 16px;
+}

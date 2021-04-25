@@ -1,8 +1,11 @@
 <template>
 	<!--eslint-disable-->
 	<div ref="appDetailRef">
-		<div class="app_al">
-			<van-icon name="arrow-left" @click="returnPage"/>
+		<div class="app_al"  @click="returnPage">
+			<van-icon name="arrow-left"/>
+			<span>
+				返回
+			</span>
 		</div>
 		<el-carousel class="app_el_carousel" height="200px">
 			<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
@@ -15,9 +18,9 @@
 			</el-carousel-item>
 		</el-carousel>
 
-		<el-card class="ad_card">
+		<el-card class="ad_card app_br">
 			<div class="app_tit_container1" :style="{ background: color }">
-				<div class="app_tit_item" :style="{ background: colorStyle.total }">
+				<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 					<div>{{ signPlayer.rankNo }}</div>
 					<div>排名</div>
 				</div>
@@ -27,7 +30,7 @@
 					<div>票数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item" :style="{ background: colorStyle.access }">
+				<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 					<div>{{ signPlayer.gapVoteNum }}</div>
 					<div>{{ signPlayer.rankDesc }}</div>
 				</div>
@@ -41,7 +44,7 @@
 			</div>
 
 			<div v-for="( item, index ) in playerWorks" :key="index">
-				<el-image class="app_work_img"
+				<el-image class="app_work_img app_br"
 				          width="100%"
 				          height="200px"
 				          fit="fill"
@@ -50,7 +53,7 @@
 				/>
 			</div>
 
-			<div class="app_work_btn_main" :style="{ background: colorStyle.main }">
+			<div class="app_work_btn_main app_br" :style="{ background: colorStyle.main }">
 				<div class="app_work_item" @click="giveVote">
 					<div>投 票</div>
 				</div>
@@ -412,13 +415,13 @@
 	.app_al {
 		height: 30px;
 		line-height: 30px;
-		width: 30px;
+		width: 60px;
 		border-radius: 15px;
 		opacity: 0.8;
 		background: rgba(0, 0, 0, .4);
 		color: #ffffff;
 		font-size: 18px;
-		position: absolute;
+		position: fixed;
 		top: 10px;
 		left: 10px;
 		z-index: 3000;
@@ -426,6 +429,9 @@
 		flex-wrap: nowrap;
 		align-items: center;
 		justify-content: center;
+	}
+	.app_al > span  {
+		font-size: 14px;
 	}
 
 	.app_work_btn_main {
@@ -482,7 +488,7 @@
 	.app_tit_item {
 		text-align: center;
 		width: 33%;
-		height: 40px;
+		height: 60px;
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;

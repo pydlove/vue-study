@@ -12,12 +12,12 @@
 			</el-carousel-item>
 		</el-carousel>
 
-		<el-card class="app_card">
+		<el-card class="app_card app_br">
 			<div class="app_tit">
 				{{ activity.title }}
 			</div>
 			<div class="app_tit_container">
-				<div class="app_tit_item" :style="{ background: colorStyle.total }">
+				<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 					<div>{{ activity.totalVoteNum }}</div>
 					<div>总票数</div>
 				</div>
@@ -27,7 +27,7 @@
 					<div>选手数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item" :style="{ background: colorStyle.access }">
+				<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 					<div>{{ activity.accessNum }}</div>
 					<div>访问量</div>
 				</div>
@@ -37,8 +37,8 @@
 			</div>
 		</el-card>
 
-		<el-card class="app_card">
-			<div v-html="activity.content"></div>
+		<el-card class="app_card app_br">
+			<div class="fs-14" v-html="activity.content"></div>
 		</el-card>
 
 		<div class="app_bot">
@@ -136,7 +136,7 @@
 	.app_tit_item {
 		text-align: center;
 		width: 33%;
-		height: 40px;
+		height: 60px;
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;

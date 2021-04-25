@@ -5,7 +5,7 @@ export default {
     // rootUrl: "http://www.aiocloud.ltd:8071/",
     // baseUrl: "http://www.aiocloud.ltd",
 
-    rootUrl: "http://192.168.1.5:8080/",
+    rootUrl: "http://192.168.1.3:8080/",
     baseUrl: "http://localhost:8080",
 
     // rootUrl: "http://ahbfi.org.cn/",

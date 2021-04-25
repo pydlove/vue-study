@@ -1,6 +1,12 @@
 <template>
 	<!--eslint-disable-->
 	<div>
+		<div class="app_al"  @click="returnPage">
+			<van-icon name="arrow-left"/>
+			<span>
+				返回
+			</span>
+		</div>
 		<el-carousel class="app_el_carousel" height="200px">
 			<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
 				<van-image
@@ -17,7 +23,7 @@
 				{{ activity.title }}
 			</div>
 			<div class="app_tit_container">
-				<div class="app_tit_item" :style="{ background: colorStyle.total }">
+				<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 					<div>{{ activity.totalVoteNum }}</div>
 					<div>总票数</div>
 				</div>
@@ -27,13 +33,13 @@
 					<div>选手数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item" :style="{ background: colorStyle.access }">
+				<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 					<div>{{ activity.accessNum }}</div>
 					<div>访问量</div>
 				</div>
 			</div>
-			<div class="app_status">
-				活动未开始
+			<div class="app_status" :style="{ color: fmtStatusColor(activity.status) }">
+				{{ fmtStatus(activity.status) }}
 			</div>
 		</el-card>
 
@@ -173,6 +179,15 @@
             this.areaList = Area;
         },
         methods: {
+            /**
+             * 返回投票页
+             * @param {*} 参数 参数说明
+             * @author panyong
+             */
+            returnPage() {
+                this.$emit("changePage", "returnPage");
+            },
+
             changeHeight() {
                 // document.getElementsByClassName("app_container")[0].scrollTop = 500;
             },
@@ -330,6 +345,38 @@
                 this.showArea = false;
                 this.$refs.myArea.reset();
             },
+
+            /**
+             * 格式化状态
+             * @param {*} 参数 参数说明
+             * @author panyong
+             */
+            fmtStatus(status) {
+                switch (status) {
+                    case "0":
+                        return "活动未开始";
+                    case "1":
+                        return "活动进行中";
+                    case "2":
+                        return "活动已结束";
+                    default:
+                        break;
+                }
+            },
+
+            fmtStatusColor(status) {
+                switch (status) {
+                    case "0":
+                        return "#bfbfbf";
+                    case "1":
+                        return "#52c41a";
+                    case "2":
+                        return "#c4192a";
+                    default:
+                        break;
+                }
+            },
+
         },
         data() {
             return {
@@ -356,6 +403,28 @@
 
 <style scoped>
 
+	.app_al {
+		height: 30px;
+		line-height: 30px;
+		width: 60px;
+		border-radius: 15px;
+		opacity: 0.8;
+		background: rgba(0, 0, 0, .4);
+		color: #ffffff;
+		font-size: 18px;
+		position: fixed;
+		top: 10px;
+		left: 10px;
+		z-index: 3000;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: center;
+	}
+	.app_al > span  {
+		font-size: 14px;
+	}
+
 	.app_poster_bottom > div:nth-of-type(1) {
 		min-width: 150px;
 	}
@@ -363,6 +432,7 @@
 	.app_next_btn {
 		width: 150px;
 		color: #ffffff;
+		border-radius: 20px;
 	}
 
 	.app_next {
@@ -514,6 +584,7 @@
 
 	.app_card {
 		margin: 15px 10px;
+		border-radius: 10px;
 	}
 
 	.app_tit {
@@ -542,7 +613,7 @@
 	.app_tit_item {
 		text-align: center;
 		width: 33%;
-		height: 40px;
+		height: 60px;
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;

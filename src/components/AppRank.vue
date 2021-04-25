@@ -12,12 +12,12 @@
 			</el-carousel-item>
 		</el-carousel>
 
-		<el-card class="app_card">
+		<el-card class="app_card app_br">
 			<div class="app_tit">
 				{{ activity.title }}
 			</div>
 			<div class="app_tit_container">
-				<div class="app_tit_item" :style="{ background: colorStyle.total }">
+				<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 					<div>{{ activity.totalVoteNum }}</div>
 					<div>总票数</div>
 				</div>
@@ -27,7 +27,7 @@
 					<div>选手数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item" :style="{ background: colorStyle.access }">
+				<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 					<div>{{ activity.accessNum }}</div>
 					<div>访问量</div>
 				</div>
@@ -37,7 +37,7 @@
 			</div>
 		</el-card>
 
-		<el-card class="app_card">
+		<el-card class="app_card app_br">
 			<div class="app_rule" :style="{ color: colorStyle.main }">
 				<div class="app_hline" :style="{ borderColor: colorStyle.main }"></div>
 				活动规则
@@ -59,7 +59,7 @@
 			</div>
 		</el-card>
 
-		<el-card class="app_card1">
+		<el-card class="app_card1 app_br">
 			<div class="app_rank_top" :style="{ background: colorStyle.main }">
 				活动排行榜
 			</div>
@@ -92,7 +92,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="app_rank_bottom" :style="{ background: colorStyle.main }" @click="showMore">
+			<div class="app_rank_bottom app_br_20" :style="{ background: colorStyle.main }" @click="showMore">
 				显示更多
 			</div>
 		</el-card>
@@ -110,7 +110,7 @@
 			</div>
 		</van-search>
 
-		<el-card class="app_card1" v-show="searchResult.length > 0">
+		<el-card class="app_card1 app_br" v-show="searchResult.length > 0">
 			<div class="app_rank_item" v-for="(item, index) in searchResult" :key="index" @click="toPlayerDetail(item)">
 				<div v-if="item.rankNo == '1'" class="app_sort">
 					<i class="guangjun app_sort_icon"></i>
@@ -413,8 +413,8 @@
 		/*border: 1px solid #0C2AA4;*/
 		/*background: #0C2AA4;*/
 		color: #ffffff;
-		border-top-right-radius: 2px;
-		border-bottom-right-radius: 2px;
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
 		margin-right: 10px;
 	}
 
@@ -486,7 +486,7 @@
 	.app_tit_item {
 		text-align: center;
 		width: 33%;
-		height: 40px;
+		height: 60px;
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;

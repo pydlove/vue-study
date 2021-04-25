@@ -16,6 +16,11 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
 
+// iview
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+Vue.use(iView);
+
 import { Toast } from "vant";
 Vue.use(Toast);
 Vue.prototype.$toast = Toast;

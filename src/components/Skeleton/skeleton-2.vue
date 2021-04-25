@@ -53,19 +53,20 @@
 	}
 
 	.skeleton-title-card {
-		height: 140px;
 		border: 1px solid #eee;
 		margin: 20px 10px 0px 10px;
-		border-radius: 3px;
+		border-radius: 10px;
 	}
 	.skeleton-title-text {
 		height: 16px;
-		width: 100px;
+		width: 60%;
 		margin: 10px;
+		border-radius: 8px;
 	}
 	.skeleton-banner {
 		height: 70px;
-		margin: 10px;
+		margin: 20px;
+		border-radius: 10px;
 	}
 	.skeleton-status-box {
 		margin-bottom: 25px;
@@ -75,19 +76,22 @@
 		line-height: 22px;
 		width: 150px;
 		margin: 10px auto;
+		border-radius: 10px;
 	}
 	.skeleton-rule {
 		height: 16px;
 		width: 300px;
 		margin: 10px;
+		border-radius: 10px;
 	}
 	.skeleton-rule-card {
 		height: 136px;
 		border: 1px solid #eee;
 		margin: 20px 10px 0px 10px;
-		border-radius: 3px;
+		border-radius: 10px;
 	}
 	.skeleton-box1 {
+		border-radius: 10px;
 		height: 40px;
 		margin: 20px 10px 0px 10px;
 	}
