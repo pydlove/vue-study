@@ -88,21 +88,23 @@
 									</el-upload>
 								</el-form-item>
 
-								<el-form-item label="总体色系" prop="colorStyle">
-									<el-color-picker v-model="form.colorStyle.main" @change="setColor()"></el-color-picker>
-								</el-form-item>
+								<div class="dffn">
+									<el-form-item class="mr-40" label="总体色系" prop="colorStyle" label-width="85px">
+										<el-color-picker v-model="form.colorStyle.main" @change="setColor()"></el-color-picker>
+									</el-form-item>
 
-								<el-form-item label="总票数色系" prop="totalColorStyle">
-									<el-color-picker v-model="form.colorStyle.total" @change="setColor()"></el-color-picker>
-								</el-form-item>
+									<el-form-item class="mr-40" label="总票数色系" prop="totalColorStyle" label-width="85px">
+										<el-color-picker v-model="form.colorStyle.total" @change="setColor()"></el-color-picker>
+									</el-form-item>
 
-								<el-form-item label="选手数色系" prop="playerColorStyle">
-									<el-color-picker v-model="form.colorStyle.player" @change="setColor()"></el-color-picker>
-								</el-form-item>
+									<el-form-item class="mr-40" label="选手数色系" prop="playerColorStyle" label-width="85px">
+										<el-color-picker v-model="form.colorStyle.player" @change="setColor()"></el-color-picker>
+									</el-form-item>
 
-								<el-form-item label="访问量色系" prop="accessColorStyle">
-									<el-color-picker v-model="form.colorStyle.access" @change="setColor()"></el-color-picker>
-								</el-form-item>
+									<el-form-item label="访问量色系" prop="accessColorStyle" label-width="85px">
+										<el-color-picker v-model="form.colorStyle.access" @change="setColor()"></el-color-picker>
+									</el-form-item>
+								</div>
 
 								<el-form-item class="ae_limit_label" label="上传作品数量限制" prop="uploadLimit">
 									<el-input-number v-model="form.uploadLimit" @change="handleChange" size="small" :min="1" :max="100"></el-input-number>
@@ -139,7 +141,7 @@
 			</van-loading>
 			<div class="ae_overapp_container" v-if="showOverApp">
 				<div class="ae_over_app" ref="overImageWrapper">
-					<el-image style="border-top-left-radius: 3px; border-top-right-radius: 3px; height: 200px;" :src="form.fileList.length == 0? (''):(form.fileList[0].url)" fit="fill"></el-image>
+					<el-image style="border-top-left-radius: 3px; border-top-right-radius: 3px; height: 200px;" :src="posterImg" fit="fill"></el-image>
 					<div class="ae_over_tc">
 						<div class="ae_over_title">
 							{{ form.title.length >= 20 ? (form.title.substring(0, 20)+"..."):(form.title) }}
@@ -525,13 +527,14 @@
                     });
 	                return false;
 	            }
+	            this.posterImg = this.form.fileList.length == 0? (''):(this.form.fileList[0].url);
                 this.showOverlay = true;
                 this.$nextTick(function () {
                     this.posterQrcode = new QRCode(this.$refs.posterQrcodeRef, {
                         width: 160,
                         height: 160,
                         text: this.$aiocUrl.rootUrl + "am?activityId=" + this.form.id,
-                        colorDark : this.form.colorStyle,
+                        colorDark : this.form.colorStyle.main,
                         colorLight : "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
@@ -570,6 +573,7 @@
         },
         data() {
             return {
+                posterImg: "",
                 showActivityLink: false,
                 uploadAction: this.$aiocUrl.blsh_h5_service_v1_bh_activity_top_upload,
                 showLoading: false,

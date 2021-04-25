@@ -25,7 +25,7 @@
 						{{ activityForm.title }}
 					</div>
 					<div class="app_tit_container">
-						<div class="app_tit_item" :style="{ background: colorStyle.total }">
+						<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 							<div>1000</div>
 							<div>总票数</div>
 						</div>
@@ -35,7 +35,7 @@
 							<div>选手数</div>
 						</div>
 						<div class="app_vline"></div>
-						<div class="app_tit_item" :style="{ background: colorStyle.access }">
+						<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 							<div>10000</div>
 							<div>访问量</div>
 						</div>
@@ -121,7 +121,7 @@
 							<div class="app_witem" @click="boost">
 								<el-tooltip class="item" effect="dark" content="点我为好友再点个赞吧" placement="top-start">
 									<div class="app_witem_zan">
-										<i class="app_flower"></i>助力
+										<i class="jiangbei"></i>助力
 									</div>
 								</el-tooltip>
 							</div>
@@ -203,7 +203,7 @@
 						{{ activityForm.name }}
 					</div>
 					<div class="app_tit_container">
-						<div class="app_tit_item" :style="{ background: colorStyle.total }">
+						<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 							<div>0</div>
 							<div>总票数</div>
 						</div>
@@ -213,7 +213,7 @@
 							<div>选手数</div>
 						</div>
 						<div class="app_vline"></div>
-						<div class="app_tit_item" :style="{ background: colorStyle.access }">
+						<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 							<div>0</div>
 							<div>访问量</div>
 						</div>
@@ -290,7 +290,7 @@
 
 							<div class="app_next">
 								<el-button class="app_next_btn" @click="next=2"
-								           :style="{ borderColor: color,  background: color }">
+								           :style="{ borderColor: colorStyle.main,  background: colorStyle.main }">
 									下一步
 								</el-button>
 							</div>
@@ -350,7 +350,7 @@
 				</div>
 
 				<div class="app_tit_container1" :style="{ background: colorStyle.main }">
-					<div class="app_tit_item">
+					<div class="app_tit_item app_item_bl">
 						<div>{{ work.rank }}</div>
 						<div>排名</div>
 					</div>
@@ -360,7 +360,7 @@
 						<div>票数</div>
 					</div>
 					<div class="app_vline"></div>
-					<div class="app_tit_item">
+					<div class="app_tit_item app_item_br">
 						<div>{{ handleRank() }}</div>
 						<div>{{ handleRankDesc() }}</div>
 					</div>
@@ -500,7 +500,7 @@
 					{{ activityForm.title }}
 				</div>
 				<div class="app_tit_container">
-					<div class="app_tit_item" :style="{ background: colorStyle.total }">
+					<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 						<div>0</div>
 						<div>总票数</div>
 					</div>
@@ -510,7 +510,7 @@
 						<div>选手数</div>
 					</div>
 					<div class="app_vline"></div>
-					<div class="app_tit_item" :style="{ background: colorStyle.access }">
+					<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 						<div>0</div>
 						<div>访问量</div>
 					</div>
@@ -520,7 +520,7 @@
 				</div>
 			</el-card>
 
-			<el-card class="app_card">
+			<el-card class="app1_card">
 				<div v-html="activityForm.content"></div>
 			</el-card>
 
@@ -551,7 +551,7 @@
 					{{ activityForm.title }}
 				</div>
 				<div class="app_tit_container" >
-					<div class="app_tit_item" :style="{ background: colorStyle.total }">
+					<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
 						<div>0</div>
 						<div>总票数</div>
 					</div>
@@ -561,7 +561,7 @@
 						<div>选手数</div>
 					</div>
 					<div class="app_vline"></div>
-					<div class="app_tit_item" :style="{ background: colorStyle.access }">
+					<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
 						<div>0</div>
 						<div>访问量</div>
 					</div>
@@ -892,7 +892,7 @@
 		                price: "5"
 	                },
                     {
-                        img: require('@/assets/img/icon/xianhua1.png'),
+                        img: require('@/assets/img/icon/xianhua.png'),
                         name: "鲜花",
                         votes: "10",
                         price: "10"
@@ -1250,7 +1250,7 @@
 		flex-wrap: nowrap;
 		margin: 10px;
 		padding: 15px;
-		border-radius: 5px;
+		border-radius: 10px;
 	}
 	.app_work_item {
 		color: #ffffff;
@@ -1268,17 +1268,19 @@
 		line-height: 50px;
 	}
 	.app_work_img {
-		border-radius: 5px;
+		border-radius: 10px;
 	}
 	.app_tit_container1 {
 		display: flex;
 		flex-wrap: nowrap;
 		margin: 10px;
 		padding: 15px;
+		border-radius: 10px;
 	}
 	.app_next_btn {
 		width: 150px;
 		color: #ffffff;
+		border-radius: 20px;
 	}
 	.app_next {
 		text-align: center;
@@ -1301,14 +1303,15 @@
 		font-size: 14px;
 		margin: 0 auto;
 		margin-top: 20px;
+		border-radius: 15px;
 	}
 	.app_rank_top {
 		/*background: #0C2AA4;*/
 		color: #ffffff;
 		height: 40px;
 		line-height: 40px;
-		border-top-left-radius: 3px;
-		border-top-right-radius: 3px;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
 	}
 	.app_rank_vote {
 		min-width: 80px;
@@ -1362,7 +1365,7 @@
 		font-size: 14px;
 		color: #ffffff;
 		background: #8c8c8c;
-		border-radius: 5px;
+		border-radius: 10px;
 	}
 	.app_active {
 		border: 2px solid #0C2AA4 !important;
@@ -1445,7 +1448,7 @@
 		flex-wrap: nowrap;
 		align-items: center;
 	}
-	.app_flower {
+	.jiangbei {
 		width: 18px;
 		height: 18px;
 		margin-right: 5px;
@@ -1473,6 +1476,8 @@
 		align-items: center;
 		height: 30px;
 		font-size: 14px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
 	}
 	.app_rank_img {
 		border-radius: 3px;
@@ -1481,8 +1486,8 @@
 		height: 40px;
 	}
 	.app_works_img {
-		border-top-right-radius: 5px;
-		border-top-left-radius: 5px;
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
 	}
 	.app_works_item {
 		width: 48%;
@@ -1502,9 +1507,9 @@
 		/*border: 1px solid #0C2AA4;*/
 		/*background: #0C2AA4;*/
 		color: #ffffff;
-		border-top-right-radius: 2px;
-		border-bottom-right-radius: 2px;
 		margin-right: 10px;
+		border-bottom-right-radius: 10px;
+		border-top-right-radius: 10px;
 	}
 	.el-icon-trophy, .el-icon-edit-outline {
 		margin-right: 5px;
@@ -1532,6 +1537,7 @@
 		height: 40px;
 		margin: 10px;
 		font-size: 14px;
+		border-radius: 10px;
 	}
 	.app_rule_icon  {
 		/*font-weight: 600;*/
@@ -1565,9 +1571,16 @@
 	.app_card1 {
 		margin: 15px 10px;
 		position: relative;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
 	}
 	.app_card {
 		margin: 15px 10px;
+		border-radius: 10px;
+	}
+	.app1_card {
+		margin: 15px 10px;
+		border-radius: 10px;
 	}
 	.app_tit {
 		padding: 10px 0;
@@ -1581,13 +1594,21 @@
 		color: #999;
 	}
 	.app_vline {
-		border-left: 1px solid #bfbfbf;
+		border-left: 1px solid #FFFFFF;
 	}
 	.app_tit_container {
 		/*background: #0C2AA4;*/
 		display: flex;
 		flex-wrap: nowrap;
 		padding: 15px;
+	}
+	.app_item_br {
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
+	.app_item_bl {
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
 	}
 	.app_tit_item {
 		text-align: center;
@@ -1729,9 +1750,9 @@
 		height: 40px;
 		background-color: #ffffff;
 		border: 1px solid #d9d9d9;
-		border-top-right-radius: 0px;
-		border-bottom-right-radius: 0px;
 		border-right: 0px;
+		border-bottom-left-radius: 10px;
+		border-top-left-radius: 10px;
 	}
 	.app_search .van-field__left-icon {
 		line-height: 30px;

@@ -16,18 +16,18 @@
 			<div class="app_tit">
 				{{ activity.title }}
 			</div>
-			<div class="app_tit_container" :style="{ background: color }">
-				<div class="app_tit_item">
+			<div class="app_tit_container" >
+				<div class="app_tit_item" :style="{ background: colorStyle.total }">
 					<div>{{ activity.totalVoteNum }}</div>
 					<div>总票数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item">
+				<div class="app_tit_item" :style="{ background: colorStyle.player }">
 					<div>{{ activity.totalPlayersNum }}</div>
 					<div>选手数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item">
+				<div class="app_tit_item" :style="{ background: colorStyle.access }">
 					<div>{{ activity.accessNum }}</div>
 					<div>访问量</div>
 				</div>
@@ -39,20 +39,20 @@
 
 		<el-card class="app_card">
 			<div class="app_rule_item">
-				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票开始：
+				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票开始：
 				{{ activity.voteStart }}
 			</div>
 			<div class="app_rule_item">
-				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }" />投票截止：
+				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票截止：
 				{{ activity.voteEnd }}
 			</div>
 			<div class="app_rule_item mb-10">
-				<van-icon class="app_rule_icon" name="info-o" :style="{ color: color }" />
+				<van-icon class="app_rule_icon" name="info-o" :style="{ color: colorStyle.main }" />
 				投票规则： 每个微信号每天限制投三票
 			</div>
 		</el-card>
 
-		<div class="app_fun_container" :style="{ background: color }">
+		<div class="app_fun_container" :style="{ background: colorStyle.main }">
 			<div class="app_fun_item" @click="toRankPage">
 				<i class="el-icon-trophy"></i>
 				<div>查看排名</div>
@@ -73,7 +73,7 @@
 		            @click.native="changeHeight"
 		>
 			<div class="app_search_prefix" slot="action" @click="onSearch"
-			     :style="{ background: color, borderColor: color }"
+			     :style="{ background: colorStyle.main, borderColor: colorStyle.main }"
 			>搜索
 			</div>
 		</van-search>
@@ -113,7 +113,7 @@
 							票数：{{ item.voteNum }}票
 						</div>
 					</div>
-					<div class="app_works_container" :style="{ background: color }">
+					<div class="app_works_container" :style="{ background: colorStyle.main }">
 						<div class="app_witem" @click="giveVote(item)">
 							<div>投票</div>
 						</div>
@@ -121,7 +121,7 @@
 						<div class="app_witem" @click="boost(item)">
 							<el-tooltip class="item" effect="dark" content="点我为好友再点个赞吧" placement="top-start">
 								<div class="app_witem_zan">
-									<i class="app_flower"></i>助力
+									<i class="jiangbei"></i>助力
 								</div>
 							</el-tooltip>
 						</div>
@@ -135,14 +135,14 @@
 				<div class="app_works_item" v-show="totalCount%2 != 0">
 				</div>
 				<div class="app_bot">
-					<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: color, }">爱启云科技</a>提供支持
+					<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
 				</div>
 			</div>
 		</div>
 
 		<van-action-sheet v-model="showGift" title="礼物">
 			<div class="app_action">
-				<div class="app_desc" :style="{ background: color }">为好友再点个赞吧！给选手赠送礼物，可以增加相应票数！</div>
+				<div class="app_desc" :style="{ background: colorStyle.main }">为好友再点个赞吧！给选手赠送礼物，可以增加相应票数！</div>
 				<div class="app_action_container">
 					<div :class="(gift.name == item.name ? 'app_active':'') + ' app_item'"
 					     v-for="(item, index) in gifts" :key="index"
@@ -167,7 +167,7 @@
 				<div class="app_eld_main">
 					<el-dropdown placement="top-start" trigger="click" @command="setGiftNum">
 						<el-button class="app_eld_btn" size="medium"
-						           :style="{ borderColor: color, color: color }"
+						           :style="{ borderColor: colorStyle.main, color: colorStyle.main }"
 						>
 							{{ giftNum }}<i class="el-icon-arrow-down el-icon--right"></i>
 						</el-button>
@@ -179,7 +179,7 @@
 							<el-dropdown-item command="5">5</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
-					<span class="app_eld_btn_send" :style="{ background: color, borderColor: color }" @click="payl">
+					<span class="app_eld_btn_send" :style="{ background: colorStyle.main, borderColor: colorStyle.main }" @click="payl">
 						赠送
 					</span>
 				</div>
@@ -217,7 +217,7 @@
 
     export default {
         name: "AppTop",
-	    props: [ "activity", "activityBanners", "color", "originalHeight", "clientHeight", "voteUserId", "openId" ],
+	    props: [ "activity", "activityBanners", "colorStyle", "originalHeight", "clientHeight", "voteUserId", "openId" ],
         watch: {
             clientHeight :function() {
                 if( this.originalHeight != this.clientHeight ){
@@ -785,7 +785,7 @@
 		align-items: center;
 	}
 
-	.app_flower {
+	.jiangbei {
 		width: 18px;
 		height: 18px;
 		margin-right: 5px;
@@ -870,7 +870,7 @@
 	}
 
 	.app_vline1 {
-		border-left: 1px solid #bfbfbf;
+		border-left: 1px solid #FFFFFF;
 		height: 15px;
 	}
 
@@ -934,6 +934,7 @@
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;
+		padding: 10px 0;
 	}
 
 	.app_tit_item div:nth-of-type(1) {

@@ -17,17 +17,17 @@
 
 		<el-card class="ad_card">
 			<div class="app_tit_container1" :style="{ background: color }">
-				<div class="app_tit_item">
+				<div class="app_tit_item" :style="{ background: colorStyle.total }">
 					<div>{{ signPlayer.rankNo }}</div>
 					<div>排名</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item">
+				<div class="app_tit_item" :style="{ background: colorStyle.player }">
 					<div>{{ signPlayer.voteNum }}</div>
 					<div>票数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item">
+				<div class="app_tit_item" :style="{ background: colorStyle.access }">
 					<div>{{ signPlayer.gapVoteNum }}</div>
 					<div>{{ signPlayer.rankDesc }}</div>
 				</div>
@@ -50,7 +50,7 @@
 				/>
 			</div>
 
-			<div class="app_work_btn_main" :style="{ background: color }">
+			<div class="app_work_btn_main" :style="{ background: colorStyle.main }">
 				<div class="app_work_item" @click="giveVote">
 					<div>投 票</div>
 				</div>
@@ -61,7 +61,7 @@
 			</div>
 
 			<div class="app_bot">
-				<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: color, }">爱启云科技</a>提供支持
+				<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
 			</div>
 
 			<!--投 票-->
@@ -92,7 +92,7 @@
 
 		<!--为 我 拉 票 海报-->
 		<div ref="imageWrapper" v-show="showPosterScreenshot" id="appPosterMain" class="post_main"
-		     :style="{ background: color, padding: '15px', height: '490px'}">
+		     :style="{ background: colorStyle.main, padding: '15px', height: '490px'}">
 			<van-image :style="{ width: '100%', height: '160px', marginBottom: '10px', }"
 			           :src="activityBanners[0]"/>
 
@@ -102,7 +102,7 @@
 				</div>
 
 				<div class="app_poster_author">
-					<div :style="{ border: '2px solid ' + color , borderRadius: '3px',}">
+					<div :style="{ border: '2px solid ' + colorStyle.main , borderRadius: '3px',}">
 						<van-image :style="{ width: '50px', height: '50px', display: 'block', }"
 						           :src="playerWorks[0]"/>
 					</div>
@@ -118,7 +118,7 @@
 								长按识别二维码
 							</div>
 
-							<div class="app_tp" :style="{ background: color, }">
+							<div class="app_tp" :style="{ background: colorStyle.main, }">
 								请帮我投一票
 								<div class="app_poster_right">
 									<i class="el-icon-caret-right"></i>
@@ -167,7 +167,7 @@
 
     export default {
         name: "AppTop1",
-        props: [ "activity", "activityBanners", "color", "signPlayer", "playerWorks", "signPlayerRank", "voteUserId" ],
+        props: [ "activity", "activityBanners", "colorStyle", "signPlayer", "playerWorks", "signPlayerRank", "voteUserId" ],
 	    mounted() {
 	    },
 	    methods: {
@@ -476,7 +476,7 @@
 	}
 
 	.app_vline {
-		border-left: 1px solid #bfbfbf;
+		border-left: 1px solid #FFFFFF;
 	}
 
 	.app_tit_item {
@@ -486,6 +486,7 @@
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;
+		padding: 10px 0;
 	}
 
 	.app_tit_item div:nth-of-type(1) {

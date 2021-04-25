@@ -16,18 +16,18 @@
 			<div class="app_tit">
 				{{ activity.title }}
 			</div>
-			<div class="app_tit_container" :style="{ background: color }">
-				<div class="app_tit_item">
+			<div class="app_tit_container">
+				<div class="app_tit_item" :style="{ background: colorStyle.total }">
 					<div>{{ activity.totalVoteNum }}</div>
 					<div>总票数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item">
+				<div class="app_tit_item" :style="{ background: colorStyle.player }">
 					<div>{{ activity.totalPlayersNum }}</div>
 					<div>选手数</div>
 				</div>
 				<div class="app_vline"></div>
-				<div class="app_tit_item">
+				<div class="app_tit_item" :style="{ background: colorStyle.access }">
 					<div>{{ activity.accessNum }}</div>
 					<div>访问量</div>
 				</div>
@@ -39,12 +39,12 @@
 
 		<el-card class="app_card">
 			<div class="app_rule_item">
-				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }"/>
+				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }"/>
 				报名开始：
 				{{ activity.signStart }}
 			</div>
 			<div class="app_rule_item">
-				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: color }"/>
+				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }"/>
 				报名截止：
 				{{ activity.signEnd }}
 			</div>
@@ -107,7 +107,7 @@
 
 					<div class="app_next">
 						<el-button class="app_next_btn" @click="toNext"
-						           :style="{ borderColor: color,  background: color }">
+						           :style="{ borderColor: colorStyle.main,  background: colorStyle.main }">
 							下一步
 						</el-button>
 					</div>
@@ -131,12 +131,12 @@
 
 					<div class="app_next">
 						<el-button class="app_next_btn" @click="toPrevious"
-						           :style="{ borderColor: color,  background: color }">
+						           :style="{ borderColor: colorStyle.main,  background: colorStyle.main }">
 							上一步
 						</el-button>
 
 						<el-button class="app_next_btn" @click="submit" :disabled="submitDisabled"
-						           :style="{ borderColor: color,  background: color }">
+						           :style="{ borderColor: colorStyle.main,  background: colorStyle.main }">
 							报名
 						</el-button>
 					</div>
@@ -145,7 +145,7 @@
 		</el-card>
 
 		<div class="app_bot">
-			<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: color, }">爱启云科技</a>提供支持
+			<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
 		</div>
 	</div>
 </template>
@@ -155,7 +155,7 @@
 
     export default {
         name: "AppSign",
-        props: ["activity", "activityBanners", "color", "originalHeight", "clientHeight"],
+        props: ["activity", "activityBanners", "colorStyle", "originalHeight", "clientHeight"],
         watch: {
             clientHeight: function () {
                 if (this.originalHeight != this.clientHeight) {
@@ -200,7 +200,6 @@
                 }
                 this.form.worksImage = this.form.worksImage.substring(1, this.form.worksImage.length)
                 this.form.acitvityId = this.activity.id;
-                console.log(this.form)
                 this.submitDisabled = true;
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_sign, this.form, "POST");
                 if (data.code == 200) {
@@ -483,7 +482,7 @@
 	}
 
 	.app_vline1 {
-		border-left: 1px solid #bfbfbf;
+		border-left: 1px solid #FFFFFF;
 		height: 15px;
 	}
 
@@ -530,7 +529,7 @@
 	}
 
 	.app_vline {
-		border-left: 1px solid #bfbfbf;
+		border-left: 1px solid #FFFFFF;
 	}
 
 	.app_tit_container {
@@ -547,6 +546,7 @@
 		line-height: 20px;
 		color: #ffffff;
 		font-size: 14px;
+		padding: 10px 0;
 	}
 
 	.app_tit_item div:nth-of-type(1) {

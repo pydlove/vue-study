@@ -9,7 +9,7 @@
 						ref="appVoteRef"
 						:activity="activity"
 						:activityBanners="activityBanners"
-						:color="color"
+						:colorStyle="colorStyle"
 						:clientHeight="clientHeight"
 						:originalHeight="originalHeight"
 						:voteUserId="voteUserId"
@@ -24,7 +24,7 @@
 				<AppSign
 						:activity="activity"
 						:activityBanners="activityBanners"
-						:color="color"
+						:colorStyle="colorStyle"
 						:clientHeight="clientHeight"
 						:originalHeight="originalHeight"
 						@toDetail="toDetail"
@@ -38,7 +38,7 @@
 						:signPlayer="signPlayer"
 						:activity="activity"
 						:activityBanners="activityBanners"
-						:color="color"
+						:colorStyle="colorStyle"
 						:voteUserId="voteUserId"
 						@changePage="changePage"
 				></AppDetail>
@@ -50,7 +50,7 @@
 			<AppIntroduction
 					:activity="activity"
 					:activityBanners="activityBanners"
-					:color="color"
+					:colorStyle="colorStyle"
 			></AppIntroduction>
 		</div>
 
@@ -61,7 +61,7 @@
 						ref="rankRef"
 						:activity="activity"
 						:activityBanners="activityBanners"
-						:color="color"
+						:colorStyle="colorStyle"
 						:clientHeight="clientHeight"
 						:originalHeight="originalHeight"
 						@toDetail="toDetail"
@@ -74,14 +74,14 @@
 						:signPlayer="signPlayer"
 						:activity="activity"
 						:activityBanners="activityBanners"
-						:color="color"
+						:colorStyle="colorStyle"
 						@changePage="changePage"
 				></AppDetail>
 			</div>
 		</div>
 
 		<van-tabbar class="app_footer" v-model="active"
-		            :active-color="color"
+		            :active-color="colorStyle.main"
 		            inactive-color="#999"
 		>
 			<van-tabbar-item v-for="(item, index) in menus" :key="index"
@@ -117,10 +117,10 @@
             this.clientWidth = document.documentElement.clientWidth;
             this.clientHeight = document.documentElement.clientHeight;
 
-            var useragent = navigator.userAgent;
-            if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
-                this.$router.push({name: "errorPage"});
-            }
+            // var useragent = navigator.userAgent;
+            // if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
+            //     this.$router.push({name: "errorPage"});
+            // }
 			// TODO 还需要判断微信版本
 
             // 解析参数 初始化数据
@@ -372,7 +372,7 @@
                         if (this.activity.imgs != null && this.activity.imgs != "") {
                             this.activityBanners = this.activity.imgs.split(",");
                         }
-                        this.color = this.activity.colorStyle;
+                        this.colorStyle = JSON.parse(this.activity.colorStyle);
                         this.searchSignPlayer();
                         return true;
                     }
@@ -426,7 +426,7 @@
                         if (this.activity.imgs != null && this.activity.imgs != "") {
                             this.activityBanners = this.activity.imgs.split(",");
                         }
-                        this.color = this.activity.colorStyle;
+                        this.colorStyle = JSON.parse(this.activity.colorStyle);
                         this.$refs.appVoteRef.activityId = activityId;
                         this.$refs.appVoteRef.searchPlayer();
                         return true;
@@ -449,7 +449,12 @@
                 playerWorks: [],
                 activityBanners: [],
                 activity: "",
-                color: "#0C2AA4",
+                colorStyle: {
+                    main: "#0C2AA4",
+                    total: "#0C2AA4",
+                    player: "#0C2AA4",
+                    access: "#0C2AA4",
+                },
                 clientHeight: 667,
                 originalHeight: 667,
                 qrcode: "",
