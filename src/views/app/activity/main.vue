@@ -116,25 +116,13 @@
             AppRank,
         },
         mounted() {
-            window.onload = function() {
-                document.addEventListener('touchstart', function(event) {
-                    if (event.touches.length > 1) {
-                        event.preventDefault()
-                    }
-                });
-                document.addEventListener('gesturestart', function(event) {
-                    event.preventDefault()
-                })
-            };
-
-
             this.clientWidth = document.documentElement.clientWidth;
             this.clientHeight = document.documentElement.clientHeight;
 
-            // var useragent = navigator.userAgent;
-            // if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
-            //     this.$router.push({name: "errorPage"});
-            // }
+            var useragent = navigator.userAgent;
+            if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
+                this.$router.push({name: "errorPage"});
+            }
 			// TODO 还需要判断微信版本
 
             // 解析参数 初始化数据
