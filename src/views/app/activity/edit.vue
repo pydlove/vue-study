@@ -141,7 +141,7 @@
 			</van-loading>
 			<div class="ae_overapp_container" v-if="showOverApp">
 				<div class="ae_over_app" ref="overImageWrapper">
-					<el-image style="border-top-left-radius: 3px; border-top-right-radius: 3px; height: 200px;" :src="posterImg" fit="fill"></el-image>
+					<el-image style="border-top-left-radius: 3px; border-top-right-radius: 3px; height: 200px;" :src="posterImgTop" fit="fill"></el-image>
 					<div class="ae_over_tc">
 						<div class="ae_over_title">
 							{{ form.title.length >= 20 ? (form.title.substring(0, 20)+"..."):(form.title) }}
@@ -527,7 +527,7 @@
                     });
 	                return false;
 	            }
-	            this.posterImg = this.form.fileList.length == 0? (''):(this.form.fileList[0].url);
+	            this.posterImgTop = this.form.fileList.length == 0? (''):(this.form.fileList[0].url);
                 this.showOverlay = true;
                 this.$nextTick(function () {
                     this.posterQrcode = new QRCode(this.$refs.posterQrcodeRef, {
@@ -574,6 +574,7 @@
         data() {
             return {
                 posterImg: "",
+                posterImgTop: "",
                 showActivityLink: false,
                 uploadAction: this.$aiocUrl.blsh_h5_service_v1_bh_activity_top_upload,
                 showLoading: false,

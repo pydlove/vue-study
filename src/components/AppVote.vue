@@ -134,9 +134,11 @@
 				<div class="app_works_item" v-show="totalCount%2 != 0">
 				</div>
 				<div class="app_bot">
-					<a href="http://debugtbs.qq.com" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
-					<!--<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持-->
+					<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
 				</div>
+				<!--<div class="app_bot">-->
+					<!--<a href="http://debugtbs.qq.com">清理缓存</a>-->
+				<!--</div>-->
 			</div>
 		</div>
 
@@ -308,8 +310,20 @@
                 function(res){
                     if(res.err_msg == "get_brand_wcpay_request:ok"){
                         console.log("支付成功")
+                        // 计算票数
+                        let votes = vm.calVotes();
+                        // 更新投票信息
+                        let temp = [];
+                        for(var i in vm.players) {
+                            const player = vm.players[i];
+                            if(vm.signPlayer.id == player.id) {
+                                player.voteNum = player.voteNum + votes;
+                            }
+                            temp.push(player);
+                        }
+                        vm.players = temp;
                         vm.showGift = false;
-                        vm.carryOutPayOrder(data.orderNo);
+                        vm.carryOutPayOrder(data.orderNo, votes);
                     }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
                         console.log("取消支付!");
                     }else{
@@ -318,25 +332,13 @@
                 });
             },
 
-            async carryOutPayOrder(outTradeNo) {
-                // 计算票数
-	            let votes = this.calVotes();
+            async carryOutPayOrder(outTradeNo, votes) {
                 let params = new FormData()
                 params.append("outTradeNo", outTradeNo);
                 params.append("signId", this.signPlayer.id);
                 params.append("votes", votes);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_gift_order_finish, params, "POST");
                 if (data.code === 200) {
-                    // 更新投票信息
-	                let temp = [];
-	                for(var i in this.players) {
-                        const player = this.players[i];
-						if(this.signPlayer.id == player.id) {
-                            player.voteNum = player.voteNum + votes;
-						}
-                        temp.push(player);
-	                }
-	                this.players = temp;
                     return true;
                 }
             },
@@ -347,15 +349,15 @@
 	                    case "applause":
 	                        return 5*this.giftNum;
                         case "flower":
-                            return 5*this.giftNum;
+                            return 10*this.giftNum;
                         case "chocolate":
-                            return 5*this.giftNum;
+                            return 20*this.giftNum;
                         case "crystalBall":
-                            return 5*this.giftNum;
+                            return 30*this.giftNum;
                         case "crown":
-                            return 5*this.giftNum;
+                            return 50*this.giftNum;
                         case "castle":
-                            return 5*this.giftNum;
+                            return 100*this.giftNum;
                     }
                 }
             },
@@ -527,15 +529,15 @@
                 if (data.code === 200) {
                     if(data.data == "codeError") {
                         this.showVerificationCode = false;
-                        this.getIdentifyingCode();
                         this.verificationCode = "";
                         this.$toast.fail('投票失败，未输入验证码');
+                        this.getIdentifyingCode();
                     } else {
                         this.showVerificationCode = false;
                         this.verificationCode = "";
-                        this.getIdentifyingCode();
                         this.$toast.success('投票成功');
                         this.updateVote();
+                        this.getIdentifyingCode();
                     }
                     return true;
                 }
@@ -695,10 +697,10 @@
 		border-bottom-right-radius: 20px;
 		display: inline-block;
 		width: 70px;
-		border: 1px solid;
+		/*border: 1px solid;*/
 		/*background: #0C2AA4;*/
-		height: 35px;
-		line-height: 34px;
+		height: 36px;
+		line-height: 36px;
 		text-align: center;
 		color: #ffffff;
 		font-size: 14px;
@@ -735,7 +737,7 @@
 
 	.app_item {
 		text-align: center;
-		width: calc(33% - 24px);
+		width: 33%;
 		margin-bottom: 10px;
 		padding: 10px;
 		border: 2px solid #ffffff;

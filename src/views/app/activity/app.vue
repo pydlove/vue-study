@@ -1378,8 +1378,8 @@
 		width: 70px;
 		border: 1px solid;
 		/*background: #0C2AA4;*/
-		height: 34px;
-		line-height: 34px;
+		height: 36px;
+		line-height: 35px;
 		text-align: center;
 		color: #ffffff;
 		font-size: 14px;
@@ -1406,7 +1406,7 @@
 	}
 	.app_item {
 		text-align: center;
-		width:calc( 33% - 24px );
+		width: 33%;
 		margin-bottom: 10px;
 		padding: 10px;
 		border: 2px solid #ffffff;

@@ -123,7 +123,6 @@
             if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
                 this.$router.push({name: "errorPage"});
             }
-			// TODO 还需要判断微信版本
 
             // 解析参数 初始化数据
             let path = window.location.href;
@@ -747,20 +746,6 @@
 		border-radius: 5px;
 	}
 
-	.app_eld_btn_send {
-		border-top-right-radius: 20px;
-		border-bottom-right-radius: 20px;
-		display: inline-block;
-		width: 70px;
-		border: 1px solid;
-		/*background: #0C2AA4;*/
-		height: 35px;
-		line-height: 34px;
-		text-align: center;
-		color: #ffffff;
-		font-size: 14px;
-	}
-
 	.app_eld_btn {
 		border-top-left-radius: 20px;
 		border-bottom-left-radius: 20px;
@@ -792,7 +777,7 @@
 
 	.app_item {
 		text-align: center;
-		width: calc(33% - 24px);
+		width: 33%;
 		margin-bottom: 10px;
 		padding: 10px;
 		border: 2px solid #ffffff;
