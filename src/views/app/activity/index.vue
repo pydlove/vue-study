@@ -96,6 +96,7 @@
 	    components: { Pagination, Add, Edit, Sign},
 	    mounted() {
 			this.getStatisticsInfo();
+            this.area = this.$utils.getStorage("area");
 			this.search(0, 10);
             this.initAreaOptions(areaData);
 	    },
@@ -252,6 +253,20 @@
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
                 let params = new FormData()
+                if (this.area != null && this.area != "" && this.area != undefined) {
+                    if (this.area.length == 1) {
+                        params.append("province", this.area[0]);
+                    }
+                    if (this.area.length == 2) {
+                        params.append("province", this.area[0]);
+                        params.append("city", this.area[1]);
+                    }
+                    if (this.area.length == 3) {
+                        params.append("province", this.area[0]);
+                        params.append("city", this.area[1]);
+                        params.append("county", this.area[2]);
+                    }
+                }
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
                 params.append("title",  this.searchform.title.trim());
@@ -312,6 +327,7 @@
         },
         data() {
             return {
+                area: "",
                 areaOptions: [],
                 clientHeight: document.body.clientHeight-2,
                 page: "main",
