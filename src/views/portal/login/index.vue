@@ -127,12 +127,12 @@
                 clientWidth: 1580,
                 clientHeight: 980,
                 loginForm: {
-                    account: "jiangwei",
-                    password: "1q2w3e4R!Q",
-                    verificationCode: "aaaa",
-                    // account: "",
-                    // password: "",
-                    // verificationCode: "",
+                    // account: "jiangwei",
+                    // password: "1q2w3e4R!Q",
+                    // verificationCode: "aaaa",
+                    account: "",
+                    password: "",
+                    verificationCode: "",
                     rememberMe: false,
                 },
                 rules: {

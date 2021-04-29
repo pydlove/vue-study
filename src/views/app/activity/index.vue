@@ -54,6 +54,13 @@
 						</div>
 					</template>
 				</el-table-column>
+				<el-table-column prop="area" label="区域">
+					<template slot-scope="scope">
+						<div>
+							{{ scope.row.province + "/" + scope.row.city + "/" + scope.row.county }}
+						</div>
+					</template>
+				</el-table-column>
 				<el-table-column prop="totalVoteNum" label="总票数"></el-table-column>
 				<el-table-column prop="totalPlayersNum" label="选手数"></el-table-column>
 				<el-table-column prop="accessNum" label="访问量"></el-table-column>
@@ -101,11 +108,11 @@
             this.initAreaOptions(areaData);
 	    },
         methods: {
-
             /**
              * 初始化地域数据
              */
             initAreaOptions(area) {
+                console.log(area);
                 for (let key in area) {
                     let province = area[key];
                     if (key == '安徽省') {
@@ -274,6 +281,7 @@
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_activity_list, params, "POST");
                 if (data.code === 200) {
                     this.tableData = data.data;
+                    console.log(this.tableData);
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
                 }
@@ -483,7 +491,7 @@
 		/*flex-direction: column;*/
 	/*}*/
  	.el-dropdown-menu__item {
-		width: 80px !important;
+		width: 120px !important;
 		text-align: center;
 		border-bottom: 0px solid #eee;
 	}
@@ -499,4 +507,6 @@
 	[class*=" el-icon-"], [class^=el-icon-] {
 		font-weight: 600;
 	}
+
+
 </style>

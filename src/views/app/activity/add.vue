@@ -48,7 +48,7 @@
 				</el-form-item>
 
 				<el-form-item label="活动区域" prop="area">
-					<el-cascader
+					<el-cascader class="aa_form_item"
 								 ref="areaCascaderRef"
 								 size="large"
 								 :props="{ checkStrictly: false }"
