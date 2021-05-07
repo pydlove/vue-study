@@ -36,12 +36,7 @@ Vue.prototype.$wx = wx;
 
 // md5
 import md5 from 'js-md5'
-/* wow 特效依赖 */
-import 'wowjs/css/libs/animate.css'
-import wow from 'wowjs'
 
-/* 滑块 */
-import SlideVerify from 'vue-monoplasty-slide-verify';
 import jquery from 'jquery'
 import url from '@/service/apiUrl'
 import {aiorequest} from '@/service/api' // 引入需要的调用的接口方法
@@ -52,17 +47,10 @@ import utils from '@/utils/utils.js'
 // axios
 import axios from 'axios'
 
-// echarts
-import echarts from 'echarts'
-
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard);
 
 Vue.prototype.$md5 = md5
-
-Vue.prototype.$wow = wow
-
-Vue.use(SlideVerify);
 
 Vue.prototype.$ = jquery;
 
@@ -73,8 +61,6 @@ Vue.prototype.$aiorequest = aiorequest;
 Vue.prototype.$utils = utils
 
 Vue.prototype.$axios = axios;
-
-Vue.prototype.$echarts = echarts
 
 Vue.prototype.$clientHeight = document.body.clientHeight - 57 - 91;
 

@@ -886,6 +886,7 @@ body {
 .hp-50 {height: 50px;}
 .hp-80 {height: 80px;}
 .hp-100 {height: 100px;}
+.hp-120 {height: 120px;}
 .hp-200 {height: 200px;}
 .hp-600 {height: 600px;}
 
@@ -1455,6 +1456,16 @@ body {
 }
 .jiangbei {
   background: url("../img/icon/jiangbei.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+}
+.xiangxixize {
+  background: url("../img/icon/xiangxixize.png") 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+}
+.caidai {
+  background: url("../img/icon/caidai.png") 0 0 no-repeat;
   background-size: 100% 100%;
   display: inline-block;
 }

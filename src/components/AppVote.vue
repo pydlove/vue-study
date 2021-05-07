@@ -1,225 +1,302 @@
 <template>
 	<!--eslint-disable-->
 	<div>
-		<el-carousel class="app_el_carousel" height="200px">
-			<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
-				<van-image
-						width="100%"
-						height="200px"
-						fit="fill"
-						:src="item"
-				/>
-			</el-carousel-item>
-		</el-carousel>
-
-		<el-card class="app_card">
-			<div class="app_tit">
-				{{ activity.title }}
-			</div>
-			<div class="app_tit_container" >
-				<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
-					<div>{{ activity.totalVoteNum }}</div>
-					<div>总票数</div>
+			<div id="poster_main" v-show="posterMainFlag" :style="{width: clientWidth + 'px'}">
+				<div class="cgbg1">
+					<div class="app_title1" :style="{ color: colorStyle.main}">
+					</div>
+					<div class="zlcg1">
+						{{currentVotes}}
+					</div>
+					<div class="tl ml-40">
+					</div>
 				</div>
-				<div class="app_vline"></div>
-				<div class="app_tit_item" :style="{ background: colorStyle.player }">
-					<div>{{ activity.totalPlayersNum }}</div>
-					<div>选手数</div>
-				</div>
-				<div class="app_vline"></div>
-				<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
-					<div>{{ activity.accessNum }}</div>
-					<div>访问量</div>
+				<div class="mb-20 mt-20">
+					<van-image
+							round
+							width="60px"
+							height="60px"
+							fit="fill"
+							:src="require('@/assets/img/icon/wechat.png')"
+					/>
+					<div class="fs-16 mt-10 mb-20 color-303133">
+						保存分享给好友
+					</div>
 				</div>
 			</div>
-			<div class="app_status" :style="{ color: fmtStatusColor(activity.status) }">
-				{{ fmtStatus(activity.status) }}
-			</div>
-		</el-card>
 
-		<el-card class="app_card">
-			<div class="app_rule_item">
-				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票开始：
-				{{ activity.voteStart }}
-			</div>
-			<div class="app_rule_item">
-				<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票截止：
-				{{ activity.voteEnd }}
-			</div>
-			<div class="app_rule_item mb-10">
-				<van-icon class="app_rule_icon" name="info-o" :style="{ color: colorStyle.main }" />
-				投票规则： 每个微信号每天限制投三票
-			</div>
-		</el-card>
-
-		<div class="app_fun_container" :style="{ background: colorStyle.main }">
-			<div class="app_fun_item" @click="toRankPage">
-				<i class="el-icon-trophy"></i>
-				<div>查看排名</div>
-			</div>
-			<div class="app_vline1"></div>
-			<div class="app_fun_item" @click="toSignUp">
-				<i class="el-icon-edit-outline"></i>
-				<div>在线报名</div>
-			</div>
-		</div>
-
-		<van-search class="app_search" ref="avSearchRef"
-		            v-model="search"
-		            show-action
-		            placeholder="请输入姓名或编号搜索"
-		            background="#ffffff"
-		            @clear="onSearch"
-		            @click.native="changeHeight"
-		>
-			<div class="app_search_prefix" slot="action" @click="onSearch"
-			     :style="{ background: colorStyle.main, borderColor: colorStyle.main }"
-			>搜索
-			</div>
-		</van-search>
-
-		<div class="infinite-list-wrapper">
-			<div class="app_works list"
-			     :style="{ height: worksHeight + 'px',}"
-			     infinite-scroll-distance="1586px"
-			     v-infinite-scroll="loadingPlayer"
-			     :infinite-scroll-disabled="infiniteDisabled"
-			     infinite-scroll-immediate="false"
+			<van-dialog class="ac_dialog"
+			            :style="{ color: colorStyle.main }"
+			            use-slot
+			            v-model="showInstroduce"
+			            :showConfirmButton="false"
+			            :showCancelButton="false"
 			>
-				<div class="app_works_item"
-				     v-for="(item, index) in players" :key="index"
-					 :style="{ marginRight: (index%2==0?'10px':'0px'), width: (clientWidth-30)/2 + 'px' }"
-				>
-					<el-image class="app_works_img"
-					          style="width: 100%;"
-					          :src="getFirstImg(item.worksImage)"
-					          fit="fill" @click="toDetail(item)"></el-image>
-					<div class="app_works_info">
-						<div>
-							<el-tooltip :content="item.worksName" placement="top" effect="light">
-								<div style="color: #333; font-size: 16px">
-									{{ item.worksName.length > 8 ? (item.worksName.substring(0, 8)+"..."):(item.worksName) }}
-								</div>
-							</el-tooltip>
-						</div>
-						<div>
-							作者：{{ item.name }}
-						</div>
-						<div>
-							年龄：{{ item.age }}
-						</div>
-						<div>
-							票数：{{ item.voteNum }}票
-						</div>
-					</div>
-					<div class="app_works_container1" :style="{ background: colorStyle.main }">
-						<div class="app_witem" @click="giveVote(item)">
-							<div>投票</div>
-						</div>
-						<div class="app_vline1"></div>
-						<div class="app_witem" @click="boost(item)">
-							<el-tooltip class="item" effect="dark" content="点我为好友再点个赞吧" placement="top-start">
-								<div class="app_witem_zan">
-									<i class="jiangbei"></i>助力
-								</div>
-							</el-tooltip>
-						</div>
-					</div>
-					<div class="app_num_container">
-					</div>
-					<div class="app_num1">
-						{{ item.no }}号
-					</div>
+				<van-icon class="app_close" name="close" :style="{ color: colorStyle.main}" @click="onCloseInstroduce"/>
+				<div class="app_title" :style="{ color: colorStyle.main}">
+					活动介绍
 				</div>
-				<div class="app_works_item" v-show="totalCount%2 != 0">
-				</div>
-				<div class="app_bot">
-					<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
-				</div>
-				<!--<div class="app_bot">-->
-					<!--<a href="http://debugtbs.qq.com">清理缓存</a>-->
-				<!--</div>-->
-			</div>
-		</div>
-
-		<van-action-sheet v-model="showGift" title="礼物">
-			<div class="app_action">
-				<div class="app_desc" :style="{ background: colorStyle.main }">为好友再点个赞吧！给选手赠送礼物，可以增加相应票数！</div>
-				<div class="app_action_container">
-					<div :class="(gift.name == item.name ? 'app_active':'') + ' app_item'"
-					     v-for="(item, index) in gifts" :key="index"
-					     @click="setGift(item)"
-					>
+				<div class="dg_main">
+					<div v-show="!showDetial">
 						<van-image
-								width="30"
-								height="30"
-								:src="item.img"
+								width="280px"
+								height="300px"
+								fit="fill"
+								style="margin-bottom: 10px"
+								:src="fileListDialog[0]"
 						/>
-						<div class="app_item_text">
-							{{ item.name }}（{{ item.votes }}票）
+						<div v-show="activity.dialogContent != ''" class="xx_box" @click="showDetial = true"  :style="{ background: colorStyle.main }">
+							<span class="mr-5">更多细则</span>
+							<i class="xiangxixize"></i>
 						</div>
-						<div class="app_item_price">
-							{{ item.price }}元
+					</div>
+
+					<div v-show="showDetial">
+						<van-image
+								v-for="(item, index) in fileListDialog"
+								:key="index"
+								width="280px"
+								height="300px"
+								fit="fill"
+								style="margin-bottom: 10px"
+								:src="item"
+						/>
+
+						<div class="dgc" v-html="activity.dialogContent"></div>
+					</div>
+				</div>
+				<div class="hp-20">
+				</div>
+			</van-dialog>
+
+			<el-carousel class="app_el_carousel" height="200px">
+				<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
+					<van-image
+							width="100%"
+							height="200px"
+							fit="fill"
+							:src="item"
+					/>
+				</el-carousel-item>
+			</el-carousel>
+
+			<el-card class="app_card">
+				<div class="app_tit">
+					{{ activity.title }}
+				</div>
+				<div class="app_tit_container" >
+					<div class="app_tit_item app_item_bl" :style="{ background: colorStyle.total }">
+						<div>{{ activity.totalVoteNum }}</div>
+						<div>总票数</div>
+					</div>
+					<div class="app_vline"></div>
+					<div class="app_tit_item" :style="{ background: colorStyle.player }">
+						<div>{{ activity.totalPlayersNum }}</div>
+						<div>选手数</div>
+					</div>
+					<div class="app_vline"></div>
+					<div class="app_tit_item app_item_br" :style="{ background: colorStyle.access }">
+						<div>{{ activity.accessNum }}</div>
+						<div>访问量</div>
+					</div>
+				</div>
+				<div class="app_status" :style="{ color: fmtStatusColor(activity.status) }">
+					{{ fmtStatus(activity.status) }}
+				</div>
+			</el-card>
+
+			<el-card class="app_card">
+				<div class="app_rule_item">
+					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票开始：
+					{{ activity.voteStart }}
+				</div>
+				<div class="app_rule_item">
+					<van-icon class="app_rule_icon" name="clock-o" :style="{ color: colorStyle.main }" />投票截止：
+					{{ activity.voteEnd }}
+				</div>
+				<div class="app_rule_item mb-10">
+					<van-icon class="app_rule_icon" name="info-o" :style="{ color: colorStyle.main }" />
+					投票规则： 每个微信号每天限制投三票
+				</div>
+			</el-card>
+
+			<div class="app_fun_container" :style="{ background: colorStyle.main }">
+				<div class="app_fun_item" @click="toRankPage">
+					<i class="el-icon-trophy"></i>
+					<div>查看排名</div>
+				</div>
+				<div class="app_vline1"></div>
+				<div class="app_fun_item" @click="toSignUp">
+					<i class="el-icon-edit-outline"></i>
+					<div>在线报名</div>
+				</div>
+			</div>
+
+			<van-search class="app_search" ref="avSearchRef"
+			            v-model="search"
+			            show-action
+			            placeholder="请输入姓名或编号搜索"
+			            background="#ffffff"
+			            @clear="onSearch"
+			            @click.native="changeHeight"
+			>
+				<div class="app_search_prefix" slot="action" @click="onSearch"
+				     :style="{ background: colorStyle.main, borderColor: colorStyle.main }"
+				>搜索
+				</div>
+			</van-search>
+
+			<div class="infinite-list-wrapper">
+				<div class="app_works list"
+				     :style="{ height: worksHeight + 'px',}"
+				     infinite-scroll-distance="1586px"
+				     v-infinite-scroll="loadingPlayer"
+				     :infinite-scroll-disabled="infiniteDisabled"
+				     infinite-scroll-immediate="false"
+				>
+					<div class="app_works_item"
+					     v-for="(item, index) in players" :key="index"
+						 :style="{ marginRight: (index%2==0?'10px':'0px'), width: (clientWidth-30)/2 + 'px' }"
+					>
+						<el-image class="app_works_img"
+						          style="width: 100%;"
+						          :src="getFirstImg(item.worksImage)"
+						          fit="fill" @click="toDetail(item)"></el-image>
+						<div class="app_works_info">
+							<div>
+								<el-tooltip :content="item.worksName" placement="top" effect="light">
+									<div style="color: #333; font-size: 16px">
+										{{ item.worksName.length > 8 ? (item.worksName.substring(0, 8)+"..."):(item.worksName) }}
+									</div>
+								</el-tooltip>
+							</div>
+							<div>
+								作者：{{ item.name }}
+							</div>
+							<div>
+								年龄：{{ item.age }}
+							</div>
+							<div>
+								票数：{{ item.voteNum }}票
+							</div>
+							<div>
+								指导老师：{{ item.teacher }}
+							</div>
+						</div>
+						<div class="app_works_container1" :style="{ background: colorStyle.main }">
+							<div class="app_witem" @click="giveVote(item)">
+								<div>投票</div>
+							</div>
+							<div class="app_vline1"></div>
+							<div class="app_witem" @click="boost(item)">
+								<el-tooltip class="item" effect="dark" content="点我为好友再点个赞吧" placement="top-start">
+									<div class="app_witem_zan">
+										<i class="jiangbei"></i>助力
+									</div>
+								</el-tooltip>
+							</div>
+						</div>
+						<div class="app_num_container">
+						</div>
+						<div class="app_num1">
+							{{ item.no }}号
+						</div>
+					</div>
+					<div class="app_works_item" v-show="totalCount%2 != 0">
+					</div>
+					<div class="app_bot">
+						<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
+					</div>
+					<!--<div class="app_bot">-->
+						<!--<a href="http://debugtbs.qq.com">清理缓存</a>-->
+					<!--</div>-->
+				</div>
+			</div>
+
+			<van-action-sheet v-model="showGift" title="礼物">
+				<div class="app_action">
+					<div class="app_desc" :style="{ background: colorStyle.main }">为好友再点个赞吧！给选手赠送礼物，可以增加相应票数！</div>
+					<div class="app_action_container">
+						<div :class="(gift.name == item.name ? 'app_active':'') + ' app_item'"
+						     v-for="(item, index) in gifts" :key="index"
+						     @click="setGift(item)"
+						>
+							<van-image
+									width="30"
+									height="30"
+									:src="item.img"
+							/>
+							<div class="app_item_text">
+								{{ item.name }}（{{ item.votes }}票）
+							</div>
+							<div class="app_item_price">
+								{{ item.price }}元
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<van-divider/>
-			<div class="app_eld">
-				<div class="app_eld_main">
-					<el-dropdown placement="top-start" trigger="click" @command="setGiftNum">
-						<el-button class="app_eld_btn" size="medium"
-						           :style="{ borderColor: colorStyle.main, color: colorStyle.main }"
-						>
-							{{ giftNum }}<i class="el-icon-arrow-down el-icon--right"></i>
-						</el-button>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item command="1">1</el-dropdown-item>
-							<el-dropdown-item command="2">2</el-dropdown-item>
-							<el-dropdown-item command="3">3</el-dropdown-item>
-							<el-dropdown-item command="4">4</el-dropdown-item>
-							<el-dropdown-item command="5">5</el-dropdown-item>
-						</el-dropdown-menu>
-					</el-dropdown>
-					<span class="app_eld_btn_send" :style="{ background: colorStyle.main, borderColor: colorStyle.main }" @click="payl">
-						赠送
-					</span>
+				<van-divider/>
+				<div class="app_eld">
+					<div class="app_eld_main">
+						<el-dropdown placement="top-start" trigger="click" @command="setGiftNum">
+							<el-button class="app_eld_btn" size="medium"
+							           :style="{ borderColor: colorStyle.main, color: colorStyle.main }"
+							>
+								{{ giftNum }}<i class="el-icon-arrow-down el-icon--right"></i>
+							</el-button>
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item command="1">1</el-dropdown-item>
+								<el-dropdown-item command="2">2</el-dropdown-item>
+								<el-dropdown-item command="3">3</el-dropdown-item>
+								<el-dropdown-item command="4">4</el-dropdown-item>
+								<el-dropdown-item command="5">5</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+						<span class="app_eld_btn_send" :style="{ background: colorStyle.main, borderColor: colorStyle.main }" @click="payl">
+							赠送
+						</span>
+					</div>
 				</div>
-			</div>
-		</van-action-sheet>
+			</van-action-sheet>
 
-		<!--投 票-->
-		<van-dialog class="app_code_dialog"
-		            use-slot
-		            title="验证码"
-		            v-model="showVerificationCode"
-		            :showConfirmButton="true"
-		            :showCancelButton="true"
-		            confirmButtonText="投票"
-		            @close="onClose"
-		            @confirm="confirmVote"
-		>
-			<div class="app_code_box">
-				<van-field class="app_code_in"
-				           v-model="verificationCode"
-				           label=""
-				           type="textarea"
-				           placeholder="请输入验证码"
-				           autosize
-				           :border="false"
-				/>
-				<img id="imgIdentifyingCode" src="/blsh-h5-service/v1/login/captcha.jpg"
-				     class="app_code_img" alt="点击更换" title="点击更换" @click="getIdentifyingCode()"/>
-			</div>
-		</van-dialog>
+			<!--投 票-->
+			<van-dialog class="app_code_dialog"
+			            use-slot
+			            title="验证码"
+			            v-model="showVerificationCode"
+			            :showConfirmButton="true"
+			            :showCancelButton="true"
+			            confirmButtonText="投票"
+			            @close="onClose"
+			            @confirm="confirmVote"
+			>
+				<div class="app_code_box">
+					<van-field class="app_code_in"
+					           v-model="verificationCode"
+					           label=""
+					           type="textarea"
+					           placeholder="请输入验证码"
+					           autosize
+					           :border="false"
+					/>
+					<img id="imgIdentifyingCode" src="/blsh-h5-service/v1/login/captcha.jpg"
+					     class="app_code_img" alt="点击更换" title="点击更换" @click="getIdentifyingCode()"/>
+				</div>
+			</van-dialog>
+
+			<BoostDialog ref="boostDialogRef" :colorStyle="colorStyle" @help="help"></BoostDialog>
+			<ShareBoost ref="shareBoostRef" :colorStyle="colorStyle" @saveShare="saveShare"></ShareBoost>
 	</div>
 </template>
 <!--eslint-disable-->
 <script>
-
+    import BoostDialog from "@/components/BoostDialog.vue";
+    import ShareBoost from "@/components/ShareBoost.vue";
+    import html2canvas from "html2canvas";
     export default {
         name: "AppTop",
-	    props: [ "activity", "activityBanners", "colorStyle", "originalHeight", "clientHeight", "voteUserId", "openId", "clientWidth" ],
+        components: {BoostDialog, ShareBoost},
+	    props: [ "activity", "activityBanners", "colorStyle", "originalHeight", "clientHeight", "voteUserId", "openId", "clientWidth", "fileListDialog" ],
         watch: {
             clientHeight :function() {
                 if( this.originalHeight != this.clientHeight ){
@@ -236,6 +313,34 @@
         mounted() {
         },
 	    methods: {
+            saveShare() {
+                this.posterMainFlag = true;
+                var vm = this;
+                window.pageYOffset = 0;
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                setTimeout(function () {
+                    let target = document.querySelector("#poster_main");
+                    html2canvas(target, {
+                        dpi: 500,
+                        scale: 3,
+                        allowTaint: true, ///允许跨域图片
+                        useCORS: true, //是否尝试使用CORS从服务器加载图像
+                        width: target.offsetWidth, //为了解决安卓手机截图后出现白边的问题
+                        height: target.offsetHeight //为了解决安卓手机截图后出现白边的问题
+                    }).then(canvas => {
+                        let dataURL = canvas.toDataURL("image/png");
+                        vm.posterMainFlag = false;
+                        vm.$refs.shareBoostRef.showPoster(dataURL);
+                    })
+                }, 1000);
+            },
+
+            help() {
+                this.$refs.boostDialogRef.close();
+                this.boost(this.signPlayer);
+            },
+
             async boost(item) {
                 this.signPlayer = item;
                 // 1、判断openId是否存储在
@@ -268,11 +373,12 @@
             },
 
             async payl(){
+                let totalAmount = this.giftNum * Number(this.gift.price);
                 let params = new FormData()
                 params.append("outTradeNo", this.$utils.random_No(4));
-                params.append("subject", "爱启云测试");
-                params.append("totalAmount", "1");
-                params.append("body", "爱启云测试");
+                params.append("subject", "给选手赠送礼物：" + this.gift.name);
+                params.append("totalAmount", totalAmount);
+                params.append("body", "给选手赠送礼物：" + this.gift.name);
                 params.append("openid", this.openId);
                 params.append("activityId", this.activity.id);
                 params.append("signId", this.signPlayer.id);
@@ -311,19 +417,20 @@
                     if(res.err_msg == "get_brand_wcpay_request:ok"){
                         console.log("支付成功")
                         // 计算票数
-                        let votes = vm.calVotes();
+                        vm.currentVotes = vm.calVotes();
                         // 更新投票信息
                         let temp = [];
                         for(var i in vm.players) {
                             const player = vm.players[i];
                             if(vm.signPlayer.id == player.id) {
-                                player.voteNum = player.voteNum + votes;
+                                player.voteNum = player.voteNum + vm.currentVotes;
                             }
                             temp.push(player);
                         }
                         vm.players = temp;
                         vm.showGift = false;
-                        vm.carryOutPayOrder(data.orderNo, votes);
+                        vm.$refs.shareBoostRef.open(vm.currentVotes);
+                        vm.carryOutPayOrder(data.orderNo, vm.currentVotes);
                     }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
                         console.log("取消支付!");
                     }else{
@@ -535,9 +642,9 @@
                     } else {
                         this.showVerificationCode = false;
                         this.verificationCode = "";
-                        this.$toast.success('投票成功');
                         this.updateVote();
                         this.getIdentifyingCode();
+                        this.$refs.boostDialogRef.open();
                     }
                     return true;
                 }
@@ -572,9 +679,14 @@
                 this.gift = item;
             },
 
+            onCloseInstroduce() {
+                this.showInstroduce = false;
+            }
 	    },
 	    data() {
             return {
+                showDetial: false,
+                showInstroduce: true,
                 activityId: "",
                 signPlayer: "",
                 worksHeight: 1586,
@@ -589,8 +701,8 @@
                     img: require('@/assets/img/icon/zhangsheng.png'),
                     name: "掌声",
                     code: "applause",
-                    votes: "5",
-                    price: "5"
+                    votes: "10",
+                    price: "1.88"
                 },
                 giftNum: 1,
                 gifts: [
@@ -598,54 +710,118 @@
                         img: require('@/assets/img/icon/zhangsheng.png'),
                         name: "掌声",
 	                    code: "applause",
-                        votes: "5",
-                        price: "5"
+                        votes: "10",
+                        price: "1.88"
                     },
                     {
                         img: require('@/assets/img/icon/xianhua.png'),
                         name: "鲜花",
                         code: "flower",
-                        votes: "10",
-                        price: "10"
+                        votes: "30",
+                        price: "5.88"
                     },
                     {
                         img: require('@/assets/img/icon/qiaokeli.png'),
                         name: "巧克力",
                         code: "chocolate",
-                        votes: "20",
-                        price: "15"
+                        votes: "70",
+                        price: "10.88"
                     },
                     {
                         img: require('@/assets/img/icon/shuijinqiu.png'),
                         name: "水晶球",
                         code: "crystalBall",
-                        votes: "30",
-                        price: "24"
+                        votes: "180",
+                        price: "28.88"
                     },
                     {
                         img: require('@/assets/img/icon/huangguan.png'),
                         name: "皇冠",
                         code: "crown",
-                        votes: "50",
-                        price: "40"
+                        votes: "380",
+                        price: "48.88"
                     },
 
                     {
                         img: require('@/assets/img/icon/chengbao.png'),
                         name: "城堡",
                         code: "castle",
-                        votes: "100",
-                        price: "80"
+                        votes: "750",
+                        price: "88.88"
                     }
                 ],
                 showGift: false,
                 search: "",
+                currentVotes: 0,
+                posterMainFlag: false,
             }
 	    }
     }
 </script>
 
 <style scoped>
+
+	.cgbg1  {
+		background-image: url("../assets/img/bg/caidaibg4.png") ;
+		background-size: 100% 100%;
+		height: 520px;
+	}
+	.zlcg1 {
+		line-height: 80px;
+		font-size: 80px;
+		font-weight: 600;
+		color: #ffd666 !important;
+		position: absolute;
+		top: 295px;
+		left: 104px;
+		width: 147px;
+		height: 80px;
+		text-align: center;
+	}
+	.app_title1 {
+		line-height: 50px;
+		font-size: 50px;
+		font-weight: 600;
+		padding-top: 130px;
+		color: #fff1b8 !important;
+	}
+
+	.dgc {
+		margin: 10px 20px;
+		text-align: left;
+	}
+	.xx_box  {
+		height: 20px;
+		width: 100px;
+		background: #2b90ff;
+		color: #ffffff;
+		border-radius: 10px;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: center;
+		margin: 0px auto;
+		font-size: 10px;
+	}
+	.xiangxixize {
+		width: 10px;
+		height: 10px;
+	}
+	.dg_main {
+		height: 340px;
+		overflow-y: auto;
+		padding-bottom: 20px;
+		position: relative;
+	}
+	.app_close {
+		position: absolute;
+		top: 3px;
+		right: 9px;
+		font-size: 20px;
+	}
+	.app_title {
+		line-height: 30px;
+	}
 
 	.app_code_img {
 		min-width: 150px;
@@ -697,7 +873,7 @@
 		border-bottom-right-radius: 20px;
 		display: inline-block;
 		width: 70px;
-		/*border: 1px solid;*/
+		border: 1px solid;
 		/*background: #0C2AA4;*/
 		height: 36px;
 		line-height: 36px;
@@ -955,4 +1131,7 @@
 	}
 </style>
 <style>
+	.app_eld_main .el-button:focus, .el-button:hover {
+		background-color: #ffffff !important;
+	}
 </style>

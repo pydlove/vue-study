@@ -15,6 +15,7 @@
 						:clientWidth="clientWidth"
 						:voteUserId="voteUserId"
 						:openId="openId"
+						:fileListDialog="fileListDialog"
 						@changePage="changePage"
 						@toDetail="toDetail"
 				></AppVote>
@@ -35,13 +36,16 @@
 
 			<!--作品详情-->
 			<div v-else-if="page == 'detail'">
-				<AppDetail
+				<AppDetail ref="appDetailRef"
+			           :clientHeight="clientHeight"
+			           :clientWidth="clientWidth"
 						:playerWorks="playerWorks"
 						:signPlayer="signPlayer"
 						:activity="activity"
 						:activityBanners="activityBanners"
 						:colorStyle="colorStyle"
 						:voteUserId="voteUserId"
+						:openId="openId"
 						@changePage="changePage"
 				></AppDetail>
 			</div>
@@ -119,10 +123,10 @@
             this.clientWidth = document.documentElement.clientWidth;
             this.clientHeight = document.documentElement.clientHeight;
 
-            var useragent = navigator.userAgent;
-            if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
-                this.$router.push({name: "errorPage"});
-            }
+            // var useragent = navigator.userAgent;
+            // if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
+            //     this.$router.push({name: "errorPage"});
+            // }
 
             // 解析参数 初始化数据
             let path = window.location.href;
@@ -139,8 +143,22 @@
                 let stateStr = paramArray[1];
                 let stateArray = stateStr.split("=");
                 let state = stateArray[1];
-                this.searchActivityInfo(state)
-                this.getWxAccessToken(code);
+                // state中含detail就是详情界面请求过来的助力支付
+                if( state.indexOf("detail") != -1 ) {
+                    const stateArr = state.split(",");
+                    this.page = stateArr[0];
+                    this.detailPageParams.activityId = stateArr[1];
+                    this.activityId = stateArr[1];
+                    this.detailPageParams.signId = stateArr[2];
+                    this.initDetailInfo();
+                    // 获取token
+                    this.getWxAccessToken(code);
+                    // 弹出礼物框
+                    this.$refs.appDetailRef.boost();
+                } else {
+                    this.searchActivityInfo(state)
+                    this.getWxAccessToken(code);
+                }
             } else {
                 let pathStr = path.split("?")
                 this.fmtParam(pathStr);
@@ -428,6 +446,9 @@
                         if (this.activity.imgs != null && this.activity.imgs != "") {
                             this.activityBanners = this.activity.imgs.split(",");
                         }
+                        if (this.activity.dialogImgs != null && this.activity.dialogImgs != "") {
+                            this.fileListDialog = this.activity.dialogImgs.split(",");
+                        }
                         this.colorStyle = JSON.parse(this.activity.colorStyle);
                         this.$refs.appVoteRef.activityId = activityId;
                         this.$refs.appVoteRef.searchPlayer();
@@ -450,12 +471,13 @@
                 signPlayer: "",
                 playerWorks: [],
                 activityBanners: [],
+                fileListDialog: [],
                 activity: "",
                 colorStyle: {
-                    main: "#0C2AA4",
-                    total: "#0C2AA4",
-                    player: "#0C2AA4",
-                    access: "#0C2AA4",
+                    main: "",
+                    total: "",
+                    player: "",
+                    access: "",
                 },
                 clientHeight: 667,
                 originalHeight: 667,
@@ -671,7 +693,6 @@
 	}
 
 	.app_rank_bottom {
-		/*background: #0C2AA4;*/
 		color: #ffffff;
 		height: 30px;
 		width: 80px;
@@ -683,7 +704,6 @@
 	}
 
 	.app_rank_top {
-		/*background: #0C2AA4;*/
 		color: #ffffff;
 		height: 40px;
 		line-height: 40px;

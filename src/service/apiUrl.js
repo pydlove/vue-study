@@ -5,7 +5,7 @@ export default {
     // rootUrl: "http://www.aiocloud.ltd:8071/",
     // baseUrl: "http://www.aiocloud.ltd",
 
-    // rootUrl: "http://192.168.1.15:8080/",
+    // rootUrl: "http://192.168.1.3:8080/",
     // baseUrl: "http://localhost:8080",
 
     rootUrl: "http://ahbfi.org.cn/",
@@ -36,6 +36,7 @@ export default {
     blsh_h5_service_v1_bh_sign_sign: "/blsh-h5-service/v1/bh_sign/sign",
     blsh_h5_service_v1_bh_sign_rank: "/blsh-h5-service/v1/bh_sign/rank",
     blsh_h5_service_v1_bh_sign_player: "/blsh-h5-service/v1/bh_sign/player",
+    blsh_h5_service_v1_bh_sign_delete_player: "/blsh-h5-service/v1/bh_sign/delete/player",
 
     blsh_h5_service_v1_bh_wx_token: "/blsh-h5-service/v1/bh_wx/token",
     blsh_h5_service_v1_bh_wx_openId: "/blsh-h5-service/v1/bh_wx/openId",

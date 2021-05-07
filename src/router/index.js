@@ -14,119 +14,15 @@ const router = new Router({
     routes: [
         {
             path: '*',
-            redirect: '/login'
+            redirect: '/am'
         },
         {
             meta: {
-                title: '安徽伯林书画研究院H5投票系统登录'
-            },
-            path: '/',
-            name: 'login',
-            component: (resolve) => require(['../views/portal/login/index.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院H5投票系统登录'
-            },
-            path: '/login',
-            name: 'login',
-            component: (resolve) => require(['../views/portal/login/index.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院H5投票系统'
-            },
-            path: '/main',
-            name: 'main',
-            component: (resolve) => require(['../views/portal/main/index.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院控制台用户管理'
-            },
-            path: '/user',
-            name: 'user',
-            component: (resolve) => require(['../views/portal/user/index.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院控制台菜单管理'
-            },
-            path: '/menu',
-            name: 'menu',
-            component: (resolve) => require(['../views/portal/menu/index.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院控制台角色管理'
-            },
-            path: '/role',
-            name: 'role',
-            component: (resolve) => require(['../views/portal/role/index.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院控制台审计日志'
-            },
-            path: '/log',
-            name: 'log',
-            component: (resolve) => require(['../views/portal/log/index.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院H5投票系统'
-            },
-            path: '/activity',
-            name: 'activity',
-            component: (resolve) => require(['../views/app/activity/index.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院投票活动'
+                title: '安徽省BFI公共文化评选系统'
             },
             path: '/am',
             name: 'am',
             component: (resolve) => require(['../views/app/activity/main.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院投票活动'
-            },
-            path: '/amVote',
-            name: 'amVote',
-            component: (resolve) => require(['../views/app/activity/mainVote.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院投票活动'
-            },
-            path: '/voteApp',
-            name: 'voteApp',
-            component: (resolve) => require(['../views/app/activity/app.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院投票活动'
-            },
-            path: '/skeleton',
-            name: 'skeleton',
-            component: (resolve) => require(['../components/Skeleton/skeleton-2.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院投票活动'
-            },
-            path: '/errorPage',
-            name: 'errorPage',
-            component: (resolve) => require(['../components/WxErrorPage.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '安徽伯林书画研究院财务统计'
-            },
-            path: '/financial',
-            name: 'financial',
-            component: (resolve) => require(['../views/app/activity/financial.vue'], resolve),
         },
     ]
 })

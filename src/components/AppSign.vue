@@ -106,7 +106,7 @@
 					<van-divider/>
 
 					<el-form-item label="手机号码" required>
-						<el-input ref="asPhoneRef" @click.native="changeHeight" class="aa_form_item"
+						<el-input ref="asPhoneRef" class="aa_form_item"
 						          v-model="form.phone" placeholder="请输入联系方式"></el-input>
 					</el-form-item>
 					<van-divider/>
@@ -122,6 +122,10 @@
 				<div v-else-if="next == 2">
 					<el-form-item label="作品名称" required>
 						<el-input class="aa_form_item" v-model="form.worksName" placeholder="请输入作品名称"></el-input>
+					</el-form-item>
+
+					<el-form-item label="指导老师" required>
+						<el-input class="aa_form_item" v-model="form.teacher" placeholder="请输入指导老师姓名"></el-input>
 					</el-form-item>
 
 					<el-form-item class="app_up_eitem" :label="'上传作品（最多上传'+ activity.uploadLimit +'张）'"
@@ -200,6 +204,10 @@
             submit() {
                 if (this.form.worksName == null || this.form.worksName == "") {
                     this.$toast.fail('请输入作品名称');
+                    return false;
+                }
+                if (this.form.teacher == null || this.form.teacher == "") {
+                    this.$toast.fail('请输入指导老师姓名');
                     return false;
                 }
                 if (this.form.fileList == null || this.form.fileList == "" || this.form.fileList.length == 0) {
@@ -395,6 +403,7 @@
                     fileList: [],
                     worksImage: "",
                     acitvityId: "",
+                    teacher: "",
                 },
             }
         }
