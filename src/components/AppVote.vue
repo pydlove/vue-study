@@ -750,7 +750,7 @@
                         price: "88.88"
                     }
                 ],
-                showGift: true,
+                showGift: false,
                 search: "",
                 currentVotes: 0,
                 posterMainFlag: false,
