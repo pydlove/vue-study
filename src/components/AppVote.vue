@@ -750,7 +750,7 @@
                         price: "88.88"
                     }
                 ],
-                showGift: false,
+                showGift: true,
                 search: "",
                 currentVotes: 0,
                 posterMainFlag: false,
@@ -913,9 +913,9 @@
 
 	.app_item {
 		text-align: center;
-		width: 33%;
+		width: 33.3%;
 		margin-bottom: 10px;
-		padding: 10px;
+		padding: 10px 0px;
 		border: 2px solid #ffffff;
 		border-radius: 5px;
 	}
