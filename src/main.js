@@ -29,6 +29,10 @@ import { Notify } from "vant";
 Vue.use(Notify);
 Vue.prototype.$notify = Notify;
 
+// 图片压缩
+import imageConversion from 'image-conversion';
+Vue.prototype.$imageConversion = imageConversion;
+
 // 微信
 import wx from 'weixin-js-sdk'
 Vue.use(wx);

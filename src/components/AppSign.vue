@@ -162,6 +162,7 @@
 <!--eslint-disable-->
 <script>
     import Area from '@/assets/json/area.js'
+    import * as imageConversion from 'image-conversion';
 
     export default {
         name: "AppSign",
@@ -258,10 +259,10 @@
                     this.$toast.fail('请输入年龄');
                     return false;
                 }
-                if (!this.isAge(this.form.age)) {
-                    this.$toast.fail('请输入正确的年龄');
-                    return false;
-                }
+                // if (!this.isAge(this.form.age)) {
+                //     this.$toast.fail('请输入正确的年龄');
+                //     return false;
+                // }
                 if (this.form.sex == null || this.form.sex == "") {
                     this.$toast.fail('请选择性别');
                     return false;
@@ -295,15 +296,34 @@
              * @param {*} 参数 参数说明
              * @author panyong
              */
-            async uploadImgs(file) {
+            uploadImgs(file) {
+                let upFile = file.file;
+                console.log(upFile.size)
+	            console.log(0.5 * 1024 * 1024)
+                let isLt2M = upFile.size < (0.5 * 1024 * 1024);
+                if (isLt2M) {
+                   this.uploadImgsRequest(upFile);
+                } else {
+                    imageConversion.compressAccurately(upFile, 200).then(res => {
+                        console.log(res)
+                        const newFile = new window.File(
+                            [res],
+                            upFile.name,
+                            { type: upFile.type },
+                        );
+                        this.uploadImgsRequest(newFile);
+                    })
+                }
+            },
+	        async uploadImgsRequest(file) {
                 let params = new FormData();
-                params.append("file", file.file);
+                params.append("file", file);
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_sign_upload, params, "POST");
                 if (data.code === 200) {
                     this.form.fileList.push({url: data.data.fileUrl, name: data.data.fileName});
                     return true;
                 }
-            },
+	        },
             async uploadDelete(file) {
                 let params = new FormData();
                 params.append("fileName", file.name);
