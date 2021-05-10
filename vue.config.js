@@ -124,6 +124,7 @@ module.exports = {
         disableHostCheck: true,
         proxy: {
             '/blsh-h5-service': {
+                // target: 'http://localhost:18081',
                 target: 'http://localhost:9093',
                 changeOrigin: true,
                 ws: true,

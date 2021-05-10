@@ -70,7 +70,7 @@
 			</van-dialog>
 
 			<el-carousel class="app_el_carousel" height="200px">
-				<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
+				<el-carousel-item v-for="(item, index) in activityBanners" :key="index" autoplay>
 					<van-image
 							width="100%"
 							height="200px"
@@ -163,7 +163,7 @@
 						          :src="getFirstImg(item.worksImage)"
 						          fit="fill" @click="toDetail(item)"></el-image>
 						<div class="app_works_info">
-							<div>
+							<div @click="toDetail(item)">
 								<el-tooltip :content="item.worksName" placement="top" effect="light">
 									<div style="color: #333; font-size: 16px">
 										{{ item.worksName.length > 8 ? (item.worksName.substring(0, 8)+"..."):(item.worksName) }}
@@ -521,15 +521,23 @@
 		     * @author panyong
 		     */
             handlerHeight() {
-			    if(this.currentPage == 1) {
-                    if(this.totalCount >= 10) {
-                        this.worksHeight = 1586 + 50;
-                    } else if(this.totalCount < 10) {
-                        this.worksHeight = Math.ceil(this.totalCount/2)*1586/5 + 50;
-                    }
-			    } else {
+                console.log(this.worksHeight)
+              console.log(this.currentPage)
+              console.log(this.totalCount)
+			    // if(this.currentPage == 1) {
+                 //    if(this.totalCount >= 10) {
+                 //        this.worksHeight = 1586 + 50;
+                 //    } else if(this.totalCount < 10) {
+                 //        this.worksHeight = Math.ceil(this.totalCount/2)*1586/5 + 50;
+                 //    }
+			    // } else {
+                 //    this.worksHeight = Math.ceil(this.totalCount/2)*1586/5 + 50;
+			    // }
+                if(this.totalCount >= 10) {
+                    this.worksHeight = 1586;
+                } else if(this.totalCount < 10) {
                     this.worksHeight = Math.ceil(this.totalCount/2)*1586/5 + 50;
-			    }
+                }
             },
 
 		    /**
@@ -611,12 +619,12 @@
             async giveVote(item) {
                 // 校验是否有票权
                 let params = new FormData()
-                params.append("voteUserId", this.voteUserId);
-                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_check, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_check1, params, "POST");
                 if (data.code === 200) {
                     if(data.data) {
                         this.showVerificationCode = true;
                         this.signPlayer = item;
+                        this.getIdentifyingCode();
                     } else {
                         this.$toast('您当日投票次数已达上限');
                     }
@@ -637,13 +645,11 @@
                     if(data.data == "codeError") {
                         this.showVerificationCode = false;
                         this.verificationCode = "";
-                        this.$toast.fail('投票失败，未输入验证码');
-                        this.getIdentifyingCode();
+                        this.$toast.fail('投票失败，验证码过期');
                     } else {
                         this.showVerificationCode = false;
                         this.verificationCode = "";
                         this.updateVote();
-                        this.getIdentifyingCode();
                         this.$refs.boostDialogRef.open();
                     }
                     return true;
@@ -953,6 +959,7 @@
 		font-size: 14px;
 		line-height: 40px;
 		color: #666;
+		margin-bottom: 40px;
 	}
 
 	.app_bot a {

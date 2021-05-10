@@ -77,7 +77,7 @@
 			</span>
 		</div>
 		<el-carousel class="app_el_carousel" height="200px">
-			<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
+			<el-carousel-item v-for="(item, index) in activityBanners" :key="index" autoplay>
 				<van-image
 						width="100%"
 						height="200px"
@@ -295,11 +295,11 @@
             async giveVote() {
                 // 校验是否有票权
                 let params = new FormData()
-                params.append("voteUserId", this.voteUserId);
-                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_check, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_check1, params, "POST");
                 if (data.code === 200) {
                     if(data.data) {
                         this.showVerificationCode = true;
+                        this.getIdentifyingCode();
                     } else {
                         this.$toast('您当日投票次数已达上限');
                     }
@@ -320,13 +320,10 @@
                     if(data.data == "codeError") {
                         this.showVerificationCode = false;
                         this.verificationCode = "";
-                        this.getIdentifyingCode();
-                        this.$toast.fail('投票失败，验证码错误');
+                        this.$toast.fail('投票失败，验证码过期');
                     } else {
                         this.showVerificationCode = false;
                         this.verificationCode = "";
-                        this.getIdentifyingCode();
-                        // this.$toast.success('投票成功');
                         this.signPlayer.voteNum++;
 	                    this.$refs.boostDialogRef.open();
 
@@ -545,6 +542,7 @@
         },
 	    data() {
             return {
+                vUserId: "",
                 currentVotes: 0,
                 posterMainFlag: false,
                 gift: {

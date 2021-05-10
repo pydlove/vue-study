@@ -274,7 +274,6 @@
                         this.$refs.rankRef.searchRank(this.activity.id);
                     });
                 } else if (pageName == "returnPage") {
-                    console.log(1)
                     if(this.active == 0) {
                         this.page = "vote";
                         this.$nextTick(function () {

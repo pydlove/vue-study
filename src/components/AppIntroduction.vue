@@ -2,7 +2,7 @@
 	<!--eslint-disable-->
 	<div>
 		<el-carousel class="app_el_carousel" height="200px">
-			<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
+			<el-carousel-item v-for="(item, index) in activityBanners" :key="index" autoplay>
 				<van-image
 						width="100%"
 						height="200px"

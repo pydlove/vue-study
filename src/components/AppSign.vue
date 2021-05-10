@@ -8,7 +8,7 @@
 			</span>
 		</div>
 		<el-carousel class="app_el_carousel" height="200px">
-			<el-carousel-item v-for="(item, index) in activityBanners" :key="index">
+			<el-carousel-item v-for="(item, index) in activityBanners" :key="index" autoplay>
 				<van-image
 						width="100%"
 						height="200px"
@@ -299,7 +299,6 @@
             uploadImgs(file) {
                 let upFile = file.file;
                 console.log(upFile.size)
-	            console.log(0.5 * 1024 * 1024)
                 let isLt2M = upFile.size < (0.5 * 1024 * 1024);
                 if (isLt2M) {
                    this.uploadImgsRequest(upFile);
