@@ -142,7 +142,7 @@
 		</el-card>
 
 		<div class="app_bot" id="arBot" ref="arBot">
-			<a href="https://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
+			<a href="http://www.aiocloud.ltd/#/mainApp" :style="{ color: colorStyle.main, }">爱启云科技</a>提供支持
 		</div>
 	</div>
 </template>
