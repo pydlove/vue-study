@@ -342,6 +342,15 @@
             },
 
             async boost(item) {
+                if(this.activity.status == "0") {
+                    this.$toast.fail('活动未开始');
+                    return false;
+                }
+                if(this.activity.status == "2") {
+                    this.$toast.fail('活动已结束');
+                    return false;
+                }
+
                 this.signPlayer = item;
                 // 1、判断openId是否存储在
                 // 2、判断存储里面 openId
@@ -600,6 +609,14 @@
             },
 
             toSignUp() {
+                if(this.activity.status == "0") {
+                    this.$toast.fail('活动未开始');
+                    return false;
+                }
+                if(this.activity.status == "2") {
+                    this.$toast.fail('活动已结束');
+                    return false;
+                }
                 this.$emit("changePage", "signup");
             },
 
@@ -617,6 +634,14 @@
 		     * @author panyong
 		     */
             async giveVote(item) {
+                if(this.activity.status == "0") {
+                    this.$toast.fail('活动未开始');
+                    return false;
+                }
+                if(this.activity.status == "2") {
+                    this.$toast.fail('活动已结束');
+                    return false;
+                }
                 // 校验是否有票权
                 let params = new FormData()
                 let data = await this.$aiorequest(this.$aiocUrl.blsh_h5_service_v1_bh_vote_check1, params, "POST");

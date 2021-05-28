@@ -123,10 +123,10 @@
             this.clientWidth = document.documentElement.clientWidth;
             this.clientHeight = document.documentElement.clientHeight;
 
-            // var useragent = navigator.userAgent;
-            // if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
-            //     this.$router.push({name: "errorPage"});
-            // }
+            var useragent = navigator.userAgent;
+            if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
+                this.$router.push({name: "errorPage"});
+            }
 
             // 解析参数 初始化数据
             let path = window.location.href;
