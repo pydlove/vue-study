@@ -287,12 +287,33 @@
 				this.boost();
             },
 
+            compareDate(date1, date2) {
+                let dates1 = new Date(date1);
+                let dates2 = new Date(date2);
+                if (dates1 > dates2) {
+                    return true
+                } else {
+                    return false
+                }
+            },
+
             /**
              * 投票
              * @param {*} 参数 参数说明
              * @author panyong
              */
             async giveVote() {
+                let voteStart = this.activity.voteStart;
+                let voteEnd = this.activity.voteEnd;
+                let current = new Date();
+                if(!this.compareDate(current, voteStart)) {
+                    this.$toast.fail('活动未开始');
+                    return false;
+                }
+                if(this.compareDate(current, voteEnd)) {
+                    this.$toast.fail('活动已结束');
+                    return false;
+                }
                 if(this.activity.status == "0") {
                     this.$toast.fail('活动未开始');
                     return false;
@@ -427,6 +448,17 @@
             },
 
             async boost() {
+                let voteStart = this.activity.voteStart;
+                let voteEnd = this.activity.voteEnd;
+                let current = new Date();
+                if(!this.compareDate(current, voteStart)) {
+                    this.$toast.fail('活动未开始');
+                    return false;
+                }
+                if(this.compareDate(current, voteEnd)) {
+                    this.$toast.fail('活动已结束');
+                    return false;
+                }
                 if(this.activity.status == "0") {
                     this.$toast.fail('活动未开始');
                     return false;
