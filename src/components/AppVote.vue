@@ -342,23 +342,20 @@
             },
 
             async boost(item) {
-                let voteStart = this.activity.voteStart;
-                let voteEnd = this.activity.voteEnd;
-                let current = new Date();
-                if(!this.compareDate(current, voteStart)) {
-                    this.$toast.fail('活动未开始');
-                    return false;
-                }
-                if(this.compareDate(current, voteEnd)) {
-                    this.$toast.fail('活动已结束');
-                    return false;
-                }
                 if(this.activity.status == "0") {
                     this.$toast.fail('活动未开始');
                     return false;
                 }
                 if(this.activity.status == "2") {
                     this.$toast.fail('活动已结束');
+                    return false;
+                }
+                if(this.activity.enableVote == "noStart") {
+                    this.$toast.fail('投票未开始');
+                    return false;
+                }
+                if(this.activity.enableVote == "end") {
+                    this.$toast.fail('投票已结束');
                     return false;
                 }
 
@@ -617,23 +614,20 @@
             },
 
             toSignUp() {
-                let signStart = this.activity.signStart;
-                let signEnd = this.activity.signEnd;
-                let current = new Date();
-                if(!this.compareDate(current, signStart)) {
-                    this.$toast.fail('报名未开始');
-                    return false;
-                }
-                if(this.compareDate(current, signEnd)) {
-                    this.$toast.fail('报名已结束');
-                    return false;
-                }
                 if(this.activity.status == "0") {
                     this.$toast.fail('活动未开始');
                     return false;
                 }
                 if(this.activity.status == "2") {
                     this.$toast.fail('活动已结束');
+                    return false;
+                }
+                if(this.activity.enableSign == "noStart") {
+                    this.$toast.fail('报名未开始');
+                    return false;
+                }
+                if(this.activity.enableSign == "end") {
+                    this.$toast.fail('报名已结束');
                     return false;
                 }
                 this.$emit("changePage", "signup");
@@ -644,17 +638,7 @@
             },
 
             toDetail(item) {
-                this.$emit("toDetail", item);;
-            },
-
-            compareDate(date1, date2) {
-                let dates1 = new Date(date1);
-                let dates2 = new Date(date2);
-                if (dates1 > dates2) {
-                    return true
-                } else {
-                    return false
-                }
+                this.$emit("toDetail", item);
             },
 
 		    /**
@@ -664,23 +648,20 @@
 		     */
             async giveVote(item) {
                 // 判断是否是否到了
-                let voteStart = this.activity.voteStart;
-                let voteEnd = this.activity.voteEnd;
-				let current = new Date();
-				if(!this.compareDate(current, voteStart)) {
-                    this.$toast.fail('活动未开始');
-                    return false;
-				}
-                if(this.compareDate(current, voteEnd)) {
-                    this.$toast.fail('活动已结束');
-                    return false;
-                }
                 if(this.activity.status == "0") {
                     this.$toast.fail('活动未开始');
                     return false;
                 }
                 if(this.activity.status == "2") {
                     this.$toast.fail('活动已结束');
+                    return false;
+                }
+				if(this.activity.enableVote == "noStart") {
+                    this.$toast.fail('投票未开始');
+                    return false;
+				}
+                if(this.activity.enableVote == "end") {
+                    this.$toast.fail('投票已结束');
                     return false;
                 }
                 // 校验是否有票权
