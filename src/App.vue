@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{height: clientHeight + 'px'}">
     <router-view />
   </div>
 </template>
@@ -12,6 +12,7 @@
         },
         data() {
             return {
+                clientHeight: document.body.clientHeight,
             }
         }
     }
@@ -24,5 +25,12 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     overflow: auto;
+  }
+
+  /*媒体查询（手机）*/
+  @media screen and (max-width: 768px) {
+    #app {
+      background: #181617;
+    }
   }
 </style>

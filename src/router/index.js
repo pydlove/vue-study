@@ -14,15 +14,23 @@ const router = new Router({
     routes: [
         {
             path: '*',
-            redirect: '/am'
+            redirect: '/home'
         },
         {
             meta: {
-                title: '安徽省BFI公共文化评选系统'
+                title: '南京大学太阳数据中心'
             },
-            path: '/am',
-            name: 'am',
-            component: (resolve) => require(['../views/app/activity/main.vue'], resolve),
+            path: '/home',
+            name: 'home',
+            component: (resolve) => require(['../views/home/index.vue'], resolve),
+        },
+        {
+            meta: {
+                title: '南京大学太阳数据中心'
+            },
+            path: '/home1',
+            name: 'home1',
+            component: (resolve) => require(['../views/home/index2.vue'], resolve),
         },
     ]
 })

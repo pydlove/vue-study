@@ -2,8 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const SkeletonWebpackPlugin = require('vue-skeleton-webpack-plugin')
-// const CompressionWebpackPlugin = require('compression-webpack-plugin')    //引入插件
-// const productionGzipExtensions = ['js', 'css']      //压缩js 和css文件
+const CompressionWebpackPlugin = require('compression-webpack-plugin')    //引入插件
+const productionGzipExtensions = ['js', 'css']      //压缩js 和css文件
 
 module.exports = {
     configureWebpack: config => {
@@ -45,21 +45,20 @@ module.exports = {
                 outputPath: './vendor',
                 includeSourcemap: false
             }),
-
             // 配置压缩
-            // new CompressionWebpackPlugin({
-            //     algorithm: 'gzip',
-            //     test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
-            //     threshold: 10240,
-            //     minRatio: 0.8
-            // }),
-            // //maxChunks：使用大于或等于 1 的值，来限制 chunk 的最大数量。使用 1 防止添加任何其他额外的 chunk，这是因为entry/main chunk 也会包含在计数之中。
-            // //minChunkSize: 设置 chunk 的最小大小。
-            // //在合并 chunk 时，webpack 会尝试识别出具有重复模块的 chunk，并优先进行合并。任何模块都不会被合并到 entry   chunk 中，以免影响初始页面加载时间。
-            // new webpack.optimize.LimitChunkCountPlugin({
-            //     maxChunks: 5,
-            //     minChunkSize: 100
-            // })
+            new CompressionWebpackPlugin({
+                algorithm: 'gzip',
+                test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+                threshold: 10240,
+                minRatio: 0.8
+            }),
+            //maxChunks：使用大于或等于 1 的值，来限制 chunk 的最大数量。使用 1 防止添加任何其他额外的 chunk，这是因为entry/main chunk 也会包含在计数之中。
+            //minChunkSize: 设置 chunk 的最小大小。
+            //在合并 chunk 时，webpack 会尝试识别出具有重复模块的 chunk，并优先进行合并。任何模块都不会被合并到 entry   chunk 中，以免影响初始页面加载时间。
+            new webpack.optimize.LimitChunkCountPlugin({
+                maxChunks: 5,
+                minChunkSize: 100
+            })
         );
     },
     css: {
