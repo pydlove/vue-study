@@ -2,7 +2,33 @@
 	<!--eslint-disable-->
 	<div class="nd-container" :style="scaleFun">
 		<div class="nd-top">
+			<div class="nd-top-main">
+				<div class="nd-tm-left">
+					<van-image class="nd-logo" :src="require('@/assets/img/logo/logo@2x.png')" />
+					<div class="nd-title">
+						<div>太阳数据分析中心</div>
+						<div>Sun data analysis center</div>
+					</div>
+				</div>
 
+				<div class="nd-tm-right">
+					<div class="ml-20">
+						<div class="nd-menu-header">
+							首页
+						</div>
+					</div>
+					<div class="ml-20">
+						<div class="nd-menu-header">
+							观测设备
+						</div>
+					</div>
+					<div class="ml-20">
+						<div class="nd-menu-header">
+							图库与成功
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<!--资讯-->
 			<div class="nd-zx-box">
@@ -73,6 +99,44 @@
 <style scoped>
 	/*媒体查询（电脑）*/
 	@media screen and (min-width: 768px) {
+		.nd-menu-header {
+			border-top: 2px solid #ffffff;
+			font-size: 16px;
+			line-height: 40px;
+			width: 120px;
+		}
+		.nd-tm-right {
+			display: flex;
+			flex-wrap: nowrap;
+			padding-top: 20px;
+		}
+		.nd-title div:nth-of-type(1) {
+			font-size: 32px;
+		}
+		.nd-title div:nth-of-type(2) {
+			font-size: 18px;
+			margin-top: 10px;
+		}
+		.nd-title {
+			margin-top: 100px;
+		}
+		.nd-tm-left, .nd-tm-right {
+			width: 50%;
+			text-align: left;
+		}
+		.nd-logo {
+			height: 44px;
+			width: 224px;
+			margin-top: 10px;
+		}
+		.nd-top-main {
+			display: flex;
+			flex-wrap: nowrap;
+			width: 900px;
+			margin: 0px auto;
+			font-family: "SC-Bold";
+			color: #ffffff;
+		}
 		.nd-top {
 			background: url("../../assets/img/background/banner@3x.png");
 			background-size: 100% 100%;

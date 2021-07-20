@@ -28,6 +28,13 @@
   }
 
   /*媒体查询（手机）*/
+  @media screen and (min-width: 768px) {
+    #app {
+      background-attachment: #181617e6 !important;
+    }
+  }
+
+  /*媒体查询（手机）*/
   @media screen and (max-width: 768px) {
     #app {
       background: #181617;
