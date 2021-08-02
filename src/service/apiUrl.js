@@ -5,8 +5,8 @@ export default {
     // rootUrl: "http://www.aiocloud.ltd:8071/",
     // baseUrl: "http://www.aiocloud.ltd",
 
-    // rootUrl: "http://192.168.1.3:8080/",
-    // baseUrl: "http://localhost:8080",
+  /*  rootUrl: "http://192.168.1.3:8080/",
+    baseUrl: "http://localhost:8080",*/
 
     rootUrl: "http://ahbfi.org.cn/",
     baseUrl: "http://ahbfi.org.cn",
@@ -100,4 +100,7 @@ export default {
     console_service_v1_bl_work_log_delete: "/blsh-h5-service/v1/bl_work_log/delete",
     console_service_v1_bl_work_log_list: "/blsh-h5-service/v1/bl_work_log/list",
     console_service_v1_bl_work_log_leader: "/blsh-h5-service/v1/bl_work_log/leader",
+
+    //新闻与资源
+    blsh_service_v1_new_and_resource_search: "/blsh-h5-service/v1/nd_news_resource/searchList",
 }

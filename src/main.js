@@ -16,6 +16,17 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);
 
+//head
+import head from '@/components/headAndTail/head';
+Vue.use(head);/*使用自定义的公共组件*/
+Vue.component('head',head);/*初始化公共组件*/
+
+//tail
+import tail from '@/components/headAndTail/tail';
+Vue.use(tail);/*使用自定义的公共组件*/
+Vue.component('tail',tail);/*初始化公共组件*/
+
+
 // iview
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';

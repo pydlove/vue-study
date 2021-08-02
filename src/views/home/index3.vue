@@ -2,8 +2,6 @@
 	<!--eslint-disable-->
 	<div class="nd-container" :style="scaleFun">
 		<div class="nd-top">
-
-
 			<!--资讯-->
 			<div class="nd-zx-box">
 				<div class="nd-zx-main">
@@ -71,6 +69,13 @@
 </script>
 
 <style scoped>
+
+	.nd-zx-title {
+		size: 30px;
+		color: white;
+		margin-top: 20px;
+
+	}
 	.nd-top {
 		background: url("../../assets/img/background/banner@3x.png");
 		background-size: 100% 100%;
@@ -109,6 +114,8 @@
 		width: 100%;
 		height: 120px;
 		background: #252022;
+		display: flex;
+		flex-wrap: nowrap;
 	}
 	.nd-right-title {
 		height: 80px;
