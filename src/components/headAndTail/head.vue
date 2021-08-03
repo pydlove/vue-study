@@ -5,12 +5,7 @@
             <div class="nd-top-main">
                 <div class="nd-tm-left">
                     <van-image class="nd-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
-                    <div class="nd-title">
-                        <div>太阳数据分析中心</div>
-                        <div>Sun data analysis center</div>
-                    </div>
                 </div>
-
                 <div class="nd-tm-right">
                     <div class="ml-20">
                         <div class="nd-menu-header1">
@@ -32,7 +27,7 @@
                         <div class="nd-menu-header2">
                             图库与成功
                         </div>
-                        <div class="nd-menu-header3" onclick="newsAndResource">
+                        <div class="nd-menu-header3" @click="newsAndResource">
                             新闻与资源
                         </div>
                         <div class="nd-menu-header3">
@@ -101,10 +96,6 @@
             margin-top: 10px;
         }
 
-        .nd-title {
-            margin-top: 100px;
-        }
-
         .nd-tm-left, .nd-tm-right {
             width: 50%;
             text-align: left;
@@ -123,16 +114,18 @@
             margin: 0px auto;
             font-family: "SC-Bold";
             color: #ffffff;
+            background: #181617;
         }
 
         .nd-top {
-            background: url("../../assets/img/background/banner@3x.png");
+            background: #181617;
             background-size: 100% 100%;
-            height: 325px;
+            height: 180px;
             width: 100%;
             min-width: 1200px;
             position: relative;
         }
+
     }
 
     /*媒体查询（手机）*/
@@ -144,6 +137,5 @@
             width: 100%;
             position: relative;
         }
-
     }
 </style>

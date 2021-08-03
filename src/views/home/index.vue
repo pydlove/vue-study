@@ -41,9 +41,8 @@
                     </div>
                 </div>
             </div>
-
             <!--资讯-->
-            <div class="nd-zx-box" v-if="news">
+            <div class="nd-zx-box">
                 <div class="nd-zx-main">
                     <div class="nd-left">
                         <div class="nd-left-title">
@@ -71,10 +70,10 @@
                         </div>
                         <div class="nd-news">
                             <div class="news-list">
-                                <div class="news-text">1. M型亚矮星是小质量螺栓中的贫金属成员</div>
-                                <div class="news-text">2. 国家天文台LAMOST数据部团队基于LAMOST数据构建***</div>
-                                <div class="news-text">3. 国家天文台LAMOST数据部团队基于LAMOST数据构建***</div>
-                                <div class="news-text">4. 国家天文台LAMOST数据部团队基于LAMOST数据构建***</div>
+                                <div class="news-text" @click="checkDetail()">1. {{this.tableData[0].title | ellipsis }}</div>
+                                <div class="news-text" @click="checkDetail1()">2. {{this.tableData[1].title | ellipsis }}</div>
+                                <div class="news-text" @click="checkDetail2()">3. {{this.tableData[2].title | ellipsis }}</div>
+                                <div class="news-text" @click="checkDetail3()">4. {{this.tableData[3].title | ellipsis }}</div>
                             </div>
                         </div>
                         <div class="nd-news-bg"></div>
@@ -82,6 +81,7 @@
                 </div>
             </div>
         </div>
+
         <div class="nd-next1"></div>
         <div class="nd-next2"></div>
         <div class="nd-introduction">
@@ -133,64 +133,83 @@
                 </div>
             </div>
         </div>
-
-        <div class="nd-footer" style="position: relative">
-            <div class="nd-info" style="position: absolute; margin-top: 10px">
-                <div class="nd-detail">
-                    <div class="nd-address" style="text-align: left; margin-top: 25px; margin-left: 150px">地址:
-                        江苏省南京市栖霞区仙林大道163号天文楼
-                    </div>
-                    <div style="margin-top: 25px; display: flex; flex-wrap: nowrap; margin-left: 150px; position: relative">
-                        电话热线: (86)- 18012012539
-                    </div>
-                    <div style="margin-top: 25px; display: flex; flex-wrap: nowrap; margin-left: 150px">邮编: 210023</div>
-                    <div class="nd-about"
-                         style="display: flex; flex-wrap: nowrap; margin-left: 150px; margin-top: 25px;">关于我们
-                        <div class="nd-tail" style="margin-left: 50px">联系我们</div>
-                    </div>
-                </div>
-                <div class="nd-tech-support"
-                     style=" border-top: 1px solid #f5f5f5; margin-left: 150px; margin-top: 20px; width: 900px"></div>
-                <div style="display: flex; flex-wrap: nowrap; margin-left: 150px; margin-top: 20px; position: relative">
-                    技术支持: 杭州爱启云网络科技有限公司
-                    <div style="margin-left: 100px"> 苏ICP备 05002851 号</div>
-                    <div style="margin-left: 90px">Copyright @ 南京大学天文与空间科学学院 All Rights Reserved 版权所有</div>
-                </div>
-                <div class="nd-tech-support"
-                     style=" border-top: 1px solid #f5f5f5; margin-left: 150px; margin-top: 20px; width: 900px"></div>
-            </div>
-            <van-image style="position: absolute; width: 290px; height: 55px;margin-top: 45px"
-                       :src="require('@/assets/img/logo/logo@2x.png')"/>
-        </div>
-        <News ref="newsRef"></News>
+        <tail></tail>
     </div>
+
 </template>
 <!--eslint-disable-->
 <script>
-    import News from "@/views/home/newsAndResource";
+    import tail from "@/components/headAndTail/tail";
+    import head from "@/components/headAndTail/head";
+
     export default {
         name: "index",
-        components: {News},
+        components: { head, tail},
 
         data() {
             return {
                 scale: 0.5,
+                tableData: [],
+                title: "",
             }
         },
+
+        filters: {
+            ellipsis(value) {
+                if (!value) return '';
+                if (value.length > 32) {
+                    return value.slice(0, 32) + '...'
+                }
+                return value
+            }
+        },
+
         mounted() {
-             this.initNewsData();
+            this.initNewsData();
         },
         methods: {
 
-            async initNewsData(){
-              let params = new FormData();
-              params.append("title", this.title);
-              let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_new_and_resource_search, params, "POST");
-              if(data.code == 200){
-                  this.tableData = data.data;
-                  console.log(this.tableData);
-                  return true;
-              }
+            //超链接跳转
+            checkDetail() {
+                this.$router.push({path: '/detail', query: {id: this.tableData[0].id,
+                        title: this.tableData[0].title , picture: this.tableData[0].picture,
+                        picture: this.tableData[0].picture, content: this.tableData[0].content,
+                        status: this.tableData[0].status, displayOrder: this.tableData[0].displayOrder,
+                        createTime: this.tableData[0].createTime, enAuthor: this.tableData[0].enAuthor}})
+            },
+
+            checkDetail1() {
+                this.$router.push({path: '/detail', query: {id: this.tableData[1].id,
+                        title: this.tableData[1].title , picture: this.tableData[1].picture,
+                        picture: this.tableData[1].picture, content: this.tableData[1].content,
+                        status: this.tableData[1].status, displayOrder: this.tableData[1].displayOrder,
+                        createTime: this.tableData[1].createTime, enAuthor: this.tableData[1].enAuthor}})
+            },
+
+            checkDetail2() {
+                this.$router.push({path: '/detail', query: {id: this.tableData[2].id,
+                        title: this.tableData[2].title , picture: this.tableData[2].picture,
+                        picture: this.tableData[2].picture, content: this.tableData[2].content,
+                        status: this.tableData[2].status, displayOrder: this.tableData[2].displayOrder,
+                        createTime: this.tableData[2].createTime, enAuthor: this.tableData[2].enAuthor}})
+            },
+
+            checkDetail3() {
+                this.$router.push({path: '/detail', query: {id: this.tableData[3].id,
+                        title: this.tableData[3].title , picture: this.tableData[3].picture,
+                        picture: this.tableData[3].picture, content: this.tableData[3].content,
+                        status: this.tableData[3].status, displayOrder: this.tableData[3].displayOrder,
+                        createTime: this.tableData[3].createTime, enAuthor: this.tableData[3].enAuthor}})
+            },
+
+            async initNewsData() {
+                let params = new FormData();
+                params.append("title", this.title);
+                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_new_and_resource_search, params, "POST");
+                if (data.code == 200) {
+                    this.tableData = data.data;
+                    return true;
+                }
             },
 
             scaleFun: function () {
@@ -200,16 +219,8 @@
 
             //新闻与资源
             newsAndResource() {
-                this.$refs.newsRef.open();
+                this.$router.push({path: '/newsAndResource'})
             },
-        },
-
-        data() {
-            return {
-                news: true,
-                tableData: [],
-                title: "",
-            }
         },
     }
 </script>

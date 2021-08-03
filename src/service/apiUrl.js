@@ -102,5 +102,6 @@ export default {
     console_service_v1_bl_work_log_leader: "/blsh-h5-service/v1/bl_work_log/leader",
 
     //新闻与资源
+    blsh_service_v1_new_and_resource_searchAll: "/blsh-h5-service/v1/nd_news_resource/searchAll",
     blsh_service_v1_new_and_resource_search: "/blsh-h5-service/v1/nd_news_resource/searchList",
 }

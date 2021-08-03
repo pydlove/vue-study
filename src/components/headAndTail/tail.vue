@@ -1,6 +1,5 @@
 <template>
     <!--eslint-disable-->
-    <div class="nd-container" :style="scaleFun">
         <div class="nd-footer" style="position: relative">
             <div class="nd-info" style="position: absolute; margin-top: 10px">
                 <div class="nd-detail">
@@ -29,7 +28,6 @@
             <van-image style="position: absolute; width: 290px; height: 55px;margin-top: 45px"
                        :src="require('@/assets/img/logo/logo@2x.png')"/>
         </div>
-    </div>
 </template>
 <!--eslint-disable-->
 <script>

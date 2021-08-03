@@ -9,6 +9,71 @@ body {
   overflow-y: hidden;
 }
 
+/*******************************************************************************/
+/**********************************aiocw***************************************/
+/******************************************************************************/
+.aiocw-dialog .el-dialog {
+  margin-top: 0vh !important;
+  background: #ffffff !important;
+  top: 30px;
+  border-radius: 5px;
+}
+.aiocw-dialog .el-dialog__header {
+  background: #096dd9 !important;
+  padding: 15px 20px 10px;
+}
+.aiocw-dialog .el-dialog__title {
+  color: #ffffff !important;
+  font-size: 16px !important;
+}
+.aiocw-dialog .el-dialog__close {
+  color: #ffffff !important;
+}
+.el-dialog--center .el-dialog__body {
+  background: #fafafa;
+}
+
+/*aiocw-dialog  is-fullscreen滚轮样式*/
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar {
+  width: 11px !important;
+}
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-track-piece {
+  background-color: #001029 !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-thumb {
+  background-color: #69c0ff !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aiocw-dialog.is-fullscreen::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+/*aiocw-dialog 滚轮样式*/
+.aiocw-dialog::-webkit-scrollbar {
+  width: 11px !important;
+}
+.aiocw-dialog::-webkit-scrollbar-track-piece {
+  background-color: #eeeeee !important;
+} /* 滚动条的内层滑轨背景颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-track {
+  background-color: #fff !important;
+} /* 滚动条的外层滑轨背景颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-thumb {
+  background-color: #096dd9 !important;
+} /* 滚动条的内层滑块颜色 */
+
+.aiocw-dialog::-webkit-scrollbar-button {
+  background-color: #fff !important;
+  display: none !important;
+}
+
 /* 全局公共样式 ---start---*/
 .clearfix:before,
 .clearfix:after {
