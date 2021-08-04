@@ -129,6 +129,13 @@ module.exports = {
                 ws: true,
                 pathRewrite: {}
             },
+            '/console-service': {
+                target: 'http://localhost:9091',
+                // target: 'http://ahbfi.org.cn:8080',
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {}
+            },
         }
     },
     pwa: {

@@ -70,10 +70,18 @@
                         </div>
                         <div class="nd-news">
                             <div class="news-list">
-                                <div class="news-text" @click="checkDetail()">1. {{this.tableData[0].title | ellipsis }}</div>
-                                <div class="news-text" @click="checkDetail1()">2. {{this.tableData[1].title | ellipsis }}</div>
-                                <div class="news-text" @click="checkDetail2()">3. {{this.tableData[2].title | ellipsis }}</div>
-                                <div class="news-text" @click="checkDetail3()">4. {{this.tableData[3].title | ellipsis }}</div>
+                                <div class="news-text" @click="checkDetail()">1. {{this.tableData[0].title | ellipsis
+                                    }}
+                                </div>
+                                <div class="news-text" @click="checkDetail1()">2. {{this.tableData[1].title | ellipsis
+                                    }}
+                                </div>
+                                <div class="news-text" @click="checkDetail2()">3. {{this.tableData[2].title | ellipsis
+                                    }}
+                                </div>
+                                <div class="news-text" @click="checkDetail3()">4. {{this.tableData[3].title | ellipsis
+                                    }}
+                                </div>
                             </div>
                         </div>
                         <div class="nd-news-bg"></div>
@@ -99,36 +107,48 @@
 
         <div class="nd-fl">
             <div class="pics6">
-                <div class="status4_pics">
+                <div>
                     <ul class="pics6_status4">
                         <li>
-                            <img class="status4-pic1"
-                                 src="http://shopimg.weimob.com/100507453/Goods/1701191815042349.png">
+                            <van-image class="nd-logo2" :src="require('@/assets/img/logo/卫星.png')"/>
                         </li>
+                        <div class="nd-sate">
+                            <div class="nd-sate1">卫星</div>
+                            <div class="nd-sate2">Satellit</div>
+                        </div>
                     </ul>
                 </div>
-                <div class="status4_pics">
+                <div>
                     <ul class="pics6_status4">
                         <li>
-                            <img class="status4-pic1"
-                                 src="http://shopimg.weimob.com/100507453/Goods/1701191815042349.png">
+                            <van-image class="nd-logo2" :src="require('@/assets/img/logo/望远镜.png')"/>
                         </li>
+                        <div class="nd-sate">
+                            <div class="nd-sate1">望远镜</div>
+                            <div class="nd-sate2">Telescope</div>
+                        </div>
                     </ul>
                 </div>
-                <div class="status4_pics">
+                <div>
                     <ul class="pics6_status4">
                         <li>
-                            <img class="status4-pic1"
-                                 src="http://shopimg.weimob.com/100507453/Goods/1701191815042349.png">
+                            <van-image class="nd-logo2" :src="require('@/assets/img/logo/仪器.png')"/>
                         </li>
+                        <div class="nd-sate">
+                            <div class="nd-sate1">仪器</div>
+                            <div class="nd-sate2">Instrument</div>
+                        </div>
                     </ul>
                 </div>
-                <div class="status4_pics">
+                <div>
                     <ul class="pics6_status4">
                         <li>
-                            <img class="status4-pic1"
-                                 src="http://shopimg.weimob.com/100507453/Goods/1701191815042349.png">
+                            <van-image class="nd-logo2" :src="require('@/assets/img/logo/站点.png')"/>
                         </li>
+                        <div class="nd-sate">
+                            <div class="nd-sate1">站点</div>
+                            <div class="nd-sate2">Site</div>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -144,7 +164,7 @@
 
     export default {
         name: "index",
-        components: { head, tail},
+        components: {head, tail},
 
         data() {
             return {
@@ -171,35 +191,51 @@
 
             //超链接跳转
             checkDetail() {
-                this.$router.push({path: '/detail', query: {id: this.tableData[0].id,
-                        title: this.tableData[0].title , picture: this.tableData[0].picture,
+                this.$router.push({
+                    path: '/detail', query: {
+                        id: this.tableData[0].id,
+                        title: this.tableData[0].title, picture: this.tableData[0].picture,
                         picture: this.tableData[0].picture, content: this.tableData[0].content,
                         status: this.tableData[0].status, displayOrder: this.tableData[0].displayOrder,
-                        createTime: this.tableData[0].createTime, enAuthor: this.tableData[0].enAuthor}})
+                        createTime: this.tableData[0].createTime, enAuthor: this.tableData[0].enAuthor
+                    }
+                })
             },
 
             checkDetail1() {
-                this.$router.push({path: '/detail', query: {id: this.tableData[1].id,
-                        title: this.tableData[1].title , picture: this.tableData[1].picture,
+                this.$router.push({
+                    path: '/detail', query: {
+                        id: this.tableData[1].id,
+                        title: this.tableData[1].title, picture: this.tableData[1].picture,
                         picture: this.tableData[1].picture, content: this.tableData[1].content,
                         status: this.tableData[1].status, displayOrder: this.tableData[1].displayOrder,
-                        createTime: this.tableData[1].createTime, enAuthor: this.tableData[1].enAuthor}})
+                        createTime: this.tableData[1].createTime, enAuthor: this.tableData[1].enAuthor
+                    }
+                })
             },
 
             checkDetail2() {
-                this.$router.push({path: '/detail', query: {id: this.tableData[2].id,
-                        title: this.tableData[2].title , picture: this.tableData[2].picture,
+                this.$router.push({
+                    path: '/detail', query: {
+                        id: this.tableData[2].id,
+                        title: this.tableData[2].title, picture: this.tableData[2].picture,
                         picture: this.tableData[2].picture, content: this.tableData[2].content,
                         status: this.tableData[2].status, displayOrder: this.tableData[2].displayOrder,
-                        createTime: this.tableData[2].createTime, enAuthor: this.tableData[2].enAuthor}})
+                        createTime: this.tableData[2].createTime, enAuthor: this.tableData[2].enAuthor
+                    }
+                })
             },
 
             checkDetail3() {
-                this.$router.push({path: '/detail', query: {id: this.tableData[3].id,
-                        title: this.tableData[3].title , picture: this.tableData[3].picture,
+                this.$router.push({
+                    path: '/detail', query: {
+                        id: this.tableData[3].id,
+                        title: this.tableData[3].title, picture: this.tableData[3].picture,
                         picture: this.tableData[3].picture, content: this.tableData[3].content,
                         status: this.tableData[3].status, displayOrder: this.tableData[3].displayOrder,
-                        createTime: this.tableData[3].createTime, enAuthor: this.tableData[3].enAuthor}})
+                        createTime: this.tableData[3].createTime, enAuthor: this.tableData[3].enAuthor
+                    }
+                })
             },
 
             async initNewsData() {
@@ -229,6 +265,13 @@
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
 
+        .nd-logo2 {
+            margin-left: 20px;
+            height: 280px;
+            width: 210px;
+            margin-top: 20px;
+        }
+
         .nd-zx-title {
             color: white;
             text-align: left;
@@ -251,6 +294,25 @@
         .pics6_status4 {
             display: flex;
             flex-wrap: nowrap;
+            position: relative;
+        }
+
+        .nd-sate {
+            position: absolute;
+            margin-left: 50px;
+            margin-top: 220px;
+        }
+
+        .nd-sate1 {
+            font-size: 25px;
+            color: #e6e6e6;
+        }
+
+        .nd-sate2 {
+            margin-top: 10px;
+            font-size: 15px;
+            color: #e6e6e6;
+            text-align: left;
         }
 
         img {
@@ -459,13 +521,6 @@
             min-width: 1200px;
         }
 
-        .nd-next3 {
-            background: white;
-            height: 380px;
-            width: 100%;
-            min-width: 1200px;
-        }
-
         .nd-left, .nd-right {
             width: 50%;
         }
@@ -541,12 +596,6 @@
             position: relative;
         }
 
-        .nd-footer {
-            background: #181617;
-            height: 262px;
-            width: 100%;
-            min-width: 1200px;
-        }
     }
 
     /*媒体查询（手机）*/
@@ -597,12 +646,6 @@
             background: #252022;
         }
 
-        .nd-right-title {
-            height: 30px;
-            width: 100%;
-            margin-top: 20px;
-        }
-
         .nd-zx-bg {
             background: url("../../assets/img/background/zx.png");
             background-size: 100% 100%;
@@ -611,21 +654,6 @@
             position: relative;
         }
 
-        .nd-zb-bottom {
-            position: absolute;
-            bottom: 0px;
-            left: 0px;
-            width: 100%;
-            height: 25px;
-            background: rgba(37, 32, 34, 0.76);
-        }
-
-        /* .nd-news {
-             width: calc(100% - 10px);
-             height: 46px;
-             border: 2px solid #ffffff;
-             margin: 10px;
-         }*/
         .nd-news-bg {
             background: url("../../assets/img/background/news.png");
             background-size: 100% 100%;
@@ -634,37 +662,10 @@
             margin-left: 10px;
         }
 
-        .nd-introduction1 {
-            background: #181617;
-            height: 40px;
-            width: 100%;
-        }
-
         .nd-fl {
             background: #252022;
             height: 116px;
             width: 100%;
-        }
-
-        .nd-footer {
-            position: relative;
-            background: #181617;
-            height: 88px;
-            width: 100%;
-        }
-
-        .nd-logo3.van-image {
-            position: relative;
-            display: inline-block;
-            width: 295px;
-            height: 60px;
-            margin-top: 55px;
-            margin-left: 225px;
-        }
-
-        .nd-news-resource {
-            background-color: white;
-
         }
 
     }

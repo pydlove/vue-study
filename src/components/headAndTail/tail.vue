@@ -58,7 +58,7 @@
 
         .nd-footer {
             background: #181617;
-            height: 262px;
+            height: 260px;
             width: 100%;
             min-width: 1200px;
         }
