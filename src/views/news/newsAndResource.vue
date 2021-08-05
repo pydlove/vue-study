@@ -2,33 +2,40 @@
     <!--eslint-disable-->
     <div class="nd-container">
         <Header></Header>
-        <el-card style="width: 1200px">
+        <div class="nd-card" >
+            <el-breadcrumb v-if="this.client"  separator-class="el-icon-arrow-right" class="nd-list-top">
+                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item>新闻与资源</el-breadcrumb-item>
+            </el-breadcrumb>
+
+            <el-card v-else class="nd-news-resource">
+                <div class="nd-news-resource-list">新闻与资源</div>
+            </el-card>
+
             <div class="nd-news-list">
-                <el-card style="width: 170px;position: absolute; height: 210px;">
-                    <p style="text-align: center; font-size: 16px; font-weight: bolder">新闻与资源</p>
-                </el-card>
                 <div class="myCard">
-                    <el-card style="width: 810px; margin-top: 10px; position: relative; height: 140px"
+                    <el-card class="nd-list"
                              v-for="item in this.tableData" >
-                        <div style="position: absolute">
+                        <div class="nd-lists">
                             <el-image
-                                    style="width: 200px; height: 100px; "
+                                    class="nd-picture"
                                     :src="item.picture"
                                     :preview-src-list="[item.picture]"
                             ></el-image>
                         </div>
-                        <div style="margin-left: 230px;" @click="lookDetail(item)">
+                        <div class="nd-list-title"  @click="lookDetail(item)">
                             <p class="myCards">{{item.title }}</p>
                         </div>
-                        <div style="margin-left: 230px;">
-                            <p class="myCards1">时间 {{item.createTime}}</p>
+                        <div  class="nd-list-title" >
+                            <p class="myCards1"> {{item.createTime}}</p>
                         </div>
                     </el-card>
-                    <Pagination class="pagination mt-20" style="margin-top: 20px; text-align: right;" ref="pageRef"
-                                @search="search"></Pagination>
+                    <Page v-if="this.client" class="page"  ref="pageRef" @search="search"></Page>
+                    <Pagination v-else class="pagination"  ref="pageRef" @search="search"></Pagination>
                 </div>
             </div>
-        </el-card>
+
+        </div>
         <tail></tail>
     </div>
 </template>
@@ -36,12 +43,16 @@
 <script>
     import Header from "@/components/headAndTail/head";
     import tail from "@/components/headAndTail/tail";
+    import Page from "@/components/Page";
     import Pagination from "@/components/Pagination";
 
     export default {
         name: "newsAndResource",
-        components: {Header, tail, Pagination},
+        components: {Header, tail, Page, Pagination},
         mounted() {
+            if(this.clientWidth < 500){
+                this.client = true;
+            }
             this.search(1, 10);
         },
 
@@ -94,12 +105,14 @@
 
         data() {
             return {
+                client: false,
                 status: true,
                 status1: false,
                 title: "",
                 tableData: [],
                 currentPage: 1,
                 pageSize: 10,
+                clientWidth: document.body.clientWidth,
             }
         }
     }
@@ -129,15 +142,40 @@
 
         .nd-news-list {
             position: relative;
-            width: 1200px;
+            width: 900px;
+        }
+
+        .nd-list-top {
+            margin-left: 10px;
+            line-height: 2;
         }
 
         .myCard {
             width: 680px;
-            margin: 10px;
-            margin-left: 190px;
+            margin-left: 100px;
 
         }
+
+        .nd-card {
+            width: 1200px;
+            background: #f0f0f0;
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .nd-news-resource {
+            width: 170px;
+            height: 210px;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        .nd-news-resource-list {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bolder;
+        }
+
 
         .myCards {
             width: 550px;
@@ -152,9 +190,96 @@
             text-align: left;
         }
 
+        .nd-list {
+            width: 810px;
+            margin-top: 10px;
+            position: relative;
+            height: 140px;
+        }
+        .nd-lists {
+            position: absolute;
+        }
+
+        .nd-picture {
+            width: 200px;
+            height: 100px;
+        }
+
+        .nd-list-title {
+            margin-left: 230px;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: right;
+        }
     }
 
     /*媒体查询（手机）*/
     @media screen and (max-width: 768px) {
+
+        .nd-card {
+            width: 375px;
+            background: white;
+            background: #f0f0f0;
+        }
+
+        .nd-list-top {
+            margin-left: 10px;
+            line-height: 2;
+        }
+
+        .nd-news-list {
+            position: relative;
+            width: 100%;
+        }
+
+        .myCard {
+            width: 100%;
+        }
+
+        .nd-list {
+            margin-top: 10px;
+            position: relative;
+            margin-left: 10px;
+            margin-right: 10px;
+            height: 100px;
+        }
+
+        .nd-lists {
+            position: absolute;
+        }
+
+        .nd-picture {
+            width: 80px;
+            height: 60px;
+        }
+
+        .nd-list-title {
+            margin-left: 20px;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .myCards {
+            width: 200px;
+            margin-top: 10px;
+            font-size: 5px;
+            text-align: left;
+            margin-left: 68px;
+        }
+
+        .myCards1 {
+            width: 150px;
+            margin-top: 5px;
+            font-size: 5px;
+            text-align: left;
+            margin-left: 68px;
+        }
+
+
     }
 </style>

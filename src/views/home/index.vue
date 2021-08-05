@@ -608,6 +608,92 @@
             position: relative;
         }
 
+        .nd-top-main {
+            display: flex;
+            flex-wrap: nowrap;
+            width: 900px;
+            margin: 0px auto;
+            font-family: "SC-Bold";
+            color: #ffffff;
+        }
+
+        .nd-tm-right {
+            width: 200px;
+            margin-left: 5px;
+            height: 120px;
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+
+        .nd-menu-header1 {
+            border-top: 2px solid #ffffff;
+            font-size: 1px;
+            line-height: 30px;
+            width: 50px;
+            color: #bfbfbf;;
+        }
+
+        .nd-menu-header2 {
+            border-top: 2px solid #ffffff;
+            font-size: 1px;
+            margin-left: 10px;
+            line-height: 30px;
+            width: 60px;
+            color: #bfbfbf;
+        }
+
+        .nd-menu-header3 {
+            border-top: 2px solid #f5f5f5;
+            font-size: 1px;
+            margin-left: 10px;
+            line-height: 30px;
+            width: 60px;
+            color: #bfbfbf;
+        }
+
+        .nd-left-title {
+            width: 100%;
+            height: 120px;
+            background: #252022;
+        }
+
+        .nd-zx-title {
+            color: white;
+            text-align: left;
+            font-size: 10px;
+            line-height: 35px;
+            margin-left: 26px;
+            width: 80px;
+            height: 70px;
+        }
+
+        .nd-news1 {
+            color: white;
+            font-size: 1px;
+            text-align: left;
+            margin-left: 24px;
+            width: 80px;
+        }
+
+        .nd-more {
+            position: relative;
+            font-size: 1px;
+            color: white;
+            text-align: right;
+            margin-right: 80px;
+        }
+
+        .nd-tm-left, .nd-tm-right {
+            width: 17%;
+            text-align: left;
+        }
+
+        .nd-logo {
+            width: 120px;
+            height: 60px;
+        }
         .nd-zx-box {
             width: 100%;
             height: 180px;
