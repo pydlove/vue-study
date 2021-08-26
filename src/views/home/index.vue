@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="ml-20">
-                        <div class="nd-menu-header2">
+                        <div class="nd-menu-header2"  @click="observeDevice" >
                             观测设备
                         </div>
                         <div class="nd-menu-header3">
@@ -70,8 +70,7 @@
                         </div>
                         <div class="nd-news">
                             <div class="news-list">
-                                <div class="news-text" @click="checkDetail()">1. {{this.tableData[0].title | ellipsis
-                                    }}
+                                <div class="news-text" @click="checkDetail()" >1. {{this.tableData[0].title | ellipsis }}
                                 </div>
                                 <div class="news-text" @click="checkDetail1()">2. {{this.tableData[1].title | ellipsis
                                     }}
@@ -171,14 +170,15 @@
                 scale: 0.5,
                 tableData: [],
                 title: "",
+                clientHeight: document.body.clientHeight,
             }
         },
 
         filters: {
             ellipsis(value) {
                 if (!value) return '';
-                if (value.length > 32) {
-                    return value.slice(0, 32) + '...'
+                if (value.length > 10) {
+                    return value.slice(0, 10) + '...'
                 }
                 return value
             }
@@ -241,7 +241,7 @@
             async initNewsData() {
                 let params = new FormData();
                 params.append("title", this.title);
-                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_new_and_resource_search, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_new_and_resource_search, params, "POST");
                 if (data.code == 200) {
                     this.tableData = data.data;
                     return true;
@@ -257,6 +257,12 @@
             newsAndResource() {
                 this.$router.push({path: '/newsAndResource'})
             },
+
+            //观测设备
+            observeDevice() {
+                this.$router.push({path: "/observeDevice"})
+            },
+
         },
     }
 </script>
@@ -603,9 +609,15 @@
         .nd-top {
             background: url("../../assets/img/background/banner@3x.png");
             background-size: 100% 100%;
-            height: 150px;
+            height: 100%;
             width: 100%;
             position: relative;
+        }
+
+        .nd-title {
+            margin-top: 10px;
+            margin-left: 10px;
+            width: 200px;
         }
 
         .nd-top-main {
@@ -625,7 +637,6 @@
             display: flex;
             flex-wrap: nowrap;
         }
-
 
         .nd-menu-header1 {
             border-top: 2px solid #ffffff;
@@ -655,7 +666,7 @@
 
         .nd-left-title {
             width: 100%;
-            height: 120px;
+            height: 80px;
             background: #252022;
         }
 
@@ -664,25 +675,124 @@
             text-align: left;
             font-size: 10px;
             line-height: 35px;
-            margin-left: 26px;
+            margin-left: 15px;
             width: 80px;
-            height: 70px;
+            height: 29px;
         }
 
         .nd-news1 {
             color: white;
-            font-size: 1px;
             text-align: left;
-            margin-left: 24px;
-            width: 80px;
+            width: 20px;
+            margin-left: 15px;
         }
 
         .nd-more {
-            position: relative;
-            font-size: 1px;
+          margin-top: 50px;
+        }
+
+
+        .time-style {
             color: white;
-            text-align: right;
-            margin-right: 80px;
+            font-size: 1px;
+            margin-top: 8px;
+            text-align: left;
+            margin-left: 8px;
+        }
+
+        .nd-zb-bottom1 {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            height: 40px;
+            background: #2520228a;
+        }
+
+        .nd-right-title1 {
+            height: 16px;
+            width: 100%;
+            margin-top: 22px;
+            position: relative;
+        }
+
+        .nd-news-list {
+            color: white;
+            font-size: 1px;
+            text-align: left;
+            position: absolute;
+            margin-top: -10px;
+            margin-left: 13px;
+        }
+
+        .nd-news {
+            width: calc(100% - 10px);
+            height: 60px;
+            border: 2px solid #ffffff;
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .news-list {
+            margin-top: 3px;
+            margin-left: 5px;
+            position: absolute;
+        }
+
+        .news-text {
+            color: white;
+            margin-top: 1px;
+            text-align: left;
+        }
+
+        .nd-introduction {
+            background: #181617;
+            height: 70px;
+            width: 100%;
+            min-width: 357px;
+            position: relative;
+        }
+
+        .nd-in-style {
+            position: absolute;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        .nd-introduction-style {
+            color: white;
+            font-size: 20px;
+        }
+
+        .in-style {
+            color: #ffffff;
+            font-size: 3px;
+            margin-top: 7px;
+        }
+
+        .in-more {
+            position: absolute;
+            padding-top: 33px;
+            margin-left: 280px;
+        }
+
+        .nd-more1 {
+            position: relative;
+            color: white;
+            text-align-last: left;
+        }
+
+        .nd-logo1 {
+            position: absolute;
+            width: 30px;
+            margin-left: 10px;
+            height: 10px;
+        }
+
+        .nd-menu-header41 {
+            border-top: 1px solid #ffffff;
+            width: 70px;
+            margin-top: 8px;
         }
 
         .nd-tm-left, .nd-tm-right {
@@ -752,6 +862,44 @@
             background: #252022;
             height: 116px;
             width: 100%;
+        }
+
+        .pics6 {
+            margin-top: 7px;
+            display: flex;
+            flex-wrap: nowrap;
+            margin-left: 10px;
+        }
+
+        .nd-logo2 {
+            margin-left: 20px;
+            width: 65px;
+            height: 88px;
+            margin-top: 10px;
+        }
+
+        .pics6_status4 {
+            display: flex;
+            flex-wrap: nowrap;
+            position: relative;
+        }
+
+        .nd-sate {
+            position: absolute;
+            margin-left: 25px;
+            margin-top: 72px;
+        }
+
+        .nd-sate1 {
+            font-size: 10px;
+            color: #e6e6e6;
+        }
+
+        .nd-sate2 {
+            margin-top: 2px;
+            font-size: 1px;
+            color: #e6e6e6;
+            text-align: left;
         }
 
     }

@@ -122,15 +122,15 @@ module.exports = {
     devServer: {
         disableHostCheck: true,
         proxy: {
-            '/blsh-h5-service': {
-                target: 'http://localhost:18081',
+            '/web-service': {
+                target: 'http://localhost:18082',
                 // target: 'http://ahbfi.org.cn:8080',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}
             },
-            '/console-service': {
-                target: 'http://localhost:9091',
+            '/web-service': {
+                target: 'http://localhost:9092',
                 // target: 'http://ahbfi.org.cn:8080',
                 changeOrigin: true,
                 ws: true,

@@ -82,30 +82,34 @@ export default {
     console_service_v1_con_user_list: "/blsh-h5-service/v1/con_user/list",
     console_service_v1_con_user_add: "/blsh-h5-service/v1/con_user/add",
     console_service_v1_con_user_edit: "/blsh-h5-service/v1/con_user/edit",
-    console_service_v1_con_user_delete: "/blsh-h5-service/v1/con_user/delete",
-    console_service_v1_con_user_role_related: "/blsh-h5-service/v1/con_user/role/related",
-    console_service_v1_con_user_approver: "/blsh-h5-service/v1/con_user/approver",
+    console_service_v1_con_user_delete: "/blsh-service/v1/con_user/delete",
+    console_service_v1_con_user_role_related: "/blsh-service/v1/con_user/role/related",
+    console_service_v1_con_user_approver: "/blsh-servicee/v1/con_user/approver",
 
     // 角色管理
-    console_service_v1_con_role_list: "/blsh-h5-service/v1/con_role/list",
-    console_service_v1_con_role_add: "/blsh-h5-service/v1/con_role/add",
-    console_service_v1_con_role_edit: "/blsh-h5-service/v1/con_role/edit",
-    console_service_v1_con_role_delete: "/blsh-h5-service/v1/con_role/delete",
-    console_service_v1_con_role_related_user: "/blsh-h5-service/v1/con_role/relatedUser",
-    console_service_v1_con_role_authorize_fun: "/blsh-h5-service/v1/con_role/authorizeFun",
-    console_service_v1_con_role_related_fun: "/blsh-h5-service/v1/con_role/relatedFun",
+    console_service_v1_con_role_list: "/blsh-service/v1/con_role/list",
+    console_service_v1_con_role_add: "/blsh-service/v1/con_role/add",
+    console_service_v1_con_role_edit: "/blsh-service/v1/con_role/edit",
+    console_service_v1_con_role_delete: "/blsh-service/v1/con_role/delete",
+    console_service_v1_con_role_related_user: "/blsh-service/v1/con_role/relatedUser",
+    console_service_v1_con_role_authorize_fun: "/blsh-service/v1/con_role/authorizeFun",
+    console_service_v1_con_role_related_fun: "/blsh-service/v1/con_role/relatedFun",
 
     // 日志
-    console_service_v1_con_log_list: "/blsh-h5-service/v1/con_log/list",
+    console_service_v1_con_log_list: "/blsh-service/v1/con_log/list",
 
     // 工作日志
-    console_service_v1_bl_work_log_add: "/blsh-h5-service/v1/bl_work_log/add",
-    console_service_v1_bl_work_log_edit: "/blsh-h5-service/v1/bl_work_log/edit",
-    console_service_v1_bl_work_log_delete: "/blsh-h5-service/v1/bl_work_log/delete",
-    console_service_v1_bl_work_log_list: "/blsh-h5-service/v1/bl_work_log/list",
-    console_service_v1_bl_work_log_leader: "/blsh-h5-service/v1/bl_work_log/leader",
+    console_service_v1_bl_work_log_add: "/blsh-service/v1/bl_work_log/add",
+    console_service_v1_bl_work_log_edit: "/blsh-servicee/v1/bl_work_log/edit",
+    console_service_v1_bl_work_log_delete: "/blsh-service/v1/bl_work_log/delete",
+    console_service_v1_bl_work_log_list: "/blsh-service/v1/bl_work_log/list",
+    console_service_v1_bl_work_log_leader: "/blsh-service/v1/bl_work_log/leader",
 
     //新闻与资源
-    blsh_service_v1_new_and_resource_searchAll: "/blsh-h5-service/v1/nd_news_resource/searchAll",
-    blsh_service_v1_new_and_resource_search: "/blsh-h5-service/v1/nd_news_resource/searchList",
+    web_service_v1_new_and_resource_searchAll: "/web-service/v1/nd_news_resource/searchAll",
+    web_service_v1_new_and_resource_search: "/web-service/v1/nd_news_resource/searchList",
+
+    //观测设备
+    web_service_v1_nd_observation_equipment_searchAll: "/web-service/v1/nd_observation_equipment/searchListByType",
+
 }

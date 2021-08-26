@@ -40,7 +40,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心'
+                title: '南京大学太阳数据中心之新闻与资源'
             },
             path: '/newsAndResource',
             name: 'newsAndResource',
@@ -53,6 +53,14 @@ const router = new Router({
             path: '/detail',
             name: 'detail',
             component: (resolve) => require(['../views/news/detail.vue'], resolve),
+        },
+        {
+            meta: {
+                title: '南京大学太阳数据中心之观测设备'
+            },
+            path: '/observeDevice',
+            name: 'observeDevice',
+            component: (resolve) => require(['../views/observeDevice/index.vue'], resolve),
         },
     ]
 })
