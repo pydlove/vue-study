@@ -1,7 +1,7 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <Header></Header>
+        <Header :currentMenu="'newsAndResource'"></Header>
         <div class="nd-card" >
             <el-breadcrumb v-if="this.client"  separator-class="el-icon-arrow-right" class="nd-list-top">
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -36,19 +36,19 @@
             </div>
 
         </div>
-        <tail></tail>
+        <Footer></Footer>
     </div>
 </template>
 <!--eslint-disable-->
 <script>
-    import Header from "@/components/headAndTail/head";
-    import tail from "@/components/headAndTail/tail";
+    import Header from "@/components/Header";
+    import Footer from "@/components/Footer";
     import Page from "@/components/Page";
     import Pagination from "@/components/Pagination";
 
     export default {
         name: "newsAndResource",
-        components: {Header, tail, Page, Pagination},
+        components: {Header, Footer, Page, Pagination},
         mounted() {
             if(this.clientWidth < 500){
                 this.client = true;

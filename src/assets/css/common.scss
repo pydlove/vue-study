@@ -860,3 +860,25 @@ body {
   flex-wrap: nowrap;
   align-items: center;
 }
+
+.nd-top-normal-main {
+  width: 1200px;
+  background: #17030b;
+}
+.nd-tm-normal {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 900px;
+  margin: 0px auto;
+  font-family: "SC-Bold";
+  color: #ffffff;
+  background: #17030b;
+}
+.nd-normal-logo-box {
+  width: 390px;
+}
+.nd-normal-logo {
+  height: 44px;
+  width: 224px;
+  margin-top: 10px;
+}

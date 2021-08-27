@@ -11,7 +11,7 @@
                     </div>
                 </div>
 
-                <Header></Header>
+                <Header :currentMenu="'index'"></Header>
             </div>
             <!--资讯-->
             <div class="nd-zx-box">

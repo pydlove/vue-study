@@ -3,27 +3,27 @@
 	<div>
 		<div class="nd-tm-right">
 			<div class=" nd-menu-header">
-				<div @click="selectMenu('index')">
+				<div :class="currentMenu=='index'?'nd-menu-active':''"  @click="selectMenu('index')">
 					首页
 				</div>
 			</div>
 			<div class="nd-menu-header">
-				<div @click="selectMenu('observeDevice')">
+				<div :class="currentMenu=='observeDevice'?'nd-menu-active':''" @click="selectMenu('observeDevice')">
 					观测设备
 				</div>
-				<div @click="selectMenu('index')">
+				<div :class="currentMenu==''?'nd-menu-active':''" @click="selectMenu('index')">
 					观测数据
 				</div>
-				<div @click="selectMenu('index')">
+				<div :class="currentMenu==''?'nd-menu-active':''" @click="selectMenu('index')">
 					观测申请
 				</div>
 			</div>
 			<div>
 				<div class="nd-menu-header">
-					<div @click="selectMenu('index')">
+					<div :class="currentMenu==''?'nd-menu-active':''" @click="selectMenu('index')">
 						图库与成果
 					</div>
-					<div @click="selectMenu('newsAndResource')">
+					<div :class="currentMenu=='newsAndResource'?'nd-menu-active':''" @click="selectMenu('newsAndResource')">
 						新闻与资源
 					</div>
 				</div>
@@ -41,11 +41,11 @@
 	    data() {
             return {
                 language: 'ch',
-                currentMenu: "",
             }
 	    },
+	    props: [ 'currentMenu' ],
 	    mounted() {
-
+			console.log(this.currentMenu)
 	    },
 	    methods: {
             /**
@@ -83,6 +83,10 @@
 	@media screen and (min-width: 768px) {
 		.nd-lang-active {
 			color: #fa541c;
+		}
+		.nd-menu-active {
+			color: #fa541c;
+			font-size: 16px !important;
 		}
 		.nd-language > span:nth-of-type(1) {
 			margin-right: 5px;

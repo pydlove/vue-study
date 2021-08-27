@@ -1,7 +1,7 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <Header></Header>
+        <NormalHeader :currentMenu="'newsAndResource'"></NormalHeader>
         <div class="nd-detail-box" :style="{ minHeight: minHeight + 'px', }">
             <div class="nd-news-list box-zing-a">
                 <div class="nd-new-left">
@@ -17,17 +17,17 @@
 
             </div>
         </div>
-        <tail></tail>
+        <Footer></Footer>
     </div>
 </template>
 <!--eslint-disable-->
 <script>
-    import Header from "@/components/headAndTail/head";
-    import tail from "@/components/headAndTail/tail";
+    import NormalHeader from "@/components/NormalHeader.vue";
+    import Footer from "@/components/Footer";
 
     export default {
         name: "detail",
-        components: {Header, tail},
+        components: {NormalHeader, Footer},
 
         mounted() {
             this.minHeight = this.clientHeight - 180 - 260;
@@ -68,6 +68,7 @@
 <style scoped>
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
+
         .el-upload__tip {
             color: #f51d37;
         }
