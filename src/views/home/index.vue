@@ -53,7 +53,7 @@
                         <div class="nd-news">
                             <div class="news-list">
                                 <div class="news-text" v-for="(item, index) in tableData" :key="index" @click="toDetail(item)">
-                                   {{ index + 1}}. {{ item.title | ellipsis }}
+                                    {{ index + 1}}. {{ item.title | ellipsis }}
                                 </div>
                             </div>
                         </div>
@@ -66,24 +66,24 @@
         <div class="nd-next1"></div>
         <div class="nd-next2"></div>
         <div class="nd-introduction">
-           <div class="nd-in-style">
-               <div class="nd-introduction-title">
-                   <div>介绍</div>
-                   <div>Introduction</div>
-               </div>
-               <div class="nd-result-more">
-                   <div class="dffn-ac">
-                       <div class="mr-20">
-                           更多
-                       </div>
-                       <div class="nd-more-arrow">
-                           <div></div>
-                           <div></div>
-                       </div>
-                   </div>
-                   <div class="nd-line"></div>
-               </div>
-           </div>
+            <div class="nd-in-style">
+                <div class="nd-introduction-title">
+                    <div>介绍</div>
+                    <div>Introduction</div>
+                </div>
+                <div class="nd-result-more">
+                    <div class="dffn-ac">
+                        <div class="mr-20">
+                            更多
+                        </div>
+                        <div class="nd-more-arrow">
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="nd-line"></div>
+                </div>
+            </div>
         </div>
 
         <div class="nd-fl">
@@ -578,246 +578,246 @@
 
     /*媒体查询（手机）*/
     /*@media screen and (max-width: 768px) {*/
-        /*.nd-top {*/
-            /*background: url("../../assets/img/background/banner@3x.png");*/
-            /*background-size: 100% 100%;*/
-            /*height: 100%;*/
-            /*width: 100%;*/
-            /*position: relative;*/
-        /*}*/
+    /*.nd-top {*/
+    /*background: url("../../assets/img/background/banner@3x.png");*/
+    /*background-size: 100% 100%;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*position: relative;*/
+    /*}*/
 
-        /*.nd-title {*/
-            /*margin-top: 10px;*/
-            /*margin-left: 10px;*/
-            /*width: 200px;*/
-        /*}*/
+    /*.nd-title {*/
+    /*margin-top: 10px;*/
+    /*margin-left: 10px;*/
+    /*width: 200px;*/
+    /*}*/
 
-        /*.nd-top-main {*/
-            /*display: flex;*/
-            /*flex-wrap: nowrap;*/
-            /*width: 900px;*/
-            /*margin: 0px auto;*/
-            /*font-family: "SC-Bold";*/
-            /*color: #ffffff;*/
-        /*}*/
+    /*.nd-top-main {*/
+    /*display: flex;*/
+    /*flex-wrap: nowrap;*/
+    /*width: 900px;*/
+    /*margin: 0px auto;*/
+    /*font-family: "SC-Bold";*/
+    /*color: #ffffff;*/
+    /*}*/
 
-        /*.nd-left-title {*/
-            /*width: 100%;*/
-            /*height: 80px;*/
-            /*background: #252022;*/
-        /*}*/
+    /*.nd-left-title {*/
+    /*width: 100%;*/
+    /*height: 80px;*/
+    /*background: #252022;*/
+    /*}*/
 
-        /*.nd-more {*/
-          /*margin-top: 50px;*/
-        /*}*/
+    /*.nd-more {*/
+    /*margin-top: 50px;*/
+    /*}*/
 
 
-        /*.time-style {*/
-            /*color: white;*/
-            /*font-size: 1px;*/
-            /*margin-top: 8px;*/
-            /*text-align: left;*/
-            /*margin-left: 8px;*/
-        /*}*/
+    /*.time-style {*/
+    /*color: white;*/
+    /*font-size: 1px;*/
+    /*margin-top: 8px;*/
+    /*text-align: left;*/
+    /*margin-left: 8px;*/
+    /*}*/
 
-        /*.nd-zb-bottom1 {*/
-            /*position: absolute;*/
-            /*bottom: 0px;*/
-            /*left: 0px;*/
-            /*width: 100%;*/
-            /*height: 40px;*/
-            /*background: #2520228a;*/
-        /*}*/
+    /*.nd-zb-bottom1 {*/
+    /*position: absolute;*/
+    /*bottom: 0px;*/
+    /*left: 0px;*/
+    /*width: 100%;*/
+    /*height: 40px;*/
+    /*background: #2520228a;*/
+    /*}*/
 
-        /*.nd-right-title1 {*/
-            /*height: 16px;*/
-            /*width: 100%;*/
-            /*margin-top: 22px;*/
-            /*position: relative;*/
-        /*}*/
+    /*.nd-right-title1 {*/
+    /*height: 16px;*/
+    /*width: 100%;*/
+    /*margin-top: 22px;*/
+    /*position: relative;*/
+    /*}*/
 
-        /*.nd-news-list {*/
-            /*color: white;*/
-            /*font-size: 1px;*/
-            /*text-align: left;*/
-            /*position: absolute;*/
-            /*margin-top: -10px;*/
-            /*margin-left: 13px;*/
-        /*}*/
+    /*.nd-news-list {*/
+    /*color: white;*/
+    /*font-size: 1px;*/
+    /*text-align: left;*/
+    /*position: absolute;*/
+    /*margin-top: -10px;*/
+    /*margin-left: 13px;*/
+    /*}*/
 
-        /*.nd-news {*/
-            /*width: calc(100% - 10px);*/
-            /*height: 60px;*/
-            /*border: 2px solid #ffffff;*/
-            /*position: relative;*/
-            /*margin-left: 10px;*/
-        /*}*/
+    /*.nd-news {*/
+    /*width: calc(100% - 10px);*/
+    /*height: 60px;*/
+    /*border: 2px solid #ffffff;*/
+    /*position: relative;*/
+    /*margin-left: 10px;*/
+    /*}*/
 
-        /*.news-list {*/
-        /*}*/
+    /*.news-list {*/
+    /*}*/
 
-        /*.news-text {*/
-            /*color: white;*/
-            /*margin-top: 1px;*/
-            /*text-align: left;*/
-        /*}*/
+    /*.news-text {*/
+    /*color: white;*/
+    /*margin-top: 1px;*/
+    /*text-align: left;*/
+    /*}*/
 
-        /*.nd-introduction {*/
-            /*background: #181617;*/
-            /*height: 70px;*/
-            /*width: 100%;*/
-            /*min-width: 357px;*/
-            /*position: relative;*/
-        /*}*/
+    /*.nd-introduction {*/
+    /*background: #181617;*/
+    /*height: 70px;*/
+    /*width: 100%;*/
+    /*min-width: 357px;*/
+    /*position: relative;*/
+    /*}*/
 
-        /*.nd-in-style {*/
-            /*position: absolute;*/
-            /*margin-top: 20px;*/
-            /*margin-left: 20px;*/
-        /*}*/
+    /*.nd-in-style {*/
+    /*position: absolute;*/
+    /*margin-top: 20px;*/
+    /*margin-left: 20px;*/
+    /*}*/
 
-        /*.nd-introduction-style {*/
-            /*color: white;*/
-            /*font-size: 20px;*/
-        /*}*/
+    /*.nd-introduction-style {*/
+    /*color: white;*/
+    /*font-size: 20px;*/
+    /*}*/
 
-        /*.in-style {*/
-            /*color: #ffffff;*/
-            /*font-size: 3px;*/
-            /*margin-top: 7px;*/
-        /*}*/
+    /*.in-style {*/
+    /*color: #ffffff;*/
+    /*font-size: 3px;*/
+    /*margin-top: 7px;*/
+    /*}*/
 
-        /*.in-more {*/
-            /*position: absolute;*/
-            /*padding-top: 33px;*/
-            /*margin-left: 280px;*/
-        /*}*/
+    /*.in-more {*/
+    /*position: absolute;*/
+    /*padding-top: 33px;*/
+    /*margin-left: 280px;*/
+    /*}*/
 
-        /*.nd-more1 {*/
-            /*position: relative;*/
-            /*color: white;*/
-            /*text-align-last: left;*/
-        /*}*/
+    /*.nd-more1 {*/
+    /*position: relative;*/
+    /*color: white;*/
+    /*text-align-last: left;*/
+    /*}*/
 
-        /*.nd-logo1 {*/
-            /*position: absolute;*/
-            /*width: 30px;*/
-            /*margin-left: 10px;*/
-            /*height: 10px;*/
-        /*}*/
+    /*.nd-logo1 {*/
+    /*position: absolute;*/
+    /*width: 30px;*/
+    /*margin-left: 10px;*/
+    /*height: 10px;*/
+    /*}*/
 
-        /*.nd-menu-header41 {*/
-            /*border-top: 1px solid #ffffff;*/
-            /*width: 70px;*/
-            /*margin-top: 8px;*/
-        /*}*/
+    /*.nd-menu-header41 {*/
+    /*border-top: 1px solid #ffffff;*/
+    /*width: 70px;*/
+    /*margin-top: 8px;*/
+    /*}*/
 
-        /*.nd-tm-left, .nd-tm-right {*/
-            /*width: 17%;*/
-            /*text-align: left;*/
-        /*}*/
+    /*.nd-tm-left, .nd-tm-right {*/
+    /*width: 17%;*/
+    /*text-align: left;*/
+    /*}*/
 
-        /*.nd-logo {*/
-            /*width: 120px;*/
-            /*height: 60px;*/
-        /*}*/
-        /*.nd-zx-box {*/
-            /*width: 100%;*/
-            /*height: 180px;*/
-            /*position: absolute;*/
-            /*top: 130px;*/
-            /*left: 0px;*/
-        /*}*/
+    /*.nd-logo {*/
+    /*width: 120px;*/
+    /*height: 60px;*/
+    /*}*/
+    /*.nd-zx-box {*/
+    /*width: 100%;*/
+    /*height: 180px;*/
+    /*position: absolute;*/
+    /*top: 130px;*/
+    /*left: 0px;*/
+    /*}*/
 
-        /*.nd-zx-main {*/
-            /*width: 340px;*/
-            /*height: 100%;*/
-            /*margin: 0px auto;*/
-            /*display: flex;*/
-            /*flex-wrap: nowrap;*/
-        /*}*/
+    /*.nd-zx-main {*/
+    /*width: 340px;*/
+    /*height: 100%;*/
+    /*margin: 0px auto;*/
+    /*display: flex;*/
+    /*flex-wrap: nowrap;*/
+    /*}*/
 
-        /*.nd-next1 {*/
-            /*background: #181617;*/
-            /*height: 30px;*/
-            /*width: 100%;*/
-        /*}*/
+    /*.nd-next1 {*/
+    /*background: #181617;*/
+    /*height: 30px;*/
+    /*width: 100%;*/
+    /*}*/
 
-        /*.nd-next2 {*/
-            /*background: #252022;*/
-            /*height: 130px;*/
-            /*width: 100%;*/
-        /*}*/
+    /*.nd-next2 {*/
+    /*background: #252022;*/
+    /*height: 130px;*/
+    /*width: 100%;*/
+    /*}*/
 
-        /*.nd-left, .nd-right {*/
-            /*width: 50%;*/
-        /*}*/
+    /*.nd-left, .nd-right {*/
+    /*width: 50%;*/
+    /*}*/
 
-        /*.nd-left-title {*/
-            /*width: 100%;*/
-            /*height: 50px;*/
-            /*background: #252022;*/
-        /*}*/
+    /*.nd-left-title {*/
+    /*width: 100%;*/
+    /*height: 50px;*/
+    /*background: #252022;*/
+    /*}*/
 
-        /*.nd-zx-bg {*/
-            /*background: url("../../assets/img/background/zx.png");*/
-            /*background-size: 100% 100%;*/
-            /*height: 112px;*/
-            /*width: 100%;*/
-            /*position: relative;*/
-        /*}*/
+    /*.nd-zx-bg {*/
+    /*background: url("../../assets/img/background/zx.png");*/
+    /*background-size: 100% 100%;*/
+    /*height: 112px;*/
+    /*width: 100%;*/
+    /*position: relative;*/
+    /*}*/
 
-        /*.nd-news-bg {*/
-            /*background: url("../../assets/img/background/news.png");*/
-            /*background-size: 100% 100%;*/
-            /*height: 47px;*/
-            /*width: calc(100% - 10px);*/
-            /*margin-left: 10px;*/
-        /*}*/
+    /*.nd-news-bg {*/
+    /*background: url("../../assets/img/background/news.png");*/
+    /*background-size: 100% 100%;*/
+    /*height: 47px;*/
+    /*width: calc(100% - 10px);*/
+    /*margin-left: 10px;*/
+    /*}*/
 
-        /*.nd-fl {*/
-            /*background: #252022;*/
-            /*height: 116px;*/
-            /*width: 100%;*/
-        /*}*/
+    /*.nd-fl {*/
+    /*background: #252022;*/
+    /*height: 116px;*/
+    /*width: 100%;*/
+    /*}*/
 
-        /*.pics6 {*/
-            /*margin-top: 7px;*/
-            /*display: flex;*/
-            /*flex-wrap: nowrap;*/
-            /*margin-left: 10px;*/
-        /*}*/
+    /*.pics6 {*/
+    /*margin-top: 7px;*/
+    /*display: flex;*/
+    /*flex-wrap: nowrap;*/
+    /*margin-left: 10px;*/
+    /*}*/
 
-        /*.nd-logo2 {*/
-            /*margin-left: 20px;*/
-            /*width: 65px;*/
-            /*height: 88px;*/
-            /*margin-top: 10px;*/
-        /*}*/
+    /*.nd-logo2 {*/
+    /*margin-left: 20px;*/
+    /*width: 65px;*/
+    /*height: 88px;*/
+    /*margin-top: 10px;*/
+    /*}*/
 
-        /*.pics6_status4 {*/
-            /*display: flex;*/
-            /*flex-wrap: nowrap;*/
-            /*position: relative;*/
-        /*}*/
+    /*.pics6_status4 {*/
+    /*display: flex;*/
+    /*flex-wrap: nowrap;*/
+    /*position: relative;*/
+    /*}*/
 
-        /*.nd-sate {*/
-            /*position: absolute;*/
-            /*margin-left: 25px;*/
-            /*margin-top: 72px;*/
-        /*}*/
+    /*.nd-sate {*/
+    /*position: absolute;*/
+    /*margin-left: 25px;*/
+    /*margin-top: 72px;*/
+    /*}*/
 
-        /*.nd-sate1 {*/
-            /*font-size: 10px;*/
-            /*color: #e6e6e6;*/
-        /*}*/
+    /*.nd-sate1 {*/
+    /*font-size: 10px;*/
+    /*color: #e6e6e6;*/
+    /*}*/
 
-        /*.nd-sate2 {*/
-            /*margin-top: 2px;*/
-            /*font-size: 1px;*/
-            /*color: #e6e6e6;*/
-            /*text-align: left;*/
-        /*}*/
+    /*.nd-sate2 {*/
+    /*margin-top: 2px;*/
+    /*font-size: 1px;*/
+    /*color: #e6e6e6;*/
+    /*text-align: left;*/
+    /*}*/
 
     /*}*/
 </style>
