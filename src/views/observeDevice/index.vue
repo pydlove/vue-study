@@ -20,8 +20,7 @@
                 </div>
 
                 <div class="myCard">
-                    <el-card class="nd-list"
-                             v-for="item in this.tableData">
+                    <el-card class="nd-list" v-for="item in this.tableData">
                         <div class="nd-lists">
                             <el-image
                                     class="nd-picture"
