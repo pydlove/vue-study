@@ -1,10 +1,7 @@
 body {
   margin: 0;
-  //background: #F9F9F9;
   font-family: "Helvetica", "Tahoma", "Arial", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", "STXihei", "STHeiti", "Heiti", "SimSun", "sans-serif";
   width: 100%;
-  //min-width: 1200px;
-  //min-height: 600px;
   overflow: auto;
   overflow-y: hidden;
 }
@@ -834,9 +831,32 @@ body {
   font-family: 'SC-Bold';
   src : url('../fonts/SC-Bold.otf');
 }
+@font-face{
+  font-family: 'SC';
+  src : url('../fonts/sc.otf');
+}
+@font-face{
+  font-family: 'SC-Light';
+  src : url('../fonts/SourceHanSerifSC-Light.otf');
+}
 
 .box-zing-a {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box
+}
+
+.ml-20 {margin-left: 20px}
+.ml-50 {margin-left: 50px}
+
+.mr-20 {margin-right: 20px}
+
+.dffn {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.dffn-ac {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
 }

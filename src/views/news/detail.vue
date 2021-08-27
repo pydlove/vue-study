@@ -31,28 +31,10 @@
 
         mounted() {
             this.minHeight = this.clientHeight - 180 - 260;
-            /*if(this.clientWidth > 768) {
-                this.minHeight = this.clientHeight - 180 - 260;
-            } else {
-                this.minHeight = this.clientHeight - 180 - 240;
-            }*/
-
-            let id = this.$route.query.id
-            this.form.id = id;
-            let title = this.$route.query.title;
-            this.form.title = title;
-            let picture = this.$route.query.picture;
-            this.form.picture = picture;
-            let content = this.$route.query.content;
-            this.form.content = content;
-            let status = this.$route.query.status;
-            this.form.status = status;
-            let displayOrder = this.$route.query.displayOrder;
-            this.form.displayOrder = displayOrder;
-            let createTime = this.$route.query.createTime;
-            this.form.createTime = createTime;
-            let enAuthor = this.$route.query.enAuthor;
-            this.form.enAuthor = enAuthor;
+            let newsDetail = this.$utils.getStorage("newsDetail");
+            if(newsDetail) {
+                this.form = newsDetail;
+            }
         },
         methods: {
             close() {
