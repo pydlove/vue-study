@@ -3,19 +3,22 @@
     <div class="nd-container">
         <Header></Header>
         <div class="nd-card">
+
             <el-breadcrumb v-if="this.client" separator-class="el-icon-arrow-right" class="nd-list-top">
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item>观测设备</el-breadcrumb-item>
             </el-breadcrumb>
+
             <div v-else class="nd-news-list">
                 <div class="observation">
-                    <el-card  class="nd-news-resource">
-                        <div class="nd-news-resource-list" @click="chase">CHASE 卫星</div>
-                        <div class="nd-news-resource-list" @click="onset">ONSET 望远镜</div>
-                        <div class="nd-news-resource-list" @click="weHot">WEHOT 望远镜</div>
-                        <div class="nd-news-resource-list" @click="otherDevice">其他设备</div>
+                    <el-card class="nd-news-resource">
+                        <div :style="active" @mouseover="mouseOver" @mouseleave="mouseLeave"  @click="chase">CHASE 卫星</div>
+                        <div :style="active1" @mouseover="mouseOver1" @mouseleave="mouseLeave1" @click="onset">ONSET 望远镜</div>
+                        <div :style="active2" @mouseover="mouseOver2" @mouseleave="mouseLeave2" @click="weHot">WEHOT 望远镜</div>
+                        <div :style="active3" @mouseover="mouseOver3" @mouseleave="mouseLeave3" @click="otherDevice">其他设备</div>
                     </el-card>
                 </div>
+
                 <div class="myCard">
                     <el-card class="nd-list"
                              v-for="(item, index) in this.tableData" :key="index">
@@ -34,9 +37,10 @@
                         </div>
                     </el-card>
                 </div>
-                <Page v-if="this.client" class="page" ref="pageRef" @search="search"></Page>
-                <Pagination v-else class="pagination" ref="pageRef" @search="search"></Pagination>
             </div>
+            <Page v-if="this.client" class="page" ref="pageRef" @search="search"></Page>
+            <Pagination style="text-align: center" v-else class="pagination" ref="pageRef"
+                        @search="search"></Pagination>
         </div>
         <tail></tail>
     </div>
@@ -56,6 +60,32 @@
         },
 
         methods: {
+
+            mouseOver: function(){
+                this.active = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+            },
+            mouseLeave: function () {
+                this.active = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+            },
+            mouseOver1: function(){
+                this.active1 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+            },
+            mouseLeave1: function () {
+                this.active1 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+            },
+            mouseOver2: function(){
+                this.active2 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+            },
+            mouseLeave2: function () {
+                this.active2 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+            },
+            mouseOver3: function(){
+                this.active3 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+            },
+            mouseLeave3: function () {
+                this.active3 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+            },
+
             chase() {
                 this.initDataList();
             },
@@ -72,6 +102,19 @@
                 this.initDataList();
             },
 
+            lookDetail(item) {
+                this.$router.push({
+                    path: '/observeDeviceDetail', query: {
+                        id: item.id,
+                        title: item.title, picture: item.picture,
+                        picture: item.picture, content: item.content,
+                        status: item.status, displayOrder: item.displayOrder,
+                        createTime: item.createTime, enAuthor: item.enAuthor,
+                        type: item.type,
+                    }
+                })
+            },
+
             async initDataList() {
                 let params = new FormData();
                 params.append("type", this.type);
@@ -79,6 +122,7 @@
                 params.append("limit", this.pageSize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_observation_equipment_searchAll, params, "POST");
                 if (data.code == 200) {
+                    console.log(data.data);
                     this.tableData = data.data;
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
@@ -89,6 +133,10 @@
 
         data() {
             return {
+                active: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
+                active1: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
+                active2: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
+                active3: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
                 type: "0",
                 tableData: [],
                 currentPage: 1,
@@ -126,6 +174,7 @@
             display: flex;
             flex-wrap: nowrap;
             width: 900px;
+            text-align: center;
         }
 
         .nd-list-top {
@@ -146,55 +195,56 @@
         .nd-news-resource {
             width: 170px;
             height: 210px;
-            margin-left: 10px;
+            margin-left: 100px;
             margin-top: 10px;
         }
-
+/*
         .nd-news-resource-list {
             text-align: center;
             font-size: 14px;
             text-align: left;
-            margin: 10px;
-        }
+            margin: 15px;
+    }*/
 
-        .myCards {
-            width: 550px;
-            margin-top: 16px;
-            font-size: 16px;
-            text-align: left;
-        }
+    .myCards {
+        width: 550px;
+        margin-top: 16px;
+        font-size: 16px;
+        text-align: left;
+    }
 
-        .myCards1 {
-            width: 550px;
-            margin-top: 16px;
-            font-size: 14px;
-            text-align: left;
-        }
+    .myCards1 {
+        width: 550px;
+        margin-top: 16px;
+        font-size: 14px;
+        text-align: left;
+    }
 
-        .nd-list {
-            width: 810px;
-            margin-top: 10px;
-            position: relative;
-            height: 140px;
-        }
+    .nd-list {
+        width: 810px;
+        margin-top: 10px;
+        position: relative;
+        height: 140px;
+    }
 
-        .nd-lists {
-            position: absolute;
-        }
+    .nd-lists {
+        position: absolute;
+    }
 
-        .nd-picture {
-            width: 200px;
-            height: 100px;
-        }
+    .nd-picture {
+        width: 200px;
+        height: 100px;
+    }
 
-        .nd-list-title {
-            margin-left: 230px;
-        }
+    .nd-list-title {
+        margin-left: 230px;
+    }
 
-        .pagination {
-            margin-top: 20px;
-            text-align: right;
-        }
+    .pagination {
+        margin-top: 20px;
+        text-align: right;
+    }
+
     }
 
     /*媒体查询（手机）*/
@@ -209,9 +259,6 @@
         .nd-list-top {
             margin-left: 10px;
             line-height: 2;
-        }
-        .observation {
-
         }
 
         .nd-news-list {

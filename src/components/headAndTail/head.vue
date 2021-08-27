@@ -25,7 +25,7 @@
                     </div>
                     <div class="ml-20">
                         <div class="nd-menu-header2">
-                            图库与成功
+                            图库与成果
                         </div>
                         <div class="nd-menu-header3">
                             新闻与资源
