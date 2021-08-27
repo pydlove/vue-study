@@ -5,16 +5,17 @@
         <div class="nd-detail-box" :style="{ minHeight: minHeight + 'px', }">
             <div class="nd-news-list box-zing-a">
                 <div class="nd-new-left">
-                    <p class="nd-list">{{this.title}}</p>
+                    <div :style="active"  @mouseover="mouseOver" @mouseleave="mouseLeave"  @click="chase" >CHASE 卫星</div>
+                    <div :style="active1" @mouseover="mouseOver1" @mouseleave="mouseLeave1" @click="onset">ONSET 望远镜</div>
+                    <div :style="active2" @mouseover="mouseOver2" @mouseleave="mouseLeave2" @click="weHot">WEHOT 望远镜</div>
+                    <div :style="active3" @mouseover="mouseOver3" @mouseleave="mouseLeave3" @click="otherDevice">其他设备</div>
                 </div>
                 <div class="nd-new-right" :style="{ minHeight: (minHeight - 40) + 'px', }">
                     <div class="nd-new-title">
                         <div  class="nd-news-title">{{this.form.title}}</div>
-                        <div class="nd-news-time" >{{this.form.createTime}}</div>
                         <el-input class="nd-news-content" v-html="form.content"></el-input>
                     </div>
                 </div>
-
             </div>
         </div>
         <tail></tail>
@@ -26,6 +27,7 @@
     import tail from "@/components/headAndTail/tail";
     export default {
         name: "observationDeviceDetail",
+        components: {Header, tail},
         mounted() {
             this.minHeight = this.clientHeight - 180 - 260;
 
@@ -51,17 +53,71 @@
             if(type != null && type != "") {
                 if(type == "0") {
                     this.title = "CHASE 卫星"
+                    this.active = "text-align: center; font-size: 14px; text-align: left;  margin: 15px; font-weight: bolder;";
                 } else if(type == "1"){
                     this.title = "ONSET 望远镜"
+                    this.active1 = "text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px;  font-weight: bolder;"
                 } else if(type == "2") {
                     this.title = "WEHOT 望远镜"
+                    this.active2 = "text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px;  font-weight: bolder;"
                 } else if(type == "3") {
                     this.title = "其他设备"
+                    this.active3 = "text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px;  font-weight: bolder;"
                 }
             }
 
         },
         methods: {
+            mouseOver: function(){
+                this.active = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
+            },
+            mouseLeave: function () {
+                this.active = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
+            },
+            mouseOver1: function(){
+                this.active1 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
+            },
+            mouseLeave1: function () {
+                this.active1 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
+            },
+            mouseOver2: function(){
+                this.active2 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
+            },
+            mouseLeave2: function () {
+                this.active2 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
+            },
+            mouseOver3: function(){
+                this.active3 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
+            },
+            mouseLeave3: function () {
+                this.active3 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
+            },
+
+            chase() {
+                this.type = "0";
+                this.initDataList();
+            },
+            onset() {
+                this.type = "1";
+                this.initDataList();
+            },
+            weHot() {
+                this.type = "2";
+                this.initDataList();
+            },
+            otherDevice() {
+                this.type = "3";
+                this.initDataList();
+            },
+
+            initDataList() {
+                this.$router.push({
+                    path: '/observeDevice', query: {
+                       type: this.type
+                    }
+                })
+            },
+
             close() {
 
             },
@@ -71,6 +127,11 @@
         },
         data() {
             return {
+                type: "",
+                active: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
+                active1: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
+                active2: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
+                active3: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
                 form: {
                     id: "",
                     title: "",
@@ -126,6 +187,7 @@
             font-size: 16px;
             font-weight: bolder;
             margin-top: 10px;
+
         }
 
         .nd-news-title {

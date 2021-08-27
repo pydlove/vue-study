@@ -12,7 +12,7 @@
             <div v-else class="nd-news-list">
                 <div class="observation">
                     <el-card class="nd-news-resource">
-                        <div :style="active" @mouseover="mouseOver" @mouseleave="mouseLeave"  @click="chase">CHASE 卫星</div>
+                        <div :style="active"  @mouseover="mouseOver" @mouseleave="mouseLeave"  @click="chase">CHASE 卫星</div>
                         <div :style="active1" @mouseover="mouseOver1" @mouseleave="mouseLeave1" @click="onset">ONSET 望远镜</div>
                         <div :style="active2" @mouseover="mouseOver2" @mouseleave="mouseLeave2" @click="weHot">WEHOT 望远镜</div>
                         <div :style="active3" @mouseover="mouseOver3" @mouseleave="mouseLeave3" @click="otherDevice">其他设备</div>
@@ -24,6 +24,7 @@
                              v-for="(item, index) in this.tableData" :key="index">
                         <div class="nd-lists">
                             <el-image
+                                    @click="lookDetail(item)"
                                     class="nd-picture"
                                     :src="item.picture"
                                     :preview-src-list="[item.picture]"
@@ -32,10 +33,8 @@
                         <div class="nd-list-title" @click="lookDetail(item)">
                             <p class="myCards">{{item.title }}</p>
                         </div>
-                        <div class="nd-list-title">
-                            <p class="myCards1"> {{item.createTime}}</p>
-                        </div>
                     </el-card>
+
                 </div>
             </div>
             <Page v-if="this.client" class="page" ref="pageRef" @search="search"></Page>
@@ -56,34 +55,37 @@
         name: "index",
         components: {Header, tail, Page, Pagination},
         mounted() {
+            let type = this.$route.query.type;
+            if(type != null){
+                this.type = type;
+            }
             this.initDataList();
         },
 
         methods: {
-
             mouseOver: function(){
-                this.active = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+                this.active = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
             },
             mouseLeave: function () {
-                this.active = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+                this.active = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
             },
             mouseOver1: function(){
-                this.active1 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+                this.active1 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
             },
             mouseLeave1: function () {
-                this.active1 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+                this.active1 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
             },
             mouseOver2: function(){
-                this.active2 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+                this.active2 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
             },
             mouseLeave2: function () {
-                this.active2 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+                this.active2 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
             },
             mouseOver3: function(){
-                this.active3 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+                this.active3 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
             },
             mouseLeave3: function () {
-                this.active3 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;';
+                this.active3 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
             },
 
             chase() {
@@ -128,15 +130,14 @@
                     return true;
                 }
             },
-
         },
 
         data() {
             return {
                 active: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
-                active1: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
-                active2: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
-                active3: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
+                active1: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
+                active2: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
+                active3: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
                 type: "0",
                 tableData: [],
                 currentPage: 1,
@@ -183,7 +184,9 @@
         }
 
         .myCard {
-            width: 680px;
+            display: flex;
+            flex-wrap: wrap;
+            width: 810px;
             margin-left: 10px;
         }
 
@@ -194,24 +197,17 @@
 
         .nd-news-resource {
             width: 170px;
-            height: 210px;
+            height: 230px;
             margin-left: 100px;
             margin-top: 10px;
         }
-/*
-        .nd-news-resource-list {
-            text-align: center;
+
+        .myCards {
+            width: 200px;
+            margin-top: 10px;
             font-size: 14px;
             text-align: left;
-            margin: 15px;
-    }*/
-
-    .myCards {
-        width: 550px;
-        margin-top: 16px;
-        font-size: 16px;
-        text-align: left;
-    }
+        }
 
     .myCards1 {
         width: 550px;
@@ -221,23 +217,23 @@
     }
 
     .nd-list {
-        width: 810px;
+        width: calc(25% - 7.5px);
         margin-top: 10px;
-        position: relative;
-        height: 140px;
+        height: 230px;
+        margin-left: 10px;
     }
 
-    .nd-lists {
+   /* .nd-lists {
         position: absolute;
-    }
+    }*/
 
     .nd-picture {
-        width: 200px;
-        height: 100px;
+        width: 150px;
+        height: 170px;
     }
 
     .nd-list-title {
-        margin-left: 230px;
+       /* margin-left: 20px;*/
     }
 
     .pagination {
@@ -276,10 +272,6 @@
             margin-left: 10px;
             margin-right: 10px;
             height: 100px;
-        }
-
-        .nd-lists {
-            position: absolute;
         }
 
         .nd-picture {
