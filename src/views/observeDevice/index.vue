@@ -11,10 +11,10 @@
 		<div class="nd-background">
 			<div class="nd-content dffn">
 				<div class="aiocloud-card">
-					<div :style="active" @mouseover="mouseOver" @mouseleave="mouseLeave" @click="chase">CHASE 卫星</div>
-					<div :style="active1" @mouseover="mouseOver1" @mouseleave="mouseLeave1" @click="onset">Onset 望远镜</div>
-					<div :style="active2" @mouseover="mouseOver2" @mouseleave="mouseLeave2" @click="weHot">WEHOT 望远镜</div>
-					<div :style="active3" @mouseover="mouseOver3" @mouseleave="mouseLeave3" @click="otherDevice">其他设备</div>
+					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
+					     v-for="(item, index) in equipments" :key="index"
+						@click="selectEq(item)"
+					>{{ item.name }}</div>
 				</div>
 
 				<div>
@@ -51,66 +51,25 @@
         name: "index",
         components: {NormalHeader, Footer, Page, Pagination},
         mounted() {
-            let type = this.$route.query.type;
-            if (type != null) {
-                this.type = type;
-            }
             this.initDataList();
         },
 
         methods: {
-            mouseOver: function () {
-                this.active = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
-            },
-            mouseLeave: function () {
-                this.active = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
-            },
-            mouseOver1: function () {
-                this.active1 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
-            },
-            mouseLeave1: function () {
-                this.active1 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
-            },
-            mouseOver2: function () {
-                this.active2 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
-            },
-            mouseLeave2: function () {
-                this.active2 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
-            },
-            mouseOver3: function () {
-                this.active3 = 'color: #40a9ff; text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
-            },
-            mouseLeave3: function () {
-                this.active3 = 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px';
-            },
-
-            chase() {
-                this.initDataList();
-            },
-            onset() {
-                this.type = "1";
-                this.initDataList();
-            },
-            weHot() {
-                this.type = "2";
-                this.initDataList();
-            },
-            otherDevice() {
-                this.type = "3";
+            selectEq(item) {
+				this.type = item.type;
+				this.equipment = item;
                 this.initDataList();
             },
 
             lookDetail(item) {
-                this.$router.push({
-                    path: '/observeDeviceDetail', query: {
-                        id: item.id,
-                        title: item.title, picture: item.picture,
-                        picture: item.picture, content: item.content,
-                        status: item.status, displayOrder: item.displayOrder,
-                        createTime: item.createTime, enAuthor: item.enAuthor,
-                        type: item.type,
+                this.$utils.setStorage("observeDeviceDetail", item);
+                let routeData = this.$router.resolve({
+                    path: "/observeDeviceDetail",
+                    query: {
+                        name: this.equipment.name,
                     }
-                })
+                });
+                window.open(routeData.href, '_blank');
             },
 
             async initDataList() {
@@ -130,10 +89,28 @@
 
         data() {
             return {
-                active: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px;',
-                active1: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
-                active2: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
-                active3: 'text-align: center; font-size: 14px; text-align: left;  margin: 15px; margin-top: 30px',
+                equipment: {
+                    name: "CHASE卫星",
+                    type: "0",
+                },
+                equipments: [
+	                {
+	                    name: "CHASE卫星",
+		                type: "0",
+	                },
+                    {
+                        name: "Onset望远镜",
+                        type: "1",
+                    },
+                    {
+                        name: "WEHOT卫星",
+                        type: "2",
+                    },
+                    {
+                        name: "其他设备",
+                        type: "3",
+                    }
+                ],
                 type: "0",
                 tableData: [],
                 currentPage: 1,
@@ -148,6 +125,20 @@
 
 	/*媒体查询（电脑）*/
 	@media screen and (min-width: 768px) {
+		.nd-eq-active {
+			color: #fa541c !important;
+		}
+		.nd-eq-item {
+			line-height: 40px;
+			font-family: SC-Bold;
+			font-size: 16px;
+			color: #333333;
+		}
+
+		.nd-eq-item:hover {
+			color: #fa541c;
+		}
+
 		.nd-obd-item {
 			width: calc(50% - 5px);
 			margin-bottom: 10px;
@@ -180,6 +171,11 @@
 			font-size: 14px;
 			text-align: left;
 			padding-left: 10px;
+		}
+
+		.nd-list-title > p:hover {
+			color: #fa541c;
+			text-decoration: underline;
 		}
 
 		.nd-picture {

@@ -865,6 +865,7 @@ body {
 .nd-top-normal-main {
   width: 1200px;
   background: #17030b;
+  height: 200px;
 }
 .nd-tm-normal {
   display: flex;
@@ -874,6 +875,7 @@ body {
   font-family: "SC-Bold";
   color: #ffffff;
   background: #17030b;
+  padding-top: 20px;
 }
 .nd-normal-logo-box {
   width: 390px;
@@ -918,4 +920,9 @@ body {
   color: #303133;
   font-weight: 700;
   text-align: right;
+}
+
+.el-icon-s-home {
+  font-size: 16px;
+  margin-right: 5px;
 }

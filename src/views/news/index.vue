@@ -153,11 +153,6 @@
 			width: calc(100% - 270px);
 		}
 
-		.el-icon-s-home {
-			font-size: 16px;
-			margin-right: 5px;
-		}
-
 		.nd-news-resource {
 			text-align: left;
 			width: 250px;

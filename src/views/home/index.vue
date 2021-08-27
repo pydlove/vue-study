@@ -295,9 +295,8 @@
         }
 
         .news-text:hover {
-            border-bottom: 1px solid #fa541c;
+            text-decoration: underline;
             color: #fa541c;
-            padding-bottom: 5px;
         }
 
         .nd-menu-header4 {
