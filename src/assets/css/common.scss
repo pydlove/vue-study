@@ -849,6 +849,7 @@ body {
 .ml-20 {margin-left: 20px}
 .ml-50 {margin-left: 50px}
 
+.mr-10 {margin-right: 10px}
 .mr-20 {margin-right: 20px}
 
 .dffn {
@@ -886,4 +887,35 @@ body {
 
 .is-link:hover {
   color: #fa541c !important;
+}
+
+.nd-breadcrumb-top {
+  width: 900px;
+  margin: 0 auto;
+  line-height: 40px;
+  padding-left: 10px;
+}
+
+.nd-background {
+  width: 1200px;
+  background: #eeeeee;
+  padding: 20px;
+}
+.nd-content {
+  width: 900px;
+  margin: 0 auto;
+}
+.aiocloud-card {
+  padding: 20px;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+}
+
+.el-pagination {
+  white-space: nowrap;
+  padding: 2px 5px;
+  color: #303133;
+  font-weight: 700;
+  text-align: right;
 }

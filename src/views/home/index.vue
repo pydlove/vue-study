@@ -175,7 +175,7 @@
             toDetail(item) {
                 this.$utils.setStorage("newsDetail", item);
                 let routeData = this.$router.resolve({
-                    path: "/detail",
+                    path: "/newsDetail",
                 });
                 window.open(routeData.href, '_blank');
             },

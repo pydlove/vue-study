@@ -24,7 +24,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心'
+                title: '南京大学太阳数据中心首页'
             },
             path: '/home',
             name: 'home',
@@ -32,31 +32,23 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心'
-            },
-            path: '/home1',
-            name: 'home1',
-            component: (resolve) => require(['../views/home/index2.vue'], resolve),
-        },
-        {
-            meta: {
-                title: '南京大学太阳数据中心之新闻与资源'
+                title: '南京大学太阳数据中心新闻与资源'
             },
             path: '/newsAndResource',
             name: 'newsAndResource',
-            component: (resolve) => require(['../views/news/newsAndResource.vue'], resolve),
+            component: (resolve) => require(['../views/news/index.vue'], resolve),
         },
         {
             meta: {
-                title: '南京大学太阳数据中心'
+                title: '南京大学太阳数据中心新闻与资源'
             },
-            path: '/detail',
-            name: 'detail',
+            path: '/newsDetail',
+            name: 'newsDetail',
             component: (resolve) => require(['../views/news/detail.vue'], resolve),
         },
         {
             meta: {
-                title: '南京大学太阳数据中心之观测设备'
+                title: '南京大学太阳数据中心观测设备'
             },
             path: '/observeDevice',
             name: 'observeDevice',
@@ -64,11 +56,11 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心之观测设备'
+                title: '南京大学太阳数据中心观测设备'
             },
             path: '/observeDeviceDetail',
             name: 'observeDeviceDetail',
-            component: (resolve) => require(['../views/observeDevice/observationDeviceDetail.vue'], resolve),
+            component: (resolve) => require(['../views/observeDevice/detail.vue'], resolve),
         },
     ]
 })

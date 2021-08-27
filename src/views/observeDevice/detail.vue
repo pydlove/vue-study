@@ -1,7 +1,7 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <Header></Header>
+        <NormalHeader :currentMenu="'observeDevice'"></NormalHeader>
         <div class="nd-detail-box" :style="{ minHeight: minHeight + 'px', }">
             <div class="nd-news-list box-zing-a">
                 <div class="nd-new-left">
@@ -18,16 +18,16 @@
                 </div>
             </div>
         </div>
-        <tail></tail>
+        <Footer></Footer>
     </div>
 </template>
 <!--eslint-disable-->
 <script>
-    import Header from "@/components/headAndTail/head";
-    import tail from "@/components/headAndTail/tail";
+    import NormalHeader from "@/components/NormalHeader";
+    import Footer from "@/components/Footer.vue";
     export default {
         name: "observationDeviceDetail",
-        components: {Header, tail},
+        components: {NormalHeader, Footer},
         mounted() {
             this.minHeight = this.clientHeight - 180 - 260;
 

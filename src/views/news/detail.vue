@@ -2,6 +2,13 @@
     <!--eslint-disable-->
     <div class="nd-container">
         <NormalHeader :currentMenu="'newsAndResource'"></NormalHeader>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
+            <el-breadcrumb-item :to="{ path: '/home' }">
+                <i class="el-icon-s-home"></i>首页
+            </el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/newsAndResource' }">新闻与资源</el-breadcrumb-item>
+            <el-breadcrumb-item>查看新闻</el-breadcrumb-item>
+        </el-breadcrumb>
         <div class="nd-detail-box" :style="{ minHeight: minHeight + 'px', }">
             <div class="nd-news-list box-zing-a">
                 <div class="nd-new-right" :style="{ minHeight: (minHeight - 40) + 'px', }">

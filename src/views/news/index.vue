@@ -2,14 +2,13 @@
 	<!--eslint-disable-->
 	<div class="nd-container">
 		<NormalHeader :currentMenu="'newsAndResource'"></NormalHeader>
-		<div class="nd-card">
-			<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-list-top">
-				<el-breadcrumb-item :to="{ path: '/home' }">
-					<i class="el-icon-s-home"></i>首页
-				</el-breadcrumb-item>
-				<el-breadcrumb-item>新闻与资源</el-breadcrumb-item>
-			</el-breadcrumb>
-
+		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
+			<el-breadcrumb-item :to="{ path: '/home' }">
+				<i class="el-icon-s-home"></i>首页
+			</el-breadcrumb-item>
+			<el-breadcrumb-item>新闻与资源</el-breadcrumb-item>
+		</el-breadcrumb>
+		<div class="nd-background">
 			<div class="dffn nd-news-main">
 				<div class="nd-news-resource">
 					<div class="nd-news-resource-list">新闻与资源</div>
@@ -33,13 +32,13 @@
 								:src="item.picture"
 								:preview-src-list="[item.picture]"
 						></el-image>
-						<div class="nd-list-title" @click="lookDetail(item)">
-							<p>{{item.title }}</p>
+						<div class="nd-list-title">
+							<p  @click="lookDetail(item)">{{item.title }}</p>
 							<p class="dffn-ac">
 								<i class="el-icon-alarm-clock"></i>
 								{{item.createTime}}
-								<span class="nd-see-detail">
-									查看文章
+								<span class="nd-see-detail" @click="lookDetail(item)">
+									查看新闻
 								</span>
 							</p>
 						</div>
@@ -47,7 +46,7 @@
 				</div>
 			</div>
 
-			<div class="nd-list-top">
+			<div class="nd-breadcrumb-top">
 				<Page v-if="this.client" class="page" ref="pageRef" @search="search"></Page>
 				<Pagination v-else class="pagination" ref="pageRef" @search="search"></Pagination>
 			</div>
@@ -84,23 +83,12 @@
         },
 
         methods: {
-            close() {
-
-            },
-            open() {
-
-            },
-
             lookDetail(item) {
-                this.$router.push({
-                    path: '/detail', query: {
-                        id: item.id,
-                        title: item.title, picture: item.picture,
-                        picture: item.picture, content: item.content,
-                        status: item.status, displayOrder: item.displayOrder,
-                        createTime: item.createTime, enAuthor: item.enAuthor
-                    }
-                })
+                this.$utils.setStorage("newsDetail", item);
+                let routeData = this.$router.resolve({
+                    path: "/newsDetail",
+                });
+                window.open(routeData.href, '_blank');
             },
 
             async search(currentPage, pageSize) {
@@ -168,18 +156,6 @@
 		.el-icon-s-home {
 			font-size: 16px;
 			margin-right: 5px;
-		}
-
-		.nd-list-top {
-			width: 900px;
-			margin: 0 auto;
-			line-height: 40px;
-			padding-left: 10px;
-		}
-
-		.nd-card {
-			width: 1200px;
-			background: #f0f0f0;
 		}
 
 		.nd-news-resource {
