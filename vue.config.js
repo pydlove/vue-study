@@ -136,6 +136,13 @@ module.exports = {
                 ws: true,
                 pathRewrite: {}
             },
+            '/console-service': {
+                target: 'http://localhost:9091',
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {}
+            },
+
         }
     },
     pwa: {

@@ -62,6 +62,14 @@ const router = new Router({
             name: 'observeDevice',
             component: (resolve) => require(['../views/observeDevice/index.vue'], resolve),
         },
+        {
+            meta: {
+                title: '南京大学太阳数据中心之观测设备'
+            },
+            path: '/observeDeviceDetail',
+            name: 'observeDeviceDetail',
+            component: (resolve) => require(['../views/observeDevice/observationDeviceDetail.vue'], resolve),
+        },
     ]
 })
 
