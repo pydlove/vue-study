@@ -4,14 +4,16 @@
         <NormalHeader :currentMenu="'newsAndResource'"></NormalHeader>
         <div class="nd-detail-box" :style="{ minHeight: minHeight + 'px', }">
             <div class="nd-news-list box-zing-a">
-                <div class="nd-new-left">
-                    <p class="nd-list">新闻与资源</p>
-                </div>
                 <div class="nd-new-right" :style="{ minHeight: (minHeight - 40) + 'px', }">
                     <div class="nd-new-title">
-                        <div  class="nd-news-title">{{this.form.title}}</div>
-                        <div class="nd-news-time" >{{this.form.createTime}}</div>
-                        <el-input class="nd-news-content" v-html="form.content"></el-input>
+                        <div  class="nd-news-title">
+                            {{this.form.title}}
+                        </div>
+                        <div class="nd-news-time dffn-ac" >
+                            <i class="el-icon-alarm-clock"></i>
+                            {{this.form.createTime}}
+                        </div>
+                        <div class="nd-news-content" v-html="form.content"></div>
                     </div>
                 </div>
 
@@ -69,16 +71,12 @@
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
 
-        .el-upload__tip {
-            color: #f51d37;
-        }
-
         .nd-detail-box {
             background: #eeeeee;
         }
 
         .nd-news-list {
-            width: 1000px;
+            width: 900px;
             margin: 0px auto;
             padding: 20px 0;
             display: flex;
@@ -89,40 +87,32 @@
             margin-top: 10px;
         }
 
-        .nd-new-left {
-            background: #ffffff;
-            width: 230px;
-            height: 200px;
-            margin-right: 20px;
-            border-radius: 5px;
-        }
-
-        .nd-list {
-            text-align: center;
-            font-size: 16px;
-            font-weight: bolder;
-            margin-top: 10px;
-        }
-
         .nd-news-title {
             text-align: center;
             font-size: 20px;
+            line-height: 40px;
+        }
+
+        .el-icon-alarm-clock {
+            margin-right: 5px;
         }
 
         .nd-news-time {
-            text-align: center;
             margin-top: 10px;
+            font-size: 14px;
+            color: #888888;
+            justify-content: center;
         }
 
         .nd-news-content {
-            margin-top: 20px;
+            margin-top: 40px;
             align-content: center;
         }
 
         .nd-new-right {
             background: #ffffff;
-            width: 750px;
             border-radius: 5px;
+            padding: 20px;
         }
     }
 

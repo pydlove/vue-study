@@ -1,56 +1,73 @@
 <template>
-    <!--eslint-disable-->
-    <div class="nd-container">
-        <Header :currentMenu="'newsAndResource'"></Header>
-        <div class="nd-card" >
-            <el-breadcrumb v-if="this.client"  separator-class="el-icon-arrow-right" class="nd-list-top">
-                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item>新闻与资源</el-breadcrumb-item>
-            </el-breadcrumb>
+	<!--eslint-disable-->
+	<div class="nd-container">
+		<NormalHeader :currentMenu="'newsAndResource'"></NormalHeader>
+		<div class="nd-card">
+			<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-list-top">
+				<el-breadcrumb-item :to="{ path: '/home' }">
+					<i class="el-icon-s-home"></i>首页
+				</el-breadcrumb-item>
+				<el-breadcrumb-item>新闻与资源</el-breadcrumb-item>
+			</el-breadcrumb>
 
-            <el-card v-else class="nd-news-resource">
-                <div class="nd-news-resource-list">新闻与资源</div>
-            </el-card>
+			<div class="dffn nd-news-main">
+				<div class="nd-news-resource">
+					<div class="nd-news-resource-list">新闻与资源</div>
+					<div class="nd-new-title-desc">
+						[主要解释新闻与资源这块主要展示什么内容] <br>
+						信息接受渠道的多元化已成为当今社会的主要特征之一。
+						以互联网为代表的新媒体与传统媒体在博弈中越来越趋向融合，
+						构成了信息时代的立体化传播体系。为拓展生存空间，延伸品牌效应，
+						很多传统媒体开始尝试由分散到集中，进军新媒体，整合资源，实现集团化 。
+						集团化实现了媒体资源总量的增长，但目前很多媒体的集团化还处于较低层次，
+						只是对各种资源作简单的物理叠加，并没有做到新闻生产的集约化。有人戏言，
+						这是一种“糍饭”式的资源整合，将饭团与油条人为地捏合在一起，
+						但实际上糯米还是糯米，油条还是油条。
+					</div>
+				</div>
 
-            <div class="nd-news-list">
-                <div class="myCard">
-                    <el-card class="nd-list"
-                             v-for="(item, index) in this.tableData" :key="index">
-                        <div class="nd-lists">
-                            <el-image
-                                    class="nd-picture"
-                                    :src="item.picture"
-                                    :preview-src-list="[item.picture]"
-                            ></el-image>
-                        </div>
-                        <div class="nd-list-title"  @click="lookDetail(item)">
-                            <p class="myCards">{{item.title }}</p>
-                        </div>
-                        <div  class="nd-list-title" >
-                            <p class="myCards1"> {{item.createTime}}</p>
-                        </div>
-                    </el-card>
-                    <Page v-if="this.client" class="page"  ref="pageRef" @search="search"></Page>
-                    <Pagination v-else class="pagination"  ref="pageRef" @search="search"></Pagination>
-                </div>
-            </div>
+				<div class="nd-news-list">
+					<div class="nd-list dffn" v-for="(item, index) in this.tableData" :key="index">
+						<el-image
+								class="nd-picture"
+								:src="item.picture"
+								:preview-src-list="[item.picture]"
+						></el-image>
+						<div class="nd-list-title" @click="lookDetail(item)">
+							<p>{{item.title }}</p>
+							<p class="dffn-ac">
+								<i class="el-icon-alarm-clock"></i>
+								{{item.createTime}}
+								<span class="nd-see-detail">
+									查看文章
+								</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
 
-        </div>
-        <Footer></Footer>
-    </div>
+			<div class="nd-list-top">
+				<Page v-if="this.client" class="page" ref="pageRef" @search="search"></Page>
+				<Pagination v-else class="pagination" ref="pageRef" @search="search"></Pagination>
+			</div>
+
+		</div>
+		<Footer></Footer>
+	</div>
 </template>
 <!--eslint-disable-->
 <script>
-    import Header from "@/components/Header";
+    import NormalHeader from "@/components/NormalHeader";
     import Footer from "@/components/Footer";
     import Page from "@/components/Page";
     import Pagination from "@/components/Pagination";
 
     export default {
         name: "newsAndResource",
-        components: {Header, Footer, Page, Pagination},
+        components: {NormalHeader, Footer, Page, Pagination},
         mounted() {
-            if(this.clientWidth < 500){
+            if (this.clientWidth < 500) {
                 this.client = true;
             }
             this.search(1, 10);
@@ -119,166 +136,189 @@
 
 <style scoped>
 
-    /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+	/*媒体查询（电脑）*/
+	@media screen and (min-width: 768px) {
 
-        img {
-            border-style: none;
-            width: 210px;
-            height: 306px;
-            margin-left: 20px;
-            text-align: center;
-        }
+		.nd-news-main {
+			width: 900px;
+			margin: 0 auto;
+		}
 
-        .nd-title div:nth-of-type(1) {
-            font-size: 32px;
-        }
+		img {
+			border-style: none;
+			width: 210px;
+			height: 306px;
+			margin-left: 20px;
+			text-align: center;
+		}
 
-        .nd-title div:nth-of-type(2) {
-            font-size: 18px;
-            margin-top: 10px;
-        }
+		.nd-title div:nth-of-type(1) {
+			font-size: 32px;
+		}
 
-        .nd-news-list {
-            position: relative;
-            width: 900px;
-        }
+		.nd-title div:nth-of-type(2) {
+			font-size: 18px;
+			margin-top: 10px;
+		}
 
-        .nd-list-top {
-            margin-left: 10px;
-            line-height: 2;
-        }
+		.nd-news-list {
+			width: calc(100% - 270px);
+		}
 
-        .myCard {
-            width: 680px;
-            margin-left: 100px;
+		.el-icon-s-home {
+			font-size: 16px;
+			margin-right: 5px;
+		}
 
-        }
+		.nd-list-top {
+			width: 900px;
+			margin: 0 auto;
+			line-height: 40px;
+			padding-left: 10px;
+		}
 
-        .nd-card {
-            width: 1200px;
-            background: #f0f0f0;
-            display: flex;
-            flex-wrap: nowrap;
-        }
+		.nd-card {
+			width: 1200px;
+			background: #f0f0f0;
+		}
 
-        .nd-news-resource {
-            width: 170px;
-            height: 210px;
-            margin-left: 10px;
-            margin-top: 10px;
-        }
+		.nd-news-resource {
+			text-align: left;
+			width: 250px;
+			min-width: 250px;
+			height: 600px;
+			padding: 20px;
+			margin-right: 20px;
+			border-radius: 5px;
+			background: #ffffff;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
-        .nd-news-resource-list {
-            text-align: center;
-            font-size: 16px;
-            font-weight: bolder;
-        }
+		}
 
+		.nd-news-resource-list {
+			font-size: 16px;
+			font-family: SC-Bold;
+			color: #fa541c;
+		}
 
-        .myCards {
-            width: 550px;
-            margin-top: 16px;
-            font-size: 16px;
-            text-align: left;
-        }
-        .myCards1 {
-            width: 550px;
-            margin-top: 16px;
-            font-size: 14px;
-            text-align: left;
-        }
+		.nd-new-title-desc {
+			line-height: 22px;
+			color: #333333;
+			font-size: 14px;
+			margin-top: 20px;
+		}
 
-        .nd-list {
-            width: 810px;
-            margin-top: 10px;
-            position: relative;
-            height: 140px;
-        }
-        .nd-lists {
-            position: absolute;
-        }
+		.nd-list {
+			padding: 20px;
+			margin-bottom: 10px;
+			border-radius: 5px;
+			background: #ffffff;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+		}
 
-        .nd-picture {
-            width: 200px;
-            height: 100px;
-        }
+		.nd-picture {
+			width: 120px;
+			height: 70px;
+			min-width: 120px;
+			min-height: 80px;
+			margin-right: 20px;
+		}
 
-        .nd-list-title {
-            margin-left: 230px;
-        }
+		.nd-list-title > p:nth-of-type(1) {
+			line-height: 45px;
+			font-size: 16px;
+			color: #333333;
+			text-align: left;
+		}
+		.el-icon-alarm-clock {
+			margin-right: 5px;
+		}
 
-        .pagination {
-            margin-top: 20px;
-            text-align: right;
-        }
-    }
+		.nd-list-title > p:nth-of-type(1):hover{
+			color: #fa541c;
+		}
+		.nd-list-title > p:nth-of-type(2) {
+			line-height: 24px;
+			font-size: 14px;
+			color: #888888;
+			justify-content: flex-start;
+		}
 
-    /*媒体查询（手机）*/
-    @media screen and (max-width: 768px) {
+		.nd-see-detail {
+			color: #fa541c;
+			margin-left: 20px;
+		}
 
-        .nd-card {
-            width: 375px;
-            background: white;
-            background: #f0f0f0;
-        }
+		.pagination {
+			margin-top: 20px;
+			text-align: right;
+		}
+	}
 
-        .nd-list-top {
-            margin-left: 10px;
-            line-height: 2;
-        }
+	/*媒体查询（手机）*/
+	@media screen and (max-width: 768px) {
 
-        .nd-news-list {
-            position: relative;
-            width: 100%;
-        }
+		.nd-card {
+			width: 375px;
+			background: white;
+			background: #f0f0f0;
+		}
 
-        .myCard {
-            width: 100%;
-        }
+		.nd-list-top {
+			width: 900px;
+			margin: 0 auto;
+		}
 
-        .nd-list {
-            margin-top: 10px;
-            position: relative;
-            margin-left: 10px;
-            margin-right: 10px;
-            height: 100px;
-        }
+		.nd-news-list {
+			position: relative;
+			width: 100%;
+		}
 
-        .nd-lists {
-            position: absolute;
-        }
+		.myCard {
+			width: 100%;
+		}
 
-        .nd-picture {
-            width: 80px;
-            height: 60px;
-        }
+		.nd-list {
+			margin-top: 10px;
+			position: relative;
+			margin-left: 10px;
+			margin-right: 10px;
+			height: 100px;
+		}
 
-        .nd-list-title {
-            margin-left: 20px;
-        }
+		.nd-lists {
+			position: absolute;
+		}
 
-        .pagination {
-            margin-top: 20px;
-            text-align: right;
-        }
+		.nd-picture {
+			width: 80px;
+			height: 60px;
+		}
 
-        .myCards {
-            width: 200px;
-            margin-top: 10px;
-            font-size: 5px;
-            text-align: left;
-            margin-left: 68px;
-        }
+		.nd-list-title {
+			margin-left: 20px;
+		}
 
-        .myCards1 {
-            width: 150px;
-            margin-top: 5px;
-            font-size: 5px;
-            text-align: left;
-            margin-left: 68px;
-        }
+		.pagination {
+			margin-top: 20px;
+			text-align: right;
+		}
 
+		.myCards {
+			width: 200px;
+			margin-top: 10px;
+			font-size: 5px;
+			text-align: left;
+			margin-left: 68px;
+		}
 
-    }
+		.myCards1 {
+			width: 150px;
+			margin-top: 5px;
+			font-size: 5px;
+			text-align: left;
+			margin-left: 68px;
+		}
+
+	}
 </style>
