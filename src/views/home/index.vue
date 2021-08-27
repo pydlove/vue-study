@@ -303,6 +303,11 @@
             position: relative;
         }
 
+        .nd-logo2:hover {
+            background: red;
+            border: 1px solid #eeeeee;
+        }
+
         .nd-sate {
             position: absolute;
             margin-left: 50px;
