@@ -11,35 +11,7 @@
                     </div>
                 </div>
 
-                <div class="nd-tm-right">
-                    <div class="ml-20">
-                        <div class="nd-menu-header1">
-                            首页
-                        </div>
-                    </div>
-                    <div class="ml-20">
-                        <div class="nd-menu-header2"  @click="observeDevice" >
-                            观测设备
-                        </div>
-                        <div class="nd-menu-header3">
-                            观测数据
-                        </div>
-                        <div class="nd-menu-header3">
-                            观测申请
-                        </div>
-                    </div>
-                    <div class="ml-20">
-                        <div class="nd-menu-header2">
-                            图库与成功
-                        </div>
-                        <div class="nd-menu-header3" @click="newsAndResource">
-                            新闻与资源
-                        </div>
-                        <div class="nd-menu-header3">
-                            中/EN
-                        </div>
-                    </div>
-                </div>
+                <Header></Header>
             </div>
             <!--资讯-->
             <div class="nd-zx-box">
@@ -159,11 +131,13 @@
 <!--eslint-disable-->
 <script>
     import tail from "@/components/headAndTail/tail";
-    import head from "@/components/headAndTail/head";
+    import Header from "@/components/Header";
 
     export default {
         name: "index",
-        components: {head, tail},
+        components: {
+            Header, tail
+        },
 
         data() {
             return {
@@ -251,16 +225,6 @@
             scaleFun: function () {
                 var scale = this.scale;
                 return `transform:scale(${scale})`
-            },
-
-            //新闻与资源
-            newsAndResource() {
-                this.$router.push({path: '/newsAndResource'})
-            },
-
-            //观测设备
-            observeDevice() {
-                this.$router.push({path: "/observeDevice"})
             },
 
         },
@@ -386,6 +350,11 @@
             text-align: left;
         }
 
+        .news-text:hover {
+            text-decoration: underline;
+            color: #096dd9;
+        }
+
         .nd-menu-header4 {
             border-top: 2px solid #ffffff;
             font-size: 16px;
@@ -428,35 +397,6 @@
             color: #ffffff;
             font-size: 10px;
             margin-top: 10px;
-        }
-
-        .nd-menu-header1 {
-            border-top: 2px solid #ffffff;
-            font-size: 16px;
-            line-height: 40px;
-            width: 100px;
-        }
-
-        .nd-menu-header2 {
-            border-top: 2px solid #ffffff;
-            font-size: 16px;
-            line-height: 40px;
-            margin-left: 40px;
-            width: 100px;
-        }
-
-        .nd-menu-header3 {
-            border-top: 1px solid #f5f5f5;
-            font-size: 16px;
-            margin-left: 40px;
-            line-height: 40px;
-            width: 100px;
-        }
-
-        .nd-tm-right {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-top: 20px;
         }
 
         .nd-title div:nth-of-type(1) {

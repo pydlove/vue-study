@@ -15,7 +15,7 @@
             <div class="nd-news-list">
                 <div class="myCard">
                     <el-card class="nd-list"
-                             v-for="item in this.tableData" >
+                             v-for="(item, index) in this.tableData" :key="index">
                         <div class="nd-lists">
                             <el-image
                                     class="nd-picture"
