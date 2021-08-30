@@ -11,7 +11,7 @@
 				<div :class="currentMenu=='observeDevice'?'nd-menu-active':''" @click="selectMenu('observeDevice')">
 					观测设备
 				</div>
-				<div :class="currentMenu==''?'nd-menu-active':''" @click="selectMenu('index')">
+				<div :class="currentMenu=='observationData'?'nd-menu-active':''" @click="selectMenu('observationData')">
 					观测数据
 				</div>
 				<div :class="currentMenu==''?'nd-menu-active':''" @click="selectMenu('index')">
@@ -72,6 +72,9 @@
                         break;
                     case 'pictureAndAchievement':
                         this.$router.push({path: '/pictureAndAchievement'})
+                        break;
+                    case 'observationData':
+                        this.$router.push({path: '/observationData'})
                         break;
                     default:
                         this.$router.push({path: '/home'})

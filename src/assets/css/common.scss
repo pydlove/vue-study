@@ -926,3 +926,26 @@ body {
   font-size: 16px;
   margin-right: 5px;
 }
+
+/*媒体查询（电脑）*/
+@media screen and (min-width: 768px) {
+  .nd-eq-active {
+    color: #fa541c !important;
+  }
+
+  .nd-eq-item {
+    line-height: 40px;
+    font-family: SC-Bold;
+    font-size: 16px;
+    color: #333333;
+  }
+
+  .nd-eq-item:hover {
+    color: #fa541c;
+  }
+
+  .nd-obd-item {
+    width: calc(50% - 5px);
+    margin-bottom: 10px;
+  }
+}

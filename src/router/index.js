@@ -56,7 +56,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心之观测设备详情'
+                title: '南京大学太阳数据中心观测设备详情'
             },
             path: '/observeDeviceDetail',
             name: 'observeDeviceDetail',
@@ -64,7 +64,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心之图片与成果'
+                title: '南京大学太阳数据中心图片与成果'
             },
             path: '/pictureAndAchievement',
             name: 'pictureAndAchievement',
@@ -72,15 +72,23 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心之图片与成果详情'
+                title: '南京大学太阳数据中心图片与成果详情'
             },
             path: '/pictureAndAchievementDetail',
             name: 'pictureAndAchievementDetail',
             component: (resolve) => require(['../views/pictureAndAchievement/detail.vue'], resolve),
         },
-    ]
-})
+        {
+            meta: {
+                title: '南京大学太阳数据中心观测数据'
+            },
 
+            path: '/observationData',
+            name: 'observationData',
+            component: (resolve) => require(['../views/observationData/index.vue'], resolve),
+        },
+]
+})
 // 全局拦截器
 router.beforeEach((to, from, next) => {
     next()
