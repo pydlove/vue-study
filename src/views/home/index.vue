@@ -39,7 +39,7 @@
                         <div class="nd-zx-bg">
                             <el-carousel >
                                 <el-carousel-item v-for="(item,index) in this.pictureData" v-if="index < 5" :key="index">
-                                    <el-image fit="cover" class="nd-picture" :src="item.picture" :preview-src-list="[item.picture]"></el-image>
+                                    <el-image  class="nd-picture" :src="item.picture" :preview-src-list="[item.picture]"></el-image>
                                     <div class="nd-zb-bottom1">
                                         <div class="nd-time">
                                             <div class="time-style">{{item.title}}</div>

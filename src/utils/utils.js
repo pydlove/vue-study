@@ -201,6 +201,7 @@ const utils = {
             listHtml.scrollIntoView(false)
         }
     },
+
     formatDate(time) {
         var date = new Date(time)
         var year = date.getFullYear()
@@ -215,6 +216,38 @@ const utils = {
             [hour, minute, second].map(utils.formatNumber).join(':')
         )
     },
+
+    lastMonth() {
+        var date = new Date()
+        var year = date.getFullYear()
+        var month = date.getMonth()
+        var day = date.getDate()
+        var hour = date.getHours()
+        var minute = date.getMinutes()
+        var second = date.getSeconds()
+        return (
+            [year, month, day].map(utils.formatNumber).join('-') +
+            ' ' +
+            [hour, minute, second].map(utils.formatNumber).join(':')
+        )
+    },
+
+    lastWeek() {
+        var date = new Date()
+        var year = date.getFullYear()
+        var month = date.getMonth()
+        var day = date.getDate() - 7
+        var hour = date.getHours()
+        var minute = date.getMinutes()
+        var second = date.getSeconds()
+        return (
+            [year, month, day].map(utils.formatNumber).join('-') +
+            ' ' +
+            [hour, minute, second].map(utils.formatNumber).join(':')
+        )
+    },
+
+
     formatNumber(n) {
         n = n.toString()
         return n[1] ? n : '0' + n
