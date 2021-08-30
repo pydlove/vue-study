@@ -17,7 +17,7 @@
                     </div>
             </div>
         </div>
-        <Footer></Footer>
+        <tail></tail>
     </div>
 </template>
 <!--eslint-disable-->

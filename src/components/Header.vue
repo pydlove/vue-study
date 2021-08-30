@@ -20,7 +20,7 @@
 			</div>
 			<div>
 				<div class="nd-menu-header">
-					<div :class="currentMenu==''?'nd-menu-active':''" @click="selectMenu('index')">
+					<div :class="currentMenu=='pictureAndAchievement'?'nd-menu-active':''" @click="selectMenu('pictureAndAchievement')">
 						图库与成果
 					</div>
 					<div :class="currentMenu=='newsAndResource'?'nd-menu-active':''" @click="selectMenu('newsAndResource')">
@@ -69,6 +69,9 @@
                         break;
                     case 'observeDevice':
                         this.$router.push({path: '/observeDevice'})
+                        break;
+                    case 'pictureAndAchievement':
+                        this.$router.push({path: '/pictureAndAchievement'})
                         break;
                     default:
                         this.$router.push({path: '/home'})

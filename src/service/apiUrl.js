@@ -112,4 +112,7 @@ export default {
     //观测设备
     web_service_v1_nd_observation_equipment_searchAll: "/web-service/v1/nd_observation_equipment/searchListByType",
 
+    //图片与成果
+    web_service_v1_nd_gallery_video_searchList: "/web-service/v1/nd_gallery_video/searchList",
+    web_service_v1_nd_gallery_achievement_searchList: "/web-service/v1/nd_gallery_achievement/searchList",
 }

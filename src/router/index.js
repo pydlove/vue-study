@@ -24,7 +24,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心首页'
+                title: '南京大学太阳数据中心'
             },
             path: '/home',
             name: 'home',
@@ -56,11 +56,27 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心观测设备'
+                title: '南京大学太阳数据中心之观测设备详情'
             },
             path: '/observeDeviceDetail',
             name: 'observeDeviceDetail',
             component: (resolve) => require(['../views/observeDevice/detail.vue'], resolve),
+        },
+        {
+            meta: {
+                title: '南京大学太阳数据中心之图片与成果'
+            },
+            path: '/pictureAndAchievement',
+            name: 'pictureAndAchievement',
+            component: (resolve) => require(['../views/pictureAndAchievement/index.vue'], resolve),
+        },
+        {
+            meta: {
+                title: '南京大学太阳数据中心之图片与成果详情'
+            },
+            path: '/pictureAndAchievementDetail',
+            name: 'pictureAndAchievementDetail',
+            component: (resolve) => require(['../views/pictureAndAchievement/detail.vue'], resolve),
         },
     ]
 })
