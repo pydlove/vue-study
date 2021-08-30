@@ -123,7 +123,6 @@
 		margin-top: 40px;
 	}
 	.nd-zx-bg {
-		background: url("../../assets/img/background/zx.png");
 		background-size: 100% 100%;
 		height: 337.5px;
 		width: 100%;

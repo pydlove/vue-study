@@ -20,10 +20,10 @@
 
 				<div class="aiocloud-card">
 					<QuickView v-if="type==0"></QuickView>
+					<NewView v-if="type==2"></NewView>
 				</div>
 			</div>
 		</div>
-
 		<Footer></Footer>
 	</div>
 </template>
@@ -32,13 +32,15 @@
     import NormalHeader from "@/components/NormalHeader";
     import Footer from "@/components/Footer";
     import QuickView from "@/views/observationData/quickView.vue";
+    import NewView from "@/views/observationData/newView.vue";
 
     export default {
         name: "index",
         components: {
             NormalHeader,
 	        Footer,
-            QuickView
+            QuickView,
+			NewView
         },
 	    data() {
             return {
