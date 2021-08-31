@@ -1,7 +1,7 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<NormalHeader :currentMenu="'observeDevice'"></NormalHeader>
+		<NormalHeader :currentMenu="'observationData'"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
 				<i class="el-icon-s-home"></i>首页
@@ -70,6 +70,9 @@
                 },
                 type: "0",
             }
+	    },
+	    mounted() {
+
 	    },
 	    methods: {
             selectEq(item) {

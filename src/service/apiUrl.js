@@ -23,5 +23,6 @@ export default {
     web_service_v1_nd_gallery_achievement_searchList: "/web-service/v1/nd_gallery_achievement/searchList",
 
     // 快速浏览
-    web_service_v1_nd_observation_log_date: "/web-service/v1/nd_observation_log/date",
+    web_service_v1_cl_observation_log_date: "/web-service/v1/cl_observation_log/date",
+    web_service_v1_cl_observation_log_detail: "/web-service/v1/cl_observation_log/detail",
 }

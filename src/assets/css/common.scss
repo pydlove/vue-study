@@ -949,3 +949,29 @@ body {
     margin-bottom: 10px;
   }
 }
+
+.aiocloud-btn {
+  background: #fa541c;
+  border: 1px solid #fa541c;
+  color: #ffffff;
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  min-width: 80px;
+  display: inline-block;
+  border-radius: 3px;
+}
+.aiocloud-btn:hover {
+  cursor:pointer
+}
+.aiocloud-cursor:hover {
+  cursor:pointer
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+
+.mb-40 {
+  margin-bottom: 40px;
+}

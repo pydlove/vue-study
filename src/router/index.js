@@ -87,6 +87,15 @@ const router = new Router({
             name: 'observationData',
             component: (resolve) => require(['../views/observationData/index.vue'], resolve),
         },
+        {
+            meta: {
+                title: '南京大学太阳数据中心观测数据详情'
+            },
+
+            path: '/observationDataDetail',
+            name: 'observationDataDetail',
+            component: (resolve) => require(['../views/observationData/observationDataDetail.vue'], resolve),
+        },
 ]
 })
 // 全局拦截器
