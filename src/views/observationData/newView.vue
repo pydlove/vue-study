@@ -25,7 +25,7 @@
                     </div>
                     <div  class="nd-list-title" >
                         <p class="myCards1"> 观测坐标：{{item.coordinates}}</p>
-                        <p class="myCards1" v-if="item.video != '' && item.video != null" @click="downLoad"> 观测视频: 下载</p>
+                        <p class="myCards1" v-if="item.video != '' && item.video != null" @click="downLoad(item)"> 观测视频: 下载</p>
                     </div>
                     <div  class="nd-list-title" >
                         <p class="myCards1"> 望远镜：{{fmt(item, 'TELESCOP')}}</p>
@@ -52,6 +52,11 @@
             this.initNewData();
         },
         methods: {
+            //点击下载
+            downLoad(item) {
+
+            },
+
             fmt(item, key) {
                 var json = JSON.parse(item.dataDetail);
                 return json[key];
