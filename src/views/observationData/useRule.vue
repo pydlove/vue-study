@@ -42,8 +42,8 @@
         }
         .userule {
             margin-top: 10px;
-            font-size: 16px;
-            line-height: 30px;
+            font-size: 14px;
+            line-height: 28px;
             text-align: left;
         }
     }

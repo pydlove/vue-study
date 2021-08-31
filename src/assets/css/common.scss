@@ -10,13 +10,11 @@ body {
 /**********************************aiocw***************************************/
 /******************************************************************************/
 .aiocw-dialog .el-dialog {
-  margin-top: 0vh !important;
   background: #ffffff !important;
-  top: 30px;
   border-radius: 5px;
 }
 .aiocw-dialog .el-dialog__header {
-  background: #096dd9 !important;
+  background: #fa541c !important;
   padding: 15px 20px 10px;
 }
 .aiocw-dialog .el-dialog__title {
@@ -974,4 +972,16 @@ body {
 
 .mb-40 {
   margin-bottom: 40px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.tl  {
+  text-align: left;
+}
+
+.tc {
+  text-align: center;
 }

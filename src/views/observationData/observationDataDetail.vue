@@ -132,7 +132,7 @@
 						</div>
 
 						<div class="obd-data-down">
-							<el-button class="obd-data-btn" type="primary">申请下载</el-button>
+							<el-button class="obd-data-btn" type="primary" size="mini" @click="applicationDownload">申请下载</el-button>
 						</div>
 					</div>
 				</div>
@@ -144,18 +144,22 @@
 		</div>
 
 		<Footer></Footer>
+
+		<LoginDialog ref="loginDialogRef"></LoginDialog>
 	</div>
 </template>
 <!--eslint-disable-->
 <script>
     import NormalHeader from "@/components/NormalHeader";
     import Footer from "@/components/Footer";
+    import LoginDialog from "@/views/login/loginDialog.vue"
 
     export default {
         name: "observationDataDetail",
         components: {
             NormalHeader,
             Footer,
+            LoginDialog
         },
         data() {
             return {
@@ -178,6 +182,45 @@
             this.search();
         },
         methods: {
+            applicationDownload() {
+                // 1、确认是否登录
+                // 未登录 去登陆
+                // 已登录 确定是否申请 确定发起申请工单
+                let userToken = this.$utils.getStorage("aiocloudToken");
+                if(userToken != undefined && userToken != null && userToken != "") {
+                    this.$confirm('确定申请下载数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.sendOrder();
+                    }).catch(() => {
+                    });
+                }
+                else {
+                    this.$refs.loginDialogRef.open();
+                }
+            },
+
+            async sendOrder() {
+
+            },
+
+            fmtObserverType(observerType) {
+                switch (observerType) {
+                    case "0":
+                        return "常规观测";
+                    case "1":
+                        return "偏振）光谱观测";
+                    case "2":
+                        return "晴天仪器维护";
+                    case "3":
+                        return "晴天实验观测";
+                    default:
+                        return observerType;
+                }
+            },
+
             /**
              * 查询观测数据
              * @param {*} 参数 参数说明
@@ -290,5 +333,13 @@
 		font-size: 16px;
 		font-weight: 600;
 		background: #eeeeee !important;
+	}
+	.obd-data-btn {
+		background: #fa541c;
+		border: 1px solid #fa541c;
+	}
+	.obd-data-btn:hover {
+		background: #fa541c;
+		border: 1px solid #fa541c;
 	}
 </style>
