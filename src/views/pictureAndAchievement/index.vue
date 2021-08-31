@@ -2,46 +2,50 @@
     <!--eslint-disable-->
     <div class="nd-container">
         <NormalHeader :currentMenu="'pictureAndAchievement'"></NormalHeader>
-        <el-breadcrumb v-if="this.client" separator-class="el-icon-arrow-right" class="nd-list-top">
-            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/pictureAndAchievement' }">图片与成果</el-breadcrumb-item>
-        </el-breadcrumb>
+        <div class="nd-card">
+            <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-list-top">
+                <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item>图片与成果</el-breadcrumb-item>
+            </el-breadcrumb>
 
-        <div class="nd-background">
-            <div class="nd-content dffn">
-                <div class="aiocloud-card">
-                    <div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
-                         v-for="(item, index) in equipments" :key="index"
-                         @click="selectEq(item)"
-                    >{{ item.name }}
-                    </div>
-                </div>
 
-                <div v-if="this.pictureStyle">
-                    <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
-                         v-for="(item, index) in this.tableData" :key="index" >
-                        <el-image  class="nd-picture" :src="item.picture" :preview-src-list="[item.picture]"></el-image>
-                        <div class="nd-list-title" @click="lookDetail(item)">
-                            <p class="myCards">{{item.title }}</p>
+            <div class="nd-background">
+                <div class="nd-content dffn">
+                    <div class="aiocloud-card">
+                        <div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
+                             v-for="(item, index) in equipments" :key="index"
+                             @click="selectEq(item)">{{ item.name }}
                         </div>
                     </div>
-                </div>
 
-                <div v-else>
-                    <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
-                         v-for="(item, index) in this.tableData" :key="index" >
-                        <el-image  class="nd-picture" :src="item.picture" :preview-src-list="[item.picture]"></el-image>
-                        <div class="nd-list-title" @click="lookDetail(item)">
-                            <p class="myCards">{{item.title }}</p>
+                    <div v-if="this.pictureStyle">
+                        <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
+                             v-for="(item, index) in this.tableData" :key="index">
+                            <el-image class="nd-picture" :src="item.picture"
+                                      :preview-src-list="[item.picture]"></el-image>
+                            <div class="nd-list-title">
+                                <p class="myCards">{{item.title }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
-            <div class="nd-breadcrumb-top">
-                <Page v-if="this.client" class="page" ref="pageRef" @search="search"></Page>
-                <Pagination style="text-align: center" v-else class="pagination" ref="pageRef"
-                            @search="search"></Pagination>
+                    <div v-else>
+                        <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
+                             v-for="(item, index) in this.tableData" :key="index">
+                            <el-image class="nd-picture" :src="item.video"
+                                      :preview-src-list="[item.video]"></el-image>
+                            <div class="nd-list-title" @click="lookDetail(item)">
+                                <p class="myCards">{{item.title }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="nd-breadcrumb-top">
+                    <Page v-if="this.client" class="page" ref="pageRef" @search="search"></Page>
+                    <Pagination style="text-align: center" v-else class="pagination" ref="pageRef"
+                                @search="search"></Pagination>
+                </div>
             </div>
         </div>
         <Footer></Footer>
@@ -61,21 +65,22 @@
             this.initPictureData();
         },
         methods: {
-             selectEq(item) {
-                if( item.name == "精美图片") {
+
+            selectEq(item) {
+                if (item.name == "精美图片") {
                     this.initPictureData();
-                } else if(item.name == "精美视频"){
+                } else if (item.name == "精美视频") {
                     this.initVideoData();
                 }
             },
 
-                async initPictureData() {
+            async initPictureData() {
+                this.pictureStyle = true;
                 let param = new FormData();
                 param.append("page", this.currentPage);
-                param.append("limit", this.currentPage);
+                param.append("limit", this.pageSize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_achievement_searchList, param, "POST");
                 if (data.code == 200) {
-                    console.log(data.data);
                     this.tableData = data.data;
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
@@ -83,13 +88,12 @@
             },
 
             async initVideoData() {
-                 this.pictureStyle = false;
+                this.pictureStyle = false;
                 let param = new FormData();
                 param.append("page", this.currentPage);
-                param.append("limit", this.currentPage);
+                param.append("limit", this.pageSize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_video_searchList, param, "POST");
                 if (data.code == 200) {
-                    console.log(1);
                     this.tableData = data.data;
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
@@ -110,10 +114,6 @@
                 currentPage: 1,
                 pageSize: 10,
                 clientWidth: document.body.clientWidth,
-                equipment: {
-                    name: "精美图片",
-                    type: "0",
-                },
                 equipments: [
                     {
                         name: "精美图片",
@@ -137,6 +137,7 @@
         .nd-eq-active {
             color: #fa541c !important;
         }
+
         .nd-eq-item {
             line-height: 40px;
             font-family: SC-Bold;
@@ -153,14 +154,14 @@
             margin-bottom: 10px;
         }
 
-        .nd-content >div:nth-of-type(1) {
+        .nd-content > div:nth-of-type(1) {
             width: 200px;
             min-width: 200px;
             height: 300px;
             margin-right: 20px;
         }
 
-        .nd-content >div:nth-of-type(2) {
+        .nd-content > div:nth-of-type(2) {
             width: calc(100% - 220px);
             display: flex;
             flex-wrap: wrap;

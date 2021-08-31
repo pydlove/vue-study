@@ -37,13 +37,20 @@
                         </div>
 
                         <div class="nd-zx-bg">
-                            <div class="nd-zb-bottom1">
-                                <div class="nd-time">
-                                    <div class="time-style">FE XVIII 94 A</div>
-                                    <div class="time-style">2021年07月06日 06.05.59</div>
-                                </div>
-                            </div>
+                            <el-carousel >
+                                <el-carousel-item v-for="(item,index) in this.pictureData" v-if="index < 5" :key="index">
+                                    <el-image  class="nd-picture" :src="item.picture" :preview-src-list="[item.picture]"></el-image>
+                                    <div class="nd-zb-bottom1">
+                                        <div class="nd-time">
+                                            <div class="time-style">{{item.title}}</div>
+                                            <div class="time-style">{{item.createTime}}</div>
+                                        </div>
+                                    </div>
+                                </el-carousel-item>
+                            </el-carousel>
+
                         </div>
+
                     </div>
 
                     <div class="nd-right">
@@ -151,8 +158,11 @@
 
         data() {
             return {
+                pictureData: [],
                 scale: 0.5,
                 tableData: [],
+                currentPage: 1,
+                pageSize: 10,
                 title: "",
                 clientHeight: document.body.clientHeight,
             }
@@ -170,6 +180,7 @@
 
         mounted() {
             this.initNewsData();
+            this.initBannerPicture();
         },
         methods: {
             toDetail(item) {
@@ -190,6 +201,19 @@
                 }
             },
 
+            async initBannerPicture() {
+                //查询精美图片
+                let param = new FormData();
+                param.append("page", this.currentPage);
+                param.append("limit", this.pageSize);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_achievement_searchList, param, "POST");
+                if (data.code == 200) {
+                    this.pictureData = data.data;
+                    console.log(this.pictureData);
+                    return true;
+                }
+            },
+
             scaleFun: function () {
                 var scale = this.scale;
                 return `transform:scale(${scale})`
@@ -202,6 +226,7 @@
 <style scoped>
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
+
 
         .nd-logo2 {
             margin-left: 20px;
@@ -524,12 +549,13 @@
         }
 
         .nd-zx-bg {
-            background: url("../../assets/img/background/zx.png");
             background-size: 100% 100%;
             height: 337.5px;
             width: 100%;
             position: relative;
         }
+
+
 
         .nd-zb-bottom1 {
             position: absolute;
@@ -538,6 +564,7 @@
             width: 100%;
             height: 75px;
             background: #2520228a;
+            z-index: 3000;
         }
 
         .nd-news {

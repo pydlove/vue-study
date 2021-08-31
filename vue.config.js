@@ -143,6 +143,7 @@ module.exports = {
                 pathRewrite: {}
             },
 
+
         }
     },
     pwa: {
