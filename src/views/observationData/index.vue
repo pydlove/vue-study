@@ -21,6 +21,8 @@
 				<div class="aiocloud-card">
 					<QuickView v-if="type==0"></QuickView>
 					<NewView v-if="type==2"></NewView>
+					<UseRule v-if="type==3"></UseRule>
+					<Friendly v-if="type == 4"></Friendly>
 				</div>
 			</div>
 		</div>
@@ -33,14 +35,19 @@
     import Footer from "@/components/Footer";
     import QuickView from "@/views/observationData/quickView.vue";
     import NewView from "@/views/observationData/newView.vue";
+    import UseRule from "@/views/observationData/useRule.vue";
+    import Friendly from "@/views/observationData/friendly.vue";
 
     export default {
         name: "index",
         components: {
+            UseRule,
             NormalHeader,
 	        Footer,
             QuickView,
-			NewView
+			NewView,
+			UseRule,
+            Friendly
         },
 	    data() {
             return {

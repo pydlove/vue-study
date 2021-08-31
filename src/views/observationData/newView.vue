@@ -6,7 +6,7 @@
             <el-radio v-model="radio" label="2" @change="month">一个月以内</el-radio>
         </div>
 
-        <div class="nd-news-list">
+        <div class="nd-news-list" v-if="this.tableData.length > 0" >
             <div class="myCard">
                 <div class="nd-list" v-for="(item, index) in this.tableData" :key="index">
                     <div class="nd-lists">
@@ -20,18 +20,24 @@
                         <p class="myCards1"> 半径： {{ fmt(item, 'CRRADIUS')}}</p>
                     </div>
                     <div  class="nd-list-title" >
-                        <p class="myCards1">观测目标：{{fmt(item, 'OBJECT')}}</p>
+                        <p class="myCards1"> 观测目标：{{fmt(item, 'OBJECT')}}</p>
+                        <p class="myCards1"> 曝光时间： {{ item.exposureTime}}</p>
+                    </div>
+                    <div  class="nd-list-title" >
+                        <p class="myCards1"> 观测坐标：{{item.coordinates}}</p>
+                        <p class="myCards1" v-if="item.video != '' && item.video != null" @click="downLoad"> 观测视频: 下载</p>
+                    </div>
+                    <div  class="nd-list-title" >
+                        <p class="myCards1"> 望远镜：{{fmt(item, 'TELESCOP')}}</p>
+                    </div>
 
-                    </div>
-                    <div  class="nd-list-title" >
-                        <p class="myCards1">观测坐标：{{item.COORDINATES}}</p>
-                    </div>
-                    <div  class="nd-list-title" >
-                        <p class="myCards1">望远镜：{{fmt(item, 'TELESCOP')}}</p>
-                    </div>
                 </div>
             </div>
         </div>
+        <div v-else>
+            <van-empty image="search" description="暂无观测数据"/>
+        </div>
+
     </div>
 </template>
 <!--eslint-disable-->
