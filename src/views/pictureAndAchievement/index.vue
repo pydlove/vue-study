@@ -204,7 +204,7 @@
     @media screen and (max-width: 768px) {
 
         .nd-card {
-            width: 375px;
+            width: 300px;
             background: white;
             background: #f0f0f0;
         }

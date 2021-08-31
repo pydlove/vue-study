@@ -217,6 +217,21 @@ const utils = {
         )
     },
 
+    nowDate() {
+        var date = new Date()
+        var year = date.getFullYear()
+        var month = date.getMonth() + 1
+        var day = date.getDate()
+        var hour = date.getHours()
+        var minute = date.getMinutes()
+        var second = date.getSeconds()
+        return (
+            [year, month, day].map(utils.formatNumber).join('-') +
+            ' ' +
+            [hour, minute, second].map(utils.formatNumber).join(':')
+        )
+    },
+
     lastMonth() {
         var date = new Date()
         var year = date.getFullYear()
@@ -235,7 +250,7 @@ const utils = {
     lastWeek() {
         var date = new Date()
         var year = date.getFullYear()
-        var month = date.getMonth()
+        var month = date.getMonth() + 1
         var day = date.getDate() - 7
         var hour = date.getHours()
         var minute = date.getMinutes()
