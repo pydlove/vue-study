@@ -1,7 +1,7 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<NormalHeader :currentMenu="'observationData'"></NormalHeader>
+		<NormalHeader ref="normalHeaderRef" :currentMenu="'observationData'"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
 				<i class="el-icon-s-home"></i>首页
@@ -126,13 +126,13 @@
 									观测视频:
 								</div>
 								<div>
-									{{ item.video }}
+									<a :href="item.video" :download="item.video">点击下载</a>
 								</div>
 							</div>
 						</div>
 
 						<div class="obd-data-down">
-							<el-button class="obd-data-btn" type="primary" size="mini" @click="applicationDownload">申请下载</el-button>
+							<el-button class="obd-data-btn" type="primary" size="mini" @click="applicationDownload(item)">申请下载</el-button>
 						</div>
 					</div>
 				</div>
@@ -144,22 +144,21 @@
 		</div>
 
 		<Footer></Footer>
-
-		<LoginDialog ref="loginDialogRef"></LoginDialog>
+		<Application ref="appref"></Application>
 	</div>
 </template>
 <!--eslint-disable-->
 <script>
     import NormalHeader from "@/components/NormalHeader";
     import Footer from "@/components/Footer";
-    import LoginDialog from "@/views/login/loginDialog.vue"
+    import Application from "@/views/user/application.vue";
 
     export default {
         name: "observationDataDetail",
         components: {
             NormalHeader,
             Footer,
-            LoginDialog
+            Application
         },
         data() {
             return {
@@ -182,28 +181,25 @@
             this.search();
         },
         methods: {
-            applicationDownload() {
-                // 1、确认是否登录
-                // 未登录 去登陆
-                // 已登录 确定是否申请 确定发起申请工单
-                let userToken = this.$utils.getStorage("aiocloudToken");
-                if(userToken != undefined && userToken != null && userToken != "") {
-                    this.$confirm('确定申请下载数据, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.sendOrder();
-                    }).catch(() => {
-                    });
-                }
-                else {
-                    this.$refs.loginDialogRef.open();
+            async applicationDownload(item) {
+                console.log(item)
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
+                if (data.code == 200) {
+                    let res = data.data;
+                    this.isLogin = res.isLogin;
+                    if (res.isLogin) {
+                        this.sendOrder(item.id, item.logId);
+                    }
+                    else {
+                        this.$refs.normalHeaderRef.toLogin();
+                    }
+                    return true;
                 }
             },
 
-            async sendOrder() {
-
+            async sendOrder(dataId, logId) {
+				this.$refs.appref.open(dataId, logId);
             },
 
             fmtObserverType(observerType) {
@@ -233,7 +229,6 @@
                 if (data.code == 200) {
                     if (data.data) {
                         this.observationLog = data.data;
-                        console.log(this.observationLog)
                     }
                     return true;
                 }

@@ -29,7 +29,22 @@ export default {
     // 最新数据
     web_service_v1_cl_observation_data_searchNewData: "/web-service/v1/cl_observation_data/newData",
 
-    // 注册
+    // 注册 登录
     web_service_v1_email_send: "/web-service/v1/email/send",
+    web_service_v1_email_register: "/web-service/v1/email/register",
     web_service_v1_login_check_email: "/web-service/v1/login/check/email",
+    web_service_v1_login_captcha : "/web-service/v1/login/captcha.jpg",
+    web_service_v1_login : "/web-service/v1/login/",
+    web_service_v1_email_forget : "/web-service/v1/email/forget",
+    web_service_v1_login_getUser: "/web-service/v1/login/getUser",
+    web_service_v1_login_logout: "/web-service/v1/login/logout",
+
+    // 个人信息
+    web_service_v1_web_user_photo_upload: "/web-service/v1/web_user/photo/upload",
+    web_service_v1_web_user_photo_delete: "/web-service/v1/web_user/photo/delete",
+    web_service_v1_web_user_edit: "/web-service/v1/web_user/edit",
+
+    // 下载申请
+    web_service_v1_web_application_add: "/web-service/v1/web_application/add",
+    web_service_v1_web_application_list: "/web-service/v1/web_application/list",
 }

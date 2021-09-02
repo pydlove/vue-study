@@ -6,7 +6,7 @@
 				<div class="nd-normal-logo-box">
 					<van-image class="nd-normal-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
 				</div>
-				<Header :currentMenu="currentMenu"></Header>
+				<Header ref="headerRef" :currentMenu="currentMenu"></Header>
 			</div>
 		</div>
 	</div>
@@ -20,7 +20,12 @@
 	    components: { Header },
 	    props: [
 	        'currentMenu'
-	    ]
+	    ],
+	    methods: {
+            toLogin() {
+				this.$refs.headerRef.toLogin();
+            },
+	    }
     }
 </script>
 

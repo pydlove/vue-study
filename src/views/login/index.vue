@@ -15,8 +15,8 @@
 							<el-form class="lform" label-width="0px" ref="loginForm" :model="loginForm" :rules="rules">
 								<div class="sr">
 									<span class="phone-icon"></span>
-									<el-form-item label="" prop="phone">
-										<el-input class="srin" v-model="loginForm.phone" placeholder="请输入手机号码"></el-input>
+									<el-form-item label="" prop="email">
+										<el-input class="srin" v-model="loginForm.email" placeholder="请输入邮箱"></el-input>
 									</el-form-item>
 								</div>
 
@@ -66,7 +66,7 @@
 								<div class="srr">
 									<span class="phone-icon"></span>
 									<el-form-item label="" prop="regEmail" required>
-										<el-input class="srin" v-model="registerForm.regEmail" placeholder="请输入邮箱" @blur="checkPhoneIsRegister($event)"></el-input>
+										<el-input class="srin" v-model="registerForm.regEmail" placeholder="请输入邮箱" @blur="checkPhoneIsRegister($event, 'register')"></el-input>
 									</el-form-item>
 								</div>
 
@@ -87,11 +87,11 @@
 
 								<div class="srr">
 									<span class="code-icon"></span>
-									<el-form-item label="" prop="regCode">
-										<el-input class="srin vcf" placeholder="请输入短信验证码" v-model="registerForm.regCode"
+									<el-form-item label="" prop="registrationCode">
+										<el-input class="srin vcf" placeholder="请输入邮箱验证码" v-model="registerForm.registrationCode"
 										          autocomplete="off"></el-input>
 									</el-form-item>
-									<span class="dx-code aiocloud-cursor" @click="getCode" :disabled="count > 0">
+									<span class="dx-code aiocloud-cursor" @click="getCode('register')" :disabled="count > 0">
 								{{ countMsg }}
 								</span>
 									<!--<img id="imgIdentifyingCode" src="/blsh-service/v1/login/captcha.jpg" class="vcimg" alt="点击更换" title="点击更换" @click="getIdentifyingCode()"/>-->
@@ -111,6 +111,66 @@
 								<div class="lbt-tip1 bt mt-15">
 									<a class="fr colori-ffffff" @click="toLogin">去登录»</a>
 									<a class="fr">已有账号？</a>
+								</div>
+							</el-form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--忘记密码-->
+		<div v-else-if="showLogin == 'forget'" class="reg_content">
+			<div class="reg_content_input">
+				<div class="lgrc">
+					<div class="reg_gnc">
+						<div class="gnm">
+							<div class="rglkzt">忘记密码</div>
+							<div class="glkzt1">
+								南京大学太阳数据中心
+							</div>
+
+							<el-form class="lform rform" ref="forgetForm" :rules="rules" label-width="0px" :model="forgetForm">
+								<div class="srr">
+									<span class="phone-icon"></span>
+									<el-form-item label="" prop="fgEmail" required>
+										<el-input class="srin" v-model="forgetForm.fgEmail" placeholder="请输入邮箱" @blur="checkPhoneIsRegister($event, 'forget')"></el-input>
+									</el-form-item>
+								</div>
+
+								<div class="srr">
+									<span class="pwd-icon"></span>
+									<el-form-item class="wp-100" label="" prop="fgPwd" required>
+										<el-input class="srin" v-model="forgetForm.fgPwd"
+										          placeholder="请输入6-16位字母、数字、特殊字符组合的密码" show-password></el-input>
+									</el-form-item>
+								</div>
+
+								<div class="srr">
+									<span class="pwd-icon"></span>
+									<el-form-item class="wp-100" label="" prop="fgPwdAgain" required>
+										<el-input class="srin" v-model="forgetForm.fgPwdAgain" placeholder="请再次输入密码" show-password></el-input>
+									</el-form-item>
+								</div>
+
+								<div class="srr">
+									<span class="code-icon"></span>
+									<el-form-item label="" prop="fgCode">
+										<el-input class="srin vcf" placeholder="请输入邮箱验证码" v-model="forgetForm.fgCode"
+										          autocomplete="off"></el-input>
+									</el-form-item>
+									<span class="dx-code aiocloud-cursor" @click="getCode('forget')" :disabled="forgetcount > 0">
+								{{ forgetcountMsg }}
+								</span>
+								</div>
+
+								<el-button class="dl-btn" type="primary" @click="forget">
+									重 <span class="ml-40"></span> 置
+								</el-button>
+
+								<div class="lbt-tip1 bt mt-15">
+									<a class="fr colori-ffffff" @click="toLogin">去登录»</a>
+									<a class="fr">已记起密码？</a>
 								</div>
 							</el-form>
 						</div>
@@ -147,54 +207,27 @@
 
             async loginRequest() {
                 let params = new FormData()
-                params.append("phone", this.loginForm.phone.trim());
+                params.append("email", this.loginForm.email.trim());
                 params.append("password", this.$md5(this.loginForm.password));
                 params.append("verificationCode", this.loginForm.verificationCode.trim());
                 params.append("rememberMe", this.loginForm.rememberMe);
-                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_login, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login, params, "POST");
                 if (data.code == 200) {
-                    this.initStorage();
-                    this.$utils.setStorage("staioctoken", data.data);
+                    this.$utils.setStorage("aiocloudToken", data.data);
                     this.user = data.data;
-                    // == 2 去首次登录
-                    // else 去首页
-                    if(this.user.status == "2") {
-                        this.$router.push({
-                            name: "firstLogin"
-                        });
-                    } else if(this.user.status == "0") {
-                        const page = this.$utils.getStorage("page");
-                        if(page != undefined && page != null && page != "") {
-                            window.location.href = page;
-                        } else {
-                            this.$router.push({
-                                name: "index"
-                            });
-                        }
-                    } else if(this.user.status == "1") {
-                        this.$notify.error({
-                            title: '提示',
-                            message: '您的账号目前处于静默状态，不能正常访问登录，请联系客服'
-                        });
-                        this.$router.push({
-                            name: "silent"
-                        });
-                    }
+                    this.$emit("setUser", this.user);
+                    this.$emit("closeNotConfirm");
                     return true;
                 } else {
                     this.getIdentifyingCode();
                 }
             },
 
-            initStorage() {
-                this.$utils.removeStorage("bluserForm");
-            },
-
             /**
              * 图片验证码
              */
             getIdentifyingCode: function () {
-                let identifyCodeSrc = this.$aiocUrl.blsh_service_v1_login_captcha + "?" + Math.random();
+                let identifyCodeSrc = this.$aiocUrl.web_service_v1_login_captcha + "?" + Math.random();
                 let objs = document.getElementById("imgIdentifyingCode");
                 objs.src = identifyCodeSrc;
             },
@@ -203,6 +236,7 @@
                 this.$nextTick(() => {
                     this.$refs["regForm"].clearValidate();
                     this.$refs["loginForm"].clearValidate();
+                    this.$refs["forgetForm"].clearValidate();
                 });
                 this.showLogin = "register";
             },
@@ -211,59 +245,109 @@
                 this.$nextTick(() => {
                     this.$refs["regForm"].clearValidate();
                     this.$refs["loginForm"].clearValidate();
+                    this.$refs["forgetForm"].clearValidate();
                 });
                 this.showLogin = "login";
             },
 
-            getCode(){
-                this.$refs['regForm'].validateField(('regEmail'), errMsg => {
-                    if (errMsg) {
-	                    return false;
-                    } else {
-                        if(this.emailIsEffective) {
-                            if(this.count == 0) {
-                                const TIME_COUNT = 60;
-                                if (!this.timer) {
-                                    this.count = TIME_COUNT;
-                                    this.timer = setInterval(() => {
-                                        if (this.count > 0 && this.count <= TIME_COUNT) {
-                                            this.countMsg = this.count-- + "秒";
-                                        } else {
-                                            clearInterval(this.timer);
-                                            this.timer = null;
-                                            this.countMsg = "验证码";
-                                        }
-                                    }, 1000);
-                                    this.sendCode();
-                                }
-                            }
-                        } else {
-                            this.$promptMsg("此邮箱已经被注册，请修改", "error");
-                        }
-                    }
+            forgetPwd() {
+                this.$nextTick(() => {
+                    this.$refs["regForm"].clearValidate();
+                    this.$refs["loginForm"].clearValidate();
+                    this.$refs["forgetForm"].clearValidate();
                 });
+                this.showLogin = "forget";
             },
 
-            async sendCode(){
+            getCode(type){
+                if(type == 'register') {
+                    this.$refs['regForm'].validateField(('regEmail'), errMsg => {
+                        if (errMsg) {
+                            return false;
+                        } else {
+                            this.sendCode(type);
+                        }
+                    });
+                }
+                if(type == 'forget') {
+                    this.$refs['forgetForm'].validateField(('fgEmail'), errMsg => {
+                        if (errMsg) {
+                            return false;
+                        } else {
+                            this.sendForgetCode(type);
+                        }
+                    });
+                }
+            },
+
+	        sendCode(type) {
+                if (this.count == 0) {
+                    const TIME_COUNT = 60;
+                    if (!this.timer) {
+                        this.count = TIME_COUNT;
+                        this.timer = setInterval(() => {
+                            if (this.count > 0 && this.count <= TIME_COUNT) {
+                                this.countMsg = this.count-- + "秒";
+                            } else {
+                                clearInterval(this.timer);
+                                this.timer = null;
+                                this.countMsg = "验证码";
+                            }
+                        }, 1000);
+                        this.sendCodeRequest(type);
+                    }
+                }
+	        },
+
+            sendForgetCode(type) {
+                if (this.forgetcount == 0) {
+                    const TIME_COUNT = 60;
+                    if (!this.forgettimer) {
+                        this.forgetcount = TIME_COUNT;
+                        this.forgettimer = setInterval(() => {
+                            if (this.forgetcount > 0 && this.forgetcount <= TIME_COUNT) {
+                                this.forgetcountMsg = this.forgetcount-- + "秒";
+                            } else {
+                                clearInterval(this.forgettimer);
+                                this.forgettimer = null;
+                                this.forgetcountMsg = "验证码";
+                            }
+                        }, 1000);
+                        this.sendCodeRequest(type);
+                    }
+                }
+	        },
+
+            async sendCodeRequest(type){
                 let params = new FormData();
-                params.append("email", this.registerForm.regEmail);
+                if(type == 'register') {
+                    params.append("email", this.registerForm.regEmail);
+                }
+                else if(type == 'forget') {
+                    params.append("email", this.forgetForm.fgEmail);
+                }
+                params.append("type", type);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_send, params, "POST");
                 if(data.code == 200){
+                    this.$promptMsg("验证码已经发送到邮箱，请前往查看", "success");
                     return true;
                 }
             },
 
-            async checkPhoneIsRegister(e) {
-                console.log(this.registerForm.regEmail)
+            async checkPhoneIsRegister(e, type) {
                 let params = new FormData()
-                params.append("email", this.registerForm.regEmail);
+                if(type == 'register') {
+                    params.append("email", this.registerForm.regEmail);
+                }
+                else if(type == 'forget') {
+                    params.append("email", this.forgetForm.fgEmail);
+                }
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_check_email, params, "POST");
                 if (data.code == 200) {
                     if(data.data) {
-                        this.emailIsEffective = false;
-                        this.$promptMsg("此邮箱已经被注册，请修改", "error");
+                        this.emailIsRegister = true;
                     } else {
-                        this.emailIsEffective = true;
+                        this.emailIsRegister = false;
                     }
                 }
             },
@@ -285,6 +369,14 @@
             register() {
                 this.$refs['regForm'].validate((valid) => {
                     if (valid) {
+                        if(this.emailIsRegister) {
+                            this.$promptMsg("此邮箱已经被注册，请修改", "error");
+                            return false;
+                        }
+                        if (this.registerForm.regPwd != this.registerForm.pwdagain) {
+                            this.$promptMsg("两次密码不一致，请重新输入", "error")
+                            return false;
+                        }
                         this.submitRequest();
                     } else {
                         return false;
@@ -293,20 +385,12 @@
             },
 
             async submitRequest() {
-                if(!this.emailIsEffective) {
-                    this.$promptMsg("此号码已经被注册，请修改", "error");
-                    return false;
-                }
-                if (this.registerForm.regPwd != this.registerForm.pwdagain) {
-                    this.$promptMsg("两次密码不一致，请重新输入", "error")
-                    return false;
-                }
                 let params = new FormData()
-                params.append("phone", this.registerForm.regPhone.trim());
+                params.append("email", this.registerForm.regEmail.trim());
                 params.append("password", this.$md5(this.registerForm.regPwd));
-                params.append("registrationCode", this.registerForm.registrationCode.trim());
+                params.append("verificationCode", this.registerForm.registrationCode.trim());
                 this.disabled = true;
-                let data = await this.$aiorequest(this.$aiocUrl.blsh_service_v1_login_register, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_register, params, "POST");
                 if (data.code == 200) {
                     this.$promptMsg("注册成功，请前去登录！", "success");
                     this.disabled = false;
@@ -326,6 +410,47 @@
                 };
             },
 
+            forget() {
+                this.$refs['forgetForm'].validate((valid) => {
+                    if (valid) {
+                        if(!this.emailIsRegister) {
+                            this.$promptMsg("此邮箱未被注册，请修改", "error");
+                            return false;
+                        }
+                        if(this.forgetForm.fgPwd != this.forgetForm.fgPwdAgain) {
+                            this.$promptMsg("两次密码不一致，请修改", "error");
+                            return false;
+                        }
+                        this.forgetRequest();
+                    } else {
+                        return false;
+                    }
+                });
+            },
+
+            async forgetRequest() {
+                let params = new FormData()
+                params.append("email", this.forgetForm.fgEmail.trim());
+                params.append("password", this.$md5(this.forgetForm.fgPwd));
+                params.append("verificationCode", this.forgetForm.fgCode.trim());
+                console.log( this.forgetForm)
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_forget, params, "POST");
+                if (data.code == 200) {
+                    this.$promptMsg("密码重置成功，去登陆！", "success");
+                    this.toLogin();
+                    this.clearForgetForm();
+                }
+            },
+
+            clearForgetForm() {
+                this.forgetForm = {
+                    fgEmail: "",
+                    fgPwd: "",
+                    fgPwdAgain: "",
+                    fgCode: "",
+                };
+            },
+
         },
         data() {
             return {
@@ -334,9 +459,12 @@
                 timer: "",
                 count: "",
                 countMsg: "验证码",
+                forgettimer: "",
+                forgetcount: "",
+                forgetcountMsg: "验证码",
                 // 忘记密码
                 forgetForm: {
-                    fgPhone: "",
+                    fgEmail: "",
                     fgPwd: "",
                     fgPwdAgain: "",
                     fgCode: "",
@@ -350,7 +478,7 @@
                     registrationCode: "",
                 },
                 phoneIsEffective: false,
-                emailIsEffective: false,
+                emailIsRegister: false,
                 showLogin: "login",
                 type: "info",
                 disabled: true,
@@ -360,22 +488,22 @@
                 clientWidth: 1580,
                 clientHeight: 980,
                 loginForm: {
-                    // phone: "13588404606",
-                    // password: "1234!q",
-                    // verificationCode: "xxxx",
-                    phone: "",
-                    password: "",
-                    verificationCode: "",
+                    email: "py_world@163.com",
+                    password: "1q2w!Q",
+                    verificationCode: "aaaa",
                     rememberMe: false,
                 },
                 rules: {
-                    phone: [
-                        {type: 'string', required: true, message: '请输入手机号', trigger: ['change', 'blur']},
+                    email: [
+                        {type: 'string', required: true, message: '请输入邮箱', trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
-                                if (/^1[34578]\d{9}$/.test(value) == false) {
-                                    callback(new Error("请输入正确的手机号"));
-                                } else {
+                                var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+                                if(!strRegex.test(value)){
+                                    callback(new Error("请输入正确的邮箱"));
+                                    return false;
+                                }
+                                else{
                                     callback();
                                 }
                             }, trigger: ['change', 'blur']
@@ -423,18 +551,21 @@
                     pwdagain: [
                         {type: 'string', required: true, message: '请再次输入密码', trigger: ['change', 'blur']},
                     ],
-                    regCode: [
+                    registrationCode: [
                         {type: 'string', required: true, message: '请输入验证码', trigger: ['change', 'blur']},
                     ],
 
                     // 忘记密码
-                    fgPhone: [
-                        {type: 'string', required: true, message: '请输入手机号', trigger: ['change', 'blur']},
+                    fgEmail: [
+                        {type: 'string', required: true, message: '请输入邮箱', trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
-                                if (/^1[34578]\d{9}$/.test(value) == false) {
-                                    callback(new Error("请输入正确的手机号"));
-                                } else {
+                                var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+                                if(!strRegex.test(value)){
+                                    callback(new Error("请输入正确的邮箱"));
+                                    return false;
+                                }
+                                else{
                                     callback();
                                 }
                             }, trigger: ['change', 'blur']

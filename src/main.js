@@ -114,12 +114,50 @@ Vue.directive('aiocp2', {
  * 弹出层封装
  */
 Vue.prototype.$promptMsg = function (message, type) {
-    this.$message({
-        dangerouslyUseHTMLString: true,
-        showClose: true,
-        message: message,
-        type: type
-    });
+    // this.$message({
+    //     dangerouslyUseHTMLString: true,
+    //     showClose: true,
+    //     message: message,
+    //     type: type
+    // });
+    let title = "成功";
+    switch (type) {
+        case "success":
+            title = "成功";
+            this.$notify({
+                title: title,
+                message: message,
+                type: type
+            });
+            break;
+        case "warning":
+            title = "警告";
+            this.$notify({
+                title: title,
+                message: message,
+                type: type
+            });
+            break;
+        case "info":
+            title = "消息";
+            this.$notify({
+                title: title,
+                message: message,
+            });
+            break;
+        case "error":
+            this.$notify.error({
+                title: '错误',
+                message: message
+            });
+            break;
+        default:
+            title = "提示";
+            this.$notify({
+                title: title,
+                message: message,
+            });
+    }
 };
 
 /* 路由发生变化修改页面title */

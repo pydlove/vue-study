@@ -6,7 +6,7 @@
 		           :append-to-body="true"
 		           width="800px"
 		           :before-close="close">
-			<Login></Login>
+			<Login @closeNotConfirm="closeNotConfirm" @setUser="setUser"></Login>
 		</el-dialog>
 	</div>
 </template>
@@ -33,7 +33,22 @@
             },
 
             close() {
+                this.$confirm('确定要关闭登录/注册？, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.dialogVisible = false;
+                }).catch(() => {
+                });
+            },
+
+            closeNotConfirm(){
                 this.dialogVisible = false;
+            },
+
+            setUser(user) {
+                this.$emit("setUser", user);
             },
         }
     }
