@@ -34,6 +34,7 @@
                     <Pagination v-else class="pagination"  ref="pageRef" @search="search"></Pagination>
                 </div>
             </div>
+
         </div>
         <Footer></Footer>
     </div>

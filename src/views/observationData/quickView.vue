@@ -50,6 +50,7 @@
 						</el-popover>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -85,6 +86,7 @@
         },
         methods: {
             toDetail(item) {
+
                 this.$utils.setStorage("observationDataDetail", item);
                 let routeData = this.$router.resolve({
                     path: "/observationDataDetail"

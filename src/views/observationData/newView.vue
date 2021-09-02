@@ -32,6 +32,7 @@
                     </div>
 
                 </div>
+
             </div>
         </div>
         <div v-else>
@@ -145,6 +146,7 @@
             margin-left: 10px;
             line-height: 2;
         }
+
 
         .myCard {
             width: 680px;

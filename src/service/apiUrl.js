@@ -47,4 +47,7 @@ export default {
     // 下载申请
     web_service_v1_web_application_add: "/web-service/v1/web_application/add",
     web_service_v1_web_application_list: "/web-service/v1/web_application/list",
+
+    //查询数据
+    web_service_v1_cl_observation_data_searchData: "/web-service/v1/cl_observation_data/searchData",
 }

@@ -20,9 +20,11 @@
 
 				<div class="aiocloud-card">
 					<QuickView v-if="type==0"></QuickView>
+					<DataSearch v-if="type == 1"></DataSearch>
 					<NewView v-if="type==2"></NewView>
 					<UseRule v-if="type==3"></UseRule>
 					<Friendly v-if="type == 4"></Friendly>
+
 				</div>
 			</div>
 		</div>
@@ -37,6 +39,7 @@
     import NewView from "@/views/observationData/newView.vue";
     import UseRule from "@/views/observationData/useRule.vue";
     import Friendly from "@/views/observationData/friendly.vue";
+    import DataSearch from "@/views/observationData/dataSearch.vue";
 
     export default {
         name: "index",
@@ -47,7 +50,8 @@
             QuickView,
 			NewView,
 			UseRule,
-            Friendly
+            Friendly,
+            DataSearch
         },
 	    data() {
             return {
@@ -71,7 +75,7 @@
                     {
                         name: "友情链接",
                         type: "4",
-                    }
+                    },
                 ],
                 menu: {
                     name: "快速浏览",
