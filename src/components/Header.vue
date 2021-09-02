@@ -14,7 +14,7 @@
 				<div :class="currentMenu=='observationData'?'nd-menu-active':''" @click="selectMenu('observationData')">
 					观测数据
 				</div>
-				<div :class="currentMenu==''?'nd-menu-active':''" @click="selectMenu('index')">
+				<div :class="currentMenu=='application'?'nd-menu-active':''" @click="selectMenu('application')">
 					观测申请
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 						</span>
 						<el-dropdown-menu slot="dropdown">
 							<el-dropdown-item @click.native="showMyInfo">个人信息</el-dropdown-item>
-							<el-dropdown-item>我的申请</el-dropdown-item>
+							<el-dropdown-item @click.native="showMyApplication">我的申请</el-dropdown-item>
 							<el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
@@ -67,18 +67,21 @@
 
 		<LoginDialog ref="loginDialogRef" @setUser="setUser"></LoginDialog>
 		<UserInfo ref="userInfoRef"></UserInfo>
+		<MyApplication ref="myApplicationRef"></MyApplication>
 	</div>
 </template>
 <!--eslint-disable-->
 <script>
     import LoginDialog from "@/views/login/loginDialog.vue"
     import UserInfo from "@/views/user/userInfo.vue"
+    import MyApplication from "@/views/user/myApplication.vue"
 
     export default {
         name: "Header",
         components: {
             LoginDialog,
-            UserInfo
+            UserInfo,
+            MyApplication
         },
         data() {
             return {
@@ -114,6 +117,10 @@
             this.getUserInfo();
         },
         methods: {
+            showMyApplication() {
+				this.$refs.myApplicationRef.open();
+            },
+
             showMyInfo() {
 				this.$refs.userInfoRef.open(this.user);
             },
@@ -152,6 +159,9 @@
                 }
                 if(this.user.name == null || this.user.name == undefined || this.user.name == "") {
                     this.user.name = this.user.mail;
+                }
+                if(this.currentMenu == 'application') {
+                    this.$emit("reloadApplications");
                 }
             },
 
@@ -205,6 +215,9 @@
                         break;
                     case 'observationData':
                         this.$router.push({path: '/observationData'})
+                        break;
+                    case 'application':
+                        this.$router.push({path: '/application'})
                         break;
                     default:
                         this.$router.push({path: '/home'})

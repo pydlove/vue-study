@@ -6,7 +6,7 @@
 				<div class="nd-normal-logo-box">
 					<van-image class="nd-normal-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
 				</div>
-				<Header ref="headerRef" :currentMenu="currentMenu"></Header>
+				<Header ref="headerRef" :currentMenu="currentMenu" @reloadApplications="reloadApplications"></Header>
 			</div>
 		</div>
 	</div>
@@ -25,6 +25,10 @@
             toLogin() {
 				this.$refs.headerRef.toLogin();
             },
+
+            reloadApplications() {
+                this.$emit("reloadApplications");
+            }
 	    }
     }
 </script>

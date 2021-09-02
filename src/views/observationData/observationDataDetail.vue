@@ -183,7 +183,6 @@
         },
         methods: {
             async applicationDownload(item) {
-                console.log(item)
                 let params = new FormData();
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
                 if (data.code == 200) {
