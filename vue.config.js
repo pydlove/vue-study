@@ -123,21 +123,14 @@ module.exports = {
         disableHostCheck: true,
         proxy: {
             '/web-service': {
-                target: 'http://localhost:18082',
-                // target: 'http://ahbfi.org.cn:8080',
-                changeOrigin: true,
-                ws: true,
-                pathRewrite: {}
-            },
-            '/web-service': {
                 target: 'http://localhost:9092',
                 // target: 'http://ahbfi.org.cn:8080',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}
             },
-            '/console-service': {
-                target: 'http://localhost:9091',
+            '/client-service': {
+                target: 'http://192.168.1.9:9093',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}

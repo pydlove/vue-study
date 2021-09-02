@@ -10,13 +10,11 @@ body {
 /**********************************aiocw***************************************/
 /******************************************************************************/
 .aiocw-dialog .el-dialog {
-  margin-top: 0vh !important;
   background: #ffffff !important;
-  top: 30px;
   border-radius: 5px;
 }
 .aiocw-dialog .el-dialog__header {
-  background: #096dd9 !important;
+  background: #fa541c !important;
   padding: 15px 20px 10px;
 }
 .aiocw-dialog .el-dialog__title {
@@ -165,40 +163,47 @@ body {
 
 /* 全局按钮公共样式 ---start---*/
 .el-button--primary {
-  //background: linear-gradient(to right, #ff8332, #f84820) !important;
-  //border-color: #fff !important;
+  background: linear-gradient(to right, #ff8332, #f84820) !important;
+  border-color: #fff !important;
+  color: #ffffff !important;
+  font-family: 微软雅黑 !important;
 }
 
 .el-button--default {
-  //border-color: #FF6632;
-  //background-color: #fff;
-  //color: #FF6632;
+  border-color: #FF6632;
+  background-color: #fff;
+  color: #FF6632;
+  font-family: 微软雅黑 !important;
 
-  // &:hover {
-  //   background-color: #fff !important;
-  //   border-color: #fa3a00 !important;
-  //   color: #fa3a00;
-  // }
+   &:hover {
+     background-color: #fff !important;
+     border-color: #fa3a00 !important;
+     color: #fa3a00;
+   }
 }
 
 .el-button {
 
-  // &.edit-text{
-  //   color: #4C84FF;
-  // }
+   &.edit-text{
+     color: #4C84FF;
+     font-family: 微软雅黑 !important;
+   }
   &.delete-text {
     color: #FA3A00;
+    font-family: 微软雅黑 !important;
   }
 
   &.edit-btn {
     border: 1px solid #FF6632;
     background: #fff;
     color: #FF6632;
+    font-family: 微软雅黑 !important;
   }
 
   &.submit,
   &.cancel {
     width: 140px;
+    font-family: 微软雅黑 !important;
   }
 }
 
@@ -220,16 +225,18 @@ body {
 
     &.el-message-box__btns button:nth-child(1) {
       &:hover {
-        //background-color: #fff !important;
-        //border-color: #fa3a00 !important;
-        //color: #fa3a00;
+        background-color: #fff !important;
+        border-color: #fa3a00 !important;
+        color: #fa3a00;
+        font-family: 微软雅黑 !important;
       }
 
       &.el-button--primary {
         &:hover {
-          //background: linear-gradient(to right, #ff8332, #f84820) !important;
-          //border-color: #fff !important;
-          //color: #fff;
+          background: linear-gradient(to right, #ff8332, #f84820) !important;
+          border-color: #fff !important;
+          color: #ffffff !important;
+          font-family: 微软雅黑 !important;
         }
       }
     }
@@ -328,6 +335,7 @@ body {
         background-color: #fff !important;
         border-color: #fa3a00 !important;
         color: #fa3a00;
+        font-family: 微软雅黑 !important;
       }
     }
   }
@@ -720,7 +728,7 @@ body {
 .el-dialog {
   // max-height: 75vh;
   overflow: hidden;
-  margin-top: 5vh !important;
+  //margin-top: 5vh !important;
 }
 
 .el-dialog__header {
@@ -968,10 +976,36 @@ body {
   cursor:pointer
 }
 
+.mr-38 {
+  margin-right: 38px;
+}
+
 .pt-20 {
   padding-top: 20px;
 }
 
 .mb-40 {
   margin-bottom: 40px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.tl  {
+  text-align: left;
+}
+
+.tc {
+  text-align: center;
+}
+
+.wdi-240 {
+  width: 240px !important;
+}
+.wdi-300 {
+  width: 300px !important;
+}
+.wdi-600 {
+  width: 600px !important;
 }

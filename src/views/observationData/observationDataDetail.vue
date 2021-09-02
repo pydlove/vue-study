@@ -1,7 +1,7 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<NormalHeader :currentMenu="'observationData'"></NormalHeader>
+		<NormalHeader ref="normalHeaderRef" :currentMenu="'observationData'"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
 				<i class="el-icon-s-home"></i>首页
@@ -126,13 +126,13 @@
 									观测视频:
 								</div>
 								<div>
-									{{ item.video }}
+									<a :href="item.video" :download="item.video">点击下载</a>
 								</div>
 							</div>
 						</div>
 
 						<div class="obd-data-down">
-							<el-button class="obd-data-btn" type="primary">申请下载</el-button>
+							<el-button class="obd-data-btn" type="primary" size="mini" @click="applicationDownload(item)">申请下载</el-button>
 						</div>
 					</div>
 				</div>
@@ -144,18 +144,21 @@
 		</div>
 
 		<Footer></Footer>
+		<Application ref="appref"></Application>
 	</div>
 </template>
 <!--eslint-disable-->
 <script>
     import NormalHeader from "@/components/NormalHeader";
     import Footer from "@/components/Footer";
+    import Application from "@/views/user/application.vue";
 
     export default {
         name: "observationDataDetail",
         components: {
             NormalHeader,
             Footer,
+            Application
         },
         data() {
             return {
@@ -178,6 +181,42 @@
             this.search();
         },
         methods: {
+            async applicationDownload(item) {
+                console.log(item)
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
+                if (data.code == 200) {
+                    let res = data.data;
+                    this.isLogin = res.isLogin;
+                    if (res.isLogin) {
+                        this.sendOrder(item.id, item.logId);
+                    }
+                    else {
+                        this.$refs.normalHeaderRef.toLogin();
+                    }
+                    return true;
+                }
+            },
+
+            async sendOrder(dataId, logId) {
+				this.$refs.appref.open(dataId, logId);
+            },
+
+            fmtObserverType(observerType) {
+                switch (observerType) {
+                    case "0":
+                        return "常规观测";
+                    case "1":
+                        return "偏振）光谱观测";
+                    case "2":
+                        return "晴天仪器维护";
+                    case "3":
+                        return "晴天实验观测";
+                    default:
+                        return observerType;
+                }
+            },
+
             /**
              * 查询观测数据
              * @param {*} 参数 参数说明
@@ -190,7 +229,6 @@
                 if (data.code == 200) {
                     if (data.data) {
                         this.observationLog = data.data;
-                        console.log(this.observationLog)
                     }
                     return true;
                 }
@@ -290,5 +328,13 @@
 		font-size: 16px;
 		font-weight: 600;
 		background: #eeeeee !important;
+	}
+	.obd-data-btn {
+		background: #fa541c;
+		border: 1px solid #fa541c;
+	}
+	.obd-data-btn:hover {
+		background: #fa541c;
+		border: 1px solid #fa541c;
 	}
 </style>

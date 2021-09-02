@@ -337,5 +337,12 @@ const utils = {
         deviceInfo.deviceType = 'pc'
         return deviceInfo
     },
+
+    checkIsNull: function (args) {
+        if(args != null && args != "" && args != undefined) {
+            return false;
+        }
+        return true;
+    }
 }
 export default utils
