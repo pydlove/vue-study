@@ -98,18 +98,18 @@
         <div class="nd-fl">
             <div class="pics6">
                 <div>
-                    <ul class="pics6_status4">
+                    <ul class="pics6_status4" @click="jumpWeb(equipments[0])">
                         <li>
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/卫星.png')"/>
                         </li>
-                        <div class="nd-sate">
+                        <div class="nd-sate" >
                             <div class="nd-sate1">卫星</div>
                             <div class="nd-sate2">Satellit</div>
                         </div>
                     </ul>
                 </div>
                 <div>
-                    <ul class="pics6_status4">
+                    <ul class="pics6_status5" @click="jumpWeb(equipments[1])">
                         <li>
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/望远镜.png')"/>
                         </li>
@@ -120,7 +120,7 @@
                     </ul>
                 </div>
                 <div>
-                    <ul class="pics6_status4">
+                    <ul class="pics6_status6" @click="jumpWeb(equipments[2])">
                         <li>
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/仪器.png')"/>
                         </li>
@@ -131,7 +131,7 @@
                     </ul>
                 </div>
                 <div>
-                    <ul class="pics6_status4">
+                    <ul class="pics6_status7" @click="jumpWeb(equipments[3])">
                         <li>
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/站点.png')"/>
                         </li>
@@ -167,6 +167,24 @@
                 pageSize: 10,
                 title: "",
                 clientHeight: document.body.clientHeight,
+                equipments: [
+                    {
+                      name: "卫星",
+                      type: "0",
+                    },
+                    {
+                        name: "望远镜",
+                        type: "1",
+                    },
+                    {
+                        name: "仪器",
+                        type: "2",
+                    },
+                    {
+                        name: "站点",
+                        type: "3",
+                    }
+                ]
             }
         },
 
@@ -185,6 +203,17 @@
             this.initBannerPicture();
         },
         methods: {
+            jumpWeb(item){
+                console.log(item);
+                let routeData = this.$router.resolve({
+                    path: "/observeDevice",
+                    query: {
+                        type: item.type,
+                    }
+                });
+                window.open(routeData.href, '_blank');
+            },
+
             toDetail(item) {
                 this.$utils.setStorage("newsDetail", item);
                 let routeData = this.$router.resolve({
@@ -247,6 +276,21 @@
         }
 
         .pics6_status4 {
+            display: flex;
+            flex-wrap: nowrap;
+            position: relative;
+        }
+        .pics6_status5 {
+            display: flex;
+            flex-wrap: nowrap;
+            position: relative;
+        }
+        .pics6_status6 {
+            display: flex;
+            flex-wrap: nowrap;
+            position: relative;
+        }
+        .pics6_status7 {
             display: flex;
             flex-wrap: nowrap;
             position: relative;
