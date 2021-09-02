@@ -8,7 +8,7 @@
                       :current-page="currentPage"
                       :page-sizes="pageSizes"
                       :page-size="pageSize"
-                      layout="total, sizes, prev, pager, next, jumper"
+                      layout="total, prev, next, jumper"
                       :total="totalCount">
       </el-pagination>
     </div>

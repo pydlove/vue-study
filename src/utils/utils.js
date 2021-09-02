@@ -217,6 +217,16 @@ const utils = {
         )
     },
 
+     yearMonth(time) {
+        var date = new Date(time)
+        var year = date.getFullYear()
+        var month = date.getMonth() + 1
+        var day = date.getDate()
+        return (
+            [year, month, day].map(utils.formatNumber).join('-')
+        )
+    },
+
     nowDate() {
         var date = new Date()
         var year = date.getFullYear()

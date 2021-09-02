@@ -86,7 +86,7 @@
         },
         methods: {
             toDetail(item) {
-
+                console.log(item);
                 this.$utils.setStorage("observationDataDetail", item);
                 let routeData = this.$router.resolve({
                     path: "/observationDataDetail"
@@ -150,6 +150,7 @@
                 if (data.code == 200) {
                     if (data.data) {
                         this.observationDataDates = data.data;
+                        console.log(this.observationDataDates);
                         let temp = [];
                         for (var i in this.aiocloudDates) {
                             const aiocloudDate = this.aiocloudDates[i];

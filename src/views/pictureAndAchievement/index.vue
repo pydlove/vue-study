@@ -64,11 +64,13 @@
         methods: {
 
             selectEq(item) {
-                if (item.name == "精美图片") {
+                this.type = item.type;
+                this.menu = item;
+                if(this.type == '0'){
                     this.initPictureData();
-                } else if (item.name == "精美视频") {
+				} else if (this.type == '1'){
                     this.initVideoData();
-                }
+				}
             },
 
             async initPictureData() {
@@ -111,6 +113,7 @@
                 currentPage: 1,
                 pageSize: 10,
                 clientWidth: document.body.clientWidth,
+
                 equipments: [
                     {
                         name: "精美图片",

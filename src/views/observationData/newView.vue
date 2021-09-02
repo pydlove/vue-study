@@ -21,11 +21,15 @@
                     </div>
                     <div  class="nd-list-title" >
                         <p class="myCards1"> 观测目标：{{fmt(item, 'OBJECT')}}</p>
-                        <p class="myCards1"> 曝光时间： {{ item.exposureTime}}</p>
+                        <p class="myCards1"> 曝光时间： {{ item.beginTime}}</p>
                     </div>
                     <div  class="nd-list-title" >
                         <p class="myCards1"> 观测坐标：{{item.coordinates}}</p>
-                        <p class="myCards1" v-if="item.video != '' && item.video != null" @click="downLoad(item)"> 观测视频: 下载</p>
+                        <div v-if="item.video != '' && item.video != null" class="myCards1">
+                            <div>
+                                观测视频:  <a :href="item.video" :download="item.video">点击下载</a>
+                            </div>
+                        </div>
                     </div>
                     <div  class="nd-list-title" >
                         <p class="myCards1"> 望远镜：{{fmt(item, 'TELESCOP')}}</p>
@@ -85,12 +89,11 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_searchNewData, params, "POST");
                 if(data.code == 200) {
                     this.tableData = data.data;
+                    console.log(this.tableData);
                     for( var i = 0; i < this.tableData.length; i++) {
                         var json = JSON.parse(this.tableData[i].dataDetail);
                         this.dataDetail.push(json);
                     }
-                    console.log(this.dataDetail);
-                    console.log(this.tableData);
                     return true;
                 }
             },
@@ -102,7 +105,7 @@
                 currentPage: 1,
                 pageSize: 4,
                 tableData: [],
-                radio: '1',
+                radio: '',
                 dataDetail: [],
             }
         }

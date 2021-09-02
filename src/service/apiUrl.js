@@ -50,4 +50,6 @@ export default {
 
     //查询数据
     web_service_v1_cl_observation_data_searchData: "/web-service/v1/cl_observation_data/searchData",
+
+    web_service_v1_cl_observation_log_searchDate: "/web-service/v1/cl_observation_log/searchDate",
 }
