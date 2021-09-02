@@ -25,7 +25,7 @@
                             <div class="nd-result-more">
                                 <div class="dffn-ac">
                                     <div class="mr-20">
-                                        更多
+                                        {{ $t('message.more') }}
                                     </div>
                                     <div class="nd-more-arrow">
                                         <div></div>
@@ -55,7 +55,9 @@
 
                     <div class="nd-right">
                         <div class="nd-right-title1">
-                            <div class="nd-news-list">新闻列表</div>
+                            <div class="nd-news-list">
+                                {{ $t('message.news') }}
+                            </div>
                         </div>
                         <div class="nd-news">
                             <div class="news-list">
@@ -81,7 +83,7 @@
                 <div class="nd-result-more">
                     <div class="dffn-ac">
                         <div class="mr-20">
-                            更多
+                            {{ $t('message.more') }}
                         </div>
                         <div class="nd-more-arrow">
                             <div></div>

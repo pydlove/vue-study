@@ -1,12 +1,15 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<NormalHeader :currentMenu="'observeDevice'"></NormalHeader>
+		<NormalHeader :currentMenu="'observeDevice'" @initLanguage="initLanguage"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
-				<i class="el-icon-s-home"></i>首页
+				<i class="el-icon-s-home"></i>
+				{{ $t('menu.home') }}
 			</el-breadcrumb-item>
-			<el-breadcrumb-item>观测设备</el-breadcrumb-item>
+			<el-breadcrumb-item>
+				{{ $t('menu.observationEquipment') }}
+			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="nd-background">
 			<div class="nd-content dffn">
@@ -26,7 +29,7 @@
 								:src="item.picture"
 								:preview-src-list="[item.picture]"
 						></el-image>
-						<div class="nd-list-title" @click="lookDetail(item)">
+						<div class="nd-list-title" @click="lookDetail(item, index)">
 							<p>{{item.title }}</p>
 						</div>
 					</div>
@@ -51,22 +54,30 @@
         name: "index",
         components: {NormalHeader, Footer, Page, Pagination},
         mounted() {
+            this.initLanguage();
             this.initDataList();
         },
 
         methods: {
+            initLanguage() {
+	            this.equipments[0].name = this.$t('message.CHASESatellite');
+	            this.equipments[1].name = this.$t('message.OnsetSatellite');
+	            this.equipments[2].name = this.$t('message.WEHOTSatellite');
+	            this.equipments[3].name = this.$t('message.EquipmentDetail');
+            },
+
             selectEq(item) {
 				this.type = item.type;
 				this.equipment = item;
                 this.initDataList();
             },
 
-            lookDetail(item) {
+            lookDetail(item, index) {
                 this.$utils.setStorage("observeDeviceDetail", item);
                 let routeData = this.$router.resolve({
                     path: "/observeDeviceDetail",
                     query: {
-                        name: this.equipment.name,
+                        index: index,
                     }
                 });
                 window.open(routeData.href, '_blank');
@@ -79,7 +90,6 @@
                 params.append("limit", this.pageSize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_observation_equipment_searchAll, params, "POST");
                 if (data.code == 200) {
-                    console.log(data.data);
                     this.tableData = data.data;
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
@@ -90,24 +100,24 @@
         data() {
             return {
                 equipment: {
-                    name: "CHASE卫星",
+                    name: this.$t('message.CHASESatellite'),
                     type: "0",
                 },
                 equipments: [
 	                {
-	                    name: "CHASE卫星",
+	                    name: this.$t('message.CHASESatellite'),
 		                type: "0",
 	                },
                     {
-                        name: "Onset望远镜",
+                        name: this.$t('message.OnsetSatellite'),
                         type: "1",
                     },
                     {
-                        name: "WEHOT卫星",
+                        name: this.$t('message.WEHOTSatellite'),
                         type: "2",
                     },
                     {
-                        name: "其他设备",
+                        name: this.$t('message.OtherEquipment'),
                         type: "3",
                     }
                 ],

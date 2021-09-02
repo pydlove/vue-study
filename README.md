@@ -31,3 +31,5 @@
     Customize configuration
     
     See Configuration Reference.
+    
+## npm install vue-i18n --save-dev

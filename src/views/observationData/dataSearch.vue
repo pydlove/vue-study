@@ -2,13 +2,13 @@
     <!--eslint-disable-->
     <div class="dataHead">
         <div class="dataTitle">
-            数据查询
+            {{ $t('menu.observationData') }}
         </div>
 
             <div class="observationData">
                 <div>
                     <div class="timeSelect">
-                        观测时间：
+                        {{ $t('menu.ObservationTime') }}：
                         <el-date-picker
                                 v-model="observationTime"
                                 type="datetimerange"

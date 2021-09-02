@@ -4,10 +4,15 @@
         <NormalHeader :currentMenu="'observeDevice'"></NormalHeader>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
             <el-breadcrumb-item :to="{ path: '/home' }">
-                <i class="el-icon-s-home"></i>首页
+                <i class="el-icon-s-home"></i>
+                {{ $t('menu.home') }}
             </el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/observeDevice' }">观测设备</el-breadcrumb-item>
-            <el-breadcrumb-item>{{ name }}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/observeDevice' }">
+                {{ $t('menu.observationEquipment') }}
+            </el-breadcrumb-item>
+            <el-breadcrumb-item>
+                {{ $t('message.EquipmentDetail') }}
+            </el-breadcrumb-item>
         </el-breadcrumb>
         <div class="nd-background">
             <div class="nd-content aiocloud-card">
@@ -34,14 +39,31 @@
             if(newsDetail) {
                 this.form = newsDetail
             }
-
-            this.name = this.$route.query.name
+            this.index = this.$route.query.index;
         },
         methods: {
         },
         data() {
             return {
-                name: "",
+                equipments: [
+                    {
+                        name: this.$t('message.CHASESatellite'),
+                        type: "0",
+                    },
+                    {
+                        name: this.$t('message.OnsetSatellite'),
+                        type: "1",
+                    },
+                    {
+                        name: this.$t('message.WEHOTSatellite'),
+                        type: "2",
+                    },
+                    {
+                        name: this.$t('message.OtherEquipment'),
+                        type: "3",
+                    }
+                ],
+                index: 0,
                 type: "",
                 form: {
                     id: "",

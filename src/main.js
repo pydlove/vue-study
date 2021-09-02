@@ -65,6 +65,20 @@ import axios from 'axios'
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard);
 
+// 国际化
+import VueI18n from 'vue-i18n'
+Vue.use(VueI18n);
+
+// 使用语言包
+const i18n = new VueI18n({
+    locale: 'zh',    // 语言标识
+    //this.$i18n.locale // 通过切换locale的值来实现语言切换
+    messages: {
+        'zh': require('./assets/lang/zh'),   // 中文语言包
+        'en': require('./assets/lang/en')    // 英文语言包
+    }
+});
+
 Vue.prototype.$md5 = md5
 
 Vue.prototype.$ = jquery;
@@ -180,5 +194,6 @@ Object.keys(filters).forEach((key) => {
 new Vue({
     router,
     store,
+    i18n,
     render: (h) => h(App),
 }).$mount('#app')

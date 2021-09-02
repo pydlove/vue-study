@@ -2,41 +2,41 @@
 	<!--eslint-disable-->
 	<div class="nd-header-container">
 		<div class="nd-tm-right">
-			<div class=" nd-menu-header">
+			<div class=" nd-menu-header" :style="{width: (language=='zh'?'120px':'152px')}">
 				<div :class="currentMenu=='index'?'nd-menu-active':''" @click="selectMenu('index')">
-					首页
+					{{ $t('menu.home') }}
 				</div>
 			</div>
-			<div class="nd-menu-header">
+			<div class="nd-menu-header" :style="{width: (language=='zh'?'120px':'152px')}">
 				<div :class="currentMenu=='observeDevice'?'nd-menu-active':''" @click="selectMenu('observeDevice')">
-					观测设备
+					{{ $t('menu.observationEquipment') }}
 				</div>
 				<div :class="currentMenu=='observationData'?'nd-menu-active':''" @click="selectMenu('observationData')">
-					观测数据
+					{{ $t('menu.observationData') }}
 				</div>
 				<div :class="currentMenu=='application'?'nd-menu-active':''" @click="selectMenu('application')">
-					观测申请
+					{{ $t('menu.observationApplication') }}
 				</div>
 			</div>
 			<div>
-				<div class="nd-menu-header">
+				<div class="nd-menu-header" :style="{width: (language=='zh'?'120px':'170px')}">
 					<div :class="currentMenu=='pictureAndAchievement'?'nd-menu-active':''"
 					     @click="selectMenu('pictureAndAchievement')">
-						图库与成果
+						{{ $t('menu.galleryAchievement') }}
 					</div>
 					<div :class="currentMenu=='newsAndResource'?'nd-menu-active':''"
 					     @click="selectMenu('newsAndResource')">
-						新闻与资源
+						{{ $t('menu.newsResources') }}
 					</div>
 				</div>
 				<div class="nd-language" @click="switchLang">
-					<span :class="language == 'ch'?'nd-lang-active':''">中</span>/<span
-						:class="language == 'en'?'nd-lang-active':''">EN</span>
+					<span :class="language == 'zh'?'nd-lang-active':''">{{ $t('message.zh') }}</span>/<span
+						:class="language == 'en'?'nd-lang-active':''">{{ $t('message.en') }}</span>
 				</div>
 			</div>
 		</div>
 
-		<div class="nd-header-userinfo">
+		<div class="nd-header-userinfo" :style="{right: (language=='zh'?'-100px':'-130px')}">
 			<div v-if="isLogin">
 				<div>
 					<el-dropdown>
@@ -52,16 +52,16 @@
 							</div>
 						</span>
 						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item @click.native="showMyInfo">个人信息</el-dropdown-item>
-							<el-dropdown-item @click.native="showMyApplication">我的申请</el-dropdown-item>
-							<el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+							<el-dropdown-item @click.native="showMyInfo">{{ $t('menu.myInfo') }}</el-dropdown-item>
+							<el-dropdown-item @click.native="showMyApplication">{{ $t('menu.myApplication') }}</el-dropdown-item>
+							<el-dropdown-item @click.native="logout">{{ $t('menu.logOut') }}</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
 				</div>
 			</div>
 
 			<div v-else class="nd-header-lr aiocloud-cursor" @click="toLogin">
-				登录/注册
+				{{ $t('menu.loginRegister') }}
 			</div>
 		</div>
 
@@ -85,7 +85,7 @@
         },
         data() {
             return {
-                language: 'ch',
+                language: 'zh',
                 user: {
                     id: "",
                     name: "",
@@ -113,7 +113,13 @@
         },
         props: ['currentMenu'],
         mounted() {
-            // 判断是否登录
+            let language = this.$utils.getStorage("language");
+            if(language) {
+                this.language = language;
+                this.$i18n.locale = this.language;
+            }
+
+                // 判断是否登录
             this.getUserInfo();
         },
         methods: {
@@ -192,7 +198,12 @@
              * 切换语言
              */
             switchLang() {
-                this.language = this.language == 'ch' ? 'en' : 'ch';
+                this.language = this.language == 'zh' ? 'en' : 'zh';
+                this.$i18n.locale = this.language;
+                this.$utils.setStorage("language", this.language);
+                if(this.currentMenu == 'observeDevice' || this.currentMenu == 'observationData') {
+                    this.$emit("initLanguage");
+                }
             },
 
             /**
@@ -280,7 +291,6 @@
 			border-top: 1pt solid #8c8c8c;
 			font-size: 15px;
 			line-height: 40px;
-			width: 120px;
 			text-align: left;
 			margin-left: 50px;
 		}
@@ -292,7 +302,8 @@
 		.nd-menu-header > div {
 			font-size: 15px;
 			line-height: 40px;
-			width: 120px;
+			/*min-width: 155px;*/
+			width: 100%;
 			text-align: left;
 		}
 

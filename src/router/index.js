@@ -24,7 +24,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心'
+                title: 'nav.Home'
             },
             path: '/home',
             name: 'home',

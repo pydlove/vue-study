@@ -1,12 +1,15 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<NormalHeader :currentMenu="'observationData'"></NormalHeader>
+		<NormalHeader :currentMenu="'observationData'" @initLanguage="initLanguage"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
-				<i class="el-icon-s-home"></i>首页
+				<i class="el-icon-s-home"></i>
+				{{ $t('menu.home') }}
 			</el-breadcrumb-item>
-			<el-breadcrumb-item>观测数据</el-breadcrumb-item>
+			<el-breadcrumb-item>
+				{{ $t('menu.observationData') }}
+			</el-breadcrumb-item>
 		</el-breadcrumb>
 
 		<div class="nd-background">
@@ -24,7 +27,6 @@
 					<NewView v-if="type==2"></NewView>
 					<UseRule v-if="type==3"></UseRule>
 					<Friendly v-if="type == 4"></Friendly>
-
 				</div>
 			</div>
 		</div>
@@ -57,37 +59,45 @@
             return {
                 menus: [
                     {
-                        name: "快速浏览",
+                        name: this.$t('message.QuickView'),
                         type: "0",
                     },
                     {
-                        name: "数据查询",
+                        name: this.$t('message.DataQuery'),
                         type: "1",
                     },
                     {
-                        name: "最新数据",
+                        name: this.$t('message.LatestData'),
                         type: "2",
                     },
                     {
-                        name: "数据使用规则",
+                        name: this.$t('message.DataUsageRules'),
                         type: "3",
                     },
                     {
-                        name: "友情链接",
+                        name: this.$t('message.Links'),
                         type: "4",
                     },
                 ],
                 menu: {
-                    name: "快速浏览",
+                    name: this.$t('message.QuickView'),
                     type: "0",
                 },
                 type: "0",
             }
 	    },
 	    mounted() {
-
+		    this.initLanguage();
 	    },
 	    methods: {
+            initLanguage() {
+                this.menus[0].name = this.$t('message.QuickView');
+                this.menus[1].name = this.$t('message.DataQuery');
+                this.menus[2].name = this.$t('message.LatestData');
+                this.menus[3].name = this.$t('message.DataUsageRules');
+                this.menus[4].name = this.$t('message.Links');
+            },
+
             selectEq(item) {
                 this.type = item.type;
                 this.menu = item;
