@@ -127,7 +127,7 @@
                         type: "3",
                     }
                 ],
-                type: "",
+                type: "0",
                 tableData: [],
                 currentPage: 1,
                 pageSize: 10,

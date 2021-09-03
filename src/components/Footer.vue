@@ -34,9 +34,11 @@
                     <div class="nd-addr">地址: 江苏省南京市栖霞区仙林大道163号天文楼</div>
                     <div class="nd-phone">电话热线: (86)- 18012012539</div>
                     <div class="nd-mail">邮编: 210023</div>
-                    <div class="nd-about">关于我们
-                        <div class="nd-tail" style="margin-left: 50px">联系我们</div>
+                    <div class="nd-aboutus">
+                        <div class="nd-about" @click="aboutWe">关于我们</div>
+                        <div class="nd-tail" @click="aboutWe">联系我们</div>
                     </div>
+
                 </div>
                 <div class="nd-icon">
                     <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x.png')"/>
@@ -63,6 +65,15 @@
         mounted() {
             if (this.clientWidth < 500) {
                 this.client = true;
+            }
+        },
+
+        methods: {
+            aboutWe() {
+                let routeData = this.$router.resolve({
+                    path: "/aboutWe",
+                });
+                window.open(routeData.href, '_blank');
             }
         },
 
@@ -153,12 +164,30 @@
             font-size: 10px;
         }
 
-        .nd-about {
+        .nd-aboutus {
             margin-top: 25px;
             text-align: left;
             display: flex;
             flex-wrap: nowrap;
+        }
+
+        .nd-tail {
+            margin-left: 50px;
             font-size: 10px;
+        }
+        .nd-tail:hover {
+            margin-left: 50px;
+            font-size: 10px;
+            color: #fa541c;
+        }
+
+        .nd-about {
+            font-size: 10px;
+        }
+
+        .nd-about:hover {
+            font-size: 10px;
+            color: #fa541c;
         }
 
         .nd-port {

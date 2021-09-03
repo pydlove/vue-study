@@ -105,6 +105,15 @@ const router = new Router({
             name: 'application',
             component: (resolve) => require(['../views/application/index.vue'], resolve),
         },
+        {
+            meta: {
+                title: '南京大学太阳数据中心关于我们'
+            },
+
+            path: '/aboutWe',
+            name: 'aboutWe',
+            component: (resolve) => require(['../views/aboutWe/index.vue'], resolve),
+        },
 ]
 })
 // 全局拦截器
