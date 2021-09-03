@@ -16,7 +16,7 @@
 				<div class="aiocloud-card">
 					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
 					     v-for="(item, index) in equipments" :key="index"
-						@click="selectEq(item)"
+						@click="selectEq(item, index)"
 					>{{ item.name }}</div>
 				</div>
 
@@ -55,6 +55,11 @@
         components: {NormalHeader, Footer, Page, Pagination},
         mounted() {
             this.initLanguage();
+            let observeDeviceIndex = this.$utils.getStorage("observeDeviceIndex");
+            if(observeDeviceIndex != undefined) {
+                this.equipment = this.equipments[observeDeviceIndex];
+                this.type = this.equipment.type;
+            }
             this.initDataList();
         },
 
@@ -66,9 +71,10 @@
 	            this.equipments[3].name = this.$t('message.EquipmentDetail');
             },
 
-            selectEq(item) {
+            selectEq(item, index) {
 				this.type = item.type;
 				this.equipment = item;
+                this.$utils.setStorage("observeDeviceIndex", index);
                 this.initDataList();
             },
 
@@ -121,7 +127,7 @@
                         type: "3",
                     }
                 ],
-                type: "0",
+                type: "",
                 tableData: [],
                 currentPage: 1,
                 pageSize: 10,

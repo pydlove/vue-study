@@ -178,8 +178,7 @@
         },
         mounted() {
             this.observationDataDetail = this.$utils.getStorage("observationDataDetail");
-            this.observationDataDetail.date = this.$utils.getStorage("date");
-            console.log(this.observationDataDetail.date);
+            console.log(this.observationDataDetail);
             this.search();
 
         },
