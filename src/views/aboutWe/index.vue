@@ -1,6 +1,6 @@
 <template>
     <!--eslint-disable-->
-    <div class="nd-container" :style="scaleFun">
+    <div class="nd-container">
         <div class="nd-top">
             <div class="nd-top-main">
                 <div class="nd-tm-left">
@@ -10,44 +10,42 @@
                         <div>Sun data analysis center</div>
                     </div>
                 </div>
+                <Header></Header>
             </div>
         </div>
-        <NormalHeader :currentMenu="'aboutWe'" @initLanguage="initLanguage"></NormalHeader>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
             <el-breadcrumb-item :to="{ path: '/home' }">
                 <i class="el-icon-s-home"></i>
                 {{ $t('menu.home') }}
             </el-breadcrumb-item>
             <el-breadcrumb-item>
-                {{ $t('menu.observationData') }}
+                {{ $t('menu.AboutUs') }}
             </el-breadcrumb-item>
         </el-breadcrumb>
         <div class="nd-background">
             <div class="nd-content dffn">
                 <div class="aiocloud-card aw-left" >
                     <div class="nd-contact">
-                        <div class="nd-address">地址: 江苏省南京市栖霞区仙林大道163号天文楼 </div>
-                        <div class="nd-address">联系方式: (86)- 18012012539</div>
-                        <div class="nd-address">邮箱地址: 2228627068@qq.com</div>
+                        <div class="nd-address">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼 </div>
+                        <div class="nd-address">{{ $t('message.Contact') }}: (86)- 18012012539</div>
+                        <div class="nd-address">{{ $t('message.EmailAddress') }}: 2228627068@qq.com</div>
                     </div>
                     <div class="nd-wechat"></div>
                     <div class="wechat-cen">
                         <div class="wechat-icon"></div>
-                        <div class="wechat-num">微信号</div>
+                        <div class="wechat-num">
+                            {{ $t('message.WeChat') }}
+                        </div>
                     </div>
                 </div>
 
-                <div class="aiocloud-card">
-                    <div class="nd-aboutus">关于我们</div>
-                    <div class="nd-new-title-desc">[主要解释新闻与资源这块主要展示什么内容] <br>
-                        信息接受渠道的多元化已成为当今社会的主要特征之一。
-                        以互联网为代表的新媒体与传统媒体在博弈中越来越趋向融合，
-                        构成了信息时代的立体化传播体系。为拓展生存空间，延伸品牌效应，
-                        很多传统媒体开始尝试由分散到集中，进军新媒体，整合资源，实现集团化 。
-                        集团化实现了媒体资源总量的增长，但目前很多媒体的集团化还处于较低层次，
-                        只是对各种资源作简单的物理叠加，并没有做到新闻生产的集约化。有人戏言，
-                        这是一种“糍饭”式的资源整合，将饭团与油条人为地捏合在一起，
-                        但实际上糯米还是糯米，油条还是油条。</div>
+                <div class="aiocloud-card aw-right">
+                    <div class="nd-aboutus">
+                        {{ $t('menu.AboutUs') }}
+                    </div>
+                    <div class="nd-new-title-desc">
+                        {{ $t('menu.AboutUs') }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,11 +54,12 @@
 </template>
 <!--eslint-disable-->
 <script>
+    import Header from "@/components/Header";
     import Footer from "@/components/Footer";
 
     export default {
         name: "index",
-        components: {Footer},
+        components: {Footer, Header},
     }
 </script>
 
@@ -86,7 +85,8 @@
             display: flex;
             flex-wrap: nowrap;
             align-items: center; /*//垂直居中*/
-            justify-content: center;  /*//水平居中*/
+            justify-content: center;
+            width: 200px;
         }
         .nd-wechat {
             display: flex;
@@ -107,14 +107,13 @@
         .nd-wechat {
             background: url("../../assets/img/background/avatar.jpg");
             width: 200px;
-            height: 150px;
-            margin: 0 auto;
+            height: 200px;
             margin-top: 50px;
         }
         
         .nd-content > div[data-v-899ba358]:nth-of-type(1) {
-            width: 350px;
-            height: 400px;
+            width: 400px;
+            min-height: 500px;
             margin-right: 20px;
         }
 

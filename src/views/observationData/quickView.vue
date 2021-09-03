@@ -8,22 +8,25 @@
 					placeholder="选择年">
 			</el-date-picker>
 
-			<span class="aiocloud-btn" @click="searchInfo">查询</span>
+			<span class="aiocloud-btn" @click="searchInfo">
+				{{ $t('message.Search') }}
+			</span>
 
 		</div>
 
 		<div class="qv-tag dffn-ac">
-			<span class="qc-no"></span>无观测数据
-			<span class="qc-yes"></span>有观测数据
-
-			<div class="dffn-ac qv-rl">
-				<div>日历大小</div>
-				<el-radio-group v-model="coefficient" @change="setSize">
-					<el-radio :label="3">小</el-radio>
-					<el-radio :label="2">中</el-radio>
-					<el-radio :label="1">大</el-radio>
-				</el-radio-group>
-			</div>
+			<span class="qc-no"></span>
+			{{ $t('message.NoObservationData') }}
+			<span class="qc-yes"></span>
+			{{ $t('message.HaveObservationData') }}
+			<!--<div class="dffn-ac qv-rl">-->
+				<!--<div>日历大小</div>-->
+				<!--<el-radio-group v-model="coefficient" @change="setSize">-->
+					<!--<el-radio :label="3">小</el-radio>-->
+					<!--<el-radio :label="2">中</el-radio>-->
+					<!--<el-radio :label="1">大</el-radio>-->
+				<!--</el-radio-group>-->
+			<!--</div>-->
 		</div>
 
 		<div class="qv-main">
@@ -65,7 +68,15 @@
             return {
                 aiocloudDates: [],
                 observationDataDates: [],
-                weeks: ['日', '一', '二', '三', '四', '五', '六'],
+                weeks: [
+                    this.$t('week.Sun'),
+                    this.$t('week.Mon'),
+                    this.$t('week.Tue'),
+                    this.$t('week.Wed'),
+                    this.$t('week.Thu'),
+                    this.$t('week.Fri'),
+                    this.$t('week.Sat'),
+                ],
                 year: "",
 	            totalWidth: 680,
                 coefficient: 3,
@@ -79,14 +90,26 @@
             }
         },
         mounted() {
+            this.initLanguage();
 			this.setSize();
             this.getYear();
             this.mGetDate();
             this.search();
         },
         methods: {
+            initLanguage() {
+				this.weeks = [
+                    this.$t('week.Sun'),
+                    this.$t('week.Mon'),
+                    this.$t('week.Tue'),
+                    this.$t('week.Wed'),
+                    this.$t('week.Thu'),
+                    this.$t('week.Fri'),
+                    this.$t('week.Sat'),
+                ];
+            },
+
             toDetail(item) {
-                console.log(item);
                 this.$utils.setStorage("observationDataDetail", item);
                 let routeData = this.$router.resolve({
                     path: "/observationDataDetail"
@@ -96,10 +119,10 @@
 
             fmtContent(item) {
 				if(item.level == "0") {
-				    return "该日志无观测数据，点击查看日志详情";
+				    return this.$t('message.NoDataTip');
 				}
 				if(item.level == "1") {
-				    return "该日志有观测数据，点击查看观测日志和观测数据详情";
+				    return this.$t('message.HasDataTip');
 				}
             },
 
@@ -185,25 +208,25 @@
                     var sWeek;
                     switch (iWeek) {
                         case 0:
-                            sWeek = "日";
+                            sWeek = this.$t('week.Sun');
                             break;
                         case 1:
-                            sWeek = "一";
+                            sWeek = this.$t('week.Mon');
                             break;
                         case 2:
-                            sWeek = "二";
+                            sWeek = this.$t('week.Tue');
                             break;
                         case 3:
-                            sWeek = "三";
+                            sWeek = this.$t('week.Wed');
                             break;
                         case 4:
-                            sWeek = "四";
+                            sWeek = this.$t('week.Thu');
                             break;
                         case 5:
-                            sWeek = "五";
+                            sWeek = this.$t('week.Fri');
                             break;
                         case 6:
-                            sWeek = "六";
+                            sWeek = this.$t('week.Sun');
                             break;
                     }
                     let aiocloudDate = {

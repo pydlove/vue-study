@@ -78,6 +78,8 @@ const i18n = new VueI18n({
         'en': require('./assets/lang/en')    // 英文语言包
     }
 });
+import ElementLocale from 'element-ui/lib/locale';
+ElementLocale.i18n((key, value) => i18n.t(key, value));
 
 Vue.prototype.$md5 = md5
 

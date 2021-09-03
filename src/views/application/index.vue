@@ -4,9 +4,12 @@
 		<NormalHeader ref="normalHeaderRef" :currentMenu="'application'" @reloadApplications="reloadApplications"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
-				<i class="el-icon-s-home"></i>首页
+				<i class="el-icon-s-home"></i>
+				{{ $t('menu.home') }}
 			</el-breadcrumb-item>
-			<el-breadcrumb-item>观测申请</el-breadcrumb-item>
+			<el-breadcrumb-item>
+				{{ $t('menu.observationApplication') }}
+			</el-breadcrumb-item>
 		</el-breadcrumb>
 
 		<div class="nd-background">
@@ -45,7 +48,6 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
                 if (data.code == 200) {
                     let res = data.data;
-                    console.log(res)
                     if (!res.isLogin) {
                         this.$refs.normalHeaderRef.toLogin();
                     }

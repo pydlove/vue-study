@@ -2,7 +2,7 @@
 	<!--eslint-disable-->
 	<div>
 		<el-dialog class="aiocw-dialog"
-		           title="个人信息"
+		           :title="$t('message.userInfo')"
 		           :visible.sync="dialogVisible"
 		           width="800px"
 		           :close-on-click-modal="false"
@@ -16,7 +16,7 @@
 			         :validate-on-rule-change="false"
 			         label-width="120px"
 			         label-position="right">
-				<el-form-item class="upload-item" label="头像" prop="avatar">
+				<el-form-item class="upload-item" :label="$t('message.avatar')" prop="avatar">
 					<div class="grxx">
 						<el-dialog :visible.sync="photoDialogVisible">
 							<img width="100%" :src="dialogImageUrl" alt="">
@@ -40,24 +40,24 @@
 				</el-form-item>
 
 				<div class="dffn">
-					<el-form-item label="邮箱" prop="mail" required>
-						<el-input class="wdi-240" v-model="form.mail" placeholder="请填写邮箱" readonly></el-input>
+					<el-form-item :label="$t('message.email')" prop="mail" required>
+						<el-input class="wdi-240" v-model="form.mail" :placeholder="$t('message.InEmail')" readonly></el-input>
 					</el-form-item>
 
-					<el-form-item label="昵称" prop="name" required>
-						<el-input class="wdi-240" v-model="form.name" placeholder="请填写昵称"></el-input>
+					<el-form-item :label="$t('message.Nickname')" prop="name" required>
+						<el-input class="wdi-240" v-model="form.name" :placeholder="$t('message.inNickname')"></el-input>
 					</el-form-item>
 				</div>
 
 				<div class="dffn">
-					<el-form-item label="出生年月" prop="birthtime">
-						<el-date-picker class="wdi-240" type="date" placeholder="选择出生日期"
+					<el-form-item :label="$t('message.DateOfBirth')" prop="birthtime">
+						<el-date-picker class="wdi-240" type="date" :placeholder="$t('message.SelectDateOfBirth')"
 						                value-format="yyyy-MM-dd"
 						                v-model="form.birthtime" :picker-options="pickerOptions"
 						></el-date-picker>
 					</el-form-item>
 
-					<el-form-item label="性别" prop="sex">
+					<el-form-item :label="$t('message.sex')" prop="sex">
 						<el-radio-group class="wdi-240" v-model="form.sex">
 							<el-radio class="nn" :label="0">男</el-radio>
 							<el-radio class="nn" :label="1">女</el-radio>
@@ -66,25 +66,25 @@
 				</div>
 
 				<div class="dffn">
-					<el-form-item label="联系方式" prop="phone">
-						<el-input class="wdi-240" v-model="form.phone" placeholder="请填写联系方式"></el-input>
+					<el-form-item :label="$t('message.Contact')" prop="phone">
+						<el-input class="wdi-240" v-model="form.phone" :placeholder="$t('message.InContact')"></el-input>
 					</el-form-item>
 
-					<el-form-item label="所在研究机构" prop="address">
-						<el-input class="wdi-240" v-model="form.address" placeholder="请填写所在研究机构"></el-input>
+					<el-form-item :label="$t('message.ResearchInstitution')" prop="address">
+						<el-input class="wdi-240" v-model="form.address" :placeholder="$t('message.InResearchInstitution')"></el-input>
 					</el-form-item>
 				</div>
 
-				<el-form-item label="个人描述">
+				<el-form-item :label="$t('message.PersonalDescription')">
 					<el-input class="wdi-600 textarea" :autosize="{ minRows: 6, maxRows: 8}"
 					          type="textarea" v-model="form.remark"
-					          placeholder="请填写个人描述"
+					          :placeholder="$t('message.InPersonalDescription')"
 					>
 					</el-input>
 				</el-form-item>
 			</el-form>
 			<span slot="footer" class="dialog-footer">
-              <el-button class="mr-38" type="primary" @click="onSubmit">保 存</el-button>
+              <el-button class="mr-38" type="primary" @click="onSubmit">{{ $t('message.Save') }}</el-button>
             </span>
 		</el-dialog>
 	</div>
@@ -176,9 +176,9 @@
              * 照片上传、删除
              */
             beforeRemove() {
-                this.$confirm('确认要删除该照片吗？','提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                this.$confirm(this.$t('message.DeleteAvatar'), this.$t('message.Hint'), {
+                    confirmButtonText: this.$t('message.Sure'),
+                    cancelButtonText: this.$t('message.Cancle'),
                     type: 'warning',
                     center: false
                 })
@@ -221,7 +221,7 @@
                 const extension2 = testmsg === 'jpg'
                 const extension3 = testmsg === 'jpeg'
                 if(!extension && !extension2 && !extension3) {
-                    this.$promptMsg("图片仅支持png、jpg、jpeg格式，请选择正确的格式！", "error");
+                    this.$promptMsg(this.$t('message.Photo'), "error");
                     return false;
                 }
                 let isLt2M = file.size > (0.5 * 1024 * 1024);
@@ -253,7 +253,7 @@
             async submitRequest() {
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_user_edit, this.form, "POST");
                 if(data.code == 200) {
-                    this.$promptMsg("保存个人信息成功！", "success");
+                    this.$promptMsg(this.$t('message.SaveInfoSuccess'), "success");
                     this.dialogVisible = false;
                     this.clearForm();
                 }

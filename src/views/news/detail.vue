@@ -1,26 +1,37 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <NormalHeader :currentMenu="'newsDetail'"></NormalHeader>
+        <NormalHeader :currentMenu="'newsAndResource'" @initLanguage="initLanguage"></NormalHeader>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
             <el-breadcrumb-item :to="{ path: '/home' }">
-                <i class="el-icon-s-home"></i>首页
+                <i class="el-icon-s-home"></i>
+                {{ $t('menu.home') }}
             </el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/newsAndResource' }">新闻与资源</el-breadcrumb-item>
-            <el-breadcrumb-item>查看新闻</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/newsAndResource' }">
+                {{ $t('menu.newsResources') }}
+            </el-breadcrumb-item>
+            <el-breadcrumb-item>
+                {{ $t('message.ViewNews') }}
+            </el-breadcrumb-item>
         </el-breadcrumb>
         <div class="nd-detail-box" :style="{ minHeight: minHeight + 'px', }">
             <div class="nd-news-list box-zing-a">
                 <div class="nd-new-right" :style="{ minHeight: (minHeight - 40) + 'px', }">
                     <div class="nd-new-title">
-                        <div  class="nd-news-title">
-                            {{this.form.title}}
+                        <div v-if="language == 'zh'" class="nd-news-title">
+                            {{ this.form.title}}
                         </div>
+                        <div v-else-if="language == 'en'" class="nd-news-title">
+                            {{ this.form.enTitle}}
+                        </div>
+
                         <div class="nd-news-time dffn-ac" >
                             <i class="el-icon-alarm-clock"></i>
                             {{this.form.createTime}}
                         </div>
-                        <div class="nd-news-content" v-html="form.content"></div>
+
+                        <div v-if="language == 'zh'" class="nd-news-content" v-html="form.content"></div>
+                        <div v-else-if="language == 'en'" class="nd-news-content" v-html="form.enContent"></div>
                     </div>
                 </div>
 
@@ -39,6 +50,7 @@
         components: {NormalHeader, Footer},
 
         mounted() {
+            this.initLanguage();
             this.minHeight = this.clientHeight - 180 - 260;
             let newsDetail = this.$utils.getStorage("newsDetail");
             if(newsDetail) {
@@ -46,15 +58,14 @@
             }
         },
         methods: {
-            close() {
-
+            initLanguage() {
+                this.language = this.$i18n.locale;
             },
-            open() {
 
-            },
         },
         data() {
             return {
+                language: "zh",
                 form: {
                     id: "",
                     title: "",
@@ -120,6 +131,7 @@
             background: #ffffff;
             border-radius: 5px;
             padding: 20px;
+            width: 100%;
         }
     }
 

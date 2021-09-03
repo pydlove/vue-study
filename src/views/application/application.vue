@@ -6,37 +6,41 @@
 		         :model="searchform"
 		         :inline="true"
 		         :validate-on-rule-change="false"
-		         label-width="80px"
+		         :label-width="labelWidth"
 		         label-position="right">
-			<el-form-item label="观测日期" prop="name">
+			<el-form-item :label="$t('message.ObservationDate')" prop="name">
 				<el-date-picker
 						v-model="searchform.fitsDates"
 						type="datetimerange"
 						range-separator="至"
 						format="yyyy-MM-dd HH:mm:SS"
-						start-placeholder="开始日期"
-						end-placeholder="结束日期">
+						:start-placeholder="$t('message.startDate')"
+						:end-placeholder="$t('message.endDate')"
+				>
 				</el-date-picker>
 			</el-form-item>
 
-			<el-form-item label="工单状态" prop="name">
-				<el-select v-model="searchform.status" placeholder="请选择工单状态搜索">
-					<el-option label="审核中" value="0"></el-option>
-					<el-option label="审核完成" value="1"></el-option>
+			<el-form-item :label="$t('message.OrderStatus')" prop="name">
+				<el-select v-model="searchform.status" :placeholder="$t('message.OrderStatusPlaceholder')">
+					<el-option :label="$t('message.UnderReview')" value="0"></el-option>
+					<el-option :label="$t('message.ReviewCompleteds')" value="1"></el-option>
 				</el-select>
 			</el-form-item>
 
-			<el-form-item label="审核结果" prop="name">
-				<el-select v-model="searchform.result" placeholder="请选择审核结果搜索">
-					<el-option label="已否决" value="0"></el-option>
-					<el-option label="已批准" value="1"></el-option>
+			<el-form-item :label="$t('message.AuditResults')" prop="name">
+				<el-select v-model="searchform.result" :placeholder="$t('message.AuditResultsPlaceholder')">
+					<el-option :label="$t('Rejected')" value="0"></el-option>
+					<el-option :label="$t('Approved')" value="1"></el-option>
 				</el-select>
 			</el-form-item>
 
 			<el-button class="ml-20 aioc-btn1" type="primary" icon="el-icon-search"
-			           @click="search(0, 10)">搜索
+			           @click="search(0, 10)">
+				{{ $t('message.Search') }}
 			</el-button>
-			<el-button class="ml-20" icon="el-icon-refresh" @click="reseta">重置</el-button>
+			<el-button class="ml-20" icon="el-icon-refresh" @click="reseta">
+				{{ $t('message.Reset') }}
+			</el-button>
 		</el-form>
 
 		<el-table
@@ -49,33 +53,34 @@
 				:row-style="{height:'20px'}"
 				:cell-style="{padding:'9px 1px'}"
 		>
-			<el-table-column prop="tradeNo" label="工单号" :show-overflow-tooltip="true" align="center"></el-table-column>
-			<el-table-column prop="status" label="工单状态" :show-overflow-tooltip="true" width="100" align="center">
+			<el-table-column prop="tradeNo" :label="$t('message.OrderNo')" :show-overflow-tooltip="true" align="center"></el-table-column>
+			<el-table-column prop="status" :label="$t('message.OrderStatus')" :show-overflow-tooltip="true" width="120" align="center">
 				<template slot-scope="scope">
-					{{ scope.row.status == "0" ? "审核中":"审核完成" }}
+					{{ scope.row.status == "0" ? $t('message.UnderReview'):$t('message.ReviewCompleteds') }}
 				</template>
 			</el-table-column>
-			<el-table-column prop="fitsName" label="下载文件" :show-overflow-tooltip="true">
+			<el-table-column prop="fitsName" :label="$t('message.DownloadFile')" :show-overflow-tooltip="true" align="center">
 				<template slot-scope="scope">
 					<div class="fitsName" @click="showDetail(scope.row)">
 						{{ scope.row.fitsName }}
 					</div>
 				</template>
 			</el-table-column>
-			<el-table-column prop="fitsDate" label="观测日期" :show-overflow-tooltip="true"></el-table-column>
-			<el-table-column prop="result" label="审核结果" :show-overflow-tooltip="true" width="100">
+			<el-table-column prop="fitsDate" :label="$t('message.ObservationDate')" :show-overflow-tooltip="true" align="center"></el-table-column>
+			<el-table-column prop="result" :label="$t('message.AuditResults')" :show-overflow-tooltip="true" width="120">
 				<template slot-scope="scope">
 					{{ fmtResutl(scope.row.result) }}
 				</template>
 			</el-table-column>
-			<el-table-column label="操作" fixed="right" width="100" align="center">
+			<el-table-column :label="$t('message.Operate')" fixed="right" width="100" align="center">
 				<template slot-scope="scope">
 					<el-button
 							v-if="scope.row.result == 1"
 							v-aiocp="['d']"
 							size="mini"
 							type="danger"
-							@click="deleteRow(scope.$index, scope.row)">下载
+							@click="deleteRow(scope.$index, scope.row)">
+						{{ $t('message.Download') }}
 					</el-button>
 				</template>
 			</el-table-column>
@@ -102,12 +107,23 @@
                 },
                 pageSize: 10,
                 totalAcCount: 0,
+                labelWidth: '100px',
             }
         },
         mounted() {
             this.search(1, 10);
+            // this.initLanguage();
         },
         methods: {
+            // initLanguage() {
+            //     if(this.$i18n.locale == 'zh') {
+            //         this.labelWidth = '80px';
+            //     }
+            //     else if(this.$i18n.locale == 'en') {
+            //         this.labelWidth = '100px';
+            //     }
+            // },
+
             async search(currentPage, pageSize) {
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
@@ -130,10 +146,10 @@
 
             fmtResutl(result) {
                 if(result == 0) {
-                    return "已否决";
+                    return this.$t('message.Rejected');
                 }
                 else if(result == 1) {
-                    return "已批准";
+                    return this.$t('message.Approved');
                 }
                 else {
                     return "";

@@ -72,14 +72,6 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心图片与成果详情'
-            },
-            path: '/pictureAndAchievementDetail',
-            name: 'pictureAndAchievementDetail',
-            component: (resolve) => require(['../views/pictureAndAchievement/detail.vue'], resolve),
-        },
-        {
-            meta: {
                 title: '南京大学太阳数据中心观测数据'
             },
 

@@ -27,7 +27,7 @@ export default {
     web_service_v1_cl_observation_log_detail: "/web-service/v1/cl_observation_log/detail",
 
     // 最新数据
-    web_service_v1_cl_observation_data_searchNewData: "/web-service/v1/cl_observation_data/newData",
+    web_service_v1_cl_observation_data_newData: "/web-service/v1/cl_observation_data/newData",
 
     // 注册 登录
     web_service_v1_email_send: "/web-service/v1/email/send",
@@ -50,6 +50,5 @@ export default {
 
     //查询数据
     web_service_v1_cl_observation_data_searchData: "/web-service/v1/cl_observation_data/searchData",
-
     web_service_v1_cl_observation_log_searchDate: "/web-service/v1/cl_observation_log/searchDate",
 }

@@ -16,10 +16,15 @@
         </el-breadcrumb>
         <div class="nd-background">
             <div class="nd-content aiocloud-card">
-                    <div class="nd-new-title">
-                        <div  class="nd-news-title">{{this.form.title}}</div>
-                        <div class="nd-news-content" v-html="form.content"></div>
-                    </div>
+                <div v-if="language == 'zh'" class="nd-new-title">
+                    <div  class="nd-news-title">{{this.form.title}}</div>
+                    <div class="nd-news-content" v-html="form.content"></div>
+                </div>
+
+                <div v-else-if="language == 'en'" class="nd-new-title">
+                    <div  class="nd-news-title">{{this.form.enTitle}}</div>
+                    <div class="nd-news-content" v-html="form.enContent"></div>
+                </div>
             </div>
         </div>
         <tail></tail>
@@ -33,8 +38,8 @@
         name: "observationDeviceDetail",
         components: {NormalHeader, Footer},
         mounted() {
+            this.initLanguage();
             this.minHeight = this.clientHeight - 180 - 260;
-
             let newsDetail = this.$utils.getStorage("observeDeviceDetail");
             if(newsDetail) {
                 this.form = newsDetail
@@ -42,9 +47,13 @@
             this.index = this.$route.query.index;
         },
         methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+            },
         },
         data() {
             return {
+                language: "zh",
                 equipments: [
                     {
                         name: this.$t('message.CHASESatellite'),

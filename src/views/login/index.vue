@@ -7,42 +7,44 @@
 				<div class="lgrc">
 					<div class="gnc">
 						<div class="gnm">
-							<div class="glkzt">欢迎使用</div>
-							<div class="glkzt1">
-								南京大学太阳数据中心
+							<div class="glkzt">
+								{{ $t('message.Welcome') }}
+							</div>
+							<div class="glkzt1" style="width: 375px !important;">
+								{{ $t('message.SystemName') }}
 							</div>
 
 							<el-form class="lform" label-width="0px" ref="loginForm" :model="loginForm" :rules="rules">
 								<div class="sr">
 									<span class="phone-icon"></span>
 									<el-form-item label="" prop="email">
-										<el-input class="srin" v-model="loginForm.email" placeholder="请输入邮箱"></el-input>
+										<el-input class="srin" v-model="loginForm.email" :placeholder="$t('message.InEmail')"></el-input>
 									</el-form-item>
 								</div>
 
 								<div class="sr">
 									<span class="pwd-icon"></span>
 									<el-form-item class="wp-100" label="" prop="password">
-										<el-input class="srin" v-model="loginForm.password" placeholder="请输入登录密码" show-password></el-input>
+										<el-input class="srin" v-model="loginForm.password" :placeholder="$t('message.InPassword')" show-password></el-input>
 									</el-form-item>
 								</div>
 
 								<div class="sr">
 									<span class="code-icon"></span>
 									<el-form-item label="" prop="verificationCode">
-										<el-input class="srin vcf" placeholder="请输入验证码" v-model="loginForm.verificationCode" autocomplete="off"></el-input>
+										<el-input class="srin vcf" :placeholder="$t('message.inVerificationCode')" v-model="loginForm.verificationCode" autocomplete="off"></el-input>
 									</el-form-item>
-									<img id="imgIdentifyingCode" src="/web-service/v1/login/captcha.jpg" class="vcimg" alt="点击更换" title="点击更换" @click="getIdentifyingCode()"/>
+									<img id="imgIdentifyingCode" src="/web-service/v1/login/captcha.jpg" class="vcimg" :alt="$t('message.ClickChange')" :title="$t('message.ClickChange')" @click="getIdentifyingCode()"/>
 								</div>
 
 								<el-button class="dl-btn" type="primary" @click="login">
-									登 <span class="ml-40"></span> 录
+									{{ $t('message.Login') }}
 								</el-button>
 
 								<div class="lbt-tip bt mt-15">
-									<a class="fl" @click="forgetPwd">忘记密码»</a>
-									<a class="fr" @click="toRegister">点击注册»</a>
-									<a class="fr">还没有帐号？</a>
+									<a class="fl" @click="forgetPwd">{{ $t('message.ForgetPwd') }}»</a>
+									<a class="fr" @click="toRegister">{{ $t('message.ClickRegister') }}»</a>
+									<a class="fr">{{ $t('message.NoAccount') }}？</a>
 								</div>
 							</el-form>
 						</div>
@@ -57,16 +59,18 @@
 				<div class="lgrc">
 					<div class="reg_gnc">
 						<div class="gnm">
-							<div class="rglkzt">欢迎注册</div>
-							<div class="glkzt1">
-								南京大学太阳数据中心
+							<div class="rglkzt">
+								{{ $t('message.WelcomeToRegister') }}
+							</div>
+							<div class="glkzt1" style="width: 375px !important;">
+								{{ $t('message.SystemName') }}
 							</div>
 
 							<el-form class="lform rform" ref="regForm" :rules="rules" label-width="0px" :model="registerForm">
 								<div class="srr">
 									<span class="phone-icon"></span>
 									<el-form-item label="" prop="regEmail" required>
-										<el-input class="srin" v-model="registerForm.regEmail" placeholder="请输入邮箱" @blur="checkPhoneIsRegister($event, 'register')"></el-input>
+										<el-input class="srin" v-model="registerForm.regEmail" :placeholder="$t('message.InEmail')" @blur="checkPhoneIsRegister($event, 'register')"></el-input>
 									</el-form-item>
 								</div>
 
@@ -74,21 +78,21 @@
 									<span class="pwd-icon"></span>
 									<el-form-item class="wp-100" label="" prop="regPwd" required>
 										<el-input class="srin" v-model="registerForm.regPwd"
-										          placeholder="请输入6-16位字母、数字、特殊字符组合的密码" show-password></el-input>
+										          :placeholder="$t('message.InPasswordRegister')" show-password></el-input>
 									</el-form-item>
 								</div>
 
 								<div class="srr">
 									<span class="pwd-icon"></span>
 									<el-form-item class="wp-100" label="" prop="pwdagain" required>
-										<el-input class="srin" v-model="registerForm.pwdagain" placeholder="请再次输入密码" show-password></el-input>
+										<el-input class="srin" v-model="registerForm.pwdagain" :placeholder=" $t('message.InPasswordAgain')" show-password></el-input>
 									</el-form-item>
 								</div>
 
 								<div class="srr">
 									<span class="code-icon"></span>
 									<el-form-item label="" prop="registrationCode">
-										<el-input class="srin vcf" placeholder="请输入邮箱验证码" v-model="registerForm.registrationCode"
+										<el-input class="srin vcf" :placeholder="$t('message.inVerificationCode')" v-model="registerForm.registrationCode"
 										          autocomplete="off"></el-input>
 									</el-form-item>
 									<span class="dx-code aiocloud-cursor" @click="getCode('register')" :disabled="count > 0">
@@ -100,17 +104,17 @@
 								<div class="tl mt-30">
 									<el-checkbox @change="check" v-model="userNeedKnow"></el-checkbox>
 									<span class="yhxz">
-										我已阅读并接受南京大学太阳数据中心<span @click="toSee">用户须知</span>
+										{{ $t('message.ReadNd') }}<span @click="toSee">{{ $t('message.UserNotice') }}</span>
 									</span>
 								</div>
 
 								<el-button class="dl-btn" type="primary" @click="register" :disabled="disabled">
-									注 <span class="ml-40"></span> 册
+									{{ $t('message.Register') }}
 								</el-button>
 
 								<div class="lbt-tip1 bt mt-15">
-									<a class="fr colori-ffffff" @click="toLogin">去登录»</a>
-									<a class="fr">已有账号？</a>
+									<a class="fr colori-ffffff" @click="toLogin">{{ $t('message.ToLogin') }}»</a>
+									<a class="fr">{{ $t('message.HaveAccount') }}？</a>
 								</div>
 							</el-form>
 						</div>
@@ -125,16 +129,18 @@
 				<div class="lgrc">
 					<div class="reg_gnc">
 						<div class="gnm">
-							<div class="rglkzt">忘记密码</div>
-							<div class="glkzt1">
-								南京大学太阳数据中心
+							<div class="rglkzt">
+								{{ $t('message.ForgetThePassword') }}
+							</div>
+							<div class="glkzt1" style="width: 375px !important;">
+								{{ $t('message.SystemName') }}
 							</div>
 
 							<el-form class="lform rform" ref="forgetForm" :rules="rules" label-width="0px" :model="forgetForm">
 								<div class="srr">
 									<span class="phone-icon"></span>
 									<el-form-item label="" prop="fgEmail" required>
-										<el-input class="srin" v-model="forgetForm.fgEmail" placeholder="请输入邮箱" @blur="checkPhoneIsRegister($event, 'forget')"></el-input>
+										<el-input class="srin" v-model="forgetForm.fgEmail" :placeholder="$t('message.InEmail')" @blur="checkPhoneIsRegister($event, 'forget')"></el-input>
 									</el-form-item>
 								</div>
 
@@ -142,35 +148,35 @@
 									<span class="pwd-icon"></span>
 									<el-form-item class="wp-100" label="" prop="fgPwd" required>
 										<el-input class="srin" v-model="forgetForm.fgPwd"
-										          placeholder="请输入6-16位字母、数字、特殊字符组合的密码" show-password></el-input>
+										          :placeholder="$t('message.InPasswordRegister')" show-password></el-input>
 									</el-form-item>
 								</div>
 
 								<div class="srr">
 									<span class="pwd-icon"></span>
 									<el-form-item class="wp-100" label="" prop="fgPwdAgain" required>
-										<el-input class="srin" v-model="forgetForm.fgPwdAgain" placeholder="请再次输入密码" show-password></el-input>
+										<el-input class="srin" v-model="forgetForm.fgPwdAgain" :placeholder="$t('message.InPasswordAgain')" show-password></el-input>
 									</el-form-item>
 								</div>
 
 								<div class="srr">
 									<span class="code-icon"></span>
 									<el-form-item label="" prop="fgCode">
-										<el-input class="srin vcf" placeholder="请输入邮箱验证码" v-model="forgetForm.fgCode"
+										<el-input class="srin vcf" :placeholder="$t('message.inVerificationCode')" v-model="forgetForm.fgCode"
 										          autocomplete="off"></el-input>
 									</el-form-item>
 									<span class="dx-code aiocloud-cursor" @click="getCode('forget')" :disabled="forgetcount > 0">
-								{{ forgetcountMsg }}
-								</span>
+									{{ forgetcountMsg }}
+									</span>
 								</div>
 
 								<el-button class="dl-btn" type="primary" @click="forget">
-									重 <span class="ml-40"></span> 置
+									{{ $t('message.Reset') }}
 								</el-button>
 
 								<div class="lbt-tip1 bt mt-15">
-									<a class="fr colori-ffffff" @click="toLogin">去登录»</a>
-									<a class="fr">已记起密码？</a>
+									<a class="fr colori-ffffff" @click="toLogin">{{ $t('message.ToLogin') }}»</a>
+									<a class="fr">{{ $t('message.RememberedPwd') }}？</a>
 								</div>
 							</el-form>
 						</div>
@@ -193,8 +199,13 @@
         mounted() {
             this.clientWidth = document.body.clientWidth;
             this.clientHeight = document.body.clientHeight;
+            this.initLanguage();
         },
         methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+            },
+
             login() {
                 this.$refs['loginForm'].validate((valid) => {
                     if (valid) {
@@ -287,11 +298,11 @@
                         this.count = TIME_COUNT;
                         this.timer = setInterval(() => {
                             if (this.count > 0 && this.count <= TIME_COUNT) {
-                                this.countMsg = this.count-- + "秒";
+                                this.countMsg = this.count-- + "s";
                             } else {
                                 clearInterval(this.timer);
                                 this.timer = null;
-                                this.countMsg = "验证码";
+                                this.countMsg = this.$t('message.VerificationCode');
                             }
                         }, 1000);
                         this.sendCodeRequest(type);
@@ -306,11 +317,11 @@
                         this.forgetcount = TIME_COUNT;
                         this.forgettimer = setInterval(() => {
                             if (this.forgetcount > 0 && this.forgetcount <= TIME_COUNT) {
-                                this.forgetcountMsg = this.forgetcount-- + "秒";
+                                this.forgetcountMsg = this.forgetcount-- + "s";
                             } else {
                                 clearInterval(this.forgettimer);
                                 this.forgettimer = null;
-                                this.forgetcountMsg = "验证码";
+                                this.forgetcountMsg = this.$t('message.VerificationCode');
                             }
                         }, 1000);
                         this.sendCodeRequest(type);
@@ -329,7 +340,7 @@
                 params.append("type", type);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_send, params, "POST");
                 if(data.code == 200){
-                    this.$promptMsg("验证码已经发送到邮箱，请前往查看", "success");
+                    this.$promptMsg(this.$t('message.sendCode'), "success");
                     return true;
                 }
             },
@@ -370,11 +381,11 @@
                 this.$refs['regForm'].validate((valid) => {
                     if (valid) {
                         if(this.emailIsRegister) {
-                            this.$promptMsg("此邮箱已经被注册，请修改", "error");
+                            this.$promptMsg(this.$t('message.HasRegister'), "error");
                             return false;
                         }
                         if (this.registerForm.regPwd != this.registerForm.pwdagain) {
-                            this.$promptMsg("两次密码不一致，请重新输入", "error")
+                            this.$promptMsg(this.$t('message.pwdNotSame'), "error")
                             return false;
                         }
                         this.submitRequest();
@@ -392,7 +403,7 @@
                 this.disabled = true;
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_register, params, "POST");
                 if (data.code == 200) {
-                    this.$promptMsg("注册成功，请前去登录！", "success");
+                    this.$promptMsg(this.$t('message.RegisterSuccess'), "success");
                     this.disabled = false;
                     this.clearRegForm();
                     this.toLogin();
@@ -414,11 +425,11 @@
                 this.$refs['forgetForm'].validate((valid) => {
                     if (valid) {
                         if(!this.emailIsRegister) {
-                            this.$promptMsg("此邮箱未被注册，请修改", "error");
+                            this.$promptMsg(this.$t('message.HasRegister'), "error");
                             return false;
                         }
                         if(this.forgetForm.fgPwd != this.forgetForm.fgPwdAgain) {
-                            this.$promptMsg("两次密码不一致，请修改", "error");
+                            this.$promptMsg(this.$t('message.pwdNotSame'), "error");
                             return false;
                         }
                         this.forgetRequest();
@@ -436,7 +447,7 @@
                 console.log( this.forgetForm)
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_forget, params, "POST");
                 if (data.code == 200) {
-                    this.$promptMsg("密码重置成功，去登陆！", "success");
+                    this.$promptMsg(this.$t('message.ResetSuccess'), "success");
                     this.toLogin();
                     this.clearForgetForm();
                 }
@@ -454,14 +465,15 @@
         },
         data() {
             return {
+                language: "zh",
                 userNeedKnow: "",
                 isExist: false,
                 timer: "",
                 count: "",
-                countMsg: "验证码",
+                countMsg: this.$t('message.VerificationCode'),
                 forgettimer: "",
                 forgetcount: "",
-                forgetcountMsg: "验证码",
+                forgetcountMsg: this.$t('message.VerificationCode'),
                 // 忘记密码
                 forgetForm: {
                     fgEmail: "",
@@ -495,12 +507,12 @@
                 },
                 rules: {
                     email: [
-                        {type: 'string', required: true, message: '请输入邮箱', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.InEmail'), trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
                                 var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
                                 if(!strRegex.test(value)){
-                                    callback(new Error("请输入正确的邮箱"));
+                                    callback(new Error(this.$t('message.InRightEmail')));
                                     return false;
                                 }
                                 else{
@@ -510,20 +522,20 @@
                         }
                     ],
                     password: [
-                        {required: true, message: '请填写用户密码', trigger: 'blur'}
+                        {required: true, message: this.$t('message.InPassword'), trigger: 'blur'}
                     ],
                     verificationCode: [
-                        {required: true, message: '请填写验证码', trigger: 'blur'}
+                        {required: true, message: this.$t('message.inVerificationCode'), trigger: 'blur'}
                     ],
 
 	                // 注册
                     regEmail: [
-                        {type: 'string', required: true, message: '请输入邮箱', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.InEmail'), trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
                                 var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
                                 if(!strRegex.test(value)){
-                                    callback(new Error("请输入正确的邮箱"));
+                                    callback(new Error(this.$t('message.InRightEmail')));
                                     return false;
                                 }
                                 else{
@@ -533,14 +545,14 @@
                         }
                     ],
                     regPwd: [
-                        {type: 'string', required: true, message: '请输入密码', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.InPassword'), trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
                                 var pwdReg = new RegExp("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,16}");
                                 if (value.length < 6) {
-                                    callback(new Error("密码至少设置6位字符"));
+                                    callback(new Error(this.$t('message.InPassword6')));
                                 } else if(!(pwdReg.test(value))) {
-                                    var pwdErrorMsg = "您的密码复杂度太低（密码中必须包含字母、数字、特殊字符）";
+                                    var pwdErrorMsg = this.$t('message.InPasswordLow');
                                     callback(new Error(pwdErrorMsg));
                                 } else {
                                     callback();
@@ -549,20 +561,20 @@
                         }
                     ],
                     pwdagain: [
-                        {type: 'string', required: true, message: '请再次输入密码', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.InPasswordAgain'), trigger: ['change', 'blur']},
                     ],
                     registrationCode: [
-                        {type: 'string', required: true, message: '请输入验证码', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.inVerificationCode'), trigger: ['change', 'blur']},
                     ],
 
                     // 忘记密码
                     fgEmail: [
-                        {type: 'string', required: true, message: '请输入邮箱', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.InEmail'), trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
                                 var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
                                 if(!strRegex.test(value)){
-                                    callback(new Error("请输入正确的邮箱"));
+                                    callback(this.$t('message.InRightEmail'));
                                     return false;
                                 }
                                 else{
@@ -572,14 +584,14 @@
                         }
                     ],
                     fgPwd: [
-                        {type: 'string', required: true, message: '请输入登录密码', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.InPassword'), trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
                                 var pwdReg = new RegExp("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,16}");
                                 if (value.length < 6) {
-                                    callback(new Error("密码至少设置6位字符"));
+                                    callback(new Error(this.$t('message.InPassword6')));
                                 } else if(!(pwdReg.test(value))) {
-                                    var pwdErrorMsg = "您的密码复杂度太低（密码中必须包含字母、数字、特殊字符）";
+                                    var pwdErrorMsg = this.$t('message.InPasswordLow');
                                     callback(new Error(pwdErrorMsg));
                                 } else {
                                     callback();
@@ -588,10 +600,10 @@
                         }
                     ],
                     fgPwdAgain: [
-                        {type: 'string', required: true, message: '请再次输入登录密码', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.InPasswordAgain'), trigger: ['change', 'blur']},
                     ],
                     fgCode: [
-                        {type: 'string', required: true, message: '请输入验证码', trigger: ['change', 'blur']},
+                        {type: 'string', required: true, message: this.$t('message.inVerificationCode'), trigger: ['change', 'blur']},
                     ],
                 },
 

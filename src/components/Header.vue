@@ -20,7 +20,7 @@
 			</div>
 			<div>
 				<div class="nd-menu-header" :style="{width: (language=='zh'?'120px':'170px')}">
-					<div :class="currentMenu=='pictureAndAchievement'?'nd-menu-active':''"
+					<div :class="currentMenu=='pictureAchievement'?'nd-menu-active':''"
 					     @click="selectMenu('pictureAndAchievement')">
 						{{ $t('menu.galleryAchievement') }}
 					</div>
@@ -53,7 +53,8 @@
 						</span>
 						<el-dropdown-menu slot="dropdown">
 							<el-dropdown-item @click.native="showMyInfo">{{ $t('menu.myInfo') }}</el-dropdown-item>
-							<el-dropdown-item @click.native="showMyApplication">{{ $t('menu.myApplication') }}</el-dropdown-item>
+							<el-dropdown-item @click.native="showMyApplication">{{ $t('menu.myApplication') }}
+							</el-dropdown-item>
 							<el-dropdown-item @click.native="logout">{{ $t('menu.logOut') }}</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
@@ -114,27 +115,27 @@
         props: ['currentMenu'],
         mounted() {
             let language = this.$utils.getStorage("language");
-            if(language) {
+            if (language) {
                 this.language = language;
                 this.$i18n.locale = this.language;
             }
 
-                // 判断是否登录
+            // 判断是否登录
             this.getUserInfo();
         },
         methods: {
             showMyApplication() {
-				this.$refs.myApplicationRef.open();
+                this.$refs.myApplicationRef.open();
             },
 
             showMyInfo() {
-				this.$refs.userInfoRef.open(this.user);
+                this.$refs.userInfoRef.open(this.user);
             },
 
             logout() {
-                this.$confirm('请确定是否要退出登录?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                this.$confirm(this.$t('message.Logout'), this.$t('message.Hint'), {
+                    confirmButtonText: this.$t('message.Sure'),
+                    cancelButtonText: this.$t('message.Cancle'),
                     type: 'warning'
                 }).then(() => {
                     this.logoutRequest();
@@ -157,16 +158,16 @@
                 this.user = user;
                 this.isLogin = true;
                 // 判断必要信息是否填写，为填写弹出填写框
-                if(this.$utils.checkIsNull(this.user.name) && this.$utils.checkIsNull(this.user.address)) {
+                if (this.$utils.checkIsNull(this.user.name) && this.$utils.checkIsNull(this.user.address)) {
                     this.$refs.userInfoRef.open(this.user);
                 }
                 if (this.user.avatar == "" || this.user.avatar == undefined) {
                     this.user.avatar = require('@/assets/img/background/avatar.jpg');
                 }
-                if(this.user.name == null || this.user.name == undefined || this.user.name == "") {
+                if (this.user.name == null || this.user.name == undefined || this.user.name == "") {
                     this.user.name = this.user.mail;
                 }
-                if(this.currentMenu == 'application') {
+                if (this.currentMenu == 'application') {
                     this.$emit("reloadApplications");
                 }
             },
@@ -186,7 +187,7 @@
                         if (this.user.avatar == "" || this.user.avatar == undefined) {
                             this.user.avatar = require('@/assets/img/background/avatar.jpg');
                         }
-                        if(this.user.name == null || this.user.name == undefined || this.user.name == "") {
+                        if (this.user.name == null || this.user.name == undefined || this.user.name == "") {
                             this.user.name = this.user.mail;
                         }
                     }
@@ -201,7 +202,11 @@
                 this.language = this.language == 'zh' ? 'en' : 'zh';
                 this.$i18n.locale = this.language;
                 this.$utils.setStorage("language", this.language);
-                if(this.currentMenu == 'observeDevice' || this.currentMenu == 'observationData') {
+                if (   this.currentMenu == 'observeDevice'
+	                || this.currentMenu == 'observationData'
+                    || this.currentMenu == 'pictureAndAchievement'
+                    || this.currentMenu == 'newsAndResource'
+                ) {
                     this.$emit("initLanguage");
                 }
             },
@@ -219,12 +224,15 @@
                         this.$router.push({path: '/newsAndResource'})
                         break;
                     case 'observeDevice':
+                        this.$utils.removeStorage("observeDeviceIndex");
                         this.$router.push({path: '/observeDevice'})
                         break;
                     case 'pictureAndAchievement':
+                        this.$utils.removeStorage("imageIndex");
                         this.$router.push({path: '/pictureAndAchievement'})
                         break;
                     case 'observationData':
+                        this.$utils.removeStorage("observationDataIndex");
                         this.$router.push({path: '/observationData'})
                         break;
                     case 'application':
@@ -246,9 +254,11 @@
 			font-family: SC-Light !important;
 
 		}
+
 		.nd-header-avatar {
 			margin-bottom: 5px;
 		}
+
 		.nd-header-lr {
 			font-size: 14px;
 			font-family: SC-Light;
@@ -326,6 +336,7 @@
 			padding-top: 20px;
 			font-family: SC-Light;
 		}
+
 		.el-dropdown-menu__item:hover {
 			background: #fa541c !important;
 			color: #ffffff;

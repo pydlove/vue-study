@@ -8,18 +8,18 @@
                     <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x.png')"/>
                 </div>
                 <div class="nd-address">
-                    <div class="nd-addr">地址: 江苏省南京市栖霞区仙林大道163号天文楼</div>
-                    <div class="nd-phone">电话热线: (86)- 18012012539</div>
-                    <div class="nd-mail">邮编: 210023</div>
-                    <div class="nd-about">关于我们
-                        <div class="nd-tail" style="margin-left: 50px">联系我们</div>
+                    <div class="nd-addr">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
+                    <div class="nd-phone">{{ $t('message.Contact') }}: (86)- 18012012539</div>
+                    <div class="nd-mail">{{ $t('message.PostCode') }}: 210023</div>
+                    <div class="nd-about">{{ $t('menu.AboutUs') }}
+                        <div class="nd-tail" style="margin-left: 50px">{{ $t('menu.ContactUs') }}</div>
                     </div>
                 </div>
 
                 <div class="nd-over">
                     <div class="nd-tech-support"></div>
                     <div class="nd-port">
-                        <div class="nd-support">技术支持: 杭州爱启云网络科技有限公司</div>
+                        <div class="nd-support">{{ $t('message.TechnicalSupport') }}: {{ $t('message.Company') }}</div>
                         <div class="nd-num"> 苏ICP备 05002851 号</div>
                         <div class="nd-class">Copyright @ 南京大学天文与空间科学学院 All Rights Reserved 版权所有</div>
                     </div>
@@ -31,12 +31,12 @@
         <div class="nd-info" v-else>
             <div class="nd-detail">
                 <div class="nd-address">
-                    <div class="nd-addr">地址: 江苏省南京市栖霞区仙林大道163号天文楼</div>
-                    <div class="nd-phone">电话热线: (86)- 18012012539</div>
-                    <div class="nd-mail">邮编: 210023</div>
+                    <div class="nd-addr">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
+                    <div class="nd-phone">{{ $t('message.Contact') }}: (86)- 18012012539</div>
+                    <div class="nd-mail">{{ $t('message.PostCode') }}: 210023</div>
                     <div class="nd-aboutus">
-                        <div class="nd-about" @click="aboutWe">关于我们</div>
-                        <div class="nd-tail" @click="aboutWe">联系我们</div>
+                        <div class="nd-about" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>
+                        <div class="nd-tail" @click="aboutWe">{{ $t('menu.ContactUs') }}</div>
                     </div>
 
                 </div>
@@ -46,8 +46,8 @@
                 <div class="nd-over">
                     <div class="nd-tech-support"></div>
                     <div class="nd-port">
-                        <div class="nd-support">技术支持: 杭州爱启云网络科技有限公司</div>
-                        <div class="nd-num"> 苏ICP备 05002851 号</div>
+                        <div class="nd-support">{{ $t('message.TechnicalSupport') }}: {{ $t('message.Company') }}</div>
+                        <!--<div class="nd-num"> 苏ICP备 05002851 号</div>-->
                         <div class="nd-class">Copyright @ 南京大学天文与空间科学学院 All Rights Reserved 版权所有</div>
                     </div>
                     <div class="nd-tech-support"></div>

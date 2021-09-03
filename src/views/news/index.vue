@@ -1,27 +1,24 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<NormalHeader :currentMenu="'newsAndResource'"></NormalHeader>
+		<NormalHeader :currentMenu="'newsAndResource'"  @initLanguage="initLanguage"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
-				<i class="el-icon-s-home"></i>首页
+				<i class="el-icon-s-home"></i>
+				{{ $t('menu.home') }}
 			</el-breadcrumb-item>
-			<el-breadcrumb-item>新闻与资源</el-breadcrumb-item>
+			<el-breadcrumb-item>
+				{{ $t('menu.newsResources') }}
+			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="nd-background">
 			<div class="dffn nd-news-main">
 				<div class="nd-news-resource">
-					<div class="nd-news-resource-list">新闻与资源</div>
+					<div class="nd-news-resource-list">
+						{{ $t('menu.newsResources') }}
+					</div>
 					<div class="nd-new-title-desc">
-						[主要解释新闻与资源这块主要展示什么内容] <br>
-						信息接受渠道的多元化已成为当今社会的主要特征之一。
-						以互联网为代表的新媒体与传统媒体在博弈中越来越趋向融合，
-						构成了信息时代的立体化传播体系。为拓展生存空间，延伸品牌效应，
-						很多传统媒体开始尝试由分散到集中，进军新媒体，整合资源，实现集团化 。
-						集团化实现了媒体资源总量的增长，但目前很多媒体的集团化还处于较低层次，
-						只是对各种资源作简单的物理叠加，并没有做到新闻生产的集约化。有人戏言，
-						这是一种“糍饭”式的资源整合，将饭团与油条人为地捏合在一起，
-						但实际上糯米还是糯米，油条还是油条。
+						[{{ $t('message.newsDesc') }}] <br>
 					</div>
 				</div>
 
@@ -33,15 +30,16 @@
 								:preview-src-list="[item.picture]"
 						></el-image>
 						<div class="nd-list-title">
-							<p  @click="lookDetail(item)">{{item.title }}</p>
+							<p v-if="language == 'zh'"  @click="lookDetail(item)">{{ item.title }}</p>
+							<p v-else-if="language == 'en'"  @click="lookDetail(item)">{{ item.enTitle }}</p>
 							<p class="dffn-ac">
 								<i class="el-icon-alarm-clock"></i>
 								{{item.createTime}}
-								<span class="nd-see-detail" @click="lookDetail(item)">
-									查看新闻
-								</span>
 							</p>
 						</div>
+						<el-button type="primary" size="mini" class="nd-see-detail" @click="lookDetail(item)">
+							{{ $t('message.ViewNews') }}
+						</el-button>
 					</div>
 				</div>
 			</div>
@@ -66,6 +64,7 @@
         name: "newsAndResource",
         components: {NormalHeader, Footer, Page, Pagination},
         mounted() {
+            this.initLanguage();
             if (this.clientWidth < 500) {
                 this.client = true;
             }
@@ -83,6 +82,10 @@
         },
 
         methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+            },
+
             lookDetail(item) {
                 this.$utils.setStorage("newsDetail", item);
                 let routeData = this.$router.resolve({
@@ -117,6 +120,7 @@
                 currentPage: 1,
                 pageSize: 10,
                 clientWidth: document.body.clientWidth,
+                language: "zh",
             }
         }
     }
@@ -185,6 +189,7 @@
 			border-radius: 5px;
 			background: #ffffff;
 			box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+			position: relative;
 		}
 
 		.nd-picture {
@@ -216,8 +221,9 @@
 		}
 
 		.nd-see-detail {
-			color: #fa541c;
-			margin-left: 20px;
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
 		}
 
 		.pagination {

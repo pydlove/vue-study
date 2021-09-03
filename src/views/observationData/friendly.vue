@@ -1,7 +1,6 @@
 <template>
     <!--eslint-disable-->
     <div class="friendlyTitle">
-        友情链接
         <div class="firstConnect">
             <div class="connectName">BBSO地面天文台：</div>
             <div class="connectStyle" @click="jumpWeb1">http://www.bbso.njit.edu/</div>
@@ -45,7 +44,6 @@
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
         .friendlyTitle {
-            font-size: 20px;
             margin: 10px;
             text-align: left;
         }

@@ -4,43 +4,50 @@
 		<NormalHeader ref="normalHeaderRef" :currentMenu="'observationData'"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
-				<i class="el-icon-s-home"></i>首页
+				<i class="el-icon-s-home"></i>
+				{{ $t('menu.home') }}
 			</el-breadcrumb-item>
-			<el-breadcrumb-item :to="{ path: '/observationData' }">观测数据</el-breadcrumb-item>
-			<el-breadcrumb-item>观测日志详情</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/observationData' }">
+				{{ $t('menu.observationData') }}
+			</el-breadcrumb-item>
+			<el-breadcrumb-item>
+				{{ $t('menu.LogDetail') }}
+			</el-breadcrumb-item>
 		</el-breadcrumb>
 
 		<div class="nd-background">
 			<div class="nd-content">
-				<el-divider class="mb-40" content-position="left">观测日志</el-divider>
+				<el-divider class="mb-40" content-position="left">
+					{{ $t('message.ObservationLog') }}
+				</el-divider>
 
 				<div class="aiocloud-card obd-content">
 					<div class="dffn-ac obd-item">
 						<div>
-							观测日期 :
+							{{ $t('message.ObservationDate') }}:
 						</div>
 						<div>
 							{{ observationLog.observerDate }}
 						</div>
 
 						<div>
-							天气情况 :
+							{{ $t('message.WeatherConditions') }}:
 						</div>
 						<div>
-							{{ observationLog.weather }}
+							{{ fmtWeather(observationLog.weather) }}
 						</div>
 					</div>
 
 					<div class="dffn-ac obd-item">
 						<div>
-							观测人 :
+							{{ $t('message.Observer') }}:
 						</div>
 						<div>
 							{{ observationLog.observer }}
 						</div>
 
 						<div>
-							观测类型 :
+							{{ $t('message.ObservationType') }}:
 						</div>
 						<div>
 							{{ fmtObserverType(observationLog.observerType) }}
@@ -49,7 +56,7 @@
 
 					<div class="dffn-ac obd-item">
 						<div>
-							文件数量 :
+							{{ $t('message.NumberOfFiles') }} :
 						</div>
 						<div>
 							{{ observationLog.clObservationDatas.length }}
@@ -58,7 +65,7 @@
 
 					<div class="dffn obd-item1">
 						<div>
-							视宁度 :
+							{{ $t('message.Seeing') }}:
 						</div>
 						<div>
 							{{ observationLog.seeing }}
@@ -67,7 +74,7 @@
 
 					<div class="dffn obd-item1">
 						<div>
-							备注 :
+							{{ $t('message.Remark') }}:
 						</div>
 						<div>
 							{{ observationLog.remark }}
@@ -76,7 +83,9 @@
 				</div>
 
 				<div class="obd-title">
-					<el-divider content-position="left">观测数据</el-divider>
+					<el-divider content-position="left">
+						{{ $t('message.WeatherConditions') }}观测数据
+					</el-divider>
 				</div>
 
 				<div v-if="observationLog.clObservationDatas.length > 0" class="pt-20">
@@ -91,14 +100,14 @@
 						<div>
 							<div class="dffn obd-data-item">
 								<div>
-									观测时间:
+									{{ $t('message.ObservationTime') }}:
 								</div>
 								<div>
 									{{ item.beginTime }}
 								</div>
 
 								<div>
-									观测目标:
+									{{ $t('message.ObservationTarget') }}:
 								</div>
 								<div>
 									{{ item.target }}
@@ -107,14 +116,14 @@
 
 							<div class="dffn obd-data-item">
 								<div>
-									曝光时间:
+									{{ $t('message.ExposureTime') }}:
 								</div>
 								<div>
 									{{ item.exposureTime }}
 								</div>
 
 								<div>
-									观测波长:
+									{{ $t('message.ObservationWavelength') }}:
 								</div>
 								<div>
 									{{ item.observationBand }}
@@ -123,22 +132,23 @@
 
 							<div v-if="item.video != '' && item.video != null" class="dffn obd-data-item">
 								<div>
-									观测视频:
+									{{ $t('message.ObservationVideo') }}:
 								</div>
 								<div>
-									<a :href="item.video" :download="item.video">点击下载</a>
+									<a :href="item.video" :download="item.video">{{ $t('message.downloadObsVideo') }}</a>
 								</div>
 							</div>
 						</div>
 
 						<div class="obd-data-down">
-							<el-button class="obd-data-btn" type="primary" size="mini" @click="applicationDownload(item)">申请下载</el-button>
+							<el-button v-if="language == 'zh'" class="obd-data-btn" type="primary" size="mini" @click="applicationDownload(item)">{{ $t('message.ApplicationDownload') }}</el-button>
+							<el-button v-else-if="language == 'en'" class="obd-data-btn" type="primary" size="mini" @click="applicationDownload(item)" style="left: -40px !important;">{{ $t('message.ApplicationDownload') }}</el-button>
 						</div>
 					</div>
 				</div>
 
 				<div v-else>
-					<van-empty image="search" description="暂无观测数据"/>
+					<van-empty image="search" :description="$t('message.NoObservationDataEmpty')"/>
 				</div>
 			</div>
 		</div>
@@ -162,6 +172,7 @@
         },
         data() {
             return {
+                language: "zh",
                 observationDataDetail: {
                     date: "",
                 },
@@ -177,12 +188,16 @@
             }
         },
         mounted() {
+            this.initLanguage();
             this.observationDataDetail = this.$utils.getStorage("observationDataDetail");
-            console.log(this.observationDataDetail);
             this.search();
 
         },
         methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+            },
+
             async applicationDownload(item) {
                 let params = new FormData();
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
@@ -200,21 +215,38 @@
             },
 
             async sendOrder(dataId, logId) {
-				this.$refs.appref.open(dataId, logId);
+                this.$refs.appref.open(dataId, logId);
             },
 
             fmtObserverType(observerType) {
                 switch (observerType) {
                     case "0":
-                        return "常规观测";
+                        return this.$t('message.RoutineObservation');
                     case "1":
-                        return "偏振）光谱观测";
+                        return this.$t('message.SpectralObservation');
                     case "2":
-                        return "晴天仪器维护";
+                        return this.$t('message.SunnyDayInstrumentMaintenance');
                     case "3":
-                        return "晴天实验观测";
+                        return this.$t('message.ObservationSun');
                     default:
                         return observerType;
+                }
+            },
+
+            fmtWeather(weather) {
+                switch (weather) {
+                    case "晴":
+                        return this.$t('message.Clear');
+                    case "阴":
+                        return this.$t('message.Negative');
+                    case "多云":
+                        return this.$t('message.cloudy');
+                    case "雨":
+                        return this.$t('message.Rain');
+                    case "雪":
+                        return this.$t('message.Snow');
+                    default:
+                        return weather;
                 }
             },
 

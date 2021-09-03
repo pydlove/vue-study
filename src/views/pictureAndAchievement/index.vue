@@ -1,48 +1,53 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<NormalHeader :currentMenu="'pictureAndAchievement'"></NormalHeader>
+		<!--<NormalHeader ref="normalHeaderRef" :currentMenu="'pictureAndAchievement'" @initLanguage="initLanguage"></NormalHeader>-->
+		<NormalHeader :currentMenu="'pictureAndAchievement'" @initLanguage="initLanguage"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
-			<el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-			<el-breadcrumb-item>图片与成果</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/home' }">
+				{{ $t('menu.home') }}
+			</el-breadcrumb-item>
+			<el-breadcrumb-item>
+				{{ $t('menu.galleryAchievement') }}
+			</el-breadcrumb-item>
 		</el-breadcrumb>
 
 		<div class="nd-background">
 			<div class="nd-content dffn">
 				<div class="aiocloud-card">
 					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
-					     v-for="(item, index) in equipments" :key="index"
-					     @click="selectEq(item)">{{ item.name }}
+					     v-for="(item, index) in images" :key="index"
+					     @click="selectEq(item, index)">{{ item.name }}
 					</div>
 				</div>
 
-				<div v-if="this.pictureStyle">
+				<div v-if="this.type == '0'">
 					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
-					     v-for="(item, index) in this.tableData" :key="index">
+					     v-for="(item, index) in tableData" :key="index">
 						<el-image class="nd-picture" :src="item.picture"
 						          :preview-src-list="[item.picture]"></el-image>
 						<div class="nd-list-title">
-							<p class="myCards">{{item.title }}</p>
+							<p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
+							<p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
 						</div>
 					</div>
 				</div>
 
 				<div v-else>
 					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
-					     v-for="(item, index) in this.tableData" :key="index">
+					     v-for="(item, index) in tableData" :key="index">
 						<el-image class="nd-picture" :src="item.video"
 						          :preview-src-list="[item.video]"></el-image>
-						<div class="nd-list-title" @click="lookDetail(item)">
-							<p class="myCards">{{item.title }}</p>
+						<div class="nd-list-title">
+							<p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
+							<p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
 						</div>
 					</div>
 				</div>
 
 			</div>
 			<div class="nd-breadcrumb-top">
-				<Page v-if="this.client" class="page" ref="pageRef" @search="search"></Page>
-				<Pagination style="text-align: center" v-else class="pagination" ref="pageRef"
-				            @search="search"></Pagination>
+				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
 			</div>
 		</div>
 		<Footer></Footer>
@@ -52,81 +57,81 @@
 <script>
     import NormalHeader from "@/components/NormalHeader.vue";
     import Footer from "@/components/Footer";
-    import Page from "@/components/Page";
     import Pagination from "@/components/Pagination";
 
     export default {
         name: "index",
-        components: {NormalHeader, Footer, Page, Pagination},
-        mounted() {
-            this.initPictureData();
-        },
-        methods: {
-
-            selectEq(item) {
-                this.type = item.type;
-                this.menu = item;
-                if(this.type == '0'){
-                    this.initPictureData();
-				} else if (this.type == '1'){
-                    this.initVideoData();
-				}
-            },
-
-            async initPictureData() {
-                this.pictureStyle = true;
-                let param = new FormData();
-                param.append("page", this.currentPage);
-                param.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_achievement_searchList, param, "POST");
-                if (data.code == 200) {
-                    this.tableData = data.data;
-                    this.$refs.pageRef.totalCount = data.totalCount;
-                    return true;
-                }
-            },
-
-            async initVideoData() {
-                this.pictureStyle = false;
-                let param = new FormData();
-                param.append("page", this.currentPage);
-                param.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_video_searchList, param, "POST");
-                if (data.code == 200) {
-                    this.tableData = data.data;
-                    this.$refs.pageRef.totalCount = data.totalCount;
-                    return true;
-                }
-            },
-
-        },
-
+        components: {NormalHeader, Footer, Pagination},
         data() {
             return {
-                pictureStyle: true,
-                type: "0",
-                title: "",
-                client: false,
-                status: true,
-                status1: false,
+                language: "zh",
                 tableData: [],
                 currentPage: 1,
                 pageSize: 10,
-                clientWidth: document.body.clientWidth,
 
-                equipments: [
+                type: "0",
+                image: {
+                    name: this.$t('message.beautifulImage'),
+                    type: "0",
+                },
+                images: [
                     {
-                        name: "精美图片",
+                        name: this.$t('message.beautifulImage'),
                         type: "0",
                     },
                     {
-                        name: "精美视频",
+                        name: this.$t('message.beautifulVideo'),
                         type: "1",
                     }
                 ],
             }
-        }
+        },
+        mounted() {
+            this.initLanguage();
+            const imageIndex = this.$utils.getStorage("imageIndex");
+            if(imageIndex != undefined) {
+                this.image = this.images[imageIndex];
+                this.type = this.image.type;
+            }
+            this.search(1, 10);
+        },
+        methods: {
+            initLanguage() {
+                this.images[0].name = this.$t('message.beautifulImage');
+                this.images[1].name = this.$t('message.beautifulVideo');
+                this.language = this.$i18n.locale;
+            },
 
+            selectEq(item, index) {
+                this.type = item.type;
+                this.image = item;
+                this.$utils.setStorage("imageIndex", index);
+                this.search(1, 10);
+            },
+
+            async search(currentPage, pageSize) {
+                this.currentPage = currentPage;
+                this.pageSize = pageSize;
+                let param = new FormData();
+                param.append("page", this.currentPage);
+                param.append("limit", this.pageSize);
+                if(this.type == '0'){
+                    let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_achievement_searchList, param, "POST");
+                    if (data.code == 200) {
+                        this.tableData = data.data;
+                        this.$refs.pageRef.totalCount = data.totalCount;
+                        return true;
+                    }
+                } else if (this.type == '1'){
+                    let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_video_searchList, param, "POST");
+                    if (data.code == 200) {
+                        this.tableData = data.data;
+                        this.$refs.pageRef.totalCount = data.totalCount;
+                        return true;
+                    }
+                }
+            },
+        },
     }
 </script>
 
@@ -185,7 +190,6 @@
 
 		.nd-list-title > p:hover {
 			color: #fa541c;
-			text-decoration: underline;
 		}
 
 		.nd-picture {

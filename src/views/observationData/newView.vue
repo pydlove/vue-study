@@ -1,46 +1,61 @@
 <template>
     <!--eslint-disable-->
-    <div>
-        <div style="text-align: left; margin-left: 10px">
-            <el-radio v-model="radio" label="1" @change = "week">一周以内</el-radio>
-            <el-radio v-model="radio" label="2" @change="month">一个月以内</el-radio>
+    <div class="nv-container">
+        <div class="tl mt-20">
+            <el-radio-group v-model="form.date">
+                <el-radio label="1" @change="week">{{ $t('message.lastWeek') }}</el-radio>
+                <el-radio label="2" @change="month">{{ $t('message.lastMonth') }}</el-radio>
+            </el-radio-group>
         </div>
 
         <div class="nd-news-list" v-if="this.tableData.length > 0" >
-            <div class="myCard">
-                <div class="nd-list" v-for="(item, index) in this.tableData" :key="index">
-                    <div class="nd-lists">
-                        <el-image
-                                class="nd-picture"
-                                :src="item.picture"
-                                :preview-src-list="[item.picture]"></el-image>
-                    </div>
-                    <div class="nd-list-title" >
-                        <p class="myCards1"> 波长： {{ fmt(item, 'WAVELNTH')}}</p>
-                        <p class="myCards1"> 半径： {{ fmt(item, 'CRRADIUS')}}</p>
-                    </div>
-                    <div  class="nd-list-title" >
-                        <p class="myCards1"> 观测目标：{{fmt(item, 'OBJECT')}}</p>
-                        <p class="myCards1"> 曝光时间： {{ item.beginTime}}</p>
-                    </div>
-                    <div  class="nd-list-title" >
-                        <p class="myCards1"> 观测坐标：{{item.coordinates}}</p>
-                        <div v-if="item.video != '' && item.video != null" class="myCards1">
-                            <div>
-                                观测视频:  <a :href="item.video" :download="item.video">点击下载</a>
-                            </div>
+            <div class="nd-list" v-for="(item, index) in this.tableData" :key="index">
+                <el-image
+                        class="nd-picture"
+                        :src="item.picture"
+                        :preview-src-list="[item.picture]"></el-image>
+
+                <div>
+                    <div class="nd-list-title">
+                        <div class="nd-list-item">
+                            <p>{{ $t('message.ObservationTime') }}:</p>
+                            <p>{{ item.beginTime }}</p>
+                        </div>
+                        <div class="nd-list-item">
+                            <p>{{ $t('message.ObservationTarget') }}:</p>
+                            <p>{{ item.target }}</p>
                         </div>
                     </div>
-                    <div  class="nd-list-title" >
-                        <p class="myCards1"> 望远镜：{{fmt(item, 'TELESCOP')}}</p>
+
+                    <div class="nd-list-title">
+                        <div class="nd-list-item">
+                            <p>{{ $t('message.ExposureTime') }}:</p>
+                            <p> {{ item.exposureTime }}</p>
+                        </div>
+                        <div class="nd-list-item">
+                            <p>{{ $t('message.ObservationWavelength') }}:</p>
+                            <p>{{ item.observationBand }}</p>
+                        </div>
                     </div>
 
+                    <div v-if="item.video != '' && item.video != null" class="nd-list-title">
+                        <div class="nd-list-item">
+                            <p>{{ $t('message.ObservationVideo') }}:</p>
+                            <p>
+                                <a :href="item.video" :download="item.video">
+                                    {{ $t('message.downloadObsVideo') }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-
             </div>
+
+            <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
         </div>
+
         <div v-else>
-            <van-empty image="search" description="暂无观测数据"/>
+            <van-empty image="search" :description="$t('message.NoObservationDataEmpty')"/>
         </div>
 
     </div>
@@ -54,14 +69,9 @@
         name: "newView",
         components: {Page, Pagination},
         mounted() {
-            this.initNewData();
+            this.week();
         },
         methods: {
-            //点击下载
-            downLoad(item) {
-
-            },
-
             fmt(item, key) {
                 var json = JSON.parse(item.dataDetail);
                 return json[key];
@@ -69,31 +79,31 @@
 
             week() {
               this.beginTime = this.$utils.lastWeek();
-              console.log(this.beginTime);
               this.endTime = this.$utils.nowDate();
-              this.initNewData();
+              this.search(1, 10);
             },
             month() {
                this.beginTime = this.$utils.lastMonth();
-                console.log(this.beginTime);
                 this.endTime = this.$utils.nowDate();
-                this.initNewData();
+                this.search(1, 10);
             },
 
-            async initNewData(){
+            async search(currentPage, pageSize){
+                this.currentPage = currentPage;
+                this.pageSize = pageSize;
                 let params = new FormData();
                 params.append("beginTime", this.beginTime);
                 params.append("endTime", this.endTime);
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_searchNewData, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_newData, params, "POST");
                 if(data.code == 200) {
                     this.tableData = data.data;
-                    console.log(this.tableData);
                     for( var i = 0; i < this.tableData.length; i++) {
                         var json = JSON.parse(this.tableData[i].dataDetail);
                         this.dataDetail.push(json);
                     }
+                    this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
                 }
             },
@@ -103,10 +113,13 @@
                 beginTime: "",
                 endTime: "",
                 currentPage: 1,
-                pageSize: 4,
+                pageSize: 10,
                 tableData: [],
                 radio: '',
                 dataDetail: [],
+                form: {
+                    date: "1",
+                }
             }
         }
     }
@@ -115,20 +128,48 @@
 <style scoped>
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
-
-        .page {
-            text-align: left;
-        }
-        .nd-breadcrumb-top{
-            text-align: left;
+        .nd-list {
+            display: flex;
+            flex-wrap: nowrap;
+            margin-bottom: 20px;
         }
 
-        img {
-            border-style: none;
-            width: 210px;
-            height: 306px;
-            margin-left: 20px;
-            text-align: center;
+        .nd-news-list {
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .nd-list-title {
+            font-size: 14px;
+            font-family: 微软雅黑 !important;
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .nd-list-title > div {
+            min-width: 220px;
+            width: 220px;
+            font-size: 12px;
+            color: #fa541c;
+            text-align: left;
+            line-height: 36px;
+        }
+
+        .nd-list-item {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+        .nd-list-item > p:nth-of-type(1) {
+            width: 100px;
+            min-width: 100px;
+            text-align: right;
+            font-weight: 600;
+        }
+        .nd-list-item > p:nth-of-type(2) {
+            width: 120px;
+            min-width: 120px;
+            margin-left: 10px;
+            color: #333333;
         }
 
         .nd-title div:nth-of-type(1) {
@@ -145,17 +186,6 @@
             width: 900px;
         }
 
-        .nd-list-top {
-            margin-left: 10px;
-            line-height: 2;
-        }
-
-
-        .myCard {
-            width: 680px;
-            margin-top: 40px;
-        }
-
         .myCards1 {
             width: 200px;
             margin-top: 10px;
@@ -164,23 +194,13 @@
         }
 
         .nd-list {
-            width: 600px;
-            position: relative;
-            height: 130px;
-        }
-        .nd-lists {
-            position: absolute;
+            display: flex;
+            flex-wrap: nowrap;
         }
 
         .nd-picture {
-            width: 200px;
+            width: 160px;
             height: 100px;
-        }
-
-        .nd-list-title {
-            margin-left: 210px;
-            display: flex;
-            flex-wrap: nowrap;
         }
     }
 
@@ -199,8 +219,6 @@
         }
 
         .nd-news-list {
-            position: relative;
-            width: 100%;
         }
 
         .myCard {
@@ -233,12 +251,8 @@
             text-align: right;
         }
 
-        .myCards {
-            width: 200px;
-            margin-top: 10px;
-            font-size: 5px;
-            text-align: left;
-            margin-left: 68px;
+        .nv-container {
+            width: 100%;
         }
 
         .myCards1 {

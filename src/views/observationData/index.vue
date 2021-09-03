@@ -17,12 +17,12 @@
 				<div class="aiocloud-card">
 					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
 					     v-for="(item, index) in menus" :key="index"
-					     @click="selectEq(item)"
+					     @click="selectEq(item, index)"
 					>{{ item.name }}</div>
 				</div>
 
 				<div class="aiocloud-card">
-					<QuickView v-if="type==0"></QuickView>
+					<QuickView v-if="type==0" ref="quickViewRef"></QuickView>
 					<DataSearch v-if="type == 1"></DataSearch>
 					<NewView v-if="type==2"></NewView>
 					<UseRule v-if="type==3"></UseRule>
@@ -88,6 +88,11 @@
 	    },
 	    mounted() {
 		    this.initLanguage();
+            const observationDataIndex = this.$utils.getStorage("observationDataIndex");
+            if(observationDataIndex != undefined) {
+                this.menu = this.menus[observationDataIndex];
+                this.type = this.menu.type;
+            }
 	    },
 	    methods: {
             initLanguage() {
@@ -96,12 +101,13 @@
                 this.menus[2].name = this.$t('message.LatestData');
                 this.menus[3].name = this.$t('message.DataUsageRules');
                 this.menus[4].name = this.$t('message.Links');
+                this.$refs.quickViewRef.initLanguage();
             },
 
-            selectEq(item) {
+            selectEq(item, index) {
                 this.type = item.type;
                 this.menu = item;
-                this.initDataList();
+                this.$utils.setStorage("observationDataIndex", index);
             },
 	    }
     }

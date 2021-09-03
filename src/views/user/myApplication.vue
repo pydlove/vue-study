@@ -2,7 +2,7 @@
 	<!--eslint-disable-->
 	<div>
 		<el-dialog class="aiocw-dialog"
-		           title="我的申请"
+		           :title="$t('message.MyApplication')"
 		           :visible.sync="dialogVisible"
 		           width="1000px"
 		           :close-on-click-modal="false"

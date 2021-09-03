@@ -6,7 +6,7 @@
 		           :append-to-body="true"
 		           width="800px"
 		           :before-close="close">
-			<Login @closeNotConfirm="closeNotConfirm" @setUser="setUser"></Login>
+			<Login ref="loginRef" @closeNotConfirm="closeNotConfirm" @setUser="setUser"></Login>
 		</el-dialog>
 	</div>
 </template>
@@ -30,6 +30,7 @@
         methods: {
             open() {
                 this.dialogVisible = true;
+                this.$refs.loginRef.initLanguage();
             },
 
             close() {

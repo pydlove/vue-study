@@ -29,8 +29,11 @@
 								:src="item.picture"
 								:preview-src-list="[item.picture]"
 						></el-image>
-						<div class="nd-list-title" @click="lookDetail(item, index)">
+						<div v-if="language == 'zh'" class="nd-list-title" @click="lookDetail(item, index)">
 							<p>{{item.title }}</p>
+						</div>
+						<div v-else-if="language == 'en'" class="nd-list-title" @click="lookDetail(item, index)">
+							<p>{{item.enTitle }}</p>
 						</div>
 					</div>
 				</div>
@@ -69,6 +72,7 @@
 	            this.equipments[1].name = this.$t('message.OnsetSatellite');
 	            this.equipments[2].name = this.$t('message.WEHOTSatellite');
 	            this.equipments[3].name = this.$t('message.EquipmentDetail');
+	            this.language = this.$i18n.locale;
             },
 
             selectEq(item, index) {
@@ -97,6 +101,7 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_observation_equipment_searchAll, params, "POST");
                 if (data.code == 200) {
                     this.tableData = data.data;
+                    console.log(this.tableData)
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
                 }
@@ -105,6 +110,7 @@
 
         data() {
             return {
+                language: "zh",
                 equipment: {
                     name: this.$t('message.CHASESatellite'),
                     type: "0",

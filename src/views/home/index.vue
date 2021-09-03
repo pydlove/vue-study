@@ -190,7 +190,7 @@
                 if(page == "data"){
                     this.$utils.setStorage("observationDataIndex", index);
                     let routeData = this.$router.resolve({
-                        path: "/observeDevice",
+                        path: "/observationData",
                     });
                     window.open(routeData.href, '_blank');
                 }
