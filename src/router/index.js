@@ -24,7 +24,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: 'nav.Home'
+                title: this.$t('menu.home'),
             },
             path: '/home',
             name: 'home',
@@ -32,7 +32,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心新闻与资源'
+                title: this.$t('menu.newsResources'),
             },
             path: '/newsAndResource',
             name: 'newsAndResource',
@@ -40,7 +40,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心新闻与资源'
+                title: this.$t('menu.newsResources'),
             },
             path: '/newsDetail',
             name: 'newsDetail',
@@ -48,7 +48,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心观测设备'
+                title: this.$t('menu.observationEquipment'),
             },
             path: '/observeDevice',
             name: 'observeDevice',
@@ -56,7 +56,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心观测设备详情'
+                title: this.$t('menu.observationEquipment'),
             },
             path: '/observeDeviceDetail',
             name: 'observeDeviceDetail',
@@ -64,7 +64,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心图片与成果'
+                title: this.$t('menu.galleryAchievement'),
             },
             path: '/pictureAndAchievement',
             name: 'pictureAndAchievement',
@@ -72,7 +72,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心观测数据'
+                title: this.$t('menu.observationData'),
             },
 
             path: '/observationData',
@@ -81,7 +81,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心观测数据详情'
+                title: this.$t('menu.observationData'),
             },
 
             path: '/observationDataDetail',
@@ -90,7 +90,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心观测申请'
+                title: this.$t('menu.observationApplication'),
             },
 
             path: '/application',
@@ -99,7 +99,7 @@ const router = new Router({
         },
         {
             meta: {
-                title: '南京大学太阳数据中心关于我们'
+                title: this.$t('menu.AboutUs'),
             },
 
             path: '/aboutWe',
