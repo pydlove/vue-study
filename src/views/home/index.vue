@@ -11,7 +11,7 @@
                     </div>
                 </div>
 
-                <Header :currentMenu="'index'"></Header>
+                <Header :currentMenu="'index'"  @initLanguage="initLanguage"></Header>
             </div>
             <!--资讯-->
             <div class="nd-zx-box">
@@ -42,7 +42,8 @@
                                     <el-image  class="nd-picture" :src="item.picture" :preview-src-list="[item.picture]"></el-image>
                                     <div class="nd-zb-bottom1">
                                         <div class="nd-time">
-                                            <div class="time-style">{{item.title}}</div>
+                                            <div v-if="language == 'zh'" class="time-style">{{item.title}}</div>
+                                            <div v-else-if="language == 'en'" class="time-style">{{item.enTitle}}</div>
                                             <div class="time-style">{{item.createTime}}</div>
                                         </div>
                                     </div>
@@ -61,8 +62,11 @@
                         </div>
                         <div class="nd-news">
                             <div class="news-list">
-                                <div class="news-text" v-for="(item, index) in tableData" :key="index" @click="toDetail(item)">
+                                <div v-if="language == 'zh'" class="news-text" v-for="(item, index) in tableData" :key="index" @click="toDetail(item)">
                                     {{ index + 1}}. {{ item.title | ellipsis }}
+                                </div>
+                                <div v-else-if="language == 'en'" class="news-text" v-for="(item, index) in tableData" :key="index" @click="toDetail(item)">
+                                    {{ index + 1}}. {{ item.enTitle | ellipsis }}
                                 </div>
                             </div>
                         </div>
@@ -166,6 +170,7 @@
                 currentPage: 1,
                 pageSize: 10,
                 title: "",
+                language: "zh",
                 clientHeight: document.body.clientHeight,
                 name: this.$t('message.Links'),
             }
@@ -186,6 +191,10 @@
             this.initBannerPicture();
         },
         methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+            },
+
             jumpWeb(index, page){
                 if(page == "data"){
                     this.$utils.setStorage("observationDataIndex", index);

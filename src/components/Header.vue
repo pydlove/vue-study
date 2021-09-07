@@ -20,7 +20,7 @@
 			</div>
 			<div>
 				<div class="nd-menu-header" :style="{width: (language=='zh'?'120px':'170px')}">
-					<div :class="currentMenu=='pictureAchievement'?'nd-menu-active':''"
+					<div :class="currentMenu=='pictureAndAchievement'?'nd-menu-active':''"
 					     @click="selectMenu('pictureAndAchievement')">
 						{{ $t('menu.galleryAchievement') }}
 					</div>
