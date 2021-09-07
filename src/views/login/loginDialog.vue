@@ -34,9 +34,9 @@
             },
 
             close() {
-                this.$confirm('确定要关闭登录/注册？, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                this.$confirm(this.$t('message.outLoginAndRegister'), this.$t('message.Hint'), {
+                    confirmButtonText: this.$t('message.Sure'),
+                    cancelButtonText: this.$t('message.Cancle'),
                     type: 'warning'
                 }).then(() => {
                     this.dialogVisible = false;

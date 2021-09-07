@@ -92,6 +92,7 @@ module.exports = {
         pwdNotSame: "两次密码不一致，请重新输入",
         RegisterSuccess: "注册成功，请前去登录",
         ResetSuccess: "密码重置成功，去登陆",
+        outLoginAndRegister: "确定要关闭登录/注册？, 是否继续？",
         userInfo: "个人信息",
         avatar: "头像",
         email: "邮箱",

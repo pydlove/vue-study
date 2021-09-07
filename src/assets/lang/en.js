@@ -92,6 +92,7 @@ module.exports = {
         pwdNotSame: "The two passwords are inconsistent, please re-enter",
         RegisterSuccess: "Registered successfully, please log in",
         ResetSuccess: "Password reset is successful, go to login",
+        outLoginAndRegister: "Are you sure you want to close login/register? , Whether to continue?",
         userInfo: "Personal Information",
         avatar: "Avatar",
         email: "Mail",

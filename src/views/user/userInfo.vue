@@ -141,6 +141,8 @@
             open(row) {
                 this.dialogVisible = true;
                 this.form = row;
+                this.form.sex = Number(row.sex);
+                console.log(this.form)
                 if (row.avatar != null && row.avatar != "" && row.avatar != undefined) {
                     var photoArray = row.avatar.split("/")
                     this.fileName = photoArray[photoArray.length - 1];
