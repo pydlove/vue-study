@@ -61,11 +61,11 @@
                             </div>
                         </div>
                         <div class="nd-news">
-                            <div class="news-list">
-                                <div v-if="language == 'zh'" class="news-text" v-for="(item, index) in tableData" :key="index" @click="toDetail(item)">
+                            <div class="news-list" v-for="(item, index) in tableData" :key="index">
+                                <div v-if="language == 'zh'" class="news-text"   @click="toDetail(item)">
                                     {{ index + 1}}. {{ item.title | ellipsis }}
                                 </div>
-                                <div v-else-if="language == 'en'" class="news-text" v-for="(item, index) in tableData" :key="index" @click="toDetail(item)">
+                                <div v-else-if="language == 'en'" class="news-text"  @click="toDetail(item)">
                                     {{ index + 1}}. {{ item.enTitle | ellipsis }}
                                 </div>
                             </div>
@@ -187,12 +187,14 @@
         },
 
         mounted() {
+            this.initLanguage();
             this.initNewsData();
             this.initBannerPicture();
         },
         methods: {
             initLanguage() {
-                this.language = this.$i18n.locale;
+                this.language = this.$i18n.locale ;
+                console.log(this.language);
             },
 
             toObservationDevice(index) {
@@ -229,6 +231,8 @@
             },
 
             toDetail(item) {
+                console.log(this.language);
+                console.log(item.enTitle);
                 this.$utils.setStorage("newsDetail", item);
                 let routeData = this.$router.resolve({
                     path: "/newsDetail",
@@ -254,7 +258,6 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_achievement_searchList, param, "POST");
                 if (data.code == 200) {
                     this.pictureData = data.data;
-                    console.log(this.pictureData);
                     return true;
                 }
             },

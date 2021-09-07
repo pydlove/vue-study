@@ -206,6 +206,7 @@
 	                || this.currentMenu == 'observationData'
                     || this.currentMenu == 'pictureAndAchievement'
                     || this.currentMenu == 'newsAndResource'
+                    || this.currentMenu == 'index'
                 ) {
                     this.$emit("initLanguage");
                 }

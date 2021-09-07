@@ -1,8 +1,7 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<!--<NormalHeader ref="normalHeaderRef" :currentMenu="'pictureAndAchievement'" @initLanguage="initLanguage"></NormalHeader>-->
-		<NormalHeader :currentMenu="'pictureAndAchievement'" @initLanguage="initLanguage"></NormalHeader>
+		<NormalHeader :currentMenu="'pictureAndAchievement'"  @initLanguage="initLanguage"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
 				{{ $t('menu.home') }}
@@ -36,12 +35,15 @@
 				<div v-else>
 					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
 					     v-for="(item, index) in tableData" :key="index">
-						<el-image class="nd-picture" :src="item.video"
-						          :preview-src-list="[item.video]"></el-image>
+						<AiocloudVideo class="nd-picture" ref="aiocloudVideoRef"
+									   :sources="[{type: 'video/mp4', src: baseUrl + item.video}]">
+						</AiocloudVideo>
+
 						<div class="nd-list-title">
 							<p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
 							<p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
 						</div>
+
 					</div>
 				</div>
 
@@ -50,6 +52,7 @@
 				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
 			</div>
 		</div>
+		<Videos ref="videosRef" @search="search"></Videos>
 		<Footer></Footer>
 	</div>
 </template>
@@ -58,12 +61,15 @@
     import NormalHeader from "@/components/NormalHeader.vue";
     import Footer from "@/components/Footer";
     import Pagination from "@/components/Pagination";
+    import AiocloudVideo from "@/components/AiocloudVideo";
+    import Videos from "@/views/pictureAndAchievement/videos.vue";
 
     export default {
         name: "index",
-        components: {NormalHeader, Footer, Pagination},
+        components: {NormalHeader, Footer, Pagination, AiocloudVideo, Videos},
         data() {
             return {
+                baseUrl: "",
                 language: "zh",
                 tableData: [],
                 currentPage: 1,
@@ -87,6 +93,7 @@
             }
         },
         mounted() {
+            this.baseUrl = this.$aiocUrl.baseUrl;
 
             this.initLanguage();
             const imageIndex = this.$utils.getStorage("imageIndex");
@@ -97,6 +104,13 @@
             this.search(1, 10);
         },
         methods: {
+            videos(row) {
+                this.$refs.videosRef.form = {
+                    video: row.video,
+                };
+                this.$refs.videosRef.open();
+            },
+
             initLanguage() {
                 this.images[0].name = this.$t('message.beautifulImage');
                 this.images[1].name = this.$t('message.beautifulVideo');
