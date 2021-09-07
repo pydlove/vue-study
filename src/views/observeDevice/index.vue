@@ -68,10 +68,10 @@
 
         methods: {
             initLanguage() {
-	            this.equipments[0].name = this.$t('message.CHASESatellite');
-	            this.equipments[1].name = this.$t('message.OnsetSatellite');
-	            this.equipments[2].name = this.$t('message.WEHOTSatellite');
-	            this.equipments[3].name = this.$t('message.EquipmentDetail');
+	            this.equipments[1].name = this.$t('message.CHASESatellite');
+	            this.equipments[2].name = this.$t('message.OnsetSatellite');
+	            this.equipments[3].name = this.$t('message.WEHOTSatellite');
+	            this.equipments[0].name = this.$t('message.EquipmentDetail');
 	            this.language = this.$i18n.locale;
             },
 
@@ -94,6 +94,7 @@
             },
 
             async initDataList() {
+                console.log(this.type);
                 let params = new FormData();
                 params.append("type", this.type);
                 params.append("page", this.currentPage);
@@ -113,27 +114,27 @@
                 language: "zh",
                 equipment: {
                     name: this.$t('message.CHASESatellite'),
-                    type: "0",
+                    type: "1",
                 },
                 equipments: [
 	                {
 	                    name: this.$t('message.CHASESatellite'),
-		                type: "0",
+		                type: "1",
 	                },
                     {
                         name: this.$t('message.OnsetSatellite'),
-                        type: "1",
-                    },
-                    {
-                        name: this.$t('message.WEHOTSatellite'),
                         type: "2",
                     },
                     {
-                        name: this.$t('message.OtherEquipment'),
+                        name: this.$t('message.WEHOTSatellite'),
                         type: "3",
+                    },
+                    {
+                        name: this.$t('message.OtherEquipment'),
+                        type: "0",
                     }
                 ],
-                type: "0",
+                type: "1",
                 tableData: [],
                 currentPage: 1,
                 pageSize: 10,
