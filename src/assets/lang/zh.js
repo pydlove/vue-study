@@ -58,7 +58,7 @@ module.exports = {
         Download: "下载",
 
         beautifulImage: "精美图片",
-        beautifulVideo: "精美图片",
+        beautifulVideo: "精美视频",
 
         newsDesc: "主要解释新闻与资源这块主要展示什么内容",
         ViewNews: "查看新闻",
