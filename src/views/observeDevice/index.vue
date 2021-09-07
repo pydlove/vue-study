@@ -27,7 +27,6 @@
 								@click="lookDetail(item)"
 								class="nd-picture"
 								:src="item.picture"
-								:preview-src-list="[item.picture]"
 						></el-image>
 						<div v-if="language == 'zh'" class="nd-list-title" @click="lookDetail(item, index)">
 							<p>{{item.title }}</p>
