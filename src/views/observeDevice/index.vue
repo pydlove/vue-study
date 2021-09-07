@@ -11,8 +11,10 @@
 				{{ $t('menu.observationEquipment') }}
 			</el-breadcrumb-item>
 		</el-breadcrumb>
+
 		<div class="nd-background">
 			<div class="nd-content dffn">
+
 				<div class="aiocloud-card">
 					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
 					     v-for="(item, index) in equipments" :key="index"
@@ -67,10 +69,10 @@
 
         methods: {
             initLanguage() {
-	            this.equipments[1].name = this.$t('message.CHASESatellite');
-	            this.equipments[2].name = this.$t('message.OnsetSatellite');
-	            this.equipments[3].name = this.$t('message.WEHOTSatellite');
-	            this.equipments[0].name = this.$t('message.EquipmentDetail');
+	            this.equipments[0].name = this.$t('message.CHASESatellite');
+	            this.equipments[1].name = this.$t('message.OnsetSatellite');
+	            this.equipments[2].name = this.$t('message.WEHOTSatellite');
+	            this.equipments[3].name = this.$t('message.OtherEquipment');
 	            this.language = this.$i18n.locale;
             },
 
@@ -94,6 +96,7 @@
 
             async initDataList() {
                 let params = new FormData();
+                console.log(this.type);
                 params.append("type", this.type);
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
@@ -112,7 +115,7 @@
                 language: "zh",
                 equipment: {
                     name: this.$t('message.CHASESatellite'),
-                    type: "1",
+                    type: "0",
                 },
                 equipments: [
 	                {

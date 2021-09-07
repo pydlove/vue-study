@@ -11,9 +11,9 @@ module.exports = {
         news: '新闻列表',
 
         CHASESatellite: 'CHASE卫星',
-        OnsetSatellite: "Onset望远镜",
-        WEHOTSatellite: 'WEHOT卫星',
-        OtherEquipment: '其他设备',
+        OnsetSatellite: "ONSET望远镜",
+        WEHOTSatellite: 'WeHot望远镜',
+        OtherEquipment: '其它设备',
         EquipmentDetail: '设备详情',
 
         QuickView: '快速浏览',

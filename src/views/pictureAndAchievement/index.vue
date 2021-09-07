@@ -87,6 +87,7 @@
             }
         },
         mounted() {
+
             this.initLanguage();
             const imageIndex = this.$utils.getStorage("imageIndex");
             if(imageIndex != undefined) {

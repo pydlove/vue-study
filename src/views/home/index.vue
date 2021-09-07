@@ -24,7 +24,7 @@
                             </div>
                             <div class="nd-result-more">
                                 <div class="dffn-ac">
-                                    <div class="mr-20">
+                                    <div class="mr-20" @click="toPictureAndVideo(0)">
                                         {{ $t('message.more') }}
                                     </div>
                                     <div class="nd-more-arrow">
@@ -86,7 +86,7 @@
                 </div>
                 <div class="nd-result-more">
                     <div class="dffn-ac">
-                        <div class="mr-20">
+                        <div class="mr-20" @click="toObservationDevice(0)">
                             {{ $t('message.more') }}
                         </div>
                         <div class="nd-more-arrow">
@@ -193,6 +193,22 @@
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
+            },
+
+            toObservationDevice(index) {
+                this.$utils.setStorage("observationDataIndex", index);
+                let routeData = this.$router.resolve({
+                    path: "/observeDevice",
+                });
+                window.open(routeData.href, '_blank');
+            },
+
+            toPictureAndVideo(index) {
+                this.$utils.setStorage("imageIndex", index);
+                let routeData = this.$router.resolve({
+                    path: "/pictureAndAchievement",
+                });
+                window.open(routeData.href, '_blank');
             },
 
             jumpWeb(index, page){
