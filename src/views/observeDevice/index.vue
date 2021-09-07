@@ -94,7 +94,6 @@
             },
 
             async initDataList() {
-                console.log(this.type);
                 let params = new FormData();
                 params.append("type", this.type);
                 params.append("page", this.currentPage);
