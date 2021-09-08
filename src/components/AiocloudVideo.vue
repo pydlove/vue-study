@@ -27,7 +27,7 @@
 export default {
   name: "AiocloudVideo",
   props: [
-    "sources", "video"
+    "sources"
   ],
   data() {
     return {

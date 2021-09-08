@@ -24,7 +24,7 @@
 import AiocloudVideo from "@/components/AiocloudVideo";
 
 export default {
-  name: "video",
+  name: "videos",
   components: {AiocloudVideo},
   mounted() {
     this.baseUrl = this.$aiocUrl.baseUrl;

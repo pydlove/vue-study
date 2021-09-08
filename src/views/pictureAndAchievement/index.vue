@@ -35,10 +35,9 @@
 				<div v-else>
 					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
 					     v-for="(item, index) in tableData" :key="index">
-						<AiocloudVideo class="nd-picture" ref="aiocloudVideoRef"
+						<AiocloudVideo class="nd-picture"
 									   :sources="[{type: 'video/mp4', src: baseUrl + item.video}]">
 						</AiocloudVideo>
-
 						<div class="nd-list-title">
 							<p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
 							<p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
@@ -74,7 +73,12 @@
                 tableData: [],
                 currentPage: 1,
                 pageSize: 10,
-
+                sources: [
+                    {
+                        type: "video/mp4",
+                        src: " ",
+                    }
+                ],
                 type: "0",
                 image: {
                     name: this.$t('message.beautifulImage'),
@@ -104,6 +108,7 @@
             this.search(1, 10);
         },
         methods: {
+
             videos(row) {
                 this.$refs.videosRef.form = {
                     video: row.video,
@@ -141,6 +146,7 @@
                     let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_video_searchList, param, "POST");
                     if (data.code == 200) {
                         this.tableData = data.data;
+                        console.log(this.tableData);
                         this.$refs.pageRef.totalCount = data.totalCount;
                         return true;
                     }
