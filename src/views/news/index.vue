@@ -179,7 +179,7 @@
 		.nd-new-title-desc {
 			line-height: 22px;
 			color: #333333;
-			font-size: 14px;
+			font-size: 16px;
 			margin-top: 20px;
 		}
 

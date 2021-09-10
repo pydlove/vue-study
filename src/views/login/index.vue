@@ -1,6 +1,7 @@
 <template>
 	<!--eslint-disable-->
 	<div class="loginc">
+		<div class="na-close" @click="closeHtml"></div>
 		<!--登录-->
 		<div v-if="showLogin == 'login'" class="content">
 			<div class="content_input">
@@ -189,7 +190,7 @@
 </template>
 <!--eslint-disable-->
 <script>
-    import UserNotice from "@/views/login/userNotice.vue"
+    import UserNotice from "@/views/login/userNotice.vue";
 
     export default {
         name: "tindex",
@@ -202,6 +203,11 @@
             this.initLanguage();
         },
         methods: {
+            //页面关闭
+            closeHtml(){
+                this.$emit("closeNotConfirm");
+			},
+
             initLanguage() {
                 this.language = this.$i18n.locale;
             },
@@ -616,6 +622,14 @@
 
 	/*媒体查询（电脑）*/
 	@media screen and (min-width: 768px) {
+		.na-close{
+			position: absolute;
+			right: 0;
+			background-image: url("../../assets/img/icon/delete.png");
+			height: 25px;
+			width: 25px;
+			background-size: 100% 100%;
+		}
 		.dx-code {
 			width: 90px;
 			height: 30px;

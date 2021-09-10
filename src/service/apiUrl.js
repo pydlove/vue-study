@@ -6,10 +6,10 @@ export default {
     // baseUrl: "http://www.aiocloud.ltd",
 
    // rootUrl: "http://192.168.1.3:8080/",
-    baseUrl: "http://localhost:8080",
+   //  baseUrl: "http://localhost:8080",
 
-     /*rootUrl: "http://114.212.174.143:8088/",
-     baseUrl: "http://114.212.174.143:8088",*/
+     rootUrl: "http://114.212.174.143:8088/",
+     baseUrl: "http://114.212.174.143:8088",
 
     // rootUrl: "http://ahbfi.org.cn/",
     // baseUrl: "http://ahbfi.org.cn",
@@ -19,7 +19,7 @@ export default {
     web_service_v1_new_and_resource_search: "/web-service/v1/nd_news_resource/searchList",
 
     // 观测设备
-    web_service_v1_nd_observation_equipment_searchAll: "/web-service/v1/nd_observation_equipment/searchListByType",
+    web_service_v1_nd_observation_equipment_searchListByType: "/web-service/v1/nd_observation_equipment/searchListByType",
 
     // 图片与成果
     web_service_v1_nd_gallery_video_searchList: "/web-service/v1/nd_gallery_video/searchList",

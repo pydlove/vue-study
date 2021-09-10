@@ -21,9 +21,9 @@
                         <div v-if="language == 'zh'" class="nd-news-title">
                             {{ this.form.title}}
                         </div>
-                        <div v-else-if="language == 'en'" class="nd-news-title">
+                       <!-- <div v-else-if="language == 'en'" class="nd-news-title">
                             {{ this.form.enTitle}}
-                        </div>
+                        </div>-->
 
                         <div class="nd-news-time dffn-ac" >
                             <i class="el-icon-alarm-clock"></i>
@@ -31,7 +31,7 @@
                         </div>
 
                         <div v-if="language == 'zh'" class="nd-news-content" v-html="form.content"></div>
-                        <div v-else-if="language == 'en'" class="nd-news-content" v-html="form.enContent"></div>
+                       <!-- <div v-else-if="language == 'en'" class="nd-news-content" v-html="form.enContent"></div>-->
                     </div>
                 </div>
 

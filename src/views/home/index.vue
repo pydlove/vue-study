@@ -19,8 +19,8 @@
                     <div class="nd-left">
                         <div class="nd-left-title">
                             <div class="nd-result">
-                                <div>成果</div>
-                                <div>Results</div>
+                                <div> {{ $t('message.results') }}</div>
+                               <!-- <div>Results</div>-->
                             </div>
                             <div class="nd-result-more">
                                 <div class="dffn-ac">
@@ -81,8 +81,8 @@
         <div class="nd-introduction">
             <div class="nd-in-style">
                 <div class="nd-introduction-title">
-                    <div>介绍</div>
-                    <div>Introduction</div>
+                    <div>{{ $t('message.introduction') }}</div>
+                  <!--  <div>Introduction</div>-->
                 </div>
                 <div class="nd-result-more">
                     <div class="dffn-ac">
@@ -102,7 +102,7 @@
         <div class="nd-fl">
             <div class="pics6">
                 <div>
-                    <ul class="pics6_status4" @click="jumpWeb(0, 'equipment')">
+                    <ul class="pics6_status4" @click="jumpWeb(1, 'equipment')">
                         <li>
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/卫星.png')"/>
                         </li>
@@ -113,7 +113,7 @@
                     </ul>
                 </div>
                 <div>
-                    <ul class="pics6_status5" @click="jumpWeb(1, 'equipment')">
+                    <ul class="pics6_status5" @click="jumpWeb(2, 'equipment')">
                         <li>
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/望远镜.png')"/>
                         </li>
@@ -194,7 +194,6 @@
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale ;
-                console.log(this.language);
             },
 
             toObservationDevice(index) {
@@ -222,6 +221,7 @@
                     window.open(routeData.href, '_blank');
                 }
                 if(page == "equipment"){
+                    console.log(index);
                     this.$utils.setStorage("observeDeviceIndex", index);
                     let routeData = this.$router.resolve({
                         path: "/observeDevice"
@@ -231,8 +231,6 @@
             },
 
             toDetail(item) {
-                console.log(this.language);
-                console.log(item.enTitle);
                 this.$utils.setStorage("newsDetail", item);
                 let routeData = this.$router.resolve({
                     path: "/newsDetail",
@@ -274,7 +272,6 @@
 <style scoped>
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
-
 
         .nd-logo2 {
             margin-left: 20px;

@@ -26,6 +26,11 @@ import tail from '@/components/headAndTail/tail';
 Vue.use(tail);/*使用自定义的公共组件*/
 Vue.component('tail',tail);/*初始化公共组件*/
 
+//视频播放器
+import  VideoPlayer from 'vue-video-player'
+import 'vue-video-player/src/custom-theme.css'
+import 'video.js/dist/video-js.css'
+Vue.use(VideoPlayer)
 
 // iview
 import iView from 'iview';

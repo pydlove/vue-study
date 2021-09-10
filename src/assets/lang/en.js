@@ -57,6 +57,9 @@ module.exports = {
         Operate: "Operate",
         Download: "Download",
 
+        introduction: 'Introduction',
+        results: 'Results',
+
         beautifulImage: "Beautiful Image",
         beautifulVideo: "Beautiful Video",
 

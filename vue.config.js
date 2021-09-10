@@ -124,7 +124,6 @@ module.exports = {
         proxy: {
             '/web-service': {
                 target: 'http://localhost:9092',
-                // target: 'http://ahbfi.org.cn:8080',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}
@@ -137,6 +136,7 @@ module.exports = {
             },
             '/console-service': {
                 target: 'http://114.212.174.143:9091',
+                // target: 'http://localhost:9091',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}

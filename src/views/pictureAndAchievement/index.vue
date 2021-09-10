@@ -35,9 +35,7 @@
 				<div v-else>
 					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
 					     v-for="(item, index) in tableData" :key="index">
-						<AiocloudVideo class="nd-picture"
-									   :sources="[{type: 'video/mp4', src: baseUrl + item.video}]">
-						</AiocloudVideo>
+							<AiocloudVideo  class="nd-picture" :sources="[{type: 'video/mp4', src: baseUrl + item.video}]"></AiocloudVideo>
 						<div class="nd-list-title">
 							<p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
 							<p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
@@ -51,7 +49,6 @@
 				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
 			</div>
 		</div>
-		<Videos ref="videosRef" @search="search"></Videos>
 		<Footer></Footer>
 	</div>
 </template>
@@ -61,11 +58,10 @@
     import Footer from "@/components/Footer";
     import Pagination from "@/components/Pagination";
     import AiocloudVideo from "@/components/AiocloudVideo";
-    import Videos from "@/views/pictureAndAchievement/videos.vue";
 
     export default {
         name: "index",
-        components: {NormalHeader, Footer, Pagination, AiocloudVideo, Videos},
+        components: {NormalHeader, Footer, Pagination, AiocloudVideo},
         data() {
             return {
                 baseUrl: "",
@@ -98,7 +94,6 @@
         },
         mounted() {
             this.baseUrl = this.$aiocUrl.baseUrl;
-
             this.initLanguage();
             const imageIndex = this.$utils.getStorage("imageIndex");
             if(imageIndex != undefined) {
@@ -215,8 +210,8 @@
 
 		.nd-picture {
 			width: 100%;
-			height: 280px;
 		}
+
 
 		.pagination {
 			margin-top: 20px;

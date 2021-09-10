@@ -74,10 +74,10 @@
                         name: this.$t('message.DataUsageRules'),
                         type: "3",
                     },
-                    {
+                   /* {
                         name: this.$t('message.Links'),
                         type: "4",
-                    },
+                    },*/
                 ],
                 menu: {
                     name: this.$t('message.QuickView'),

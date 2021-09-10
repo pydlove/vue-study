@@ -6,9 +6,11 @@ module.exports = {
         Captcha: '验证码',
         Language: '语言',
         zh: '中文',
-        en: '英文',
+        en: 'English',
         more: '更多',
         news: '新闻列表',
+        introduction: '介绍',
+        results: '成果',
 
         CHASESatellite: 'CHASE卫星',
         OnsetSatellite: "ONSET望远镜",
@@ -139,7 +141,6 @@ module.exports = {
         EmailAddress: '邮箱地址',
         WeChat: '微信号',
         PostCode: '邮编',
-        ContactUs: '联系我们',
         TechnicalSupport: '技术支持',
         Company: '杭州爱启云网络科技有限公司',
     },
@@ -156,6 +157,7 @@ module.exports = {
         loginRegister :'登录/注册',
         LogDetail :'观测日志详情',
         AboutUs: '关于我们',
+        ContactUs: '联系我们',
     },
     el: {
         datepicker: {

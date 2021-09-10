@@ -44,6 +44,7 @@
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
         .friendlyTitle {
+            background: white;
             margin: 10px;
             text-align: left;
         }

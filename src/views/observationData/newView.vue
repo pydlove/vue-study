@@ -83,7 +83,7 @@
               this.search(1, 10);
             },
             month() {
-               this.beginTime = this.$utils.lastMonth();
+                this.beginTime = this.$utils.lastMonth();
                 this.endTime = this.$utils.nowDate();
                 this.search(1, 10);
             },

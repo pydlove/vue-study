@@ -306,6 +306,16 @@
 			margin-left: 50px;
 		}
 
+		.nd-language:hover {
+			border-top: 1pt solid #8c8c8c;
+			font-size: 15px;
+			line-height: 40px;
+			text-align: left;
+			margin-left: 50px;
+			cursor:pointer;
+		}
+
+
 		.nd-menu-header {
 			margin-left: 50px;
 		}
@@ -321,6 +331,7 @@
 		.nd-menu-header > div:hover {
 			color: #fa541c;
 			font-size: 16px;
+			cursor:pointer
 		}
 
 		.nd-menu-header > div:nth-of-type(1) {
