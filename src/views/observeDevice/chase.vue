@@ -1,23 +1,24 @@
 <template>
     <!--eslint-disable-->
     <div>
-        <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'" v-for="(item, index) in tableData" :key="index">
-            <el-image
-                    @click="lookDetail(item)"
-                    class="nd-picture"
-                    :src="item.picture"
-            ></el-image>
-            <div v-if="language == 'zh'" class="nd-list-title" @click="lookDetail(item, index)">
-                <p>{{item.title }}</p>
-            </div>
-            <div v-else-if="language == 'en'" class="nd-list-title" @click="lookDetail(item, index)">
-                <p>{{item.enTitle }}</p>
+        <div class="dffn">
+            <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'" v-for="(item, index) in tableData"
+                 :key="index">
+                <el-image
+                        class="nd-picture"
+                        :src="item.picture"
+                        :preview-src-list="[item.picture]"
+                ></el-image>
+                <div v-if="language == 'zh'" class="nd-list-title" @click="lookDetail(item, index)">
+                    <p>{{item.title }}</p>
+                </div>
+                <div v-else-if="language == 'en'" class="nd-list-title" @click="lookDetail(item, index)">
+                    <p>{{item.enTitle }}</p>
+                </div>
             </div>
         </div>
-        <div class="nd-breadcrumb-top">
-            <Pagination style="text-align: center" class="pagination" ref="pageRef"
-                        @search="search"></Pagination>
-        </div>
+        <Pagination style="text-align: center" class="pagination" ref="pageRef"
+                    @search="search"></Pagination>
     </div>
 </template>
 <!--eslint-disable-->
@@ -42,7 +43,16 @@
         },
         methods: {
             lookDetail(item, index) {
+                this.$utils.setStorage("observeDeviceDetail", item);
+                let routeData = this.$router.resolve({
+                    path: "/observeDeviceDetail",
+                    query: {
+                        index: index,
+                    }
+                });
+                window.open(routeData.href, '_blank');
             },
+
 
             initLanguage() {
                 this.language = this.$i18n.locale;
@@ -73,6 +83,7 @@
         .nd-eq-active {
             color: #fa541c !important;
         }
+
         .nd-eq-item {
             line-height: 40px;
             font-family: SC-Bold;
@@ -89,17 +100,15 @@
             margin-bottom: 10px;
         }
 
-        .nd-content >div:nth-of-type(1) {
+        .nd-content > div:nth-of-type(1) {
             width: 200px;
             min-width: 200px;
             height: 300px;
             margin-right: 20px;
         }
 
-        .nd-content >div:nth-of-type(2) {
+        .nd-content > div:nth-of-type(2) {
             width: calc(100% - 220px);
-            display: flex;
-            flex-wrap: wrap;
         }
 
         .nd-title div:nth-of-type(1) {

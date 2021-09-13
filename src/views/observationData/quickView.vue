@@ -1,7 +1,7 @@
 <template>
 	<!--eslint-disable-->
 	<div class="qv-container">
-		<div class="qv-date">
+		<!--<div class="qv-date">
 			<el-date-picker
 					v-model="year"
 					type="year"
@@ -12,6 +12,34 @@
 				{{ $t('message.Search') }}
 			</span>
 
+		<!--qv_main -> div	 :class="(index+1)%coefficient!=0?'mr-20':''"
+		</div>-->
+
+		<div class="qv-main">
+			<div v-for="(item, index) in aiocloudDates" :key="index">
+				<div class="date-header" :style="dateHeaderStyle">
+					{{ item.yearMonth }}
+				</div>
+				<div class="date-weeks" :style="dateWeeksStyle">
+					<div v-for="(witem, windex) in weeks" :key="windex" class="date-weeks-item" :style="dateItemStyle">
+						{{ witem }}
+					</div>
+				</div>
+				<div class="date-content" :style="dateContentStyle">
+					<div v-for="(citem, cindex) in item.aiocloudDays" :key="cindex" class="date-item"
+						 :style="citem.style + ' ' + dateItemStyle">
+						<span v-if="citem.level == '9'">{{ citem.day }}</span>
+						<el-popover v-else
+									placement="top-start"
+									width="200"
+									trigger="hover"
+									:content="fmtContent(citem)">
+							<div class="aiocloud-cursor" slot="reference" @click="toDetail(citem)">{{ citem.day }}</div>
+						</el-popover>
+					</div>
+				</div>
+
+			</div>
 		</div>
 
 		<div class="qv-tag dffn-ac">
@@ -27,34 +55,6 @@
 					<!--<el-radio :label="1">大</el-radio>-->
 				<!--</el-radio-group>-->
 			<!--</div>-->
-		</div>
-
-		<div class="qv-main">
-			<div v-for="(item, index) in aiocloudDates" :key="index"
-			     :class="(index+1)%coefficient!=0?'mr-20':''">
-				<div class="date-header" :style="dateHeaderStyle">
-					{{ item.yearMonth }}
-				</div>
-				<div class="date-weeks" :style="dateWeeksStyle">
-					<div v-for="(witem, windex) in weeks" :key="windex" class="date-weeks-item" :style="dateItemStyle">
-						{{ witem }}
-					</div>
-				</div>
-				<div class="date-content" :style="dateContentStyle">
-					<div v-for="(citem, cindex) in item.aiocloudDays" :key="cindex" class="date-item"
-					     :style="citem.style + ' ' + dateItemStyle">
-						<span v-if="citem.level == '9'">{{ citem.day }}</span>
-						<el-popover v-else
-								placement="top-start"
-								width="200"
-								trigger="hover"
-								:content="fmtContent(citem)">
-							<div class="aiocloud-cursor" slot="reference" @click="toDetail(citem)">{{ citem.day }}</div>
-						</el-popover>
-					</div>
-				</div>
-
-			</div>
 		</div>
 	</div>
 </template>
@@ -78,9 +78,9 @@
                     this.$t('week.Sat'),
                 ],
                 year: "",
-	            totalWidth: 680,
+	            totalWidth: 1600,
                 coefficient: 3,
-                dateWidth: 200,
+                dateWidth: 400,
                 itemWidthNum: "",
                 itemWidth: "",
                 dateHeaderStyle: "",
@@ -150,15 +150,16 @@
             },
 
             getYear() {
+                //今年年份  换成当前月
                 const date = new Date();
                 this.year = date;
             },
 
-            searchInfo() {
+           /* searchInfo() {
                 this.aiocloudDates = [];
                 this.mGetDate();
                 this.search();
-            },
+            },*/
 
             /**
              * 查询观测数据
@@ -173,11 +174,11 @@
                 if (data.code == 200) {
                     if (data.data) {
                         this.observationDataDates = data.data;
-                        console.log(this.observationDataDates);
                         let temp = [];
                         for (var i in this.aiocloudDates) {
                             const aiocloudDate = this.aiocloudDates[i];
                             const yearMonth = aiocloudDate.yearMonth;
+                            console.log(yearMonth);
                             if (yearMonth in this.observationDataDates) {
                                 aiocloudDate.observationDataDateMap = this.observationDataDates[yearMonth];
                             }
@@ -189,21 +190,19 @@
                             temp.push(aiocloudDate);
                         }
                         this.aiocloudDates = temp;
+
                     }
                     return true;
                 }
             },
 
             mGetDate() {
-                var year = this.year.getFullYear();
-                for (var i = 1; i < 13; i++) {
-                    var d = new Date(year, i, 0);
+                    var year = this.year.getFullYear();
+                    console.log(year);
+                    var d = new Date(year, this.year.getMonth() + 1, 0);
                     var days = d.getDate();
                     let month = d.getMonth() + 1;
-                    if (month < 10) {
-                        month = "0" + month;
-                    }
-                    var firstDate = new Date(year, month, 1);
+                    var firstDate = new Date(year, this.year.getMonth(), 1);
                     const iWeek = firstDate.getDay();
                     var sWeek;
                     switch (iWeek) {
@@ -229,13 +228,16 @@
                             sWeek = this.$t('week.Sun');
                             break;
                     }
+                if (month < 10) {
+                    month = "0" + month;
+                }
                     let aiocloudDate = {
                         yearMonth: year + '-' + month,
                         days: days,
                         firstDayWeek: sWeek,
                     };
                     this.aiocloudDates.push(aiocloudDate);
-                }
+                    console.log(this.aiocloudDates);
             },
 
             fmtAiocloudDate(aiocloudDate) {

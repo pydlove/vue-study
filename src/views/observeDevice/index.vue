@@ -21,11 +21,11 @@
                     >{{ item.name }}
                     </div>
                 </div>
-                <div class="aiocloud-card">
+                <div >
                     <Chase v-if="type == 1"></Chase>
-                    <OnSet v-else-if="type == 2"></OnSet>
-                    <WeHot v-else-if="type == 3"></WeHot>
-                    <Friendly v-else-if="type == 0"></Friendly>
+                    <OnSet v-if="type == 2"></OnSet>
+                    <WeHot v-if="type == 3"></WeHot>
+                    <Friendly v-if="type == 0"></Friendly>
                 </div>
             </div>
         </div>
@@ -135,8 +135,6 @@
 
         .nd-content >div:nth-of-type(2) {
             width: calc(100% - 220px);
-            display: flex;
-            flex-wrap: wrap;
         }
 
         .nd-title div:nth-of-type(1) {

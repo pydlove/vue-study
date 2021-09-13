@@ -2,10 +2,6 @@
     <!--eslint-disable-->
     <div class="nv-container">
         <div class="tl mt-20">
-            <el-radio-group v-model="form.date">
-                <el-radio label="1" @change="week">{{ $t('message.lastWeek') }}</el-radio>
-                <el-radio label="2" @change="month">{{ $t('message.lastMonth') }}</el-radio>
-            </el-radio-group>
         </div>
 
         <div class="nd-news-list" v-if="this.tableData.length > 0" >
@@ -81,11 +77,6 @@
               this.beginTime = this.$utils.lastWeek();
               this.endTime = this.$utils.nowDate();
               this.search(1, 10);
-            },
-            month() {
-                this.beginTime = this.$utils.lastMonth();
-                this.endTime = this.$utils.nowDate();
-                this.search(1, 10);
             },
 
             async search(currentPage, pageSize){

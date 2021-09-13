@@ -1,24 +1,23 @@
 <template>
     <!--eslint-disable-->
     <div>
-        <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
-             v-for="(item, index) in this.tableData" :key="index">
-            <el-image
-                    @click="lookDetail(item)"
-                    class="nd-picture"
-                    :src="item.picture"
-            ></el-image>
-            <div v-if="language == 'zh'" class="nd-list-title" @click="lookDetail(item, index)">
-                <p>{{item.title }}</p>
-            </div>
-            <div v-else-if="language == 'en'" class="nd-list-title" @click="lookDetail(item, index)">
-                <p>{{item.enTitle }}</p>
+        <div class="dffn">
+            <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
+                 v-for="(item, index) in tableData" :key="index">
+                <el-image
+                        class="nd-picture"
+                        :src="item.picture"
+                ></el-image>
+                <div v-if="language == 'zh'" class="nd-list-title" @click="lookDetail(item, index)">
+                    <p>{{item.title }}</p>
+                </div>
+                <div v-else-if="language == 'en'" class="nd-list-title" @click="lookDetail(item, index)">
+                    <p>{{item.enTitle }}</p>
+                </div>
             </div>
         </div>
-        <div class="nd-breadcrumb-top">
             <Pagination style="text-align: center" class="pagination" ref="pageRef"
                         @search="search"></Pagination>
-        </div>
     </div>
 </template>
 <!--eslint-disable-->
@@ -51,6 +50,18 @@
                 this.language = this.$i18n.locale;
             },
 
+            lookDetail(item, index) {
+                this.$utils.setStorage("observeDeviceDetail", item);
+                let routeData = this.$router.resolve({
+                    path: "/observeDeviceDetail",
+                    query: {
+                        index: index,
+                    }
+                });
+                window.open(routeData.href, '_blank');
+            },
+
+
             async search(currentPage, pageSize) {
                 this.pageSize = pageSize;
                 this.currentPage = currentPage;
@@ -72,7 +83,6 @@
 </script>
 
 <style scoped>
-
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
         .nd-eq-active {
@@ -104,8 +114,6 @@
 
         .nd-content > div:nth-of-type(2) {
             width: calc(100% - 220px);
-            display: flex;
-            flex-wrap: wrap;
         }
 
         .nd-title div:nth-of-type(1) {
