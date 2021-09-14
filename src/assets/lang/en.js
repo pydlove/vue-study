@@ -5,15 +5,15 @@ module.exports = {
         Password: 'Password',
         Captcha: 'Captcha',
         Language: 'Language',
-        zh: 'Chinese',
+        zh: '中文',
         en: 'English',
         more: 'more',
         news: 'News',
 
         CHASESatellite: 'CHASE Satellite',
-        OnsetSatellite: "ONSET Satellite",
-        WEHOTSatellite: 'WEHOT Satellite',
-        OtherEquipment: 'Other Equipment',
+        OnsetSatellite: "ONSET Telescope",
+        WEHOSTSatellite: 'WeHost Telescope',
+        OtherEquipment: 'Related Instruments',
         EquipmentDetail: 'Equipment Detail',
 
         QuickView: 'Quick Look',
@@ -44,7 +44,7 @@ module.exports = {
         lastMonth: "Last Month",
 
         ObservationDate: "Obs Date",
-        OrderStatus: "Order Status",
+        OrderStatus: "Proposal Status",
         ReviewCompleteds: "Review completeds",
         OrderStatusPlaceholder: "Please select order status to search",
         UnderReview: "Under Review",
@@ -52,7 +52,7 @@ module.exports = {
         AuditResultsPlaceholder: "Please select the audit result search",
         Rejected: "Rejected",
         Approved: "Approved",
-        OrderNo: "Order Number",
+        OrderNo: "Proposal Number",
         DownloadFile: "Download File",
         Operate: "Operate",
         Download: "Download",
@@ -60,11 +60,13 @@ module.exports = {
         introduction: 'Introduction',
         results: 'Results',
 
-        beautifulImage: "Beautiful Image",
-        beautifulVideo: "Beautiful Video",
+        beautifulImage: "Solar Images",
+        beautifulVideo: "Solar Movies",
+
 
         newsDesc: "Mainly explain what the news and resources are mainly displayed",
         ViewNews: "Look News",
+        paperAchievement: "Paper Achievements",
 
         Welcome: "Welcome",
         WelcomeToRegister: "Welcome To Register",
@@ -147,10 +149,10 @@ module.exports = {
     },
     menu:{
         home:'Home',
-        observationEquipment :'Equipment',
+        observationEquipment :'Instruments',
         observationData :'Data Archive',
-        observationApplication :'Application',
-        galleryAchievement :'Gallery Achievement',
+        observationApplication :'Observation Application',
+        galleryAchievement :'Gallery & Results',
         newsResources :'News Resources',
         myInfo :'Personal Information',
         myApplication :'My Application',

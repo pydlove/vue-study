@@ -14,7 +14,7 @@ module.exports = {
 
         CHASESatellite: 'CHASE卫星',
         OnsetSatellite: "ONSET望远镜",
-        WEHOTSatellite: 'WeHot望远镜',
+        WEHOSTSatellite: 'WeHost望远镜',
         OtherEquipment: '其它设备',
         EquipmentDetail: '设备详情',
 
