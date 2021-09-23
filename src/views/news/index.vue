@@ -42,6 +42,7 @@
 						</el-button>
 					</div>
 				</div>
+
 			</div>
 
 			<div class="nd-breadcrumb-top">
@@ -199,6 +200,9 @@
 			min-height: 80px;
 			margin-right: 20px;
 		}
+		.el-icon-alarm-clock {
+			margin-right: 5px;
+		}
 
 		.nd-list-title > p:nth-of-type(1) {
 			line-height: 45px;
@@ -206,9 +210,7 @@
 			color: #333333;
 			text-align: left;
 		}
-		.el-icon-alarm-clock {
-			margin-right: 5px;
-		}
+
 
 		.nd-list-title > p:nth-of-type(1):hover{
 			color: #fa541c;
@@ -281,21 +283,6 @@
 			text-align: right;
 		}
 
-		.myCards {
-			width: 200px;
-			margin-top: 10px;
-			font-size: 5px;
-			text-align: left;
-			margin-left: 68px;
-		}
-
-		.myCards1 {
-			width: 150px;
-			margin-top: 5px;
-			font-size: 5px;
-			text-align: left;
-			margin-left: 68px;
-		}
 
 	}
 </style>

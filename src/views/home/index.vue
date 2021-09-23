@@ -6,8 +6,7 @@
                 <div class="nd-tm-left">
                     <van-image class="nd-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
                     <div class="nd-title">
-                        <div>太阳数据分析中心</div>
-                        <div>Sun data analysis center</div>
+                        <div> {{ $t('message.SolarData') }}</div>
                     </div>
                 </div>
 
@@ -107,8 +106,7 @@
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/卫星.png')"/>
                         </li>
                         <div class="nd-sate" >
-                            <div class="nd-sate1">卫星</div>
-                            <div class="nd-sate2">Satellit</div>
+                            <div class="nd-sate1">{{ $t('message.satellit') }}</div>
                         </div>
                     </ul>
                 </div>
@@ -118,8 +116,7 @@
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/望远镜.png')"/>
                         </li>
                         <div class="nd-sate">
-                            <div class="nd-sate1">望远镜</div>
-                            <div class="nd-sate2">Telescope</div>
+                            <div class="nd-sate1">{{ $t('message.telescope') }}</div>
                         </div>
                     </ul>
                 </div>
@@ -129,8 +126,7 @@
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/仪器.png')"/>
                         </li>
                         <div class="nd-sate">
-                            <div class="nd-sate1">仪器</div>
-                            <div class="nd-sate2">Instrument</div>
+                            <div class="nd-sate1">{{ $t('message.instrument') }}</div>
                         </div>
                     </ul>
                 </div>
@@ -140,8 +136,7 @@
                             <van-image class="nd-logo2" :src="require('@/assets/img/logo/站点.png')"/>
                         </li>
                         <div class="nd-sate">
-                            <div class="nd-sate1">站点</div>
-                            <div class="nd-sate2">Site</div>
+                            <div class="nd-sate1">{{ $t('message.site') }}</div>
                         </div>
                     </ul>
                 </div>

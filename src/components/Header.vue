@@ -2,7 +2,7 @@
 	<!--eslint-disable-->
 	<div class="nd-header-container">
 		<div class="nd-tm-right">
-			<div class=" nd-menu-header" :style="{width: (language=='zh'?'120px':'152px')}">
+			<div class=" nd-menu-header" :style="{width: (language=='zh'?'120px':'100px')}">
 				<div :class="currentMenu=='index'?'nd-menu-active':''" @click="selectMenu('index')">
 					{{ $t('menu.home') }}
 				</div>
@@ -303,7 +303,7 @@
 			font-size: 15px;
 			line-height: 40px;
 			text-align: left;
-			margin-left: 50px;
+			margin-left: 20px;
 		}
 
 		.nd-language:hover {
@@ -311,19 +311,18 @@
 			font-size: 15px;
 			line-height: 40px;
 			text-align: left;
-			margin-left: 50px;
+			margin-left: 20px;
 			cursor:pointer;
 		}
 
 
 		.nd-menu-header {
-			margin-left: 50px;
+			margin-left: 20px;
 		}
 
 		.nd-menu-header > div {
 			font-size: 15px;
 			line-height: 40px;
-			/*min-width: 155px;*/
 			width: 100%;
 			text-align: left;
 		}

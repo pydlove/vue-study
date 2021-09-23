@@ -2,21 +2,34 @@
     <!--eslint-disable-->
     <div class="friendlyTitle">
             <div class="firstConnect">
-                <div class="connectName">BBSO地面天文台：</div>
-                <div class="connectStyle" @click="jumpWeb1">http://www.bbso.njit.edu/</div>
+                <div class="connectName">虚拟太阳天文台（vso）：</div>
+                <div class="connectStyle" @click="jumpWeb1">https://umbra.nascom.nasa.gov/vso/</div>
             </div>
             <div class="SecondConnect">
-                <div class="connectName">Hinode/EIS Homepage：</div>
-                <div class="connectStyle" @click="jumpWeb2">http://solarb.mssl.ucl.ac.uk/SolarB/</div>
+                <div class="connectName">Joint Science Operations Center (JSOC)：</div>
+                <div class="connectStyle" @click="jumpWeb2">http://jsoc.stanford.edu/</div>
             </div>
             <div class="ThreeConnect">
-                <div class="connectName">Solar Dynamics Observatory：</div>
-                <div class="connectStyle" @click="jumpWeb3"> https://sdo.gsfc.nasa.gov/</div>
+                <div class="connectName">太阳动力学天文台：</div>
+                <div class="connectStyle" @click="jumpWeb3">https://sdo.gsfc.nasa.gov/</div>
             </div>
-            <div class="ForeConnect">
-                <div class="connectName"> IRIS：</div>
-                <div class="connectStyle" @click="jumpWeb4">https://iris.gsfc.nasa.gov/</div>
+            <div class="ThreeConnect">
+                <div class="connectName"> 抚仙湖观测站：</div>
+                <div class="connectStyle" @click="jumpWeb4">http://fso.ynao.ac.cn/</div>
             </div>
+        <div class="ThreeConnect">
+            <div class="connectName"> BBSO地面天文台：</div>
+            <div class="connectStyle" @click="jumpWeb5">http://www.bbso.njit.edu/</div>
+        </div>
+        <div class="ThreeConnect">
+            <div class="connectName">Hinode/EIS：</div>
+            <div class="connectStyle" @click="jumpWeb6">http://solarb.mssl.ucl.ac.uk/SolarB/</div>
+        </div>
+        <div class="ForeConnect">
+            <div class="connectName">IRIS：</div>
+            <div class="connectStyle" @click="jumpWeb7">https://iris.gsfc.nasa.gov/</div>
+        </div>
+
     </div>
 </template>
 <!--eslint-disable-->
@@ -25,17 +38,27 @@
         name: "friendly",
         methods: {
             jumpWeb1() {
-                window.open("http://www.bbso.njit.edu/")
+                window.open("https://umbra.nascom.nasa.gov/vso/")
             },
             jumpWeb2() {
-                window.open("http://solarb.mssl.ucl.ac.uk/SolarB/")
+                window.open("http://jsoc.stanford.edu/")
             },
             jumpWeb3() {
-                window.open(" https://sdo.gsfc.nasa.gov/")
+                window.open("https://sdo.gsfc.nasa.gov/")
             },
             jumpWeb4() {
+                window.open("http://fso.ynao.ac.cn/")
+            },
+            jumpWeb5() {
+                window.open("http://www.bbso.njit.edu/")
+            },
+            jumpWeb6() {
+                window.open("http://solarb.mssl.ucl.ac.uk/SolarB/")
+            },
+            jumpWeb7() {
                 window.open("https://iris.gsfc.nasa.gov/")
             },
+
         },
     }
 </script>

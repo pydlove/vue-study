@@ -12,9 +12,11 @@ module.exports = {
         introduction: '介绍',
         results: '成果',
 
+        SolarData: '太阳科学数据中心',
+
         CHASESatellite: 'CHASE卫星',
         OnsetSatellite: "ONSET望远镜",
-        WEHOSTSatellite: 'WeHost望远镜',
+        WEHOTSatellite: 'WeHost望远镜',
         OtherEquipment: '其它设备',
         EquipmentDetail: '设备详情',
 
@@ -23,6 +25,11 @@ module.exports = {
         LatestData: '最新数据',
         DataUsageRules: '数据使用规则',
         Links: '友情链接',
+
+        satellit: '卫星',
+        telescope: '望远镜',
+        instrument: '仪器',
+        site: '站点',
 
         ObservationTime: '观测时间',
         ObservationTarget: '观测目标',
@@ -59,9 +66,9 @@ module.exports = {
         Operate: "操作",
         Download: "下载",
 
-        beautifulImage: "精美图片",
-        beautifulVideo: "精美视频",
-        paperAchievement: "论文成果",
+        beautifulImage: "图库",
+        beautifulVideo: "视频",
+        paperAchievement: "论文",
 
         newsDesc: "主要解释新闻与资源这块主要展示什么内容",
         ViewNews: "查看新闻",

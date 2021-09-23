@@ -44,30 +44,26 @@
                     </div>
                 </div>
 
-                <div v-else-if="this.type == '2'">
-                    <div v-for="(item, index) in tableData" :key="index">
+                <div class="nd-paper-right" v-else-if="this.type == '2'">
+                    <div class="nd-paper" v-for="(item, index) in tableData" :key="index">
                         <div>
-                            <div class="nd-list-title">
-                                <div class="nd-list-item">
-                                    <p>{{ item.title }}</p>
+                            <div class="nd-list-title1" @click="jumpWeb(item.hyperlink)">
+                                <p class="nd-paper-title">{{ item.title }}</p>
+                                <div class="nd-paper-content">
+                                    <p class="nd-paper-periodical">{{ item.author }}</p>
+                                    <p class="nd-paper-hyperlink">{{ item.periodical }}</p>
                                 </div>
-                                <div class="nd-list-item">
-                                    <p>{{ item.periodical }}</p>
-                                </div>
-                                <div class="nd-list-item">
-                                    <p>{{ item.hyperlink }}</p>
-                                </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="nd-breadcrumb-top">
-                <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
-            </div>
+            <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
         </div>
-        <Footer></Footer>
+    </div>
+    <Footer></Footer>
     </div>
 </template>
 <!--eslint-disable-->
@@ -126,6 +122,11 @@
         },
         methods: {
 
+            jumpWeb(item){
+              //点击实现超链接跳转
+               window.open(item);
+            },
+
             videos(row) {
                 this.$refs.videosRef.form = {
                     video: row.video,
@@ -144,12 +145,14 @@
                 this.type = item.type;
                 this.image = item;
                 this.$utils.setStorage("imageIndex", index);
-                if (this.type == "0" || this.type == "0") {
+                if (this.type == "0") {
                     this.search(1, 10);
+                } else if(this.type == "1"){
+                    this.search(1, 10);
+                    location.reload();
                 } else if (this.type == "2") {
                     this.searchPaperAchievement(1, 10);
                 }
-                console.log(this.type);
             },
 
             async searchPaperAchievement(currentPage, pageSize) {
@@ -195,24 +198,38 @@
 
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
-        .nd-eq-active {
-            color: #fa541c !important;
-        }
-
-        .nd-eq-item {
-            line-height: 40px;
-            font-family: SC-Bold;
+        .nd-list-title1 {
+            line-height: 35px;
             font-size: 16px;
             color: #333333;
+            text-align: left;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+        .nd-paper-right {
+            width: 100%;
         }
 
-        .nd-eq-item:hover {
-            color: #fa541c;
+        .nd-paper{
+            background: white;
+            width: 100%;
+            margin-top: 10px;
         }
 
-        .nd-obd-item {
-            width: calc(50% - 5px);
-            margin-bottom: 10px;
+        .nd-paper-content{
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .nd-paper-hyperlink{
+            margin-left: 20px;
+        }
+
+        .nd-list-title > p:nth-of-type(1) {
+            line-height: 45px;
+            font-size: 16px;
+            color: #333333;
+            text-align: left;
         }
 
         .nd-content > div:nth-of-type(1) {
@@ -226,6 +243,10 @@
             width: calc(100% - 220px);
             display: flex;
             flex-wrap: wrap;
+        }
+
+        .nd-news-list {
+            width: calc(100% - 270px);
         }
 
         .nd-title div:nth-of-type(1) {
@@ -262,26 +283,6 @@
     /*媒体查询（手机）*/
     @media screen and (max-width: 768px) {
 
-        .nd-card {
-            width: 300px;
-            background: white;
-            background: #f0f0f0;
-        }
-
-        .nd-list-top {
-            margin-left: 10px;
-            line-height: 2;
-        }
-
-        .nd-news-list {
-            position: relative;
-            width: 100%;
-        }
-
-        .myCard {
-            width: 100%;
-        }
-
         .nd-list {
             margin-top: 10px;
             position: relative;
@@ -312,12 +313,5 @@
             margin-left: 68px;
         }
 
-        .myCards1 {
-            width: 150px;
-            margin-top: 5px;
-            font-size: 5px;
-            text-align: left;
-            margin-left: 68px;
-        }
     }
 </style>

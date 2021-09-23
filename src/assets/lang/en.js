@@ -10,9 +10,11 @@ module.exports = {
         more: 'more',
         news: 'News',
 
+        SolarData: 'Solar Science Data Center',
+
         CHASESatellite: 'CHASE Satellite',
         OnsetSatellite: "ONSET Telescope",
-        WEHOSTSatellite: 'WeHost Telescope',
+        WEHOTSatellite: 'WeHost Telescope',
         OtherEquipment: 'Related Instruments',
         EquipmentDetail: 'Equipment Detail',
 
@@ -58,11 +60,15 @@ module.exports = {
         Download: "Download",
 
         introduction: 'Introduction',
-        results: 'Results',
+        results: 'Achievements',
 
         beautifulImage: "Solar Images",
         beautifulVideo: "Solar Movies",
 
+        satellit: 'Satellit',
+        telescope: 'Telescope',
+        instrument: 'Instrument',
+        site: 'Site',
 
         newsDesc: "Mainly explain what the news and resources are mainly displayed",
         ViewNews: "Look News",
@@ -151,9 +157,9 @@ module.exports = {
         home:'Home',
         observationEquipment :'Instruments',
         observationData :'Data Archive',
-        observationApplication :'Observation Application',
+        observationApplication :'Application',
         galleryAchievement :'Gallery & Results',
-        newsResources :'News Resources',
+        newsResources :'News & Resources',
         myInfo :'Personal Information',
         myApplication :'My Application',
         logOut :'Log Out',
