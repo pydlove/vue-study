@@ -11,9 +11,20 @@
 				<div :class="currentMenu=='observeDevice'?'nd-menu-active':''" @click="selectMenu('observeDevice')">
 					{{ $t('menu.observationEquipment') }}
 				</div>
-				<div :class="currentMenu=='observationData'?'nd-menu-active':''" @click="selectMenu('observationData')">
-					{{ $t('menu.observationData') }}
+
+				<div :class="currentMenu=='observationData'?'nd-menu-active':''" >
+					<el-dropdown @command="handleCommand">
+						  <span :class="currentMenu=='observationData'?'nd-menu-active':''">
+							{{ $t('menu.observationData') }}
+						  </span>
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item  command="0">{{ $t('menu.chaseSatellite') }}</el-dropdown-item>
+							<el-dropdown-item  command="1">{{ $t('menu.onsetSatellite') }}</el-dropdown-item>
+							<el-dropdown-item  command="2">{{ $t('menu.wehostSatellite') }}</el-dropdown-item>
+						</el-dropdown-menu>
+					</el-dropdown>
 				</div>
+
 				<div :class="currentMenu=='application'?'nd-menu-active':''" @click="selectMenu('application')">
 					{{ $t('menu.observationApplication') }}
 				</div>
@@ -124,6 +135,19 @@
             this.getUserInfo();
         },
         methods: {
+            //跳转到观测数据集页面
+            handleCommand(command) {
+                if(command == "0"){
+                    this.$router.push({path: '/chaseSatellite'});
+				} else if(command == "1"){
+                    this.$router.push({path: '/observationData'});
+				} else if(command == "2"){
+
+				}
+
+            },
+
+
             showMyApplication() {
                 this.$refs.myApplicationRef.open();
             },
@@ -203,7 +227,6 @@
                 this.$i18n.locale = this.language;
                 this.$utils.setStorage("language", this.language);
                 if (   this.currentMenu == 'observeDevice'
-	                || this.currentMenu == 'observationData'
                     || this.currentMenu == 'pictureAndAchievement'
                     || this.currentMenu == 'newsAndResource'
                     || this.currentMenu == 'index'
@@ -231,10 +254,6 @@
                     case 'pictureAndAchievement':
                         this.$utils.removeStorage("imageIndex");
                         this.$router.push({path: '/pictureAndAchievement'})
-                        break;
-                    case 'observationData':
-                        this.$utils.removeStorage("observationDataIndex");
-                        this.$router.push({path: '/observationData'})
                         break;
                     case 'application':
                         this.$router.push({path: '/application'})

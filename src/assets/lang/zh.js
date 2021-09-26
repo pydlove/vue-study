@@ -26,6 +26,12 @@ module.exports = {
         DataUsageRules: '数据使用规则',
         Links: '友情链接',
 
+        DataProduct: '数据介绍',
+        DataSearch: '数据查询',
+        NewData: '最新数据',
+        AnalysisSoftware: '分析软件',
+        DataUseRule: '数据使用规则',
+
         satellit: '卫星',
         telescope: '望远镜',
         instrument: '仪器',
@@ -33,7 +39,7 @@ module.exports = {
 
         ObservationTime: '观测时间',
         ObservationTarget: '观测目标',
-        ObservationWavelength: '观测波长',
+        ObservationWavelength: '观测波段',
         ExposureTime: '曝光时间',
         ObservationVideo: '观测视频',
         downloadObsVideo: '点击下载',
@@ -43,6 +49,11 @@ module.exports = {
         HaveObservationData: '有观测数据',
         NoObservationDataEmpty: '暂无观测数据',
         AllDay: '查看全天',
+        lineSpectrum: '谱线',
+        observingPattern: '观测模式',
+        ObservationCoordinate: '观测坐标',
+        exposureTime: '曝光时间',
+        inputExposureTime: '请输入曝光时间',
 
         inputObsTarge: "请输入观测目标",
         inputObsWaveLength: "请输入观测波长",
@@ -166,6 +177,10 @@ module.exports = {
         LogDetail :'观测日志详情',
         AboutUs: '关于我们',
         ContactUs: '联系我们',
+
+        chaseSatellite: 'CHASE卫星',
+        onsetSatellite: "ONSET望远镜",
+        wehostSatellite: 'WeHost望远镜',
     },
     el: {
         datepicker: {

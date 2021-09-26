@@ -135,8 +135,8 @@ module.exports = {
                 pathRewrite: {}
             },
             '/console-service': {
-                target: 'http://114.212.174.143:9091',
-               /* target: 'http://localhost:9091',*/
+                /*target: 'http://114.212.174.143:9091',*/
+                target: 'http://localhost:9091',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}

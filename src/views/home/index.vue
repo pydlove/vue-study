@@ -37,8 +37,11 @@
 
                         <div class="nd-zx-bg">
                             <el-carousel >
-                                <el-carousel-item v-for="(item,index) in this.pictureData" v-if="index < 5" :key="index">
-                                    <el-image  class="nd-picture" :src="item.picture"></el-image>
+                                <el-carousel-item v-for="(item,index) in this.pictureData" v-if="index < 6" :key="index">
+                                    <viewer>
+                                        <el-image  class="nd-picture" :src="item.picture">
+                                        </el-image>
+                                    </viewer>
                                     <div class="nd-zb-bottom1">
                                         <div class="nd-time">
                                             <div v-if="language == 'zh'" class="time-style">{{item.title}}</div>
@@ -264,9 +267,29 @@
     }
 </script>
 
+<style>
+    .el-carousel__indicators {
+        position: absolute;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        z-index: 2;
+        width: 300px;
+    }
+</style>
+
 <style scoped>
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
+
+        .el-carousel__indicators {
+            position: absolute;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            z-index: 2;
+            width: 300px;
+        }
 
         .nd-logo2 {
             margin-left: 20px;
@@ -347,22 +370,6 @@
             margin-right: 70px;
         }
 
-        .nd-menu-header41 {
-            border-top: 2px solid #ffffff;
-            font-size: 16px;
-            line-height: 40px;
-            width: 98px;
-            margin-left: 310px;
-            margin-top: 8px;
-        }
-
-        .nd-logo1 {
-            position: absolute;
-            width: 50px;
-            margin-left: 20px;
-            height: 15px;
-        }
-
         .news-list {
         }
 
@@ -377,15 +384,6 @@
         .news-text:hover {
             text-decoration: underline;
             color: #fa541c;
-        }
-
-        .nd-menu-header4 {
-            border-top: 2px solid #ffffff;
-            font-size: 16px;
-            line-height: 40px;
-            width: 93px;
-            margin-left: 345px;
-            margin-top: 8px;
         }
 
         .nd-time {
@@ -426,23 +424,6 @@
             height: 20px;
             font-family: SC-Light;
             margin-left: 23px;
-        }
-
-        .in-more {
-            position: absolute;
-            padding-top: 60px;
-            margin-left: 630px;
-        }
-
-        .nd-introduction-style {
-            color: white;
-            font-size: 26px;
-        }
-
-        .in-style {
-            color: #ffffff;
-            font-size: 10px;
-            margin-top: 10px;
         }
 
         .nd-title div:nth-of-type(1) {

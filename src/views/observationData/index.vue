@@ -30,6 +30,7 @@
 				</div>
 			</div>
 		</div>
+
 		<Footer></Footer>
 	</div>
 </template>
@@ -42,6 +43,7 @@
     import UseRule from "@/views/observationData/useRule.vue";
     import Friendly from "@/views/observationData/friendly.vue";
     import DataSearch from "@/views/observationData/dataSearch.vue";
+
 
     export default {
         name: "index",
@@ -74,10 +76,6 @@
                         name: this.$t('message.DataUsageRules'),
                         type: "3",
                     },
-                   /* {
-                        name: this.$t('message.Links'),
-                        type: "4",
-                    },*/
                 ],
                 menu: {
                     name: this.$t('message.QuickView'),
@@ -88,12 +86,15 @@
 	    },
 	    mounted() {
 		    this.initLanguage();
-            const observationDataIndex = this.$utils.getStorage("observationDataIndex");
+            /*const observationDataIndex = this.$utils.getStorage("observationDataIndex");
             if(observationDataIndex != undefined) {
                 this.menu = this.menus[observationDataIndex];
                 this.type = this.menu.type;
-            }
-	    },
+            }*/
+        },
+
+
+
 	    methods: {
             initLanguage() {
                 this.menus[0].name = this.$t('message.QuickView');
@@ -101,6 +102,7 @@
                 this.menus[2].name = this.$t('message.LatestData');
                 this.menus[3].name = this.$t('message.DataUsageRules');
                 this.menus[4].name = this.$t('message.Links');
+
                 this.$refs.quickViewRef.initLanguage();
             },
 

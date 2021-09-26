@@ -24,6 +24,12 @@ module.exports = {
         DataUsageRules: 'Data Policy',
         Links: 'Links',
 
+        DataProduct: 'Data Product',
+        DataSearch: 'Data Search',
+        NewData: 'New Data',
+        AnalysisSoftware: 'Analysis Software',
+        DataUseRule: 'Data Use Rule',
+
         ObservationTime: 'Obs Date',
         ObservationTarget: 'Obs Target',
         ObservationWavelength: 'Wavelength',
@@ -36,6 +42,11 @@ module.exports = {
         HaveObservationData: 'Have Observation',
         NoObservationDataEmpty: 'No Observation Data',
         AllDay: 'Query All Day',
+        lineSpectrum: 'Line Spectrum',
+        observingPattern: 'Observe Pattern',
+        ObservationCoordinate: 'Observation Coordinate',
+        exposureTime: 'Exposure Time',
+        inputExposureTime: 'Please enter the Exposure Time',
 
         inputObsTarge: "Please enter the observation target",
         inputObsWaveLength: "Please enter the observation wavelength",
@@ -167,6 +178,11 @@ module.exports = {
         LogDetail :'Observation Log Details',
         AboutUs: 'About Us',
         ContactUs: 'Contact Us',
+
+        chaseSatellite: 'CHASE Satellite',
+        onsetSatellite: "ONSET Telescope",
+        wehostSatellite: 'WeHost Telescope',
+
     },
     el: {
         datepicker: {

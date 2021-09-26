@@ -6,10 +6,10 @@ export default {
     // baseUrl: "http://www.aiocloud.ltd",
 
    // rootUrl: "http://192.168.1.3:8080/",
-   /* baseUrl: "http://localhost:8080",*/
+    baseUrl: "http://localhost:8080",
 
-     rootUrl: "http://114.212.174.143:8088/",
-     baseUrl: "http://114.212.174.143:8088",
+     /*rootUrl: "http://114.212.174.143:8088/",
+     baseUrl: "http://114.212.174.143:8088",*/
 
     // rootUrl: "http://ahbfi.org.cn/",
     // baseUrl: "http://ahbfi.org.cn",
@@ -55,4 +55,6 @@ export default {
     //查询数据
     web_service_v1_cl_observation_data_searchData: "/web-service/v1/cl_observation_data/searchData",
     web_service_v1_cl_observation_log_searchDate: "/web-service/v1/cl_observation_log/searchDate",
+
+    web_service_v1_cl_observation_data_searchDataS: "/web-service/v1/cl_observation_data/searchDataS",
 }
