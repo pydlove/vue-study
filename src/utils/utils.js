@@ -1,6 +1,6 @@
 const utils = {
     random_No: function (j) {
-        var random_no = "4";
+        var random_no = "";
         for (var i = 0; i < j; i++) //j位随机数，用以加在时间戳后面。
         {
             random_no += Math.floor(Math.random() * 10);

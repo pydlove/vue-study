@@ -82,6 +82,8 @@ aioc-ac-upload
 <!--eslint-disable-->
 <script>
 
+import utils from "@/utils/utils";
+
 export default {
   name: "add",
   props: [],
@@ -139,6 +141,7 @@ export default {
     },
 
     async submitRequest() {
+      this.form.tradeNo = utils.random_No();
       let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_application_add, this.form, "POST");
       if (data.code == 200) {
         this.$promptMsg(this.message, "success");
