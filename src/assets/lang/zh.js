@@ -37,6 +37,8 @@ module.exports = {
         instrument: '仪器',
         site: '站点',
 
+        Instruments: '观测设备',
+
         ObservationTime: '观测时间',
         ObservationTarget: '观测目标',
         ObservationWavelength: '观测波段',
@@ -64,7 +66,9 @@ module.exports = {
         lastMonth: "一个月以内",
 
         ObservationDate: "观测日期",
-        OrderStatus: "工单状态",
+        obsDate: "观测日期",
+        content:'申请备注',
+        OrderStatus: "提案状态",
         OrderStatusPlaceholder: "请选择工单状态搜索",
         UnderReview: "审核中",
         ReviewCompleteds: "审核完成",
@@ -72,10 +76,11 @@ module.exports = {
         AuditResultsPlaceholder: "请选择审核结果搜索",
         Rejected: "已否决",
         Approved: "已批准",
-        OrderNo: "工单号",
+        TraderNo: "提案编号",
         DownloadFile: "下载文件",
         Operate: "操作",
         Download: "下载",
+        Add: "增加",
 
         beautifulImage: "图库",
         beautifulVideo: "视频",
