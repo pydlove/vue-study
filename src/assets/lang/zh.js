@@ -46,6 +46,8 @@ module.exports = {
         instrument: '仪器',
         site: '站点',
 
+        Instruments: '观测设备',
+
         AllAbove: '以上',
         AllBelow: '以下',
         Just: '当前行',
@@ -87,7 +89,9 @@ module.exports = {
         lastMonth: "一个月以内",
 
         ObservationDate: "观测日期",
-        OrderStatus: "工单状态",
+        obsDate: "观测日期",
+        content:'申请备注',
+        OrderStatus: "提案状态",
         OrderStatusPlaceholder: "请选择工单状态搜索",
         UnderReview: "审核中",
         ReviewCompleteds: "审核完成",
@@ -95,10 +99,13 @@ module.exports = {
         AuditResultsPlaceholder: "请选择审核结果搜索",
         Rejected: "已否决",
         Approved: "已批准",
-        OrderNo: "工单号",
+        TraderNo: "提案编号",
+        Opinion:"审批建议",
         DownloadFile: "下载文件",
         Operate: "操作",
+        Edit:"修改",
         Download: "下载",
+        Add: "增加",
 
         beautifulImage: "图库",
         beautifulVideo: "视频",

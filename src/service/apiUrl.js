@@ -50,6 +50,7 @@ export default {
 
     // 下载申请
     web_service_v1_web_application_add: "/web-service/v1/web_application/add",
+    web_service_v1_web_application_edit: "/web-service/v1/web_application/edit",
     web_service_v1_web_application_list: "/web-service/v1/web_application/list",
 
     //查询数据

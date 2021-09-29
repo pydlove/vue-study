@@ -77,6 +77,10 @@ module.exports = {
         DownloadFile: "Download File",
         Operate: "Operate",
         Download: "Download",
+        TraderNo: "TraderNo",
+        Opinion:"Opinion",
+        Edit:"Edit",
+        Add: "Add",
 
         introduction: 'Introduction',
         results: 'Achievements',
@@ -85,8 +89,11 @@ module.exports = {
         beautifulVideo: "Solar Movies",
 
         satellit: 'Satellit',
+        obsDate: "ObsDate",
         telescope: 'Telescope',
         instrument: 'Instrument',
+        content: 'Content',
+        instruments: 'Instruments',
         site: 'Site',
 
         AllAbove: 'All Above this box',
