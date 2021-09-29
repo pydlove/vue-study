@@ -87,10 +87,8 @@
       <el-table-column prop="opinion" :label="$t('message.Opinion')" :show-overflow-tooltip="true" width="120"></el-table-column>
 
 			<el-table-column :label="$t('message.Operate')" fixed="right" width="150" align="center">
-          <el-button class="aioc-btn1" type="primary" size="mini" @click="editRow(scope.row)"> {{ $t('message.Edit') }}
-          </el-button>
-
-
+<!--          <el-button class="aioc-btn1" type="primary" size="mini" @click="editRow(scope.row)"> {{ $t('message.Edit') }}-->
+<!--          </el-button>-->
         <template slot-scope="scope">
 					<el-button
 							v-if="scope.row.result == 1"
