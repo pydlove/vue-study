@@ -77,8 +77,10 @@ module.exports = {
         Rejected: "已否决",
         Approved: "已批准",
         TraderNo: "提案编号",
+        Opinion:"审批建议",
         DownloadFile: "下载文件",
         Operate: "操作",
+        Edit:"修改",
         Download: "下载",
         Add: "增加",
 

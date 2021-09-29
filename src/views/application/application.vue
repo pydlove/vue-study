@@ -42,20 +42,17 @@
 				</el-select>
 			</el-form-item>
 
-			<el-button class="ml-5 aioc-btn1" type="primary" icon="el-icon-search" size="mini"
+			<el-button class="ml-5 aioc-btn1" type="primary" icon="el-icon-search" size="small"
 			           @click="search(0, 10)">
 				{{ $t('message.Search') }}
 			</el-button>
-			<el-button class="ml-5" icon="el-icon-refresh" size="mini" @click="reseta">
+			<el-button class="ml-5" icon="el-icon-refresh" size="small" @click="reseta">
 				{{ $t('message.Reset') }}
 			</el-button>
-		</el-form>
-
-    <div class="ml-10 ">
-      <el-button class="aioc-btn1" type="primary" icon="el-icon-plus" size="mini"
+      <el-button class="aioc-btn1" type="primary" icon="el-icon-plus" size="small"
                  @click="add">{{ $t('message.Add') }}
       </el-button>
-    </div>
+		</el-form>
 
 		<el-table
 				border
@@ -87,8 +84,14 @@
 					{{ fmtResutl(scope.row.result) }}
 				</template>
 			</el-table-column>
-			<el-table-column :label="$t('message.Operate')" fixed="right" width="100" align="center">
-				<template slot-scope="scope">
+      <el-table-column prop="opinion" :label="$t('message.Opinion')" :show-overflow-tooltip="true" width="120"></el-table-column>
+
+			<el-table-column :label="$t('message.Operate')" fixed="right" width="150" align="center">
+          <el-button class="aioc-btn1" type="primary" size="mini" @click="editRow(scope.row)"> {{ $t('message.Edit') }}
+          </el-button>
+
+
+        <template slot-scope="scope">
 					<el-button
 							v-if="scope.row.result == 1"
 							v-aiocp="['d']"
@@ -102,17 +105,18 @@
 		</el-table>
 		<Pagination class="pagination mt-20" ref="pageRef" @search="search"></Pagination>
     <Add ref="addRef" @search="search" ></Add>
+    <Edit ref="editRef" @search="search"></Edit>
 	</div>
 </template>
 <!--eslint-disable-->
 <script>
     import Pagination from "@/components/Pagination";
     import Add from "@/views/application/add";
+    import Edit from "@/views/application/edit";
     export default {
         name: "application",
         components: {
-            Pagination,Add
-        },
+            Pagination, Add, Edit},
         data() {
             return {
                 tableData: [],
@@ -143,6 +147,24 @@
 
           add() {
             this.$refs.addRef.open();
+          },
+
+          //编辑
+          editRow(row) {
+            this.$refs.editRef.form = {
+              id: row.id,
+              tradeNo: row.tradeNo,
+              userId: row.userId,
+              content: row.content,
+              status: row.status,
+              updateTime: row.updateTime,
+              instruments: row.instruments,
+              remark: row.remark,
+              obsDate: row.obsDate,
+              startTime: row.startTime,
+              endTime: row.endTime,
+            };
+            this.$refs.editRef.open();
           },
 
             async search(currentPage, pageSize) {
@@ -206,5 +228,9 @@
 <style scoped>
 	.search-form {
 		text-align: left;
+    margin-bottom: 10px !important;
 	}
+  .ml-10 {margin-left: 20px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;}
 </style>

@@ -70,6 +70,8 @@ module.exports = {
         Operate: "Operate",
         Download: "Download",
         TraderNo: "TraderNo",
+        Opinion:"Opinion",
+        Edit:"Edit",
         Add: "Add",
 
         introduction: 'Introduction',

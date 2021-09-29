@@ -85,7 +85,7 @@ aioc-ac-upload
 import utils from "@/utils/utils";
 
 export default {
-  name: "add",
+  name: "edit",
   props: [],
   components: {},
   mounted() {
@@ -141,9 +141,7 @@ export default {
     },
 
     async submitRequest() {
-      this.form.tradeNo = utils.random_No();
-      console.log("-----" + this.form.tradeNo);
-      let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_application_add, this.form, "POST");
+      let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_application_edit, this.form, "POST");
       if (data.code == 200) {
         this.$promptMsg(this.message, "success");
         this.$emit("search", 1, 10);
