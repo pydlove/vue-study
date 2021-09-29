@@ -23,6 +23,14 @@ module.exports = {
         LatestData: 'Latest Images',
         DataUsageRules: 'Data Policy',
         Links: 'Links',
+        ObservationPartialBand: 'Partial Band',
+
+        fullDisk: 'Full Disk',
+        partDisk: 'Part Disk',
+
+        blueWing: 'Blue Wing',
+        lineHeart: 'Line Heart',
+        redWing: 'Red Wing',
 
         DataProduct: 'Data Product',
         DataSearch: 'Data Search',
@@ -80,6 +88,20 @@ module.exports = {
         telescope: 'Telescope',
         instrument: 'Instrument',
         site: 'Site',
+
+        AllAbove: 'All Above this box',
+        AllBelow: 'All Below this box',
+        Just: 'Just this box',
+        selectAll: 'Select All',
+        clear: 'Clear',
+
+        VirtualSolarObservatory: ' Virtual Solar Observatory',
+        JointScienceOperationsCenter: 'Joint Science Operations Center (JSOC)',
+        SolarDynamicsObservatory: 'Solar Dynamics Observatory',
+        FuxianSolarObservatory: 'Fuxian Solar Observatory',
+        BigBearSolarObservatory: 'Big Bear Solar Observatory',
+        HinodeEIS: 'Hinode/EIS',
+        InterfaceRegionImagingSpectrograph: 'Interface Region Imaging Spectrograph',
 
         newsDesc: "Mainly explain what the news and resources are mainly displayed",
         ViewNews: "Look News",
@@ -182,6 +204,8 @@ module.exports = {
         chaseSatellite: 'CHASE Satellite',
         onsetSatellite: "ONSET Telescope",
         wehostSatellite: 'WeHost Telescope',
+
+        site: 'Site',
 
     },
     el: {

@@ -212,19 +212,20 @@
 
             jumpWeb(index, page){
                 if(page == "data"){
-                    this.$utils.setStorage("observationDataIndex", index);
+                    //站点
+                    this.$utils.setStorage("siteIndex", index);
                     let routeData = this.$router.resolve({
-                        path: "/observationData",
+                        path: "/site",
                     });
                     window.open(routeData.href, '_blank');
                 }
+
                 if(page == "equipment"){
-                    console.log(index);
+                    //不跳转 仪器
                     this.$utils.setStorage("observeDeviceIndex", index);
                     let routeData = this.$router.resolve({
                         path: "/observeDevice"
                     });
-                    window.open(routeData.href, '_blank');
                 }
             },
 

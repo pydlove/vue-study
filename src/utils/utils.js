@@ -221,21 +221,48 @@ const utils = {
         var date = new Date(time)
         var year = date.getFullYear()
         var month = date.getMonth() + 1
+        return (
+            [year, month].map(utils.formatNumber).join('-')
+        )
+    },
+
+    addMonth(item) {
+        var date = new Date(item);
+        var year = date.getFullYear()
+        var month = date.getMonth() + 2
+        return (
+            [year, month].map(utils.formatNumber).join('-')
+        )
+    },
+
+    reduceMonth(item) {
+        var date = new Date(item);
+        var year = date.getFullYear();
+        var month = date.getMonth() ;
+        return (
+            [year, month].map(utils.formatNumber).join('-')
+        )
+    },
+
+    addYear(item) {
+        var date = new Date(item);
+        var year = date.getFullYear() + 1;
+        var month = date.getMonth() + 1;
+        return (
+            [year, month].map(utils.formatNumber).join('-')
+        )
+    },
+
+    reduceYear(item) {
+        var date = new Date(item);
+        var year = date.getFullYear()- 1;
+        var month = date.getMonth() + 1;
         var day = date.getDate()
         return (
             [year, month, day].map(utils.formatNumber).join('-')
         )
     },
 
-    yearMonth1() {
-        var date = new Date();
-        var year = date.getFullYear()
-        var month = date.getMonth() + 1
-        var day = date.getDate()
-        return (
-            [year, month, day].map(utils.formatNumber).join('-')
-        )
-    },
 
 
     nowDate() {

@@ -142,7 +142,7 @@
 				} else if(command == "1"){
                     this.$router.push({path: '/observationData'});
 				} else if(command == "2"){
-
+                    this.$router.push({path: '/wehostTelescope'});
 				}
 
             },

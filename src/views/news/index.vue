@@ -13,15 +13,6 @@
 		</el-breadcrumb>
 		<div class="nd-background">
 			<div class="dffn nd-news-main">
-				<div class="nd-news-resource">
-					<div class="nd-news-resource-list">
-						{{ $t('menu.newsResources') }}
-					</div>
-					<div class="nd-new-title-desc">
-						[{{ $t('message.newsDesc') }}] <br>
-					</div>
-				</div>
-
 				<div class="nd-news-list">
 					<div class="nd-list dffn" v-for="(item, index) in this.tableData" :key="index">
 						<el-image
@@ -155,7 +146,8 @@
 		}
 
 		.nd-news-list {
-			width: calc(100% - 270px);
+			/*width: calc(100% - 270px);*/
+			width: 100%;
 		}
 
 		.nd-news-resource {

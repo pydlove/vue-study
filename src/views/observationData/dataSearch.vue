@@ -39,12 +39,27 @@
                     <div class="ds-lable">
                         {{ $t('message.ObservationWavelength') }}：
                     </div>
-                    <el-input class="ds-date" :placeholder="$t('message.inputObsWaveLength')"
-                              v-model="form.band"></el-input>
+                    <el-checkbox-group v-model="checkList1">
+                        <el-checkbox label="3600"> {{3600}}</el-checkbox>
+                        <el-checkbox label="4250"> {{4250}}</el-checkbox>
+                        <el-checkbox label="6563"> {{6563}}</el-checkbox>
+                        <el-checkbox label="10830"> {{10830}}</el-checkbox>
+                    </el-checkbox-group>
+                </div>
+
+                <div class="dffn-ac mt-20">
+                    <div class="ds-lable">
+                        {{ $t('message.ObservationPartialBand') }}：
+                    </div>
+                    <el-checkbox-group v-model="checkList">
+                        <el-checkbox label="蓝翼"> {{ $t('message.blueWing') }}</el-checkbox>
+                        <el-checkbox label="线心"> {{ $t('message.lineHeart') }}</el-checkbox>
+                        <el-checkbox label="红翼"> {{ $t('message.redWing') }}</el-checkbox>
+                    </el-checkbox-group>
                 </div>
 
                 <div class="ds-search">
-                    <el-button class="wdi-120" type="primary" plain @click="search(1, 10)">
+                    <el-button class="wdi-120" type="primary" plain @click="onSubmit">
                         {{ $t('message.Search') }}
                     </el-button>
 
@@ -53,79 +68,8 @@
                     </el-button>
                 </div>
 
-                <!--<div class="observeIcon">-->
-                <!--<div class="coordinate">观测坐标：</div>-->
-                <!--<el-input placeholder="请输入观测坐标" v-model="observationCoordinate"></el-input>-->
-                <!--</div>-->
-
-                <!--<div class="observeTail">-->
-                <!--<div class="coordinate">偏带状态：</div>-->
-                <!--<el-select v-model="form.status" placeholder="请选择偏带状态">-->
-                <!--<el-option label="ALL" value="ALL"></el-option>-->
-                <!--<el-option label="off-band" value="off-band"></el-option>-->
-                <!--<el-option label="Center" value="Center"></el-option>-->
-                <!--</el-select>-->
-                <!--</div>-->
-
-                <!--<div class="activityView">-->
-                <!--<div class="coordinate">活动现象：</div>-->
-                <!--<el-input v-model="activityViews"></el-input>-->
-                <!--</div>-->
             </div>
         </div>
-
-        <div class="nd-news-list" v-if="this.tableData.length > 0">
-            <div class="nd-list" v-for="(item, index) in this.tableData" :key="index">
-                <el-image
-                        class="nd-picture"
-                        :src="item.picture"
-                        :preview-src-list="[item.picture]"></el-image>
-                <div>
-                    <div class="nd-list-title">
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ObservationTime') }}:</p>
-                            <p>{{item.beginTime }}</p>
-                        </div>
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ObservationTarget') }}:</p>
-                            <p>{{item.target}}</p>
-                        </div>
-                    </div>
-                    <div class="nd-list-title">
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ExposureTime') }}:</p>
-                            <p>{{item.exposureTime}}</p>
-                        </div>
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ObservationWavelength') }}:</p>
-                            <p>{{item.observationBand}}</p>
-                        </div>
-                    </div>
-                    <div v-if="item.video != '' && item.video != null" class="nd-list-title">
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ObservationVideo') }}:</p>
-                            <p>
-                                <a :href="item.video" :download="item.video">
-                                    {{ $t('message.downloadObsVideo') }}
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="obd-data-down">
-                    <el-button class="obd-data-btn" type="primary" size="mini" @click="lookDay(item)">
-                        {{ $t('message.AllDay') }}
-                    </el-button>
-                </div>
-            </div>
-        </div>
-
-        <div v-else>
-            <van-empty image="search" :description="$t('message.NoObservationDataEmpty')"/>
-        </div>
-
-        <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
     </div>
 </template>
 <!--eslint-disable-->
@@ -138,6 +82,8 @@
         components: {Page, Pagination},
         data() {
             return {
+                checkList1:[],
+                checkList: [],
                 observationDate: "",
                 logId: "",
                 date: null,
@@ -162,7 +108,6 @@
             if (this.clientWidth < 500) {
                 this.client = true;
             }
-            this.search(1, 10);
         },
 
         methods: {
@@ -209,24 +154,37 @@
                 }
             },
 
+            onSubmit() {
+                console.log(this.form.startTime);
+                //判断 观测时间是否选择
+                if (this.form.startTime != "" && this.form.startTime != null && this.form.endTime != "" && this.form.endTime != null) {
+                    this.search(1, 10);
+                } else {
+                    this.$message('请选择观测时间');
+                }
+            },
+
             async search(currentPage, pageSize) {
+                console.log(this.checkList1.toString());
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
                 let params = new FormData();
-                if (this.form.startTime != null && this.form.startTime != "" && this.form.endTime != null  && this.form.endTime != "") {
+                if (this.form.startTime != null && this.form.startTime != "" && this.form.endTime != null && this.form.endTime != "") {
                     let beginTime = new Date(this.form.startTime);
                     let endTime = new Date(this.form.endTime);
                     params.append("beginTime", beginTime);
                     params.append("endTime", endTime);
                 }
+                params.append("offBandList", this.checkList.toString());
+                params.append("waveLengthList", this.checkList1.toString());
                 params.append("observationTarget", this.form.observationTarget);
                 params.append("band", this.form.band);
+                params.append("dataType", "onset");
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_searchData, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_searchDataS, params, "POST");
                 if (data.code == 200) {
-                    this.tableData = data.data;
-                    this.$refs.pageRef.totalCount = data.totalCount;
+                    this.$emit("setTableData", data);
                     return true;
                 }
             }
@@ -245,12 +203,11 @@
 
         .dataTitle {
             font-size: 18px;
-            margin-top: 10px;
             text-align: left;
         }
 
         .timeSelect {
-            margin-top: 40px;
+            margin-top: 10px;
             font-size: 14px;
             text-align: left;
         }
@@ -358,7 +315,6 @@
         .ds-search {
             text-align: right;
             padding-right: 17px;
-            margin-top: 20px;
         }
     }
 

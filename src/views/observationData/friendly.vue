@@ -2,32 +2,24 @@
     <!--eslint-disable-->
     <div class="friendlyTitle">
             <div class="firstConnect">
-                <div class="connectName">虚拟太阳天文台（vso）：</div>
-                <div class="connectStyle" @click="jumpWeb1">https://umbra.nascom.nasa.gov/vso/</div>
+                <div class="connectName">中国科学院国家天文台明安图观测基地：</div>
+                <div class="connectStyle" @click="jumpWeb1">http://mos.bao.ac.cn</div>
             </div>
             <div class="SecondConnect">
-                <div class="connectName">Joint Science Operations Center (JSOC)：</div>
-                <div class="connectStyle" @click="jumpWeb2">http://jsoc.stanford.edu/</div>
+                <div class="connectName">中国虚拟天文台明安图观测基地：</div>
+                <div class="connectStyle" @click="jumpWeb2">https://nadc.china-vo.org/s/static/mingantu/muser.html</div>
             </div>
             <div class="ThreeConnect">
-                <div class="connectName">太阳动力学天文台：</div>
-                <div class="connectStyle" @click="jumpWeb3">https://sdo.gsfc.nasa.gov/</div>
+                <div class="connectName">中国科学院国家天文台怀柔观测基地：</div>
+                <div class="connectStyle" @click="jumpWeb3">https://sun10.bao.ac.cn</div>
             </div>
             <div class="ThreeConnect">
-                <div class="connectName"> 抚仙湖观测站：</div>
-                <div class="connectStyle" @click="jumpWeb4">http://fso.ynao.ac.cn/</div>
+                <div class="connectName">先进天基太阳天文台：</div>
+                <div class="connectStyle" @click="jumpWeb4">http://aso-s.pmo.ac.cn</div>
             </div>
         <div class="ThreeConnect">
-            <div class="connectName"> BBSO地面天文台：</div>
-            <div class="connectStyle" @click="jumpWeb5">http://www.bbso.njit.edu/</div>
-        </div>
-        <div class="ThreeConnect">
-            <div class="connectName">Hinode/EIS：</div>
-            <div class="connectStyle" @click="jumpWeb6">http://solarb.mssl.ucl.ac.uk/SolarB/</div>
-        </div>
-        <div class="ForeConnect">
-            <div class="connectName">IRIS：</div>
-            <div class="connectStyle" @click="jumpWeb7">https://iris.gsfc.nasa.gov/</div>
+            <div class="connectName">国家空间天气监测预警中心-NSMC：</div>
+            <div class="connectStyle" @click="jumpWeb5">http://www.nsmc.org.cn/nsmc/channels/spaceweather.html</div>
         </div>
 
     </div>
@@ -38,25 +30,19 @@
         name: "friendly",
         methods: {
             jumpWeb1() {
-                window.open("https://umbra.nascom.nasa.gov/vso/")
+                window.open("http://mos.bao.ac.cn")
             },
             jumpWeb2() {
-                window.open("http://jsoc.stanford.edu/")
+                window.open("https://nadc.china-vo.org/s/static/mingantu/muser.html")
             },
             jumpWeb3() {
-                window.open("https://sdo.gsfc.nasa.gov/")
+                window.open("https://sun10.bao.ac.cn")
             },
             jumpWeb4() {
-                window.open("http://fso.ynao.ac.cn/")
+                window.open("http://aso-s.pmo.ac.cn")
             },
             jumpWeb5() {
-                window.open("http://www.bbso.njit.edu/")
-            },
-            jumpWeb6() {
-                window.open("http://solarb.mssl.ucl.ac.uk/SolarB/")
-            },
-            jumpWeb7() {
-                window.open("https://iris.gsfc.nasa.gov/")
+                window.open("http://www.nsmc.org.cn/nsmc/channels/spaceweather.html")
             },
 
         },
@@ -74,7 +60,7 @@
         }
 
         .connectName {
-            font-size: 16px;
+            font-size: 15px;
             color: #fa541c;
         }
 

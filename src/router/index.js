@@ -73,6 +73,16 @@ const router = new Router({
             name: 'chaseSatellite',
             component: (resolve) => require(['../views/chaseSatellite/index.vue'], resolve),
         },
+        {
+            path: '/wehostTelescope',
+            name: 'wehostTelescope',
+            component: (resolve) => require(['../views/wehostTelescope/index.vue'], resolve),
+        },
+        {
+            path: '/site',
+            name: 'site',
+            component: (resolve) => require(['../views/site/index.vue'], resolve),
+        },
 
 ]
 })

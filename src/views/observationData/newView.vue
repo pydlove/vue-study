@@ -68,10 +68,6 @@
             this.week();
         },
         methods: {
-            fmt(item, key) {
-                var json = JSON.parse(item.dataDetail);
-                return json[key];
-            },
 
             week() {
               this.beginTime = this.$utils.lastWeek();
@@ -85,6 +81,7 @@
                 let params = new FormData();
                 params.append("beginTime", this.beginTime);
                 params.append("endTime", this.endTime);
+                params.append("dataType", "onset")
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_newData, params, "POST");

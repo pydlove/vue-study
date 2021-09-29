@@ -22,57 +22,83 @@
                     </div>
                 </div>
 
-                <div class="aiocloud-card" :style="hightType" >
-                    <DataProduct v-if="type==0" ref="dataProductRef" ></DataProduct>
+                <div class="aiocloud-card" :style="hightType">
+                    <DataProduct v-if="type==0" ref="dataProductRef"></DataProduct>
                     <DataSearch v-if="type == 1" ref="dataSearchRef" @setTableData="setTableData"></DataSearch>
                     <NewData v-if="type==2"></NewData>
                     <AnalysisSoftware v-if="type==3"></AnalysisSoftware>
                     <DataUseRule v-if="type == 4"></DataUseRule>
                 </div>
             </div>
-
             <div class="aiocloud-card1" v-if="dataType">
+                <div class="nd-menus">
+                    <div class="nd-checkbox">
+                        <el-radio-group v-model="label">
+                            <el-radio :label="0" @change="aboveAll(tableData)">{{ $t('message.AllAbove') }}</el-radio>
+                            <el-radio :label="1" @change="belowAll(tableData)">{{ $t('message.AllBelow') }}</el-radio>
+                            <el-radio :label="2" @change="just(tableData)">{{ $t('message.Just') }}</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <div class="nd-select">
+                        <el-button @click="clear">{{ $t('message.clear') }}</el-button>
+                    </div>
+                </div>
+
                 <div class="nd-search-data">
                     <el-table
+                            ref="table"
                             :data="tableData"
                             stripe
-                            style="width: 100%">
+                            style="width: 100%"
+                            @selection-change="handleSelectionChange">
                         <el-table-column
+                                type="selection"
+                                width="55">
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="startTime"
                                 label="开始时间"
-                                width="130">
+                                width="120">
                         </el-table-column>
                         <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="endTime"
                                 label="结束时间"
-                                width="130">
+                                width="120">
                         </el-table-column>
                         <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="target"
                                 width="100px"
                                 label="观测目标">
                         </el-table-column>
                         <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="lineSpectrum"
                                 width="100px"
                                 label="观测谱线">
                         </el-table-column>
                         <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="observationPattern"
                                 width="100px"
                                 label="观测模式">
                         </el-table-column>
                         <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="exposureTime"
                                 width="100px"
                                 label="曝光时间">
                         </el-table-column>
                         <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="coordinates"
                                 width="100px"
                                 label="观测坐标">
                         </el-table-column>
                         <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="observationBand"
                                 width="100px"
                                 label="观测波段">
@@ -81,9 +107,7 @@
                 </div>
                 <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
             </div>
-
         </div>
-
         <Footer></Footer>
     </div>
 </template>
@@ -115,6 +139,7 @@
 
         data() {
             return {
+                checkList: [],
                 tableData: [],
                 dataType: false,
                 hightType: "",
@@ -145,6 +170,8 @@
                     type: "0",
                 },
                 type: "0",
+                multipleSelection: [],
+                label: 2,
             }
         },
 
@@ -153,7 +180,7 @@
         },
 
         methods: {
-            initLanguage(){
+            initLanguage() {
                 this.chaseMenus[0].name = this.$t('message.DataProduct');
                 this.chaseMenus[1].name = this.$t('message.DataSearch');
                 this.chaseMenus[2].name = this.$t('message.NewData');
@@ -162,12 +189,38 @@
                 this.$refs.dataProductRef.initLanguage();
             },
 
-            selectEq(item, index){
-                if(item.type == 1){
+            handleSelectionChange(item) {
+                this.multipleSelection = item;
+            },
+
+            //清除
+            clear() {
+                this.$refs.table.clearSelection();
+            },
+            //选择行以上
+            aboveAll(data){
+                for(let list  in data){
+                    if(list == this.multipleSelection){
+
+                    }
+                }
+            },
+            //选择行以下
+            belowAll(data){
+
+            },
+            //当前行
+            just(data){
+
+            },
+
+            selectEq(item, index) {
+                if (item.type == 1) {
                     this.dataType = true;
                     this.hightType = "height: 300px; ";
                 } else {
-                    this.dataType =false;
+                    this.dataType = false;
+                    this.hightType = "";
                 }
                 this.type = item.type;
                 this.menu = item;
@@ -176,12 +229,14 @@
             /********************************** 数据查询逻辑开始 ***********************************/
             setTableData(data) {
                 this.tableData = data.data;
+                console.log(this.tableData);
                 this.$refs.pageRef.totalCount = data.totalCount;
             },
 
             search(currentPage, pageSize) {
                 this.$refs.dataSearchRef.search(currentPage, pageSize);
             }
+            /****************************************数据查询逻辑结束**********************************************/
         },
 
     }
@@ -191,7 +246,7 @@
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
 
-        .aiocloud-card1{
+        .aiocloud-card1 {
             padding: 20px;
             border-radius: 5px;
             background: #ffffff;
@@ -213,6 +268,21 @@
             display: flex;
             flex-wrap: wrap;
             background: #ffffff;
+        }
+
+        .nd-menus {
+            display: flex;
+            flex-wrap: nowrap;
+            margin: 10px;
+        }
+
+        .nd-checkbox {
+            margin-left: 10px;
+            margin-top: 11px;
+        }
+
+        .nd-select {
+            margin-left: 20px;
         }
     }
 </style>

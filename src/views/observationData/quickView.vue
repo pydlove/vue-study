@@ -1,24 +1,21 @@
 <template>
 	<!--eslint-disable-->
 	<div class="qv-container">
-		<!--<div class="qv-date">
-			<el-date-picker
-					v-model="year"
-					type="year"
-					placeholder="选择年">
-			</el-date-picker>
-
-			<span class="aiocloud-btn" @click="searchInfo">
-				{{ $t('message.Search') }}
-			</span>
-
-		<!--qv_main -> div	 :class="(index+1)%coefficient!=0?'mr-20':''"
-		</div>-->
-
 		<div class="qv-main">
 			<div v-for="(item, index) in aiocloudDates" :key="index">
 				<div class="date-header" :style="dateHeaderStyle">
-					{{ item.yearMonth }}
+
+                    <div class="nd-year-month">
+                        <div class="nd-year-reduce" @click="yearReduce(item.yearMonth)"></div>
+                        <div class="nd-month-reduce" @click="monthReduce(item.yearMonth)"></div>
+                    </div>
+                    <div class="nd-time">
+                        {{ item.yearMonth }}
+                    </div>
+                    <div class="nd-month-year">
+                        <div class="nd-year-add" @click="monthAdd(item.yearMonth)"></div>
+                        <div class="nd-month-add" @click="yearAdd(item.yearMonth)"></div>
+                    </div>
 				</div>
 				<div class="date-weeks" :style="dateWeeksStyle">
 					<div v-for="(witem, windex) in weeks" :key="windex" class="date-weeks-item" :style="dateItemStyle">
@@ -38,7 +35,6 @@
 						</el-popover>
 					</div>
 				</div>
-
 			</div>
 		</div>
 
@@ -47,14 +43,6 @@
 			{{ $t('message.NoObservationData') }}
 			<span class="qc-yes"></span>
 			{{ $t('message.HaveObservationData') }}
-			<!--<div class="dffn-ac qv-rl">-->
-				<!--<div>日历大小</div>-->
-				<!--<el-radio-group v-model="coefficient" @change="setSize">-->
-					<!--<el-radio :label="3">小</el-radio>-->
-					<!--<el-radio :label="2">中</el-radio>-->
-					<!--<el-radio :label="1">大</el-radio>-->
-				<!--</el-radio-group>-->
-			<!--</div>-->
 		</div>
 	</div>
 </template>
@@ -87,6 +75,7 @@
                 dateWeeksStyle: "",
                 dateContentStyle: "",
                 dateItemStyle: "",
+				yearData: "",
             }
         },
         mounted() {
@@ -108,6 +97,43 @@
                     this.$t('week.Sat'),
                 ];
             },
+
+            /************************时间业务开始****************************/
+                yearReduce(item){
+                    this.aiocloudDates.length = 0;
+                    let yearMonth = this.$utils.reduceYear(item);
+                    this.year = new Date(yearMonth);
+                    console.log(this.year);
+                    this.search();
+                    this.mGetDate();
+                },
+                monthReduce(item){
+                    this.aiocloudDates.length = 0;
+                    let yearMonth = this.$utils.reduceMonth(item);
+                    this.year = new Date(yearMonth);
+                    console.log(this.year);
+                    this.search();
+                    this.mGetDate();
+                },
+
+                yearAdd(item){
+                    this.aiocloudDates.length = 0;
+                    let yearMonth = this.$utils.addYear(item);
+                    this.year = new Date(yearMonth);
+                    console.log(this.year);
+                    this.search();
+                    this.mGetDate();
+                },
+                monthAdd(item){
+                    this.aiocloudDates.length = 0;
+                    let yearMonth = this.$utils.addMonth(item);
+                    this.year = new Date(yearMonth);
+                    console.log(this.year);
+                    this.search();
+                    this.mGetDate();
+                },
+
+            /*************************时间业务结束*********************************/
 
             toDetail(item) {
                 this.$utils.setStorage("observationDataDetail", item);
@@ -155,11 +181,7 @@
                 this.year = date;
             },
 
-           /* searchInfo() {
-                this.aiocloudDates = [];
-                this.mGetDate();
-                this.search();
-            },*/
+
 
             /**
              * 查询观测数据
@@ -175,8 +197,10 @@
                     if (data.data) {
                         this.observationDataDates = data.data;
                         let temp = [];
+                        console.log( this.observationDataDates);
                         for (var i in this.aiocloudDates) {
                             const aiocloudDate = this.aiocloudDates[i];
+                            console.log(aiocloudDate);
                             const yearMonth = aiocloudDate.yearMonth;
                             console.log(yearMonth);
                             if (yearMonth in this.observationDataDates) {
@@ -190,7 +214,6 @@
                             temp.push(aiocloudDate);
                         }
                         this.aiocloudDates = temp;
-
                     }
                     return true;
                 }
@@ -202,8 +225,11 @@
                     var d = new Date(year, this.year.getMonth() + 1, 0);
                     var days = d.getDate();
                     let month = d.getMonth() + 1;
+                    console.log(month);
                     var firstDate = new Date(year, this.year.getMonth(), 1);
+                    console.log(firstDate);
                     const iWeek = firstDate.getDay();
+                    console.log(iWeek);
                     var sWeek;
                     switch (iWeek) {
                         case 0:
@@ -304,6 +330,54 @@
 <style scoped>
 	/*媒体查询（电脑）*/
 	@media screen and (min-width: 768px) {
+        .nd-year-month{
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            width: 20%;
+            margin-left: 32px;
+        }
+        .nd-year-reduce{
+            background: url("../../assets/img/icon/return1.png");
+            background-size: 100% 100%;
+            width: 17px;
+            height: 17px;
+        }
+        .nd-month-reduce {
+            background: url("../../assets/img/icon/return2.png");
+            background-size: 100% 100%;
+            width: 17px;
+            height: 17px;
+            margin-left: 5px;
+        }
+
+        .nd-month-year{
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            text-align: right;
+            width: 20%;
+        }
+
+        .nd-year-add{
+            background: url("../../assets/img/icon/going2.png");
+            background-size: 100% 100%;
+            width: 23px;
+            height: 23px;
+        }
+        .nd-month-add {
+            background: url("../../assets/img/icon/going1.png");
+            background-size: 100% 100%;
+            width: 23px;
+            height: 23px;
+            margin-left: 5px;
+        }
+
+        .nd-time{
+            text-align: center;
+            width: 60%;
+        }
+
 		.qv-rl {
 			margin-left: 50px;
 		}
@@ -350,9 +424,10 @@
 
 		.date-header {
 			background: #17030b;
-			text-align: center;
 			color: #ffffff;
 			font-size: 16px;
+            display: flex;
+            flex-wrap: nowrap;
 		}
 
 		.date-content {
@@ -360,6 +435,7 @@
 			flex-wrap: wrap;
 			margin-bottom: 20px;
 			margin-top: 10px;
+            min-height: 370px;
 		}
 
 		.date-item {

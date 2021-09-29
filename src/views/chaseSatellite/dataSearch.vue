@@ -40,8 +40,8 @@
                     {{ $t('message.ObservationTarget') }}：
                 </div>
                 <el-checkbox-group v-model="checkList2">
-                    <el-checkbox label="全日面"></el-checkbox>
-                    <el-checkbox label="局部"></el-checkbox>
+                    <el-checkbox label="全日面"> {{ $t('message.fullDisk') }}</el-checkbox>
+                    <el-checkbox label="局部"> {{ $t('message.partDisk') }}</el-checkbox>
                 </el-checkbox-group>
             </div>
             <div class="ds-search">
@@ -102,7 +102,6 @@
         },
         methods: {
             select(item) {
-                console.log(item);
                 if (item.valueOf() == "RSM" || item[0] == "RSM" || item[1] == "RSM") {
                     this.line = true;
                 } else {
@@ -151,12 +150,10 @@
                     params.append("beginTime", beginTime);
                     params.append("endTime", endTime);
                 }
-                params.append("patternRsm", this.checkList[0]);
-                params.append("patternCim", this.checkList[1]);
-                params.append("lineSpectrumHa", this.checkList1[0]);
-                params.append("lineSpectrumFe", this.checkList1[1]);
-                params.append("targetAll", this.checkList2[0]);
-                params.append("targetPartial ", this.checkList2[1]);
+                params.append("patternList", this.checkList.toString());
+                params.append("lineSpectrumList", this.checkList1.toString());
+                params.append("targetList", this.checkList2.toString());
+                params.append("dataType", "chase");
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_searchDataS, params, "POST");

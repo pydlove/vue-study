@@ -26,20 +26,43 @@ module.exports = {
         DataUsageRules: '数据使用规则',
         Links: '友情链接',
 
+
         DataProduct: '数据介绍',
         DataSearch: '数据查询',
         NewData: '最新数据',
         AnalysisSoftware: '分析软件',
         DataUseRule: '数据使用规则',
+        ObservationPartialBand: '偏带',
+
+        fullDisk: '全日面',
+        partDisk: '局部',
+
+        blueWing: '蓝翼',
+        lineHeart: '线心',
+        redWing: '红翼',
 
         satellit: '卫星',
         telescope: '望远镜',
         instrument: '仪器',
         site: '站点',
 
+        AllAbove: '以上',
+        AllBelow: '以下',
+        Just: '当前行',
+        selectAll: '全选',
+        clear: '清除',
+
+        VirtualSolarObservatory: '虚拟太阳天文台',
+        JointScienceOperationsCenter: '联合科学协作中心',
+        SolarDynamicsObservatory: '太阳动力学天文台',
+        FuxianSolarObservatory: '抚仙湖观测站',
+        BigBearSolarObservatory: '大熊湖太阳天文台',
+        HinodeEIS: 'Hinode/EIS',
+        InterfaceRegionImagingSpectrograph: '太阳过渡层成像光谱仪卫星',
+
         ObservationTime: '观测时间',
         ObservationTarget: '观测目标',
-        ObservationWavelength: '观测波段',
+        ObservationWavelength: '观测波长',
         ExposureTime: '曝光时间',
         ObservationVideo: '观测视频',
         downloadObsVideo: '点击下载',
@@ -181,6 +204,8 @@ module.exports = {
         chaseSatellite: 'CHASE卫星',
         onsetSatellite: "ONSET望远镜",
         wehostSatellite: 'WeHost望远镜',
+
+        site: '站点',
     },
     el: {
         datepicker: {
