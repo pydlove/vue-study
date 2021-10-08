@@ -65,12 +65,14 @@ module.exports = {
         lastMonth: "Last Month",
 
         ObservationDate: "Obs Date",
+        obsTime:"ObsTime",
         OrderStatus: "Proposal Status",
         ReviewCompleteds: "Review completeds",
         OrderStatusPlaceholder: "Please select order status to search",
+        instrumentsPlaceholder: "Please select instrument to search",
         UnderReview: "Under Review",
         AuditResults: "Audit Result",
-        AuditResultsPlaceholder: "Please select the audit result search",
+        AuditResultsPlaceholder: "Please select the audit result to search",
         Rejected: "Rejected",
         Approved: "Approved",
         OrderNo: "Proposal Number",
@@ -95,6 +97,8 @@ module.exports = {
         content: 'Content',
         instruments: 'Instruments',
         site: 'Site',
+
+        Instruments: 'Instruments',
 
         AllAbove: 'All Above this box',
         AllBelow: 'All Below this box',

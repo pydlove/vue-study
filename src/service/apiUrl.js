@@ -58,4 +58,7 @@ export default {
     web_service_v1_cl_observation_log_searchDate: "/web-service/v1/cl_observation_log/searchDate",
 
     web_service_v1_cl_observation_data_searchDataS: "/web-service/v1/cl_observation_data/searchDataS",
+
+    //观测数据下载
+    web_service_v1_web_download_log_in: "/web-service/v1/web_download_log/in",
 }

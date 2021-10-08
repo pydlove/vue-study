@@ -90,9 +90,11 @@ module.exports = {
 
         ObservationDate: "观测日期",
         obsDate: "观测日期",
+        obsTime: "观测时间",
         content:'申请备注',
         OrderStatus: "提案状态",
         OrderStatusPlaceholder: "请选择工单状态搜索",
+        instrumentsPlaceholder: "请选择观测设备搜索",
         UnderReview: "审核中",
         ReviewCompleteds: "审核完成",
         AuditResults: "审核结果",
