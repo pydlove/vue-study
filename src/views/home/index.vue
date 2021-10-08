@@ -226,6 +226,7 @@
                     let routeData = this.$router.resolve({
                         path: "/observeDevice"
                     });
+                    window.open(routeData.href, '_blank');
                 }
             },
 

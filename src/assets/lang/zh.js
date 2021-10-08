@@ -113,6 +113,8 @@ module.exports = {
         beautifulVideo: "视频",
         paperAchievement: "论文",
 
+        underConstruction: '正在建设中',
+
         newsDesc: "主要解释新闻与资源这块主要展示什么内容",
         ViewNews: "查看新闻",
 
@@ -217,7 +219,12 @@ module.exports = {
         site: '站点',
     },
     el: {
+        table: {
+          emptyText: '暂无数据',
+        },
         datepicker: {
+            now: '现在',
+            selectTime: '选择时间',
             year: '年',
             month1: '1月',
             month2: '2月',

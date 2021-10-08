@@ -12,9 +12,9 @@
 					{{ $t('menu.observationEquipment') }}
 				</div>
 
-				<div :class="currentMenu=='observationData'?'nd-menu-active':''" >
-					<el-dropdown @command="handleCommand">
-						  <span :class="currentMenu=='observationData'?'nd-menu-active':''">
+				<div :class="currentMenu=='application'?'nd-menu-active':''">
+					<el-dropdown @command="handleCommand" style="font-size: 15px; color: white;">
+						  <span>
 							{{ $t('menu.observationData') }}
 						  </span>
 						<el-dropdown-menu slot="dropdown">
@@ -229,7 +229,7 @@
                 if (   this.currentMenu == 'observeDevice'
                     || this.currentMenu == 'pictureAndAchievement'
                     || this.currentMenu == 'newsAndResource'
-                    || this.currentMenu == 'index'
+                    || this.currentMenu == 'index' || this.currentMenu == 'observationData'
                 ) {
                     this.$emit("initLanguage");
                 }

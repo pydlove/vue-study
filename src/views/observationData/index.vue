@@ -216,5 +216,9 @@
 			flex-wrap: wrap;
 			background: #ffffff;
 		}
+
+		.nd-breadcrumb-top{
+			width: 900px;
+		}
 	}
 </style>

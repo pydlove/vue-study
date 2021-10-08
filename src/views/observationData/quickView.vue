@@ -419,7 +419,8 @@
 		}
 
 		.qv-container {
-			text-align: left;
+			text-align: center;
+			margin: 0 auto;
 		}
 
 		.date-header {

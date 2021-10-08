@@ -69,5 +69,8 @@
 			width: 900px;
 			min-height: 400px;
 		}
+		.nd-breadcrumb-top{
+			width: 900px;
+		}
 	}
 </style>
