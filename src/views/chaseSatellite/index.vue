@@ -284,5 +284,9 @@
         .nd-select {
             margin-left: 20px;
         }
+
+        .nd-breadcrumb-top{
+            width: 900px;
+        }
     }
 </style>

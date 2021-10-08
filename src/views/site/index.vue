@@ -11,35 +11,47 @@
                 {{ $t('menu.site') }}
             </el-breadcrumb-item>
         </el-breadcrumb>
-        <div class="aiocloud-card">
-            <div class="friendlyTitle">
-                <div class="firstConnect">
-                    <div class="nd-picture1"></div>
+        <div class="si-main">
+            <div class=" aiocloud-card friendlyTitle">
+                <div class="ThreeConnect dffn-ac">
+                    <el-avatar :src="require('../../assets/img/background/picture1.png')"></el-avatar>
                     <div class="connectStyle" @click="jumpWeb1">{{ $t('message.VirtualSolarObservatory') }}</div>
                 </div>
-                <div class="SecondConnect">
-                    <div class="nd-picture2"></div>
+
+                <div class="ThreeConnect dffn-ac">
+                    <el-avatar :src="require('../../assets/img/background/picture2.png')"></el-avatar>
                     <div class="connectStyle" @click="jumpWeb2">{{ $t('message.JointScienceOperationsCenter') }}</div>
                 </div>
-                <div class="ThreeConnect">
-                    <div class="nd-picture3"></div>
+                <div class="ThreeConnect dffn-ac">
+                    <div>
+                        <el-avatar :src="require('../../assets/img/background/picture3.png')"></el-avatar>
+                    </div>
                     <div class="connectStyle" @click="jumpWeb3">{{ $t('message.SolarDynamicsObservatory') }}</div>
                 </div>
-                <div class="ThreeConnect">
-                    <div class="nd-picture4"></div>
+                <div class="ThreeConnect dffn-ac">
+                    <div>
+                        <el-avatar :src="require('../../assets/img/background/picture4.png')"></el-avatar>
+                    </div>
                     <div class="connectStyle" @click="jumpWeb4">{{ $t('message.FuxianSolarObservatory') }}</div>
                 </div>
-                <div class="ThreeConnect">
-                    <div class="nd-picture5"></div>
+                <div class="ThreeConnect dffn-ac">
+                    <div>
+                        <el-avatar :src="require('../../assets/img/background/picture5.png')"></el-avatar>
+                    </div>
                     <div class="connectStyle" @click="jumpWeb5">{{ $t('message.BigBearSolarObservatory') }}</div>
                 </div>
-                <div class="ThreeConnect">
-                    <div class="nd-picture6"></div>
+                <div class="ThreeConnect dffn-ac">
+                    <div>
+                        <el-avatar :src="require('../../assets/img/background/picture6.png')"></el-avatar>
+                    </div>
                     <div class="connectStyle" @click="jumpWeb6">{{ $t('message.HinodeEIS') }}</div>
                 </div>
-                <div class="ThreeConnect">
-                    <div class="nd-picture7"></div>
-                    <div class="connectStyle" @click="jumpWeb7">{{ $t('message.InterfaceRegionImagingSpectrograph') }}</div>
+                <div class="ThreeConnect dffn-ac">
+                    <div>
+                        <el-avatar :src="require('../../assets/img/background/picture7.png')"></el-avatar>
+                    </div>
+                    <div class="connectStyle" @click="jumpWeb7">{{ $t('message.InterfaceRegionImagingSpectrograph') }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -107,113 +119,31 @@
 <style scoped>
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
-
-        .nd-picture1{
-            background: url("../../assets/img/background/picture1.png");
-            width: 170px;
-            height: 170px;
-            background-size: 100% 100%;
+        .si-main {
+            background: #eeeeee;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
-
-        .nd-picture2{
-            background: url("../../assets/img/background/picture2.png");
-            width: 220px;
-            height: 170px;
-            background-size: 100% 100%;
-        }
-
-        .nd-picture3{
-            background: url("../../assets/img/background/picture3.png");
-            background-size: 100% 100%;
-            width: 200px;
-            height: 200px;
-        }
-        .nd-picture4{
-            background: url("../../assets/img/background/picture4.png");
-            width: 500px;
-            height: 170px;
-            background-size: 100% 100%;
-        }
-
-        .nd-picture5{
-            background: url("../../assets/img/background/picture5.png");
-            width: 500px;
-            height: 170px;
-            background-size: 100% 100%;
-        }
-
-        .nd-picture6{
-            background: url("../../assets/img/background/picture6.png");
-            width: 500px;
-            height: 170px;
-            background-size: 100% 100%;
-        }
-
-        .nd-picture7{
-            background: url("../../assets/img/background/picture7.png");
-            width: 250px;
-            height: 250px;
-            background-size: 100% 100%;
-        }
-
 
         .friendlyTitle {
-            background: #f0f0f0;
             text-align: left;
+            width: 900px;
+            margin: 0 auto;
         }
 
-        .connectName {
-            font-size: 15px;
-            color: #fa541c;
-        }
-
-        .firstConnect {
-            font-size: 16px;
-            line-height: 68px;
-            margin-left: 10px;
-            display: flex;
-            flex-wrap: nowrap;
-
+        .nd-breadcrumb-top{
+            width: 900px;
         }
 
         .connectStyle {
-            margin-left: 81px;
-            font-size: 27px;
-            line-height: 183px;
+            margin-left: 10px;
+            font-size: 16px;
+            line-height: 40px;
         }
 
         .connectStyle:hover {
             color: #fa541c;
-            margin-left: 81px;
-            font-size: 27px;
-            line-height: 183px;
         }
-
-        .SecondConnect {
-            font-size: 16px;
-            line-height: 50px;
-            margin-left: 10px;
-            display: flex;
-            flex-wrap: nowrap;
-        }
-
-        .ThreeConnect {
-            font-size: 16px;
-            line-height: 62px;
-            margin-left: 10px;
-            display: flex;
-            flex-wrap: nowrap;
-        }
-
-        .ForeConnect {
-            font-size: 16px;
-            line-height: 50px;
-            margin-left: 10px;
-            display: flex;
-            flex-wrap: nowrap;
-            margin-bottom: 20px;
-        }
-
         img {
             border-style: none;
             width: 210px;
@@ -238,10 +168,10 @@
             text-align: left;
         }
 
-
-        .nd-list-title > p:nth-of-type(1):hover{
+        .nd-list-title > p:nth-of-type(1):hover {
             color: #fa541c;
         }
+
         .nd-list-title > p:nth-of-type(2) {
             line-height: 24px;
             font-size: 14px;

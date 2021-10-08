@@ -107,24 +107,6 @@
 <style scoped>
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
-        .nd-eq-active {
-            color: #fa541c !important;
-        }
-        .nd-eq-item {
-            line-height: 40px;
-            font-family: SC-Bold;
-            font-size: 16px;
-            color: #333333;
-        }
-
-        .nd-eq-item:hover {
-            color: #fa541c;
-        }
-
-        .nd-obd-item {
-            width: calc(50% - 5px);
-            margin-bottom: 10px;
-        }
 
         .nd-content >div:nth-of-type(1) {
             width: 200px;
@@ -158,14 +140,8 @@
             text-decoration: underline;
         }
 
-        .nd-picture {
-            width: 100%;
-            height: 280px;
-        }
-
-        .pagination {
-            margin-top: 20px;
-            text-align: right;
+        .nd-breadcrumb-top{
+            width: 900px;
         }
 
     }

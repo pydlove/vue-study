@@ -114,6 +114,8 @@ module.exports = {
         ViewNews: "Look News",
         paperAchievement: "Paper Achievements",
 
+        underConstruction: 'Under Construction',
+
         Welcome: "Welcome",
         WelcomeToRegister: "Welcome To Register",
         ForgetThePassword: "Forget The Password",
@@ -216,7 +218,12 @@ module.exports = {
 
     },
     el: {
+        table: {
+            emptyText: 'el-table-emptyText',
+        },
         datepicker: {
+            now: 'el-datepicker-now',
+            selectTime: '',
             year: '',
             month1: '- 1',
             month2: '- 2',

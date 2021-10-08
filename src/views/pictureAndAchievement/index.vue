@@ -278,6 +278,10 @@
             text-align: right;
         }
 
+        .nd-breadcrumb-top{
+            width: 900px;
+        }
+
     }
 
     /*媒体查询（手机）*/

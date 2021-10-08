@@ -1,20 +1,41 @@
 <template>
     <!--eslint-disable-->
-    <div style="height: 100%">
-        <el-table
-                v-loading="loading"
-                element-loading-text="正在建设中"
-                element-loading-spinner="el-icon-loading"
-                element-loading-background="rgba(0, 0, 0, 0.8)"
-                :data="tableData"
-                style="width: 100%; height: 100%">
-        </el-table>
+    <div class="nd-container">
+        <NormalHeader  @initLanguage="initLanguage"></NormalHeader>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
+            <el-breadcrumb-item :to="{ path: '/home' }">
+                <i class="el-icon-s-home"></i>
+                {{ $t('menu.home') }}
+            </el-breadcrumb-item>
+            <el-breadcrumb-item>
+                {{ $t('menu.wehostSatellite') }}
+            </el-breadcrumb-item>
+        </el-breadcrumb>
+
+        <div class="nd-background">
+            <div class="nd-content dffn">
+                <div class="aiocloud-card1" :style="hightType">
+                    <div class="nd-wehost">
+                        <van-empty image="search" :description="$t('message.underConstruction')"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <Footer></Footer>
     </div>
 </template>
 <!--eslint-disable-->
 <script>
+    import NormalHeader from "@/components/NormalHeader";
+    import Footer from "@/components/Footer";
     export default {
         name: "index",
+        components: {
+            NormalHeader,
+            Footer
+        },
         data() {
             return {
                 tableData: [],
@@ -25,5 +46,16 @@
 </script>
 
 <style scoped>
+    .aiocloud-card1{
+        padding: 20px;
+        border-radius: 5px;
+        background: #ffffff;
+        box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
+        width: 100%;
+        height: 395px;
+    }
 
+    .nd-breadcrumb-top{
+        width: 900px;
+    }
 </style>
