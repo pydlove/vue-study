@@ -36,11 +36,12 @@
                         <el-radio-group v-model="label">
                             <el-radio :label="0" @change="aboveAll(tableData)">{{ $t('message.AllAbove') }}</el-radio>
                             <el-radio :label="1" @change="belowAll(tableData)">{{ $t('message.AllBelow') }}</el-radio>
-                            <el-radio :label="2" @change="just(tableData)">{{ $t('message.Just') }}</el-radio>
+                            <el-radio :label="2" @change="just">{{ $t('message.Just') }}</el-radio>
                         </el-radio-group>
                     </div>
                     <div class="nd-select">
                         <el-button @click="clear">{{ $t('message.clear') }}</el-button>
+                        <el-button type="primary" @click="download">{{ $t('message.Download') }}</el-button>
                     </div>
                 </div>
 
@@ -198,21 +199,36 @@
                 this.$refs.table.clearSelection();
             },
             //选择行以上
-            aboveAll(data){
-                for(let list  in data){
-                    if(list == this.multipleSelection){
-
+            aboveAll(data) {
+                console.log(this.multipleSelection);
+                for (let i = 0; i <= data.length; i++) {
+                    if (this.multipleSelection.toString() == data[i]) {
+                        let a = i;
+                        console.log(a);
+                        for (a; a <= data.length; a--) {
+                            this.$refs.table.toggleRowSelection(data[a]);
+                        }
                     }
                 }
             },
             //选择行以下
-            belowAll(data){
-
+            belowAll(data) {
+                console.log(this.multipleSelection);
+                for (let i = 0; i <= data.length; i++) {
+                    if (this.multipleSelection == data[i]) {
+                        let a = i;
+                        console.log(a);
+                        for (a; a < data.length; a++) {
+                            this.$refs.table.toggleRowSelection(data[a]);
+                        }
+                    }
+                }
             },
             //当前行
-            just(data){
-
+            just() {
+                this.$refs.table.toggleRowSelection(this.multipleSelection);
             },
+
 
             selectEq(item, index) {
                 if (item.type == 1) {
@@ -229,7 +245,6 @@
             /********************************** 数据查询逻辑开始 ***********************************/
             setTableData(data) {
                 this.tableData = data.data;
-                console.log(this.tableData);
                 this.$refs.pageRef.totalCount = data.totalCount;
             },
 
@@ -285,7 +300,7 @@
             margin-left: 20px;
         }
 
-        .nd-breadcrumb-top{
+        .nd-breadcrumb-top {
             width: 900px;
         }
     }

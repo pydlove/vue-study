@@ -31,6 +31,21 @@
 			</div>
 
 			<div class="aiocloud-card1" v-if="dataType">
+
+				<div class="nd-menus">
+					<div class="nd-checkbox">
+						<el-radio-group v-model="label">
+							<el-radio :label="0" @change="aboveAll(tableData)">{{ $t('message.AllAbove') }}</el-radio>
+							<el-radio :label="1" @change="belowAll(tableData)">{{ $t('message.AllBelow') }}</el-radio>
+							<el-radio :label="2" @change="just">{{ $t('message.Just') }}</el-radio>
+						</el-radio-group>
+					</div>
+					<div class="nd-select">
+						<el-button @click="clear">{{ $t('message.clear') }}</el-button>
+						<el-button type="primary" @click="download">{{ $t('message.Download') }}</el-button>
+					</div>
+				</div>
+
 				<div class="nd-search-data">
 					<el-table
 							ref="table"
@@ -220,5 +235,21 @@
 		.nd-breadcrumb-top{
 			width: 900px;
 		}
+
+		.nd-menus {
+			display: flex;
+			flex-wrap: nowrap;
+			margin: 10px;
+		}
+
+		.nd-checkbox {
+			margin-left: 10px;
+			margin-top: 11px;
+		}
+
+		.nd-select {
+			margin-left: 20px;
+		}
+
 	}
 </style>

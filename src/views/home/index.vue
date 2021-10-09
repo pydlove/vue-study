@@ -37,10 +37,9 @@
 
                         <div class="nd-zx-bg">
                             <el-carousel >
-                                <el-carousel-item v-for="(item,index) in this.pictureData" v-if="index < 6" :key="index">
+                                <el-carousel-item v-for="(item,index) in pictureData" v-if="index < 6" :key="index">
                                     <viewer>
-                                        <el-image  class="nd-picture" :src="item.picture">
-                                        </el-image>
+                                        <img  class="nd-picture" :src="item.picture">
                                     </viewer>
                                     <div class="nd-zb-bottom1">
                                         <div class="nd-time">
@@ -256,6 +255,7 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_achievement_searchList, param, "POST");
                 if (data.code == 200) {
                     this.pictureData = data.data;
+                    console.log(this.pictureData);
                     return true;
                 }
             },
@@ -284,14 +284,13 @@
     /*媒体查询（电脑）*/
     @media screen and (min-width: 768px) {
 
-        .el-carousel__indicators {
-            position: absolute;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            z-index: 2;
-            width: 300px;
-        }
+     .nd-picture{
+         border-style: none;
+         width: 410px;
+         height: 306px;
+         margin-left: 6px;
+         text-align: center;
+     }
 
         .nd-logo2 {
             margin-left: 20px;
