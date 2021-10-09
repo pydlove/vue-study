@@ -102,6 +102,7 @@
         data() {
             return {
                 dialogVisible: false,
+                multipleSelection: [],
                 /**
                  * 选择
                  */

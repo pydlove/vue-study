@@ -131,7 +131,6 @@
             },
 
             onSubmit() {
-                console.log(this.form.startTime);
                 //判断 观测时间是否选择
                 if (this.form.startTime != "" && this.form.startTime != null && this.form.endTime != "" && this.form.endTime != null) {
                     this.search(1, 10);

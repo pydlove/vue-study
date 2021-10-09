@@ -34,8 +34,8 @@
                 <div class="nd-menus">
                     <div class="nd-checkbox">
                         <el-radio-group v-model="label">
-                            <el-radio :label="0" @change="aboveAll(tableData)">{{ $t('message.AllAbove') }}</el-radio>
-                            <el-radio :label="1" @change="belowAll(tableData)">{{ $t('message.AllBelow') }}</el-radio>
+                            <el-radio :label="0" @change="aboveAll(tableData[1], tableData[2])">{{ $t('message.AllAbove') }}</el-radio>
+                            <el-radio :label="1" @change="belowAll(tableData[4] , tableData[5], tableData[6])">{{ $t('message.AllBelow') }}</el-radio>
                             <el-radio :label="2" @change="just">{{ $t('message.Just') }}</el-radio>
                         </el-radio-group>
                     </div>
@@ -49,7 +49,7 @@
                     <el-table
                             ref="table"
                             :data="tableData"
-                            stripe
+                            tooltip-effect="dark"
                             style="width: 100%"
                             @selection-change="handleSelectionChange">
                         <el-table-column
@@ -110,6 +110,7 @@
             </div>
         </div>
         <Footer></Footer>
+        <DownLoad ref="downloadRef"></DownLoad>
     </div>
 </template>
 <!--eslint-disable-->
@@ -123,6 +124,7 @@
     import NewData from "@/views/chaseSatellite/newData.vue";
     import AnalysisSoftware from "@/views/chaseSatellite/analysisSoftware.vue";
     import DataUseRule from "@/views/chaseSatellite/dataUseRule.vue";
+    import DownLoad from "@/views/observationData/download.vue";
 
     export default {
         name: "index",
@@ -135,7 +137,8 @@
             AnalysisSoftware,
             DataUseRule,
             Page,
-            Pagination
+            Pagination,
+            DownLoad
         },
 
         data() {
@@ -192,38 +195,42 @@
 
             handleSelectionChange(item) {
                 this.multipleSelection = item;
+                console.log(this.multipleSelection);
+            },
+
+            //下载
+            download(){
+               this.$refs.downloadRef.multipleSelection = this.multipleSelection;
+               this.$refs.downloadRef.open();
             },
 
             //清除
             clear() {
                 this.$refs.table.clearSelection();
             },
+
             //选择行以上
-            aboveAll(data) {
-                console.log(this.multipleSelection);
-                for (let i = 0; i <= data.length; i++) {
-                    if (this.multipleSelection.toString() == data[i]) {
-                        let a = i;
-                        console.log(a);
-                        for (a; a <= data.length; a--) {
-                            this.$refs.table.toggleRowSelection(data[a]);
-                        }
-                    }
+            aboveAll(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.table.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.table.clearSelection();
                 }
             },
+
             //选择行以下
-            belowAll(data) {
-                console.log(this.multipleSelection);
-                for (let i = 0; i <= data.length; i++) {
-                    if (this.multipleSelection == data[i]) {
-                        let a = i;
-                        console.log(a);
-                        for (a; a < data.length; a++) {
-                            this.$refs.table.toggleRowSelection(data[a]);
-                        }
-                    }
+            belowAll(rows) {
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.table.toggleRowSelection(row);
+                    });
+                } else {
+                    this.$refs.table.clearSelection();
                 }
             },
+
             //当前行
             just() {
                 this.$refs.table.toggleRowSelection(this.multipleSelection);

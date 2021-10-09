@@ -10,7 +10,6 @@
                         class="nd-picture"
                         :src="item.picture"
                         :preview-src-list="[item.picture]"></el-image>
-
                 <div>
                     <div class="nd-list-title">
                         <div class="nd-list-item">

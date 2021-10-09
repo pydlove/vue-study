@@ -31,12 +31,11 @@
 			</div>
 
 			<div class="aiocloud-card1" v-if="dataType">
-
 				<div class="nd-menus">
 					<div class="nd-checkbox">
 						<el-radio-group v-model="label">
-							<el-radio :label="0" @change="aboveAll(tableData)">{{ $t('message.AllAbove') }}</el-radio>
-							<el-radio :label="1" @change="belowAll(tableData)">{{ $t('message.AllBelow') }}</el-radio>
+							<el-radio :label="0" @change="aboveAll(tableData[1], tableData[2])">{{ $t('message.AllAbove') }}</el-radio>
+							<el-radio :label="1" @change="belowAll(tableData[4] , tableData[5], tableData[6])">{{ $t('message.AllBelow') }}</el-radio>
 							<el-radio :label="2" @change="just">{{ $t('message.Just') }}</el-radio>
 						</el-radio-group>
 					</div>
@@ -51,7 +50,9 @@
 							ref="table"
 							:data="tableData"
 							stripe
-							style="width: 100%">
+							tooltip-effect="dark"
+							style="width: 100%"
+							@selection-change="handleSelectionChange">
 						<el-table-column
 								type="selection"
 								width="55">
@@ -175,41 +176,64 @@
                 this.$refs.quickViewRef.initLanguage();
             },
 
+			//下载
+            download(){
+
+			},
+
             //清除
             clear() {
                 this.$refs.table.clearSelection();
             },
+
             //选择行以上
-            aboveAll(data) {
-                console.log(this.multipleSelection);
-                for (let i = 0; i <= data.length; i++) {
-                    if (this.multipleSelection.toString() == data[i]) {
+            aboveAll(rows) {
+                /*for (let i = 0; i <= this.tableData.size; i++) {
+                    if (this.multipleSelection.toString() == this.tableData[i]) {
                         let a = i;
                         console.log(a);
-                        for (a; a <= data.length; a--) {
-                            this.$refs.table.toggleRowSelection(data[a]);
+                        for (a; a <= this.tableData.size; a--) {
+                            this.$refs.table.toggleRowSelection(this.tableData[a]);
                         }
                     }
+                }*/
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.table.aboveAll(row);
+                    });
+                } else {
+                    this.$refs.table.clearSelection();
                 }
-            },
-            //选择行以下
-            belowAll(data) {
-                console.log(this.multipleSelection);
-                for (let i = 0; i <= data.length; i++) {
-                    if (this.multipleSelection == data[i]) {
-                        let a = i;
-                        console.log(a);
-                        for (a; a < data.length; a++) {
-                            this.$refs.table.toggleRowSelection(data[a]);
-                        }
-                    }
-                }
-            },
-            //当前行
-            just() {
-                this.$refs.table.toggleRowSelection(this.multipleSelection);
             },
 
+            //选择行以下
+            belowAll(rows) {
+                console.log(this.multipleSelection);
+              /*  for (let i = 0; i <= this.tableData.size; i++) {
+                    if (this.multipleSelection == this.tableData[i]) {
+                        let a = i;
+                        console.log(a);
+                        for (a; a < this.tableData.size; a++) {
+                            this.$refs.table.toggleRowSelection(data[a]);
+                        }
+                    }
+                }*/
+
+                if (rows) {
+                    rows.forEach(row => {
+                        this.$refs.table.belowAll(row);
+                    });
+                } else {
+                    this.$refs.table.clearSelection();
+                }
+
+            },
+
+            //当前行
+            just() {
+                console.log(this.multipleSelection);
+                this.$refs.table.toggleRowSelection(this.multipleSelection);
+            },
 
             selectEq(item, index) {
                 if(item.type == 1){
@@ -227,9 +251,6 @@
             /********************************** 数据查询逻辑开始 ***********************************/
             setTableData(data) {
                 this.tableData = data.data;
-                if(this.tableData.length <= 0){
-                    this.$message('最近一周无最新数据');
-				}
                 this.$refs.pageRef.totalCount = data.totalCount;
             },
 
