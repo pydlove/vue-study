@@ -43,6 +43,9 @@
         methods: {
             open(){
                 this.dialogVisible = true;
+                this.$nextTick(() => {
+                    this.$refs["multipleSelection"].clearValidate();
+                });
             },
             close() {
                 this.dialogVisible = false;
