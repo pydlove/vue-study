@@ -43,6 +43,7 @@
         methods: {
             open(){
                 this.dialogVisible = true;
+                console.log(this.multipleSelection);
             },
             close() {
                 this.dialogVisible = false;

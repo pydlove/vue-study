@@ -195,7 +195,6 @@
 
             handleSelectionChange(item) {
                 this.multipleSelection = item;
-                console.log(this.multipleSelection);
             },
 
             //下载
