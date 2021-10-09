@@ -177,6 +177,10 @@
                 this.$refs.quickViewRef.initLanguage();
             },
 
+            handleSelectionChange(item){
+                this.multipleSelection = item;
+			},
+
 			//下载
             download(){
                 this.$refs.downloadRef.multipleSelection = this.multipleSelection;
