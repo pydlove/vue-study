@@ -99,8 +99,8 @@
 				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
 			</div>
 		</div>
-
 		<Footer></Footer>
+		<DownLoad ref="downloadRef"></DownLoad>
 	</div>
 </template>
 <!--eslint-disable-->
@@ -114,7 +114,7 @@
     import UseRule from "@/views/observationData/useRule.vue";
     import Friendly from "@/views/observationData/friendly.vue";
     import DataSearch from "@/views/observationData/dataSearch.vue";
-
+    import DownLoad from "@/views/observationData/download.vue";
 
     export default {
         name: "index",
@@ -128,7 +128,8 @@
             Friendly,
             DataSearch,
             Page,
-            Pagination
+            Pagination,
+            DownLoad
         },
 	    data() {
             return {
@@ -178,7 +179,8 @@
 
 			//下载
             download(){
-
+                this.$refs.downloadRef.multipleSelection = this.multipleSelection;
+                this.$refs.downloadRef.open();
 			},
 
             //清除
