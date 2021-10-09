@@ -389,6 +389,7 @@
 
         .nd-time {
             margin-top: 18px;
+            margin-left: 10px;
         }
 
         .time-style {

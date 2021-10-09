@@ -157,6 +157,8 @@
                     type: "0",
                 },
                 type: "0",
+                multipleSelection: [],
+                label: 2,
             }
 	    },
 	    mounted() {
@@ -172,6 +174,42 @@
                 this.menus[4].name = this.$t('message.Links');
                 this.$refs.quickViewRef.initLanguage();
             },
+
+            //清除
+            clear() {
+                this.$refs.table.clearSelection();
+            },
+            //选择行以上
+            aboveAll(data) {
+                console.log(this.multipleSelection);
+                for (let i = 0; i <= data.length; i++) {
+                    if (this.multipleSelection.toString() == data[i]) {
+                        let a = i;
+                        console.log(a);
+                        for (a; a <= data.length; a--) {
+                            this.$refs.table.toggleRowSelection(data[a]);
+                        }
+                    }
+                }
+            },
+            //选择行以下
+            belowAll(data) {
+                console.log(this.multipleSelection);
+                for (let i = 0; i <= data.length; i++) {
+                    if (this.multipleSelection == data[i]) {
+                        let a = i;
+                        console.log(a);
+                        for (a; a < data.length; a++) {
+                            this.$refs.table.toggleRowSelection(data[a]);
+                        }
+                    }
+                }
+            },
+            //当前行
+            just() {
+                this.$refs.table.toggleRowSelection(this.multipleSelection);
+            },
+
 
             selectEq(item, index) {
                 if(item.type == 1){
