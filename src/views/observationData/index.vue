@@ -59,6 +59,12 @@
 						</el-table-column>
 						<el-table-column
 								show-overflow-tooltip="true"
+								prop="fitsName"
+								label="文件名称"
+								width="120">
+						</el-table-column>
+						<el-table-column
+								show-overflow-tooltip="true"
 								prop="startTime"
 								label="开始时间"
 								width="150">

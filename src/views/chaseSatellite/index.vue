@@ -202,36 +202,29 @@
             //选择一条数据 根据label触发选择行为
             handleSelectionChange(item) {
                 this.multipleSelection = item;
+                this.selectData.length = 0;
                 if(this.label == '0'){
-                    console.log(0);
-                    for(let i = 0; i <= this.tableData.size; i++){
+                    for(let i = 0; i <= this.tableData.length -1; i++){
                          if(this.multipleSelection[0] == this.tableData[i]){
                              let a = i ;
                              for(let b = 0; b <= a; b++){
                                 this.selectData.push(this.tableData[b]);
                              }
+                             console.log(this.selectData);
+                             this.multipleSelection = this.selectData ;
                          }
                     }
-                    this.selectData = this.multipleSelection;
-                    console.log(this.selectData);
-                    /*for(let i = 0; i <= this.selectData.length; i++){
-                        this.$refs.table.toggleRowSelection(this.selectData[i]);
-                    }*/
                 } else if(this.label == '1'){
-                    console.log(1);
-                    for(let i = 0; i <= this.tableData.size; i++){
+                    for(let i = 0; i <= this.tableData.length; i++){
                         if(this.multipleSelection[0] == this.tableData[i]){
                             let a = i ;
-                            for(let b = a; a <= b; b++){
+                            for(let b = a; b <= this.tableData.length - 1; b++){
                                 this.selectData.push(this.tableData[b]);
                             }
+                             console.log(this.selectData);
+                             this.multipleSelection = this.selectData ;
                         }
                     }
-                    this.selectData = this.multipleSelection;
-                    console.log(this.selectData);
-                   /* for(let i = 0; i < this.selectData.size; i++){
-                        this.$refs.table.toggleRowSelection(this.selectData[i]);
-                    }*/
                 }
             },
 
@@ -248,24 +241,20 @@
 
             //选择行以上
             aboveAll() {
+                this.selectData.length = 0;
                 this.label = 0;
             },
 
 
             //选择行以下
             belowAll() {
+                this.selectData.length = 0;
                 this.label = 1;
-               /* if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.table.toggleRowSelection(row);
-                    });
-                } else {
-                    this.$refs.table.clearSelection();
-                }*/
             },
 
             //当前行
             just() {
+                this.selectData.length = 0;
                 this.$refs.table.toggleRowSelection(this.multipleSelection);
             },
 
