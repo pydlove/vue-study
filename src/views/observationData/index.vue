@@ -61,24 +61,24 @@
 								show-overflow-tooltip="true"
 								prop="startTime"
 								label="开始时间"
-								width="120">
+								width="150">
 						</el-table-column>
 						<el-table-column
 								show-overflow-tooltip="true"
 								prop="endTime"
 								label="结束时间"
-								width="120">
+								width="150">
 						</el-table-column>
 						<el-table-column
 								show-overflow-tooltip="true"
 								prop="offBand"
-								width="150px"
+								width="200px"
 								label="偏带">
 						</el-table-column>
 						<el-table-column
 								show-overflow-tooltip="true"
 								prop="exposureTime"
-								width="150px"
+								width="200px"
 								label="曝光时间">
 						</el-table-column>
 						<el-table-column
@@ -87,13 +87,13 @@
 								width="100px"
 								label="观测波长">
 						</el-table-column>
-						<el-table-column label="操作" fixed="right" width="150px" align="center">
+						<!--<el-table-column label="操作" fixed="right" width="150px" align="center">
 							<template slot-scope="scope">
 								<el-button class="obd-data-btn" type="primary" size="mini" @click="lookDay(item)">
 									{{ $t('message.AllDay') }}
 								</el-button>
 							</template>
-						</el-table-column>
+						</el-table-column>-->
 					</el-table>
 				</div>
 				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>

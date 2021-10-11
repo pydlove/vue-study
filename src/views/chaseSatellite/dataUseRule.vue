@@ -1,6 +1,8 @@
 <template>
     <!--eslint-disable-->
-    <div>你好啊2</div>
+    <div class="nd-wehost">
+        <van-empty image="search" :description="$t('message.underConstruction')"/>
+    </div>
 </template>
 <!--eslint-disable-->
 

@@ -227,7 +227,8 @@ module.exports = {
         },
         datepicker: {
             now: 'el-datepicker-now',
-            selectTime: '',
+            selectTime: 'select time',
+            selectDate: 'select date',
             year: '',
             month1: '- 1',
             month2: '- 2',

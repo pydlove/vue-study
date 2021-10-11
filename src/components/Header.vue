@@ -147,7 +147,6 @@
 
             },
 
-
             showMyApplication() {
                 this.$refs.myApplicationRef.open();
             },
@@ -229,7 +228,9 @@
                 if (   this.currentMenu == 'observeDevice'
                     || this.currentMenu == 'pictureAndAchievement'
                     || this.currentMenu == 'newsAndResource'
-                    || this.currentMenu == 'index' || this.currentMenu == 'observationData'
+                    || this.currentMenu == 'index'
+					|| this.currentMenu == 'observationData'
+					|| this.currentMenu == 'chaseSatellite'
                 ) {
                     this.$emit("initLanguage");
                 }

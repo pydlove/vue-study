@@ -1,7 +1,7 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <NormalHeader :currentMenu="'chaseSatellite'" @initLanguage="initLanguage"></NormalHeader>
+        <NormalHeader :currentMenu = "'chaseSatellite'" @initLanguage="initLanguage"></NormalHeader>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
             <el-breadcrumb-item :to="{ path: '/home' }">
                 <i class="el-icon-s-home"></i>
@@ -34,8 +34,8 @@
                 <div class="nd-menus">
                     <div class="nd-checkbox">
                         <el-radio-group v-model="label">
-                            <el-radio :label="0" @change="aboveAll(tableData[1], tableData[2])">{{ $t('message.AllAbove') }}</el-radio>
-                            <el-radio :label="1" @change="belowAll(tableData[4] , tableData[5], tableData[6])">{{ $t('message.AllBelow') }}</el-radio>
+                            <el-radio :label="0" @change="aboveAll">{{ $t('message.AllAbove') }}</el-radio>
+                            <el-radio :label="1" @change="belowAll">{{ $t('message.AllBelow') }}</el-radio>
                             <el-radio :label="2" @change="just">{{ $t('message.Just') }}</el-radio>
                         </el-radio-group>
                     </div>
@@ -176,6 +176,9 @@
                 type: "0",
                 multipleSelection: [],
                 label: 2,
+                selectData: [],
+                selectDatas: [],
+
             }
         },
 
@@ -190,11 +193,39 @@
                 this.chaseMenus[2].name = this.$t('message.NewData');
                 this.chaseMenus[3].name = this.$t('message.AnalysisSoftware');
                 this.chaseMenus[4].name = this.$t('message.DataUseRule');
-                this.$refs.dataProductRef.initLanguage();
+               /* this.$refs.dataProductRef.initLanguage();*/
             },
 
+            //选择一条数据 根据label触发选择行为
             handleSelectionChange(item) {
                 this.multipleSelection = item;
+                if(this.label == '0'){
+                    for(let i = 0; i <= this.tableData.length; i++){
+                         if(this.multipleSelection[0] == this.tableData[i]){
+                             let a = i ;
+                             for(let b = 0; b <= a; b++){
+                                this.selectData.push(this.tableData[b]);
+                             }
+                         }
+                    }
+                    this.selectData = this.multipleSelection;
+                    /*for(let i = 0; i <= this.selectData.length; i++){
+                        this.$refs.table.toggleRowSelection(this.selectData[i]);
+                    }*/
+                } else if(this.label == '1'){
+                    for(let i = 0; i <= this.tableData.length; i++){
+                        if(this.multipleSelection[0] == this.tableData[i]){
+                            let a = i ;
+                            for(let b = a; a <= b; b++){
+                                this.selectData.push(this.tableData[b]);
+                            }
+                        }
+                    }
+                    this.selectData = this.multipleSelection;
+                   /* for(let i = 0; i < this.selectData.length; i++){
+                        this.$refs.table.toggleRowSelection(this.selectData[i]);
+                    }*/
+                }
             },
 
             //下载
@@ -209,25 +240,21 @@
             },
 
             //选择行以上
-            aboveAll(rows) {
-                if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.table.toggleRowSelection(row);
-                    });
-                } else {
-                    this.$refs.table.clearSelection();
-                }
+            aboveAll() {
+                this.label = 0;
             },
 
+
             //选择行以下
-            belowAll(rows) {
-                if (rows) {
+            belowAll() {
+                this.label = 1;
+               /* if (rows) {
                     rows.forEach(row => {
                         this.$refs.table.toggleRowSelection(row);
                     });
                 } else {
                     this.$refs.table.clearSelection();
-                }
+                }*/
             },
 
             //当前行
@@ -246,6 +273,7 @@
                 }
                 this.type = item.type;
                 this.menu = item;
+                this.$utils.setStorage("chaseSatelliteIndex", index);
             },
 
             /********************************** 数据查询逻辑开始 ***********************************/

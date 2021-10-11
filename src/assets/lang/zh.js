@@ -225,6 +225,7 @@ module.exports = {
         datepicker: {
             now: '现在',
             selectTime: '选择时间',
+            selectDate: '选择日期',
             year: '年',
             month1: '1月',
             month2: '2月',

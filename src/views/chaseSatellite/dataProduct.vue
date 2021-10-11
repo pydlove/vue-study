@@ -1,12 +1,13 @@
 <template>
     <!--eslint-disable-->
-    <div>你好啊</div>
+    <div class="nd-wehost">
+        <van-empty image="search" :description="$t('message.underConstruction')"/>
+    </div>
 </template>
 <!--eslint-disable-->
-
 <script>
     export default {
-        name: "DataProduct"
+        name: "DataProduct",
     }
 </script>
 
