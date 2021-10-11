@@ -58,6 +58,12 @@
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
+                                prop="fitsName"
+                                label="文件名称"
+                                width="120">
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
                                 prop="startTime"
                                 label="开始时间"
                                 width="120">
@@ -177,8 +183,6 @@
                 multipleSelection: [],
                 label: 2,
                 selectData: [],
-                selectDatas: [],
-
             }
         },
 
@@ -193,14 +197,14 @@
                 this.chaseMenus[2].name = this.$t('message.NewData');
                 this.chaseMenus[3].name = this.$t('message.AnalysisSoftware');
                 this.chaseMenus[4].name = this.$t('message.DataUseRule');
-               /* this.$refs.dataProductRef.initLanguage();*/
             },
 
             //选择一条数据 根据label触发选择行为
             handleSelectionChange(item) {
                 this.multipleSelection = item;
                 if(this.label == '0'){
-                    for(let i = 0; i <= this.tableData.length; i++){
+                    console.log(0);
+                    for(let i = 0; i <= this.tableData.size; i++){
                          if(this.multipleSelection[0] == this.tableData[i]){
                              let a = i ;
                              for(let b = 0; b <= a; b++){
@@ -209,11 +213,13 @@
                          }
                     }
                     this.selectData = this.multipleSelection;
+                    console.log(this.selectData);
                     /*for(let i = 0; i <= this.selectData.length; i++){
                         this.$refs.table.toggleRowSelection(this.selectData[i]);
                     }*/
                 } else if(this.label == '1'){
-                    for(let i = 0; i <= this.tableData.length; i++){
+                    console.log(1);
+                    for(let i = 0; i <= this.tableData.size; i++){
                         if(this.multipleSelection[0] == this.tableData[i]){
                             let a = i ;
                             for(let b = a; a <= b; b++){
@@ -222,7 +228,8 @@
                         }
                     }
                     this.selectData = this.multipleSelection;
-                   /* for(let i = 0; i < this.selectData.length; i++){
+                    console.log(this.selectData);
+                   /* for(let i = 0; i < this.selectData.size; i++){
                         this.$refs.table.toggleRowSelection(this.selectData[i]);
                     }*/
                 }
