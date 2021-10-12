@@ -23,13 +23,16 @@
                 <el-table-column fixed="left" type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="fitsName" label="文件名称" :show-overflow-tooltip="true" align="center"></el-table-column>
                 <el-table-column prop="fitsUrl" label="文件地址" :show-overflow-tooltip="true" align="center"></el-table-column>
-                <el-table-column prop="csize" label="文件大小" :show-overflow-tooltip="true" align="center" sortable></el-table-column>
+                <el-table-column prop="csize" label="文件大小" :show-overflow-tooltip="true" align="center" sortable>
+                    <template slot-scope="scope">
+                        {{ fmtActivityStatus(scope.row.csize) }}
+                    </template>
+                </el-table-column>
             </el-table>
 
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
               <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
-             <!-- <el-button class="wdi-120 aioc-btn1" type="primary" @click="downloadFits">下 载</el-button>-->
             </span>
 
         </el-dialog>
@@ -57,6 +60,13 @@
             },
             close() {
                 this.dialogVisible = false;
+            },
+
+            fmtActivityStatus(item) {
+               console.log(item);
+               let csize = item/1024;
+               csize = parseFloat(csize).toFixed(0);
+               return csize + "KB";
             },
 
             //通过url 转为blob格式的数据
@@ -115,34 +125,20 @@
                 this.dialogVisible = false; // 弹窗关闭
             },
 
-        /*    downloadFits(){
-                console.log(this.baseUrl);
-               // let a = document.createElement('a');
-               // // a.href = this.baseUrl + "/testdata/chase/2021/07/15/sun_2566.fts";
-               // a.href = "http://114.212.174.143:8088/testdata/chase/2021/07/15/sun_2566.fts";
-               // a.click();
-                if(this.checkRows.length > 0) {
-                    this.handleDownLoad();
-                } else {
-                    this.$message('请选择一条数据');
-                }
-            },*/
-
             onSubmit(){
                 this.size = 0;
                 for(let i = 0 ; i < this.checkRows.length; i++){
-                    let cSize = (this.checkRows[i].csize)/1024;
+                    let cSize = (this.checkRows[i].csize)/(1024*1024);
                     this.size = this.size + cSize;
                     this.saveUrl.push(this.checkRows[i].fitsUrl);
                 }
+               this.size = parseFloat(this.size).toFixed(2)
                 if(this.checkRows.length > 0) {
-                    this.$confirm('您将要下载文件大小为' + this.size +'KB , 是否继续?', '提示', {
+                    this.$confirm('您将要下载文件大小为' + this.size +'MB , 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                      /*  this.checkRowIds = [];
-                        this.checkRowIds.push("\"" + row.id + "\"");*/
                         this.submitRequest();
                     }).catch(() => {
                     });
