@@ -24,13 +24,12 @@
                 <el-table-column prop="fitsName" label="文件名称" :show-overflow-tooltip="true" align="center"></el-table-column>
                 <el-table-column prop="fitsUrl" label="文件地址" :show-overflow-tooltip="true" align="center"></el-table-column>
                 <el-table-column prop="csize" label="文件大小" :show-overflow-tooltip="true" align="center" sortable></el-table-column>
-                <el-table-column prop="status" label="状态" :show-overflow-tooltip="true" align="center" sortable></el-table-column>
             </el-table>
 
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
               <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
-              <el-button class="wdi-120 aioc-btn1" type="primary" @click="downloadFits">下 载</el-button>
+             <!-- <el-button class="wdi-120 aioc-btn1" type="primary" @click="downloadFits">下 载</el-button>-->
             </span>
 
         </el-dialog>
@@ -116,34 +115,55 @@
                 this.dialogVisible = false; // 弹窗关闭
             },
 
-            downloadFits(){
+        /*    downloadFits(){
                 console.log(this.baseUrl);
                // let a = document.createElement('a');
                // // a.href = this.baseUrl + "/testdata/chase/2021/07/15/sun_2566.fts";
                // a.href = "http://114.212.174.143:8088/testdata/chase/2021/07/15/sun_2566.fts";
                // a.click();
-                this.handleDownLoad();
-            },
+                if(this.checkRows.length > 0) {
+                    this.handleDownLoad();
+                } else {
+                    this.$message('请选择一条数据');
+                }
+            },*/
 
             onSubmit(){
-                this.$confirm('您将要下载文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.checkRowIds = [];
-                    this.checkRowIds.push("\"" + row.id + "\"");
-                    this.submitRequest();
-                }).catch(() => {
-                });
+                this.size = 0;
+                for(let i = 0 ; i < this.checkRows.length; i++){
+                    let cSize = (this.checkRows[i].csize)/1024;
+                    this.size = this.size + cSize;
+                    this.saveUrl.push(this.checkRows[i].fitsUrl);
+                }
+                if(this.checkRows.length > 0) {
+                    this.$confirm('您将要下载文件大小为' + this.size +'KB , 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                      /*  this.checkRowIds = [];
+                        this.checkRowIds.push("\"" + row.id + "\"");*/
+                        this.submitRequest();
+                    }).catch(() => {
+                    });
+
+                } else {
+                    this.$message('请选择一条数据');
+                }
+
             },
 
             async submitRequest(){
+                console.log(1);
                 let params = new FormData();
-                params.append("fitsUrls", this.form.fitsUrls);
-                params.append("sizes", this.form.sizes);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_download_log_in, this.form, "POST");
-            },
+                params.append("fitsUrls", this.saveUrl.toString());
+                params.append("sizes", this.size);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_download_log_in, params, "POST");
+                if(data.code == 200){
+                    this.handleDownLoad();
+                    this.dialogVisible = false;
+                }
+                },
 
             /**
              * 表格点击事件
@@ -156,6 +176,7 @@
              */
             onTableSelectChange(rows) {
                 this.checkRows = rows;
+                console.log(this.checkRows);
             },
             /**
              * 取消选择
@@ -191,6 +212,8 @@
                 },
                 filesPath:[],
                 baseUrl: "",
+                 size:  0,
+                saveUrl: [],
 
             }
         },

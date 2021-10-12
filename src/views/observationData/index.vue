@@ -93,13 +93,6 @@
 								width="100px"
 								label="观测波长">
 						</el-table-column>
-						<!--<el-table-column label="操作" fixed="right" width="150px" align="center">
-							<template slot-scope="scope">
-								<el-button class="obd-data-btn" type="primary" size="mini" @click="lookDay(item)">
-									{{ $t('message.AllDay') }}
-								</el-button>
-							</template>
-						</el-table-column>-->
 					</el-table>
 				</div>
 				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
@@ -185,12 +178,41 @@
 
             handleSelectionChange(item){
                 this.multipleSelection = item;
+                this.selectData.length = 0;
+                if(this.label == '0'){
+                    for(let i = 0; i <= this.tableData.length -1; i++){
+                        if(this.multipleSelection[0] == this.tableData[i]){
+                            let a = i ;
+                            for(let b = 0; b <= a; b++){
+                                this.selectData.push(this.tableData[b]);
+                            }
+                            console.log(this.selectData);
+                            this.multipleSelection = this.selectData ;
+                        }
+                    }
+                } else if(this.label == '1'){
+                    for(let i = 0; i <= this.tableData.length; i++){
+                        if(this.multipleSelection[0] == this.tableData[i]){
+                            let a = i ;
+                            for(let b = a; b <= this.tableData.length - 1; b++){
+                                this.selectData.push(this.tableData[b]);
+                            }
+                            console.log(this.selectData);
+                            this.multipleSelection = this.selectData ;
+                        }
+                    }
+                }
 			},
 
 			//下载
             download(){
-                this.$refs.downloadRef.multipleSelection = this.multipleSelection;
-                this.$refs.downloadRef.open();
+                if(this.multipleSelection.length > 0){
+                    this.$refs.downloadRef.multipleSelection = this.multipleSelection;
+                    this.$refs.downloadRef.open();
+				} else {
+                    this.$message('请选择一条数据');
+				}
+
 			},
 
             //清除
@@ -200,50 +222,19 @@
 
             //选择行以上
             aboveAll(rows) {
-                /*for (let i = 0; i <= this.tableData.size; i++) {
-                    if (this.multipleSelection.toString() == this.tableData[i]) {
-                        let a = i;
-                        console.log(a);
-                        for (a; a <= this.tableData.size; a--) {
-                            this.$refs.table.toggleRowSelection(this.tableData[a]);
-                        }
-                    }
-                }*/
-                if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.table.aboveAll(row);
-                    });
-                } else {
-                    this.$refs.table.clearSelection();
-                }
+                this.selectData.length = 0;
+                this.label = 0;
             },
 
             //选择行以下
             belowAll(rows) {
-                console.log(this.multipleSelection);
-              /*  for (let i = 0; i <= this.tableData.size; i++) {
-                    if (this.multipleSelection == this.tableData[i]) {
-                        let a = i;
-                        console.log(a);
-                        for (a; a < this.tableData.size; a++) {
-                            this.$refs.table.toggleRowSelection(data[a]);
-                        }
-                    }
-                }*/
-
-                if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.table.belowAll(row);
-                    });
-                } else {
-                    this.$refs.table.clearSelection();
-                }
-
+                this.selectData.length = 0;
+                this.label = 1;
             },
 
             //当前行
             just() {
-                console.log(this.multipleSelection);
+                this.selectData.length = 0;
                 this.$refs.table.toggleRowSelection(this.multipleSelection);
             },
 

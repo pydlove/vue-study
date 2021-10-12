@@ -230,8 +230,13 @@
 
             //下载
             download(){
-               this.$refs.downloadRef.multipleSelection = this.multipleSelection;
-               this.$refs.downloadRef.open();
+                if(this.multipleSelection.length > 0){
+                    this.$refs.downloadRef.multipleSelection = this.multipleSelection;
+                    this.$refs.downloadRef.open();
+                } else {
+                    this.$message('请选择一条数据');
+                }
+
             },
 
             //清除
