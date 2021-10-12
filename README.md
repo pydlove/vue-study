@@ -33,3 +33,7 @@
     See Configuration Reference.
     
 ## npm install vue-i18n --save-dev
+
+##压缩文件
+    npm install jszip
+    npm install file-saver
