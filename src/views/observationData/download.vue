@@ -31,17 +31,17 @@
             </el-table>-->
 
             <div class="nd-file-download" v-for="item in filesPath">
-                <div class="nd-file">
-                    <div class="nd-file-url">{{item.fitsUrl}}</div>
-                    <div class="nd-file-size">{{item.csize}}</div>
+                <div class="nd-file" @click="toDownload(item)">
+                    <div class="nd-icon"></div>
+                    <div class="nd-file-url">{{fakeUrl(item)}}</div>
+                    <div class="nd-file-size">{{fitsSize(item)}}</div>
                 </div>
             </div>
 
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
-              <el-button class="wdi-120 aioc-btn1" type="primary" @click="onSubmit">确 定</el-button>
+              <el-button class="wdi-120 aioc-btn1" type="primary" @click="close">确 定</el-button>
             </span>
-
         </el-dialog>
     </div>
     
@@ -61,21 +61,19 @@
             open(){
                 this.dialogVisible = true;
                 this.filesPath = this.multipleSelection;
-                console.log(this.filesPath);
                 this.checkRows = null;
             },
             close() {
                 this.dialogVisible = false;
             },
 
-            fmtActivityStatus(item) {
-               console.log(item);
-               let csize = item/1024;
-               csize = parseFloat(csize).toFixed(0);
-               return csize + "KB";
+            fakeUrl(item){
+                let url = "http://114.212.174.143:9092/download" + "? fileName=" + item.fitsName;
+                console.log(item.fitsUrl);
+                return url;
             },
 
-            //通过url 转为blob格式的数据
+         /*   //通过url 转为blob格式的数据
             getImgArrayBuffer(url){
                 let _this = this;
                 return new Promise((resolve, reject) => {
@@ -93,9 +91,27 @@
                     }
                     xmlhttp.send();
                 });
+            },*/
+
+            fitsSize(item){
+                let cSize = (item.csize)/(1024*1024);
+                cSize = parseFloat(cSize).toFixed(0);
+                return cSize + "KB";
             },
 
-            handleDownLoad() {
+            //点一条数据就去下载 参数id
+            async toDownload(item){
+                let params = new FormData();
+                params.append("fitsUrls", item.fitsUrl);
+                params.append("sizes", item.csize);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_download, params, "POST");
+                if(data.code == 200) {
+
+                }
+
+            },
+
+        /*    handleDownLoad() {
                 let _this = this;
                 let zip = new JSZip();
                 let obj = {};
@@ -132,15 +148,7 @@
             },
 
             onSubmit(){
-                this.size = 0;
-                for(let i = 0 ; i < this.checkRows.length; i++){
-                    let cSize = (this.checkRows[i].csize)/(1024*1024);
-                    this.size = this.size + cSize;
-                    this.saveUrl.push(this.checkRows[i].fitsUrl);
-                }
-               this.size = parseFloat(this.size).toFixed(2)
-                if(this.checkRows.length > 0) {
-                    this.$confirm('您将要下载文件大小为' + this.size +'MB , 是否继续?', '提示', {
+                    this.$confirm('您将要下载文件, 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
@@ -148,11 +156,6 @@
                         this.submitRequest();
                     }).catch(() => {
                     });
-
-                } else {
-                    this.$message('请选择一条数据');
-                }
-
             },
 
             async submitRequest(){
@@ -164,44 +167,12 @@
                     this.handleDownLoad();
                     this.dialogVisible = false;
                 }
-                },
+                },*/
 
-            /**
-             * 表格点击事件
-             */
-            tableRowClick(row) {
-                this.$refs.table.toggleRowSelection(row);
-            },
-            /**
-             * 表格选择改变事件
-             */
-            onTableSelectChange(rows) {
-                this.checkRows = rows;
-                console.log(this.checkRows);
-            },
-            /**
-             * 取消选择
-             */
-            toggleSelection() {
-                this.$refs.table.clearSelection();
-            },
-
-            sortChange(column) {
-                this.$refs.table.clearSort()
-                this.sort = "";
-                if (column.prop == "sizes" && column.order == "ascending") {
-                    this.sort = "sizes asc";
-                }
-                else if (column.prop == "sizes" && column.order == "descending") {
-                    this.sort = "sizes desc";
-                }
-                this.search(this.currentPage, this.pageSize);
-            },
         },
         data() {
             return {
                 dialogVisible: false,
-                multipleSelection: [],
                 /**
                  * 选择
                  */
@@ -213,15 +184,20 @@
                 },
                 filesPath:[],
                 baseUrl: "",
-                 size:  0,
                 saveUrl: [],
-
             }
         },
     }
 </script>
 
 <style scoped>
+
+    .nd-icon{
+        background: url("../../assets/img/background/icon.png");
+        width: 20px;
+        height: 20px;
+        background-size: 100% 100%;
+    }
 
     .nd-file-download{
         width: 100%;
@@ -234,13 +210,15 @@
     }
 
     .nd-file-url{
-        margin-left: 20px;
+        margin-left: 3px;
         font-size: 14px;
+        line-height: 21px;
     }
 
     .nd-file-size{
         margin-left: 10px;
         font-size: 14px;
+        line-height: 21px;
     }
 
 </style>

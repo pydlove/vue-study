@@ -222,20 +222,12 @@
                 } else if (this.label == '1') {
                     for (let i = 0; i <= this.tableData.length - 1; i++) {
                         if (row.id == this.tableData[i].id) {
-                            console.log(i);
                             for (let j = i; j <= this.tableData.length - 1; j++) {
-                                console.log(j);
                                 this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
                             }
                         }
                     }
                     this.$refs.tableRef.toggleRowSelection(row);
-                } else if (this.label == '2') {
-                    for (let i = 0; i <= this.tableData.length - 1; i++) {
-                        if (row.id == this.tableData[i].id) {
-                            this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
-                        }
-                    }
                 }
             },
 

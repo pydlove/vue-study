@@ -131,7 +131,7 @@ module.exports = {
             },
             '/client-service': {
                 target: 'http://localhost:9093',
-               /* target: 'http://114.212.174.143:9093',*/
+             /*   target: 'http://114.212.174.143:9093',*/
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}
