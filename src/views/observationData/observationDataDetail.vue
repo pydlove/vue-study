@@ -84,11 +84,11 @@
 
 				<div class="obd-title">
 					<el-divider content-position="left">
-						{{ $t('message.WeatherConditions') }}观测数据
+						{{ $t('menu.observationData') }}
 					</el-divider>
 				</div>
 
-				<div v-if="observationLog.clObservationDatas.length > 0" class="pt-20">
+				<!--<div v-if="observationLog.clObservationDatas.length > 0" class="pt-20">
 					<div v-for="(item, index) in observationLog.clObservationDatas" :key="index" class="dffn obd-data aiocloud-card">
 						<van-image class="obd-data-img"
 						           width="160px"
@@ -145,10 +145,82 @@
 							<el-button v-else-if="language == 'en'" class="obd-data-btn" type="primary" size="mini" @click="applicationDownload(item)" style="left: -40px !important;">{{ $t('message.ApplicationDownload') }}</el-button>
 						</div>
 					</div>
-				</div>
-
-				<div v-else>
-					<van-empty image="search" :description="$t('message.NoObservationDataEmpty')"/>
+				</div>-->
+				<div class="aiocloud-card1" v-if="dataType">
+					<div class="nd-search-data">
+						<el-table
+								ref="tableRef"
+								:data="tableData"
+								tooltip-effect="dark"
+								style="width: 100%"
+								@select="handleSelection"
+						>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="fitsName"
+									label="文件名称"
+									width="200"
+									align="center">
+							</el-table-column>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="startTime"
+									label="开始时间"
+									width="120"
+									align="center">
+							</el-table-column>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="endTime"
+									label="结束时间"
+									width="120"
+									align="center">
+							</el-table-column>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="target"
+									width="100px"
+									label="观测目标"
+									align="center">
+							</el-table-column>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="lineSpectrum"
+									width="100px"
+									label="观测谱线"
+									align="center">
+							</el-table-column>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="observationPattern"
+									width="100px"
+									label="观测模式"
+									align="center">
+							</el-table-column>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="exposureTime"
+									width="100px"
+									label="曝光时间"
+									align="center">
+							</el-table-column>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="coordinates"
+									width="100px"
+									label="观测坐标"
+									align="center">
+							</el-table-column>
+							<el-table-column
+									show-overflow-tooltip="true"
+									prop="observationBand"
+									width="100px"
+									label="观测波段"
+									align="center">
+							</el-table-column>
+						</el-table>
+					</div>
+					<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
 				</div>
 			</div>
 		</div>
@@ -162,16 +234,22 @@
     import NormalHeader from "@/components/NormalHeader";
     import Footer from "@/components/Footer";
     import Application from "@/views/user/application.vue";
+    import Page from "@/components/Page";
+    import Pagination from "@/components/Pagination";
 
     export default {
         name: "observationDataDetail",
         components: {
             NormalHeader,
             Footer,
-            Application
+            Application,
+            Page,
+            Pagination
         },
         data() {
             return {
+                dataType: true,
+                tableData: [],
                 language: "zh",
                 observationDataDetail: {
                     date: "",
@@ -191,7 +269,6 @@
             this.initLanguage();
             this.observationDataDetail = this.$utils.getStorage("observationDataDetail");
             this.search();
-
         },
         methods: {
             initLanguage() {
@@ -262,6 +339,7 @@
                 if (data.code == 200) {
                     if (data.data) {
                         this.observationLog = data.data;
+                        this.tableData = this.observationLog.clObservationDatas;
                     }
                     return true;
                 }

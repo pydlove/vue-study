@@ -1,7 +1,7 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <NormalHeader :currentMenu = "'chaseSatellite'" @initLanguage="initLanguage"></NormalHeader>
+        <NormalHeader :currentMenu="'chaseSatellite'" @initLanguage="initLanguage"></NormalHeader>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
             <el-breadcrumb-item :to="{ path: '/home' }">
                 <i class="el-icon-s-home"></i>
@@ -47,11 +47,12 @@
 
                 <div class="nd-search-data">
                     <el-table
-                            ref="table"
+                            ref="tableRef"
                             :data="tableData"
                             tooltip-effect="dark"
                             style="width: 100%"
-                            @selection-change="handleSelectionChange">
+                            @select="handleSelection"
+                    >
                         <el-table-column
                                 type="selection"
                                 width="55">
@@ -60,55 +61,65 @@
                                 show-overflow-tooltip="true"
                                 prop="fitsName"
                                 label="文件名称"
-                                width="120">
+                                width="120"
+                                align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="startTime"
                                 label="开始时间"
-                                width="120">
+                                width="120"
+                                align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="endTime"
                                 label="结束时间"
-                                width="120">
+                                width="120"
+                                align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="target"
                                 width="100px"
-                                label="观测目标">
+                                label="观测目标"
+                                align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="lineSpectrum"
                                 width="100px"
-                                label="观测谱线">
+                                label="观测谱线"
+                                align="center"
+                        >
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="observationPattern"
                                 width="100px"
-                                label="观测模式">
+                                label="观测模式"
+                                align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="exposureTime"
                                 width="100px"
-                                label="曝光时间">
+                                label="曝光时间"
+                                align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="coordinates"
                                 width="100px"
-                                label="观测坐标">
+                                label="观测坐标"
+                                align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="observationBand"
                                 width="100px"
-                                label="观测波段">
+                                label="观测波段"
+                                align="center">
                         </el-table-column>
                     </el-table>
                 </div>
@@ -199,38 +210,39 @@
                 this.chaseMenus[4].name = this.$t('message.DataUseRule');
             },
 
-            //选择一条数据 根据label触发选择行为
-            handleSelectionChange(item) {
-                this.multipleSelection = item;
-                this.selectData.length = 0;
-                if(this.label == '0'){
-                    for(let i = 0; i <= this.tableData.length -1; i++){
-                         if(this.multipleSelection[0] == this.tableData[i]){
-                             let a = i ;
-                             for(let b = 0; b <= a; b++){
-                                this.selectData.push(this.tableData[b]);
-                             }
-                             console.log(this.selectData);
-                             this.multipleSelection = this.selectData ;
-                         }
-                    }
-                } else if(this.label == '1'){
-                    for(let i = 0; i <= this.tableData.length; i++){
-                        if(this.multipleSelection[0] == this.tableData[i]){
-                            let a = i ;
-                            for(let b = a; b <= this.tableData.length - 1; b++){
-                                this.selectData.push(this.tableData[b]);
+            handleSelection(selection, row) {
+                if (this.label == '0') {
+                    for (let i = 0; i <= this.tableData.length - 1; i++) {
+                        if (row.id == this.tableData[i].id) {
+                            for (let j = 0; j < i; j++) {
+                                this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
                             }
-                             console.log(this.selectData);
-                             this.multipleSelection = this.selectData ;
+                        }
+                    }
+                } else if (this.label == '1') {
+                    for (let i = 0; i <= this.tableData.length - 1; i++) {
+                        if (row.id == this.tableData[i].id) {
+                            console.log(i);
+                            for (let j = i; j <= this.tableData.length - 1; j++) {
+                                console.log(j);
+                                this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
+                            }
+                        }
+                    }
+                    this.$refs.tableRef.toggleRowSelection(row);
+                } else if (this.label == '2') {
+                    for (let i = 0; i <= this.tableData.length - 1; i++) {
+                        if (row.id == this.tableData[i].id) {
+                            this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
                         }
                     }
                 }
             },
 
             //下载
-            download(){
-                if(this.multipleSelection.length > 0){
+            download() {
+                this.multipleSelection =  this.$refs.tableRef.selection;
+                if (this.multipleSelection.length > 0) {
                     this.$refs.downloadRef.multipleSelection = this.multipleSelection;
                     this.$refs.downloadRef.open();
                 } else {
@@ -241,7 +253,7 @@
 
             //清除
             clear() {
-                this.$refs.table.clearSelection();
+                this.$refs.tableRef.clearSelection();
             },
 
             //选择行以上

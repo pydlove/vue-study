@@ -15,15 +15,7 @@
                             class="ds-date1"
                             v-model="form.startTime"
                             type="datetime"
-                            placeholder="选择开始时间">
-                    </el-date-picker>
-                    <div class="nd-line">-</div>
-                    <el-date-picker
-                            class="ds-date2"
-                            v-model="form.endTime"
-                            type="datetime"
-                            placeholder="选择结束时间"
-                            @change="checkTime">
+                            placeholder="选择观测时间">
                     </el-date-picker>
                 </div>
 
@@ -143,21 +135,10 @@
                 }
             },
 
-            checkTime() {
-                if (this.form.startTime != null && this.form.endTime != null) {
-                    let beginTime = new Date(this.form.startTime);
-                    let endTime = new Date(this.form.endTime);
-                    if (beginTime.getTime() >= endTime.getTime()) {
-                        alert("时间选择错误，请重新选择");
-                        this.form.endTime = null;
-                    }
-                }
-            },
-
             onSubmit() {
                 console.log(this.form.startTime);
                 //判断 观测时间是否选择
-                if (this.form.startTime != "" && this.form.startTime != null && this.form.endTime != "" && this.form.endTime != null) {
+                if (this.form.startTime != "" && this.form.startTime != null ) {
                     this.search(1, 10);
                 } else {
                     this.$message('请选择观测时间');
@@ -169,11 +150,9 @@
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
                 let params = new FormData();
-                if (this.form.startTime != null && this.form.startTime != "" && this.form.endTime != null && this.form.endTime != "") {
+                if (this.form.startTime != null && this.form.startTime != "") {
                     let beginTime = new Date(this.form.startTime);
-                    let endTime = new Date(this.form.endTime);
                     params.append("beginTime", beginTime);
-                    params.append("endTime", endTime);
                 }
                 params.append("offBandList", this.checkList.toString());
                 params.append("waveLengthList", this.checkList1.toString());
@@ -182,7 +161,7 @@
                 params.append("dataType", "onset");
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_searchDataS, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_searchDataOn, params, "POST");
                 if (data.code == 200) {
                     this.$emit("setTableData", data);
                     return true;

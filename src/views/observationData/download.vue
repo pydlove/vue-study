@@ -11,7 +11,7 @@
             width="800px"
             center
         >
-            <el-table
+           <!-- <el-table
                     border
                     ref="table"
                     :data="multipleSelection"
@@ -28,7 +28,14 @@
                         {{ fmtActivityStatus(scope.row.csize) }}
                     </template>
                 </el-table-column>
-            </el-table>
+            </el-table>-->
+
+            <div class="nd-file-download" v-for="item in filesPath">
+                <div class="nd-file">
+                    <div class="nd-file-url">{{item.fitsUrl}}</div>
+                    <div class="nd-file-size">{{item.csize}}</div>
+                </div>
+            </div>
 
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">取 消</el-button>
@@ -49,14 +56,13 @@
         mounted() {
             this.baseUrl = this.$aiocUrl.baseUrl;
             this.filesPath = this.multipleSelection;
-            console.log(this.filesPath);
-        },
+    },
         methods: {
             open(){
                 this.dialogVisible = true;
-                console.log(this.multipleSelection);
                 this.filesPath = this.multipleSelection;
-                console.log( this.filesPath);
+                console.log(this.filesPath);
+                this.checkRows = null;
             },
             close() {
                 this.dialogVisible = false;
@@ -150,7 +156,6 @@
             },
 
             async submitRequest(){
-                console.log(1);
                 let params = new FormData();
                 params.append("fitsUrls", this.saveUrl.toString());
                 params.append("sizes", this.size);
@@ -217,5 +222,25 @@
 </script>
 
 <style scoped>
+
+    .nd-file-download{
+        width: 100%;
+    }
+
+    .nd-file[data-v-3fca0a1b] {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .nd-file-url{
+        margin-left: 20px;
+        font-size: 14px;
+    }
+
+    .nd-file-size{
+        margin-left: 10px;
+        font-size: 14px;
+    }
 
 </style>

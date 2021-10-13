@@ -75,7 +75,13 @@
 			<div v-else class="nd-header-lr aiocloud-cursor" @click="toLogin">
 				{{ $t('menu.loginRegister') }}
 			</div>
+
+			<div class="nd-connect-us" @click="aboutWe">
+				<div class="nd-connect">{{ $t('menu.ContactUs') }}</div>
+			</div>
 		</div>
+
+
 
 		<LoginDialog ref="loginDialogRef" @setUser="setUser"></LoginDialog>
 		<UserInfo ref="userInfoRef"></UserInfo>
@@ -145,6 +151,13 @@
                     this.$router.push({path: '/wehostTelescope'});
 				}
 
+            },
+
+            aboutWe() {
+                let routeData = this.$router.resolve({
+                    path: "/aboutWe",
+                });
+                window.open(routeData.href, '_blank');
             },
 
             showMyApplication() {
@@ -270,10 +283,16 @@
 
 <style scoped>
 	@media screen and (min-width: 768px) {
+
+		.nd-connect{
+			text-align: left;
+			line-height: 110px;
+			font-size: 13px;
+		}
+
 		.nd-header-name {
 			color: #ffffff !important;
 			font-family: SC-Light !important;
-
 		}
 
 		.nd-header-avatar {

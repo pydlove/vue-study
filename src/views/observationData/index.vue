@@ -1,106 +1,117 @@
 <template>
-	<!--eslint-disable-->
-	<div class="nd-container">
-		<NormalHeader  @initLanguage="initLanguage"></NormalHeader>
-		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
-			<el-breadcrumb-item :to="{ path: '/home' }">
-				<i class="el-icon-s-home"></i>
-				{{ $t('menu.home') }}
-			</el-breadcrumb-item>
-			<el-breadcrumb-item>
-				{{ $t('menu.observationData') }}
-			</el-breadcrumb-item>
-		</el-breadcrumb>
+    <!--eslint-disable-->
+    <div class="nd-container">
+        <NormalHeader @initLanguage="initLanguage"></NormalHeader>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
+            <el-breadcrumb-item :to="{ path: '/home' }">
+                <i class="el-icon-s-home"></i>
+                {{ $t('menu.home') }}
+            </el-breadcrumb-item>
+            <el-breadcrumb-item>
+                {{ $t('menu.observationData') }}
+            </el-breadcrumb-item>
+        </el-breadcrumb>
 
-		<div class="nd-background">
-			<div class="nd-content dffn">
-				<div class="aiocloud-card">
-					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
-					     v-for="(item, index) in menus" :key="index"
-					     @click="selectEq(item, index)"
-					>{{ item.name }}</div>
-				</div>
+        <div class="nd-background">
+            <div class="nd-content dffn">
+                <div class="aiocloud-card">
+                    <div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
+                         v-for="(item, index) in menus" :key="index"
+                         @click="selectEq(item, index)"
+                    >{{ item.name }}
+                    </div>
+                </div>
 
-				<div class="aiocloud-card" :style="hightType">
-					<QuickView v-if="type == 0" ref="quickViewRef"></QuickView>
-					<DataSearch v-if="type == 1" ref="dataSearchRef" @setTableData="setTableData"></DataSearch>
-					<NewView v-if="type == 2"></NewView>
-					<UseRule v-if="type == 3"></UseRule>
-					<Friendly v-if="type == 4"></Friendly>
-				</div>
-			</div>
+                <div class="aiocloud-card" :style="hightType">
+                    <QuickView v-if="type == 0" ref="quickViewRef"></QuickView>
+                    <DataSearch v-if="type == 1" ref="dataSearchRef" @setTableData="setTableData"></DataSearch>
+                    <NewView v-if="type == 2"></NewView>
+                    <UseRule v-if="type == 3"></UseRule>
+                    <Friendly v-if="type == 4"></Friendly>
+                </div>
+            </div>
 
-			<div class="aiocloud-card1" v-if="dataType">
-				<div class="nd-menus">
-					<div class="nd-checkbox">
-						<el-radio-group v-model="label">
-							<el-radio :label="0" @change="aboveAll(tableData[1], tableData[2])">{{ $t('message.AllAbove') }}</el-radio>
-							<el-radio :label="1" @change="belowAll(tableData[4] , tableData[5], tableData[6])">{{ $t('message.AllBelow') }}</el-radio>
-							<el-radio :label="2" @change="just">{{ $t('message.Just') }}</el-radio>
-						</el-radio-group>
-					</div>
-					<div class="nd-select">
-						<el-button @click="clear">{{ $t('message.clear') }}</el-button>
-						<el-button type="primary" @click="download">{{ $t('message.Download') }}</el-button>
-					</div>
-				</div>
+            <div class="aiocloud-card1" v-if="dataType">
+                <div class="nd-menus">
+                    <div class="nd-checkbox">
+                        <el-radio-group v-model="label">
+                            <el-radio :label="0" @change="aboveAll(tableData[1], tableData[2])">{{
+                                $t('message.AllAbove') }}
+                            </el-radio>
+                            <el-radio :label="1" @change="belowAll(tableData[4] , tableData[5], tableData[6])">{{
+                                $t('message.AllBelow') }}
+                            </el-radio>
+                            <el-radio :label="2" @change="just">{{ $t('message.Just') }}</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <div class="nd-select">
+                        <el-button @click="clear">{{ $t('message.clear') }}</el-button>
+                        <el-button type="primary" @click="download">{{ $t('message.Download') }}</el-button>
+                    </div>
+                </div>
 
-				<div class="nd-search-data">
-					<el-table
-							ref="table"
-							:data="tableData"
-							stripe
-							tooltip-effect="dark"
-							style="width: 100%"
-							@selection-change="handleSelectionChange">
-						<el-table-column
-								type="selection"
-								width="55">
-						</el-table-column>
-						<el-table-column
-								show-overflow-tooltip="true"
-								prop="fitsName"
-								label="文件名称"
-								width="120">
-						</el-table-column>
-						<el-table-column
-								show-overflow-tooltip="true"
-								prop="startTime"
-								label="开始时间"
-								width="150">
-						</el-table-column>
-						<el-table-column
-								show-overflow-tooltip="true"
-								prop="endTime"
-								label="结束时间"
-								width="150">
-						</el-table-column>
-						<el-table-column
-								show-overflow-tooltip="true"
-								prop="offBand"
-								width="200px"
-								label="偏带">
-						</el-table-column>
-						<el-table-column
-								show-overflow-tooltip="true"
-								prop="exposureTime"
-								width="200px"
-								label="曝光时间">
-						</el-table-column>
-						<el-table-column
-								show-overflow-tooltip="true"
-								prop="observationWaveLength"
-								width="100px"
-								label="观测波长">
-						</el-table-column>
-					</el-table>
-				</div>
-				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
-			</div>
-		</div>
-		<Footer></Footer>
-		<DownLoad ref="downloadRef"></DownLoad>
-	</div>
+                <div class="nd-search-data" v-if="dataType">
+                    <el-table
+                            ref="tableRef"
+                            :data="tableData"
+                            stripe
+                            tooltip-effect="dark"
+                            style="width: 100%"
+                            @select="handleSelection">
+                        <el-table-column
+                                type="selection"
+                                width="55">
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
+                                prop="fitsName"
+                                label="文件名称"
+                                align="center">
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
+                                prop="startTime"
+                                label="开始时间"
+                                width="100"
+                                align="center">
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
+                                prop="endTime"
+                                label="结束时间"
+                                width="100"
+                                align="center">
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
+                                prop="offBand"
+                                width="100px"
+                                label="偏带"
+                                align="center">
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
+                                prop="exposureTime"
+                                width="100px"
+                                label="曝光时间"
+                                align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
+                                prop="observationWaveLength"
+                                width="100px"
+                                label="观测波长"
+                                align="center">
+                        </el-table-column>
+                    </el-table>
+                </div>
+                <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
+            </div>
+        </div>
+        <Footer></Footer>
+        <DownLoad ref="downloadRef"></DownLoad>
+    </div>
 </template>
 <!--eslint-disable-->
 <script>
@@ -120,17 +131,17 @@
         components: {
             UseRule,
             NormalHeader,
-	        Footer,
+            Footer,
             QuickView,
-			NewView,
-			UseRule,
+            NewView,
+            UseRule,
             Friendly,
             DataSearch,
             Page,
             Pagination,
             DownLoad
         },
-	    data() {
+        data() {
             return {
                 tableData: [],
                 dataType: false,
@@ -161,12 +172,12 @@
                 multipleSelection: [],
                 label: 2,
             }
-	    },
-	    mounted() {
-		    this.initLanguage();
+        },
+        mounted() {
+            this.initLanguage();
         },
 
-	    methods: {
+        methods: {
             initLanguage() {
                 this.menus[0].name = this.$t('message.QuickView');
                 this.menus[1].name = this.$t('message.DataQuery');
@@ -176,58 +187,59 @@
                 this.$refs.quickViewRef.initLanguage();
             },
 
-            handleSelectionChange(item){
-                this.multipleSelection = item;
-                this.selectData.length = 0;
-                if(this.label == '0'){
-                    for(let i = 0; i <= this.tableData.length -1; i++){
-                        if(this.multipleSelection[0] == this.tableData[i]){
-                            let a = i ;
-                            for(let b = 0; b <= a; b++){
-                                this.selectData.push(this.tableData[b]);
+            handleSelection(selection, row) {
+                if (this.label == '0') {
+                    for (let i = 0; i <= this.tableData.length - 1; i++) {
+                        if (row.id == this.tableData[i].id) {
+                            for (let j = 0; j < i; j++) {
+                                this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
                             }
-                            console.log(this.selectData);
-                            this.multipleSelection = this.selectData ;
                         }
                     }
-                } else if(this.label == '1'){
-                    for(let i = 0; i <= this.tableData.length; i++){
-                        if(this.multipleSelection[0] == this.tableData[i]){
-                            let a = i ;
-                            for(let b = a; b <= this.tableData.length - 1; b++){
-                                this.selectData.push(this.tableData[b]);
+                } else if (this.label == '1') {
+                    for (let i = 0; i <= this.tableData.length - 1; i++) {
+                        if (row.id == this.tableData[i].id) {
+                            console.log(i);
+                            for (let j = i; j <= this.tableData.length - 1; j++) {
+                                console.log(j);
+                                this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
                             }
-                            console.log(this.selectData);
-                            this.multipleSelection = this.selectData ;
+                        }
+                    }
+                    this.$refs.tableRef.toggleRowSelection(row);
+                } else if (this.label == '2') {
+                    for (let i = 0; i <= this.tableData.length - 1; i++) {
+                        if (row.id == this.tableData[i].id) {
+                            this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
                         }
                     }
                 }
-			},
+            },
 
-			//下载
-            download(){
-                if(this.multipleSelection.length > 0){
+            //下载
+            download() {
+                this.multipleSelection = this.$refs.tableRef.selection;
+                if (this.multipleSelection.length > 0) {
                     this.$refs.downloadRef.multipleSelection = this.multipleSelection;
                     this.$refs.downloadRef.open();
-				} else {
+                } else {
                     this.$message('请选择一条数据');
-				}
-
-			},
+                }
+            },
 
             //清除
             clear() {
-                this.$refs.table.clearSelection();
+                this.$refs.tableRef.clearSelection();
             },
 
             //选择行以上
-            aboveAll(rows) {
+            aboveAll() {
                 this.selectData.length = 0;
                 this.label = 0;
             },
 
             //选择行以下
-            belowAll(rows) {
+            belowAll() {
                 this.selectData.length = 0;
                 this.label = 1;
             },
@@ -239,11 +251,11 @@
             },
 
             selectEq(item, index) {
-                if(item.type == 1){
+                if (item.type == 1) {
                     this.dataType = true;
                     this.hightType = "height: 300px";
                 } else {
-                    this.dataType =false;
+                    this.dataType = false;
                     this.hightType = "";
                 }
                 this.type = item.type;
@@ -262,56 +274,56 @@
             }
 
             /****************************************数据查询逻辑结束**********************************************/
-	    }
+        }
     }
 </script>
 
 <style scoped>
 
-	/*媒体查询（电脑）*/
-	@media screen and (min-width: 768px) {
-		.aiocloud-card1{
-			padding: 20px;
-			border-radius: 5px;
-			background: #ffffff;
-			box-shadow: 0 2px 4px rgb(0 0 0 /12%), 0 0 6px rgb(0 0 0 /4%);
-			width: 900px;
-			margin: 0 auto;
-			margin-top: 20px;
-		}
+    /*媒体查询（电脑）*/
+    @media screen and (min-width: 768px) {
+        .aiocloud-card1 {
+            padding: 20px;
+            border-radius: 5px;
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgb(0 0 0 /12%), 0 0 6px rgb(0 0 0 /4%);
+            width: 900px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
 
-		.nd-content > div:nth-of-type(1) {
-			width: 200px;
-			min-width: 200px;
-			height: 300px;
-			margin-right: 20px;
-		}
+        .nd-content > div:nth-of-type(1) {
+            width: 200px;
+            min-width: 200px;
+            height: 300px;
+            margin-right: 20px;
+        }
 
-		.nd-content > div:nth-of-type(2) {
-			width: calc(100% - 220px);
-			display: flex;
-			flex-wrap: wrap;
-			background: #ffffff;
-		}
+        .nd-content > div:nth-of-type(2) {
+            width: calc(100% - 220px);
+            display: flex;
+            flex-wrap: wrap;
+            background: #ffffff;
+        }
 
-		.nd-breadcrumb-top{
-			width: 900px;
-		}
+        .nd-breadcrumb-top {
+            width: 900px;
+        }
 
-		.nd-menus {
-			display: flex;
-			flex-wrap: nowrap;
-			margin: 10px;
-		}
+        .nd-menus {
+            display: flex;
+            flex-wrap: nowrap;
+            margin: 10px;
+        }
 
-		.nd-checkbox {
-			margin-left: 10px;
-			margin-top: 11px;
-		}
+        .nd-checkbox {
+            margin-left: 10px;
+            margin-top: 11px;
+        }
 
-		.nd-select {
-			margin-left: 20px;
-		}
+        .nd-select {
+            margin-left: 20px;
+        }
 
-	}
+    }
 </style>
