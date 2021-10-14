@@ -54,6 +54,19 @@ module.exports = {
         selectAll: '全选',
         clear: '清除',
 
+        fitsName: '文件名称',
+        startTime: '开始时间',
+        endTime: '结束时间',
+        offBand: '偏带',
+        observationWaveLength: '观测波长',
+
+        LineSpectrum: '观测谱线',
+        obsBand: '观测波段',
+        ObsCoordinate: '观测坐标',
+        obsPattern: '观测模式',
+        expTime: '曝光时间',
+
+
         VirtualSolarObservatory: '虚拟太阳天文台',
         JointScienceOperationsCenter: '联合科学协作中心',
         SolarDynamicsObservatory: '太阳动力学天文台',
@@ -215,6 +228,9 @@ module.exports = {
         chaseSatellite: 'CHASE卫星',
         onsetSatellite: "ONSET望远镜",
         wehostSatellite: 'WeHost望远镜',
+
+        camcel: '取消',
+        sure: '确定',
 
         site: '站点',
     },

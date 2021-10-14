@@ -116,7 +116,6 @@
                     endTime: null,
                     observationTarget: '',
                 };
-                this.search(this.currentPage, this.pageSize);
             },
 
             checkTime() {

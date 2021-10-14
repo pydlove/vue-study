@@ -60,36 +60,36 @@
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="fitsName"
-                                label="文件名称"
+                                :label="$t('message.fitsName')"
                                 width="120"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="startTime"
-                                label="开始时间"
+                                :label="$t('message.startTime')"
                                 width="120"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="endTime"
-                                label="结束时间"
+                                :label="$t('message.endTime')"
                                 width="120"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="target"
-                                width="100px"
-                                label="观测目标"
+                                width="150px"
+                                :label="$t('message.ObservationTarget')"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="lineSpectrum"
-                                width="100px"
-                                label="观测谱线"
+                                width="150px"
+                                :label="$t('message.LineSpectrum')"
                                 align="center"
                         >
                         </el-table-column>
@@ -97,28 +97,28 @@
                                 show-overflow-tooltip="true"
                                 prop="observationPattern"
                                 width="100px"
-                                label="观测模式"
+                                :label="$t('message.obsPattern')"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="exposureTime"
-                                width="100px"
-                                label="曝光时间"
+                                width="150px"
+                                :label="$t('message.expTime')"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="coordinates"
-                                width="100px"
-                                label="观测坐标"
+                                width="150px"
+                                :label="$t('message.ObsCoordinate')"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="observationBand"
                                 width="100px"
-                                label="观测波段"
+                                :label="$t('message.obsBand')"
                                 align="center">
                         </el-table-column>
                     </el-table>

@@ -3,7 +3,11 @@
     <div>
         <el-dialog
             class="aiocw-dialog"
-            title="文件下载"
+            title="文件下载(File Downloading)"
+            v-loading="loading"
+            element-loading-text="数据正在下载中，请不要关闭网页"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             :before-close="close"
@@ -35,12 +39,13 @@
                     <div class="nd-icon"></div>
                     <div class="nd-file-url">{{fakeUrl(item)}}</div>
                     <div class="nd-file-size">{{fitsSize(item)}}</div>
+
                 </div>
             </div>
 
             <span slot="footer" class="dialog-footer">
-              <el-button class="wdi-120" @click="close">取 消</el-button>
-              <el-button class="wdi-120 aioc-btn1" type="primary" @click="close">确 定</el-button>
+              <el-button class="wdi-120" @click="close">{{ $t('menu.camcel') }}</el-button>
+              <el-button class="wdi-120 aioc-btn1" type="primary" @click="close">{{ $t('menu.sure') }}</el-button>
             </span>
         </el-dialog>
     </div>
@@ -95,18 +100,19 @@
 
             fitsSize(item){
                 let cSize = (item.csize)/(1024*1024);
-                cSize = parseFloat(cSize).toFixed(0);
-                return cSize + "KB";
+                cSize = parseFloat(cSize).toFixed(2);
+                return cSize + "MB";
             },
 
             //点一条数据就去下载 参数id
             async toDownload(item){
+                this.loading = true;
                 let params = new FormData();
                 params.append("fitsUrls", item.fitsUrl);
                 params.append("sizes", item.csize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_download, params, "POST");
                 if(data.code == 200) {
-
+                    this.loading = false;
                 }
 
             },
@@ -172,6 +178,7 @@
         },
         data() {
             return {
+                loading: false,
                 dialogVisible: false,
                 /**
                  * 选择
@@ -204,12 +211,24 @@
     }
 
     .nd-file[data-v-3fca0a1b] {
-        margin-top: 10px;
+        margin-top: 20px;
         display: flex;
         flex-wrap: nowrap;
+        text-align: center;
+    }
+
+    .nd-file > div:nth-of-type(2) {
+        border-bottom: 2px solid #69c0ff;
     }
 
     .nd-file-url{
+        margin-left: 3px;
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .nd-file-url:hover{
+        color: #fa541c;
         margin-left: 3px;
         font-size: 14px;
         line-height: 21px;

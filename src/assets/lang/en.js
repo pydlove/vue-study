@@ -106,6 +106,18 @@ module.exports = {
         selectAll: 'Select All',
         clear: 'Clear',
 
+        fitsName: 'FitsName',
+        startTime: 'StartTime',
+        endTime: 'EndTime',
+        offBand: 'OffBand',
+        observationWaveLength: 'ObsWaveLength',
+
+        LineSpectrum: 'LineSpectrum',
+        ObsCoordinate: 'ObsCoordinate',
+        obsBand: 'ObsBand',
+        obsPattern: 'ObsPattern',
+        expTime: 'ExposureTime',
+
         VirtualSolarObservatory: ' Virtual Solar Observatory',
         JointScienceOperationsCenter: 'Joint Science Operations Center (JSOC)',
         SolarDynamicsObservatory: 'Solar Dynamics Observatory',
@@ -217,6 +229,9 @@ module.exports = {
         chaseSatellite: 'CHASE Satellite',
         onsetSatellite: "ONSET Telescope",
         wehostSatellite: 'WeHost Telescope',
+
+        camcel: 'Camcel',
+        sure: 'Confirm',
 
         site: 'Site',
 

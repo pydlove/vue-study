@@ -65,20 +65,20 @@
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="fitsName"
-                                label="文件名称"
+                                :label="$t('message.fitsName')"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="startTime"
-                                label="开始时间"
+                                :label="$t('message.startTime')"
                                 width="100"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="endTime"
-                                label="结束时间"
+                                :label="$t('message.endTime')"
                                 width="100"
                                 align="center">
                         </el-table-column>
@@ -86,22 +86,20 @@
                                 show-overflow-tooltip="true"
                                 prop="offBand"
                                 width="100px"
-                                label="偏带"
+                                :label="$t('message.offBand')"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="exposureTime"
-                                width="100px"
-                                label="曝光时间"
+                                :label="$t('message.exposureTime')"
                                 align="center"
                         >
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="observationWaveLength"
-                                width="100px"
-                                label="观测波长"
+                                :label="$t('message.observationWaveLength')"
                                 align="center">
                         </el-table-column>
                     </el-table>
