@@ -66,14 +66,14 @@
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
-                                prop="startTime"
+                                prop="createTime"
                                 :label="$t('message.startTime')"
                                 width="120"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
-                                prop="endTime"
+                                prop="updateTime"
                                 :label="$t('message.endTime')"
                                 width="120"
                                 align="center">

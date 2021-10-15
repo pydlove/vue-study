@@ -121,7 +121,6 @@
             },
 
             async downloadAll() {
-                this.loading = true;
                 this.size = 0;
                 for (let i = 0; i < this.filesPath.length; i++) {
                     this.form.fitsUrls += this.filesPath[i].fitsUrl + ",";
@@ -134,7 +133,6 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_download, params, "POST");
                 if (data.code == 200) {
                     this.handleDownLoad(this.filesPath);
-                    this.loading = false;
                 }
             },
 

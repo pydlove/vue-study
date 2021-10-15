@@ -278,6 +278,7 @@ module.exports = {
             total: "共",
             goto: "前往",
             pageClassifier: "页",
+            pagesize: '页'
         },
     },
     week: {

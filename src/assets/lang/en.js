@@ -294,6 +294,7 @@ module.exports = {
             total: "total",
             goto: "goto",
             pageClassifier: "page",
+            pagesize: 'pagesize'
         },
     },
     week: {
