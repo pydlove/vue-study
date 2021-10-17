@@ -25,15 +25,7 @@
                 <div class="date-content" :style="dateContentStyle">
                     <div v-for="(citem, cindex) in item.aiocloudDays" :key="cindex" class="date-item"
                          :style="citem.style + ' ' + dateItemStyle">
-                        <span>{{ citem.day }}</span>
-                        <!--<span v-if="citem.level == '9'">{{ citem.day }}</span>-->
-                        <!--<el-popover v-else-->
-                                    <!--placement="top-start"-->
-                                    <!--width="200"-->
-                                    <!--trigger="hover"-->
-                                    <!--:content="fmtContent(citem)">-->
-                            <!--<div class="aiocloud-cursor" slot="reference" @click="toDetail(citem)">{{ citem.day }}</div>-->
-                        <!--</el-popover>-->
+                        <span @click="toDetail(citem, observationDataDates, yearMonth)">{{ citem.day }}</span>
                     </div>
                 </div>
             </div>
@@ -78,6 +70,7 @@
                 dateContentStyle: "",
                 dateItemStyle: "",
                 yearData: "",
+
             }
         },
         mounted() {
@@ -101,6 +94,7 @@
             },
 
             /************************时间业务开始****************************/
+
             yearReduce(item) {
                 this.aiocloudDates.length = 0;
                 let yearMonth = this.$utils.reduceYear(item);
@@ -133,21 +127,16 @@
 
             /*************************时间业务结束*********************************/
 
-            toDetail(item) {
-                this.$utils.setStorage("observationDataDetail", item);
-                let routeData = this.$router.resolve({
-                    path: "/observationDataDetail"
-                });
-                window.open(routeData.href, '_blank');
-            },
+            toDetail(item, items, yearMonth) {
+                let day = item.day;
+                if (items[day]) {
+                    this.$utils.setStorage("observationDataDetail", (yearMonth + "-" + day));
+                    let routeData = this.$router.resolve({
+                        path: "/observationDataDetail"
+                    });
+                    window.open(routeData.href, '_blank');
+                }
 
-            fmtContent(item) {
-                if (item.level == "0") {
-                    return this.$t('message.NoDataTip');
-                }
-                if (item.level == "1") {
-                    return this.$t('message.HasDataTip');
-                }
             },
 
             setSize() {
@@ -186,8 +175,7 @@
              * @author panyong
              */
             async search() {
-                console.log(this.aiocloudDates)
-                if(this.aiocloudDates == null || this.aiocloudDates.length == 0) {
+                if (this.aiocloudDates == null || this.aiocloudDates.length == 0) {
                     return;
                 }
                 let params = new FormData();
@@ -255,14 +243,13 @@
             },
 
             fmtAiocloudDate(aiocloudDate) {
-                console.log(this.observationDataDates)
                 let aiocloudDays = [];
                 for (var i = 1; i <= aiocloudDate.days; i++) {
                     let aiocloudDay = {
                         day: i
                     };
                     let style = "";
-                    if(this.observationDataDates == [] || this.observationDataDates.length == 0) {
+                    if (this.observationDataDates == [] || this.observationDataDates.length == 0) {
                         style = style + "background: #ffffff; color: #333333;";
                     }
                     else {

@@ -248,6 +248,8 @@
         },
         data() {
             return {
+                currentPage: 1,
+                pageSize: 10,
                 dataType: true,
                 tableData: [],
                 language: "zh",
@@ -268,7 +270,7 @@
         mounted() {
             this.initLanguage();
             this.observationDataDetail = this.$utils.getStorage("observationDataDetail");
-            this.search();
+            this.search(1, 10);
         },
         methods: {
             initLanguage() {
@@ -332,10 +334,14 @@
              * @param {*} 参数 参数说明
              * @author panyong
              */
-            async search() {
-                let params = new FormData();
-                params.append("observerDate", this.observationDataDetail.date);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_detail, params, "POST");
+            async search(currentPage, pageSize) {
+                this.currentPage = currentPage;
+                this.pageSize = pageSize;
+                let params = new FormData()
+                params.append("page", this.currentPage);
+                params.append("limit", this.pageSize);
+                params.append("observerDate", this.observationDataDetail);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_detail, params, "POST");
                 if (data.code == 200) {
                     if (data.data) {
                         this.observationLog = data.data;
