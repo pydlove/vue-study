@@ -53,6 +53,7 @@ module.exports = {
         Just: '当前行',
         selectAll: '全选',
         clear: '清除',
+        to: '至',
 
         fitsName: '文件名称',
         startTime: '开始时间',

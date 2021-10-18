@@ -13,7 +13,7 @@
                         size="small"
                         v-model="searchform.fitsDates"
                         type="datetimerange"
-                        range-separator="至"
+                        :range-separator="$t('message.to')"
                         format="yyyy-MM-dd HH:mm:SS"
                         :start-placeholder="$t('message.startDate')"
                         :end-placeholder="$t('message.endDate')"
@@ -114,11 +114,13 @@
     import Pagination from "@/components/Pagination";
     import Add from "@/views/application/add";
     import Edit from "@/views/application/edit";
+    import LoginDialog from "@/views/login/loginDialog.vue"
+
 
     export default {
         name: "application",
         components: {
-            Pagination, Add, Edit
+            Pagination, Add, Edit, LoginDialog
         },
         data() {
             return {
@@ -149,7 +151,22 @@
             // },
 
             add() {
-                this.$refs.addRef.open();
+                this.getUserInfo();
+            },
+
+            async getUserInfo() {
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
+                if (data.code == 200) {
+                    let res = data.data;
+                    console.log(res);
+                    if (res.isLogin) {
+                        console.log(1);
+                        this.$refs.addRef.open();
+                    } else {
+                        this.$emit("getUserInfo");
+                    }
+                }
             },
 
             //编辑
@@ -171,6 +188,21 @@
             },
 
             async search(currentPage, pageSize) {
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
+                if (data.code == 200) {
+                    let res = data.data;
+                    console.log(res);
+                    if (res.isLogin) {
+                        this.searchData(currentPage, pageSize);
+                    } else {
+                        this.$emit("getUserInfo");
+                    }
+                }
+
+            },
+
+            async searchData(currentPage, pageSize){
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
                 let params = new FormData()
@@ -186,7 +218,6 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_application_list, params, "POST");
                 if (data.code === 200) {
                     this.tableData = data.data;
-                    console.log(this.tableData);
                     this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
                 }

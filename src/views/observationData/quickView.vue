@@ -130,6 +130,11 @@
             toDetail(item, items, yearMonth) {
                 let day = item.day;
                 if (items[day]) {
+                    if(day < 10){
+                        day = "0" + day;
+                    } else {
+                        day = "" + day;
+                    }
                     this.$utils.setStorage("observationDataDetail", (yearMonth + "-" + day));
                     let routeData = this.$router.resolve({
                         path: "/observationDataDetail"

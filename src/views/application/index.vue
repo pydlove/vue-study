@@ -15,7 +15,7 @@
 		<div class="nd-background">
 			<div class="nd-content dffn">
 				<div class="aiocloud-card app-content">
-					<Application ref="applicationRef"></Application>
+					<Application ref="applicationRef" @getUserInfo ="getUserInfo" ></Application>
 				</div>
 			</div>
 		</div>
@@ -57,7 +57,9 @@
 
             reloadApplications() {
 				this.$refs.applicationRef.search(1, 10);
-            }
+            },
+
+
         }
     }
 </script>

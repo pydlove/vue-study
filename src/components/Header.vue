@@ -81,8 +81,6 @@
 			</div>
 		</div>
 
-
-
 		<LoginDialog ref="loginDialogRef" @setUser="setUser"></LoginDialog>
 		<UserInfo ref="userInfoRef"></UserInfo>
 		<MyApplication ref="myApplicationRef"></MyApplication>

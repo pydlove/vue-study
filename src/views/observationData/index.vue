@@ -66,22 +66,23 @@
                                 show-overflow-tooltip="true"
                                 prop="fitsName"
                                 :label="$t('message.fitsName')"
+                                width="300"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
-                                prop="startTime"
-                                :label="$t('message.startTime')"
-                                width="100"
+                                prop="obsTime"
+                                :label="$t('message.obsTime')"
+                                width="150"
                                 align="center">
                         </el-table-column>
-                        <el-table-column
+                        <!--<el-table-column
                                 show-overflow-tooltip="true"
                                 prop="endTime"
                                 :label="$t('message.endTime')"
                                 width="100"
                                 align="center">
-                        </el-table-column>
+                        </el-table-column>-->
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="offBand"

@@ -118,6 +118,8 @@ module.exports = {
         obsPattern: 'ObsPattern',
         expTime: 'ExposureTime',
 
+        to: 'to',
+
         VirtualSolarObservatory: ' Virtual Solar Observatory',
         JointScienceOperationsCenter: 'Joint Science Operations Center (JSOC)',
         SolarDynamicsObservatory: 'Solar Dynamics Observatory',
