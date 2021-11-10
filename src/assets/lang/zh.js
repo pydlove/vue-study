@@ -210,6 +210,7 @@ module.exports = {
         PostCode: '邮编',
         TechnicalSupport: '技术支持',
         Company: '杭州爱启云网络科技有限公司',
+        downloadAll: '下载全部',
     },
     menu:{
         home:'首页',
@@ -230,10 +231,13 @@ module.exports = {
         onsetSatellite: "ONSET望远镜",
         wehostSatellite: 'WeHost望远镜',
 
-        camcel: '取消',
+        cancel: '取消',
         sure: '确定',
 
         site: '站点',
+    },
+    alert: {
+
     },
     el: {
         table: {

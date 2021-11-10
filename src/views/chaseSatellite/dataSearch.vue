@@ -11,9 +11,9 @@
                     {{ $t('message.ObservationTime') }}：
                 </div>
 
-                <el-date-picker class="ds-date1" v-model="form.startTime" type="datetime"></el-date-picker>
+                <el-date-picker class="ds-date1" v-model="form.startTime" type="datetime" :placeholder="$t('message.startDate')"></el-date-picker>
                 <div :span="11" class="nd-line">-</div>
-                <el-date-picker class="ds-date2" v-model="form.endTime" type="datetime" @change="checkTime">
+                <el-date-picker class="ds-date2" v-model="form.endTime" type="datetime" :placeholder="$t('message.endDate')" @change="checkTime">
                 </el-date-picker>
             </div>
 

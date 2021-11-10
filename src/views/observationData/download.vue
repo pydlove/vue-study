@@ -35,19 +35,29 @@
              </el-table>-->
 
             <div class="nd-all-data">
-                <el-button type="primary" @click="downloadAll">下载全部</el-button>
+                <el-button type="primary" @click="downloadAll">{{ $t('message.downloadAll') }}</el-button>
             </div>
-
+            <!--<el-form ref="form" :model="form" label-width="120px" style="width: 50%">-->
+            <!--<el-form-item label="保存至文件夹">-->
+            <!--<input type="file" id="file" hidden @change="fileChange" webkitdirectory>-->
+            <!--<el-input placeholder="请输入内容" v-model="form.savePath" class="input-with-select">-->
+            <!--<el-button slot="append" icon="el-icon-folder" type="success" @click="btnChange"></el-button>-->
+            <!--</el-input>-->
+            <!--</el-form-item>-->
+            <!--</el-form>-->
+            <el-button type="primary" @click="openFile()" round>选择文件</el-button>
+            <el-button type="primary" @click="showRealPath()" round>显示路径</el-button>
+            <input type="file" name="filename" id="open" style="display:none" />
             <div class="nd-file-download" v-for="item in filesPath">
                 <div class="nd-file">
                     <div class="nd-icon"></div>
-                    <a class="nd-file-url"  @click="toDownload(item)">{{fakeUrl(item)}}</a>
+                    <a class="nd-file-url" @click="toDownload(item)">{{fakeUrl(item)}}</a>
                     <div class="nd-file-size">{{fitsSize(item)}}</div>
                 </div>
             </div>
 
             <span slot="footer" class="dialog-footer">
-              <el-button class="wdi-120" @click="close">{{ $t('menu.camcel') }}</el-button>
+              <el-button class="wdi-120" @click="close">{{ $t('menu.cancel') }}</el-button>
               <el-button class="wdi-120 aioc-btn1" type="primary" @click="close">{{ $t('menu.sure') }}</el-button>
             </span>
         </el-dialog>
@@ -64,8 +74,16 @@
         mounted() {
             this.baseUrl = this.$aiocUrl.baseUrl;
             this.filesPath = this.multipleSelection;
+
         },
         methods: {
+            openFile: function () {
+                document.getElementById('open').click()
+            },
+            showRealPath: function () {
+                // document.getElementById('input01').value = document.getElementById('open').files[0].path
+                console.log( document.getElementById('open').files[0].path)
+            },
             open() {
                 this.dialogVisible = true;
                 this.filesPath = this.multipleSelection;
@@ -80,26 +98,60 @@
                 return url;
             },
 
-        /*    //通过url 转为blob格式的数据
-            getImgArrayBuffer(url) {
-                let _this = this;
-                return new Promise((resolve, reject) => {
-                    //通过请求获取文件blob格式
-                    let xmlhttp = new XMLHttpRequest();
-                    console.log("url是：" + url);
-                    xmlhttp.open("GET", url, true);
-                    xmlhttp.responseType = "blob";
-                    xmlhttp.onload = function () {
-                        if (this.status == 200) {
-                            resolve(this.response);
-                        } else {
-                            reject(this.status);
-                        }
+            fileChange(e) {
+                try {
+                    let Base64 = require('js-base64').Base64;
+                    let _this = this;
+                    if (!e || !window.FileReader) return  // 看支持不支持FileReader
+                    let reader = new FileReader()
+                    reader.readAsDataURL(e.target.files[0]) // 这里是最关键的一步，转换就在这里 （参数必须是blob对象）
+                    reader.onloadend = function (res) {
+                        console.log(this.result)
                     }
-                    xmlhttp.send();
-                });
+                    // const fu = document.getElementById('file')
+                    // if (fu == null) return
+                    // console.log("-----------------------")
+                    // console.log(fu)
+                    // this.form.savePath = fu.value
+                    // console.log(fu.path)
+                    // console.log(this.form.savePath)
+                    // var theFiles = e.target.files;
+                    // var rea = theFiles[0].webkitRelativePath;
+                    // var folder = rea.split("/");
+                    // console.log("+++++++++++++++++++++++++")
+                    // console.log(rea)
+                    // console.log(folder[0])
 
-            },*/
+                } catch (error) {
+                    console.debug('choice file err:', error)
+                }
+            },
+
+            btnChange() {
+                var file = document.getElementById('file')
+                file.click()
+            },
+
+            /*    //通过url 转为blob格式的数据
+                getImgArrayBuffer(url) {
+                    let _this = this;
+                    return new Promise((resolve, reject) => {
+                        //通过请求获取文件blob格式
+                        let xmlhttp = new XMLHttpRequest();
+                        console.log("url是：" + url);
+                        xmlhttp.open("GET", url, true);
+                        xmlhttp.responseType = "blob";
+                        xmlhttp.onload = function () {
+                            if (this.status == 200) {
+                                resolve(this.response);
+                            } else {
+                                reject(this.status);
+                            }
+                        }
+                        xmlhttp.send();
+                    });
+
+                },*/
 
             fitsSize(item) {
                 let cSize = (item.csize) / (1024 * 1024);
@@ -113,23 +165,33 @@
                 let params = new FormData();
                 params.append("fitsUrls", item.fitsUrl);
                 params.append("sizes", item.csize);
+                params.append("dataType", item.dataType);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_download, params, "POST");
+                console.log("++++++")
+                console.log(data)
+                console.log("------")
                 if (data.code == 200) {
                     this.download(item.fitsUrl, item.fitsName);
                     this.loading = false;
                 }
+                //文件流
+                this.downloadGO(data);
+                this.loading = false;
             },
 
             async downloadAll() {
                 this.size = 0;
+                let dataType = "";
                 for (let i = 0; i < this.filesPath.length; i++) {
                     this.form.fitsUrls += this.filesPath[i].fitsUrl + ",";
                     let cSize = (this.filesPath[i].csize) / (1024 * 1024);
+                    dataType = this.filesPath[i].dataType;
                     this.size = this.size + cSize;
                 }
                 let params = new FormData();
                 params.append("fitsUrls", this.form.fitsUrls.toString());
                 params.append("sizes", this.size);
+                params.append("dataType", dataType);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_download, params, "POST");
                 if (data.code == 200) {
                     this.handleDownLoad(this.filesPath);
@@ -137,13 +199,31 @@
             },
 
             handleDownLoad(item) {
-                for(let i = 0 ; i <=item.length; i++){
+                for (let i = 0; i <= item.length; i++) {
                     this.download(item[i].fitsUrl, item[i].fitsName);
                 }
             },
 
+            //下载文件流
+            downloadGO (data) {
+                console.log("hahahahahah");
+                if (!data) {
+                    return
+                }
+                let url = window.URL.createObjectURL(new Blob([data]),{type: "application/x-msdownload"})
+                let link = document.createElement('a')
+                link.style.display = 'none'
+                link.href = url
+                console.log("url" + url)
+                console.log("fileName" + this.filename)
+                link.setAttribute('download', "Ha+0020111011130442.fits")
+                document.body.appendChild(link)
+                link.click()
+                window.URL.revokeObjectURL(url);   //为了更好地性能和内存使用状况，应该在适当的时候释放url.
+            },
+
             download(fitsUrl, fitsName) {
-                console.log(1);
+                console.log("下载了吗----------------")
                 let src = "/web-service" + fitsUrl;
                 let fileNames = fitsName;
                 let x = new XMLHttpRequest();
@@ -158,6 +238,8 @@
                 }
                 x.send();
             }
+
+
         },
         data() {
             return {
@@ -171,6 +253,7 @@
                 form: {
                     fitsUrls: "",
                     sizes: "",
+                    savePath: "",
                 },
                 filesPath: [],
                 baseUrl: "",

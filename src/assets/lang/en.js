@@ -212,6 +212,7 @@ module.exports = {
         PostCode: 'Post Code',
         TechnicalSupport: 'Technical Support',
         Company: 'Hangzhou Aiqiyun Network Technology Co., Ltd.',
+        downloadAll: 'DownloadAll',
     },
     menu:{
         home:'Home',
@@ -232,7 +233,7 @@ module.exports = {
         onsetSatellite: "ONSET Telescope",
         wehostSatellite: 'WeHost Telescope',
 
-        camcel: 'Camcel',
+        cancel: 'Cancel',
         sure: 'Confirm',
 
         site: 'Site',

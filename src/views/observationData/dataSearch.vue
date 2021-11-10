@@ -15,14 +15,14 @@
                             class="ds-date1"
                             v-model="form.startTime"
                             type="datetime"
-                            placeholder="选择开始时间">
+                            :placeholder="$t('message.startDate')">
                     </el-date-picker>
                     <div class="nd-line">-</div>
                     <el-date-picker
                             class="ds-date2"
                             v-model="form.endTime"
                             type="datetime"
-                            placeholder="选择结束时间"
+                            :placeholder="$t('message.endDate')"
                             @change="checkTime">
                     </el-date-picker>
                 </div>
