@@ -3,9 +3,9 @@
     <div>
         <el-dialog
                 class="aiocw-dialog"
-                title="文件下载(File Downloading)"
+                :title="$t('el.title.fileDownload')"
                 v-loading="loading"
-                element-loading-text="数据正在下载中，请不要关闭网页"
+                :element-loading-text="$t('loading.download')"
                 element-loading-spinner="el-icon-loading"
                 element-loading-background="rgba(0, 0, 0, 0.8)"
                 :visible.sync="dialogVisible"
@@ -45,14 +45,14 @@
             <!--</el-input>-->
             <!--</el-form-item>-->
             <!--</el-form>-->
-            <el-button type="primary" @click="openFile()" round>选择文件</el-button>
-            <el-button type="primary" @click="showRealPath()" round>显示路径</el-button>
-            <input type="file" name="filename" id="open" style="display:none" />
+            <!--<el-button type="primary" @click="openFile()" round>选择文件</el-button>
+            <el-button type="primary" @click="showRealPath()" round>显示路径</el-button>-->
+            <input type="file" name="filename" id="open" style="display:none"/>
             <div class="nd-file-download" v-for="item in filesPath">
                 <div class="nd-file">
                     <div class="nd-icon"></div>
                     <a class="nd-file-url" @click="toDownload(item)">{{fakeUrl(item)}}</a>
-                    <div class="nd-file-size">{{fitsSize(item)}}</div>
+                    <!--<div class="nd-file-size">{{fitsSize(item)}}</div>-->
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
             },
             showRealPath: function () {
                 // document.getElementById('input01').value = document.getElementById('open').files[0].path
-                console.log( document.getElementById('open').files[0].path)
+                console.log(document.getElementById('open').files[0].path)
             },
             open() {
                 this.dialogVisible = true;
@@ -159,27 +159,62 @@
                 return cSize + "MB";
             },
 
+            async toMulDownload() {
+                this.queueIndex = 0;
+                this.loading = true;
+                for (var i = 0; i < this.filesPath.length; i++ ) {
+                    let item = this.filesPath[i];
+                    await this.downMethod(item);
+                }
+                let _this = this;
+                this.timer = setInterval(function () {
+                    if(_this.queueIndex == _this.filesPath.length) {
+                        _this.loading = false;
+                        clearInterval(_this.timer);
+                    }
+                }, 1000);
+            },
+
+            downMethod(item) {
+                // window.location.href =  this.$aiocUrl.web_service_v1_cl_observation_log_download;
+                let params = new FormData();
+                params.append("fitsUrls", item.fitsUrl);
+                params.append("sizes", item.csize);
+                params.append("dataType", item.dataType);
+                this.$axios({
+                    method: 'POST',
+                    url: this.$aiocUrl.web_service_v1_cl_observation_log_download,
+                    data: params
+                }).then(response => {
+                    console.log(response);
+                    // let headerContent = response.headers["content-disposition"];
+                    // headerContent.substring(headerContent.indexOf("filename=") + 9, headerContent.length)
+                    // 文件流
+                    this.downloadGO(response.data);
+                    this.queueIndex++;
+                }).catch(error => {
+                }).then(() => {
+                });
+            },
+
             //点一条数据就去下载 参数id
             async toDownload(item) {
+                this.queueIndex = 0;
                 this.loading = true;
                 let params = new FormData();
                 params.append("fitsUrls", item.fitsUrl);
                 params.append("sizes", item.csize);
                 params.append("dataType", item.dataType);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_download, params, "POST");
-                console.log("++++++")
-                console.log(data)
-                console.log("------")
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_in, params, "POST");
                 if (data.code == 200) {
-                    this.download(item.fitsUrl, item.fitsName);
+                    this.download(item);
                     this.loading = false;
                 }
-                //文件流
-                this.downloadGO(data);
-                this.loading = false;
             },
 
             async downloadAll() {
+                this.queueIndex = 0;
+                this.loading = true;
                 this.size = 0;
                 let dataType = "";
                 for (let i = 0; i < this.filesPath.length; i++) {
@@ -192,38 +227,64 @@
                 params.append("fitsUrls", this.form.fitsUrls.toString());
                 params.append("sizes", this.size);
                 params.append("dataType", dataType);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_download, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_in, params, "POST");
                 if (data.code == 200) {
                     this.handleDownLoad(this.filesPath);
                 }
             },
 
-            handleDownLoad(item) {
-                for (let i = 0; i <= item.length; i++) {
-                    this.download(item[i].fitsUrl, item[i].fitsName);
+            async handleDownLoad(item) {
+                for (let i = 0; i < item.length; i++) {
+                   await this.download(item[i]);
                 }
+                let _this = this;
+                this.timer = setInterval(function () {
+                    if(_this.queueIndex == _this.filesPath.length) {
+                        _this.loading = false;
+                        clearInterval(_this.timer);
+                    }
+                }, 1000);
+            },
+
+            download(item){
+                let params = new FormData();
+                console.log(item)
+                params.append("fitsUrls", item.fitsUrl);
+                params.append("sizes", item.csize);
+                params.append("dataType", item.dataType);
+                this.$axios({
+                    method: 'POST',
+                    url: this.$aiocUrl.web_service_v1_cl_observation_log_download,
+                    data: params
+                }).then(response => {
+                    // 文件流
+                    this.downloadGO(response);
+                    this.queueIndex++;
+                }).catch(error => {
+                }).then(() => {
+                });
             },
 
             //下载文件流
-            downloadGO (data) {
-                console.log("hahahahahah");
+            downloadGO(response) {
+                let data = response.data;
+                let headerContent = response.headers["content-disposition"];
+                let fileName = headerContent.substring(headerContent.indexOf("filename=") + 9, headerContent.length)
                 if (!data) {
                     return
                 }
-                let url = window.URL.createObjectURL(new Blob([data]),{type: "application/x-msdownload"})
+                let url = window.URL.createObjectURL(new Blob([data]), {type: "application/x-msdownload"})
                 let link = document.createElement('a')
                 link.style.display = 'none'
                 link.href = url
-                console.log("url" + url)
-                console.log("fileName" + this.filename)
-                link.setAttribute('download', "Ha+0020111011130442.fits")
+                link.setAttribute('download', fileName)
                 document.body.appendChild(link)
                 link.click()
                 window.URL.revokeObjectURL(url);   //为了更好地性能和内存使用状况，应该在适当的时候释放url.
             },
 
+         /*   //前台url下载
             download(fitsUrl, fitsName) {
-                console.log("下载了吗----------------")
                 let src = "/web-service" + fitsUrl;
                 let fileNames = fitsName;
                 let x = new XMLHttpRequest();
@@ -237,7 +298,7 @@
                     a.click()
                 }
                 x.send();
-            }
+            }*/
 
 
         },
@@ -258,6 +319,8 @@
                 filesPath: [],
                 baseUrl: "",
                 saveUrl: [],
+                queueIndex: 0,
+                timer: "",
             }
         },
     }

@@ -239,12 +239,20 @@ module.exports = {
         site: 'Site',
 
     },
+    loading: {
+        download: 'The data is being downloaded. Please do not close the web page',
+    },
+    alert: {
+        dataSelect: 'Please select a piece of data',
+        obsDate: 'Please select observation time',
+        dateSelectError: 'Time selection error, please reselect',
+    },
     el: {
         table: {
             emptyText: 'el-table-emptyText',
         },
         datepicker: {
-            now: 'el-datepicker-now',
+            now: 'now',
             selectTime: 'select time',
             selectDate: 'select date',
             year: '',
@@ -298,6 +306,9 @@ module.exports = {
             goto: "goto",
             pageClassifier: "page",
             pagesize: 'pagesize'
+        },
+        title: {
+            fileDownload: 'File Downloading',
         },
     },
     week: {

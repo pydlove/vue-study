@@ -123,7 +123,7 @@
                     let beginTime = new Date(this.form.startTime);
                     let endTime = new Date(this.form.endTime);
                     if (beginTime.getTime() >= endTime.getTime()) {
-                        alert("时间选择错误，请重新选择");
+                        alert(this.$t('alert.dateSelectError'));
                         this.form.endTime = null;
                     }
                 }
@@ -134,7 +134,7 @@
                 if (this.form.startTime != "" && this.form.startTime != null && this.form.endTime != "" && this.form.endTime != null) {
                     this.search(1, 10);
                 } else {
-                    this.$message('请选择观测时间');
+                    this.$message(this.$t('alert.obsDate'));
                 }
             },
 

@@ -222,7 +222,7 @@
                     this.$refs.downloadRef.multipleSelection = this.multipleSelection;
                     this.$refs.downloadRef.open();
                 } else {
-                    this.$message('请选择一条数据');
+                    this.$message($t('alert.dataSelect'));
                 }
             },
 

@@ -61,19 +61,19 @@
                                 show-overflow-tooltip="true"
                                 prop="fitsName"
                                 :label="$t('message.fitsName')"
-                                width="120"
+                                width="300"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
-                                prop="createTime"
+                                prop="beginTime"
                                 :label="$t('message.startTime')"
                                 width="120"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
-                                prop="updateTime"
+                                prop="endTime"
                                 :label="$t('message.endTime')"
                                 width="120"
                                 align="center">
@@ -238,7 +238,7 @@
                     this.$refs.downloadRef.multipleSelection = this.multipleSelection;
                     this.$refs.downloadRef.open();
                 } else {
-                    this.$message('请选择一条数据');
+                    this.$message(this.$t('alert.dataSelect'));
                 }
 
             },

@@ -236,8 +236,13 @@ module.exports = {
 
         site: '站点',
     },
+    loading: {
+        download: '数据正在下载中，请不要关闭网页',
+    },
     alert: {
-
+        dataSelect: '请选择一条数据',
+        obsDate: '请选择观测时间',
+        dateSelectError: '时间选择错误，请重新选择',
     },
     el: {
         table: {
@@ -284,6 +289,9 @@ module.exports = {
             goto: "前往",
             pageClassifier: "页",
             pagesize: '页'
+        },
+        title: {
+            fileDownload: '文件下载',
         },
     },
     week: {
