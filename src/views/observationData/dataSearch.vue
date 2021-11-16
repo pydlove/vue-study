@@ -98,8 +98,8 @@
                 activityViews: '',
                 form: {
                     band: '',
-                    startTime: '',
-                    endTime: '',
+                    startTime: '2011-11-16 17:54:14',
+                    endTime: '2021-11-16 17:54:23',
                     observationTarget: '',
                 },
             }
@@ -114,8 +114,8 @@
             reset() {
                 this.form = {
                     band: '',
-                    startTime: null,
-                    endTime: null,
+                    startTime: "",
+                    endTime: "",
                     observationTarget: '',
                 };
             },
@@ -147,7 +147,7 @@
                     let beginTime = new Date(this.form.startTime);
                     let endTime = new Date(this.form.endTime);
                     if (beginTime.getTime() >= endTime.getTime()) {
-                        alert(this.$t('alert.dateSelectError'));
+                        this.$promptMsg(this.$t('alert.dateSelectError'), 'error');
                         this.form.endTime = null;
                     }
                 }
@@ -158,12 +158,11 @@
                 if (this.form.startTime != "" && this.form.startTime != null && this.form.endTime != "" && this.form.endTime != null) {
                     this.search(1, 10);
                 } else {
-                    this.$message(this.$t('alert.obsDate'));
+                    this.$promptMsg(this.$t('alert.obsDate'), 'info');
                 }
             },
 
             async search(currentPage, pageSize) {
-                console.log(this.checkList1.toString());
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
                 let params = new FormData();

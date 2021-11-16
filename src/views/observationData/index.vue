@@ -35,13 +35,13 @@
                 <div class="nd-menus">
                     <div class="nd-checkbox">
                         <el-radio-group v-model="label">
-                            <el-radio :label="0" @change="aboveAll(tableData[1], tableData[2])">{{
+                            <el-radio label="0" @change="aboveAll()">{{
                                 $t('message.AllAbove') }}
                             </el-radio>
-                            <el-radio :label="1" @change="belowAll(tableData[4] , tableData[5], tableData[6])">{{
+                            <el-radio label="1" @change="belowAll()">{{
                                 $t('message.AllBelow') }}
                             </el-radio>
-                            <el-radio :label="2" @change="just">{{ $t('message.Just') }}</el-radio>
+                            <el-radio label="2" @change="just">{{ $t('message.Just') }}</el-radio>
                         </el-radio-group>
                     </div>
                     <div class="nd-select">
@@ -57,7 +57,7 @@
                             stripe
                             tooltip-effect="dark"
                             style="width: 100%"
-                            @select="handleSelection">
+                            @select="aiocloudHandleSelection">
                         <el-table-column
                                 type="selection"
                                 width="55">
@@ -169,7 +169,7 @@
                 },
                 type: "0",
                 multipleSelection: [],
-                label: 2,
+                label: "2",
             }
         },
         mounted() {
@@ -186,30 +186,38 @@
                 this.$refs.quickViewRef.initLanguage();
             },
 
-            handleSelection(selection, row) {
-                if (this.label == '0') {
-                    for (let i = 0; i <= this.tableData.length - 1; i++) {
-                        if (row.id == this.tableData[i].id) {
+            aiocloudHandleSelection(selection, row) {
+                // 判断当前点击的是选中还是没选中
+                let selected = selection.length && selection.indexOf(row) !== -1
+                if (this.label == '2') {
+                    if(!selected) {
+                        this.$refs.tableRef.toggleRowSelection(row, false);
+                    }
+                    else {
+                        this.$refs.tableRef.toggleRowSelection(row, true);
+                    }
+                    return;
+                }
+                for (let i = 0; i <= this.tableData.length - 1; i++) {
+                    if (row.id == this.tableData[i].id) {
+                        if (this.label == '0') {
                             for (let j = 0; j < i; j++) {
-                                this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
+                                if(!selected) {
+                                    this.$refs.tableRef.toggleRowSelection(this.tableData[j], false);
+                                }
+                                else {
+                                    this.$refs.tableRef.toggleRowSelection(this.tableData[j], true);
+                                }
                             }
-                        }
-                    }
-                } else if (this.label == '1') {
-                    for (let i = 0; i <= this.tableData.length - 1; i++) {
-                        if (row.id == this.tableData[i].id) {
-                            console.log(i);
+                        } else if (this.label == '1') {
                             for (let j = i; j <= this.tableData.length - 1; j++) {
-                                console.log(j);
-                                this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
+                                if(!selected) {
+                                    this.$refs.tableRef.toggleRowSelection(this.tableData[j], false);
+                                }
+                                else {
+                                    this.$refs.tableRef.toggleRowSelection(this.tableData[j], true);
+                                }
                             }
-                        }
-                    }
-                    this.$refs.tableRef.toggleRowSelection(row);
-                } else if (this.label == '2') {
-                    for (let i = 0; i <= this.tableData.length - 1; i++) {
-                        if (row.id == this.tableData[i].id) {
-                            this.$refs.tableRef.toggleRowSelection(this.tableData[j]);
                         }
                     }
                 }
@@ -233,20 +241,14 @@
 
             //选择行以上
             aboveAll() {
-                this.selectData.length = 0;
-                this.label = 0;
             },
 
             //选择行以下
             belowAll() {
-                this.selectData.length = 0;
-                this.label = 1;
             },
 
             //当前行
             just() {
-                this.selectData.length = 0;
-                this.$refs.table.toggleRowSelection(this.multipleSelection);
             },
 
             selectEq(item, index) {
