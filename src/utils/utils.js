@@ -228,8 +228,17 @@ const utils = {
 
     addMonth(item) {
         var date = new Date(item);
-        var year = date.getFullYear()
-        var month = date.getMonth() + 2
+        var oldYear = date.getFullYear();
+        var oldMonth = date.getMonth() + 1 ;
+        var year = 0;
+        var month = 0;
+        if(oldMonth == 12){
+            year = oldYear + 1;
+            month = 1;
+        }else{
+            year = oldYear;
+            month = oldMonth + 1;
+        }
         return (
             [year, month].map(utils.formatNumber).join('-')
         )
@@ -237,8 +246,17 @@ const utils = {
 
     reduceMonth(item) {
         var date = new Date(item);
-        var year = date.getFullYear();
-        var month = date.getMonth() ;
+        var oldYear = date.getFullYear();
+        var oldMonth = date.getMonth() + 1 ;
+        var year = 0;
+        var month = 0;
+        if(oldMonth == 1){
+            year = oldYear - 1;
+            month = 12;
+        }else{
+            year = oldYear;
+            month = oldMonth - 1;
+        }
         return (
             [year, month].map(utils.formatNumber).join('-')
         )

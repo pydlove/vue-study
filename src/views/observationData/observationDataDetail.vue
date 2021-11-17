@@ -105,18 +105,25 @@
                             </el-table-column>
                             <el-table-column
                                     show-overflow-tooltip="true"
-                                    prop="startTime"
-                                    :label="$t('message.startTime')"
-                                    width="120"
+                                    prop="obsTime"
+                                    :label="$t('message.obsTime')"
+                                    width="150"
                                     align="center">
                             </el-table-column>
-                            <el-table-column
-                                    show-overflow-tooltip="true"
-                                    prop="endTime"
-                                    :label="$t('message.endTime')"
-                                    width="120"
-                                    align="center">
-                            </el-table-column>
+                            <!--<el-table-column-->
+                                    <!--show-overflow-tooltip="true"-->
+                                    <!--prop="startTime"-->
+                                    <!--:label="$t('message.startTime')"-->
+                                    <!--width="120"-->
+                                    <!--align="center">-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--show-overflow-tooltip="true"-->
+                                    <!--prop="endTime"-->
+                                    <!--:label="$t('message.endTime')"-->
+                                    <!--width="120"-->
+                                    <!--align="center">-->
+                            <!--</el-table-column>-->
                             <el-table-column
                                     show-overflow-tooltip="true"
                                     prop="target"
@@ -124,18 +131,25 @@
                                     :label="$t('message.ObservationTarget')"
                                     align="center">
                             </el-table-column>
+                            <!--<el-table-column-->
+                                    <!--show-overflow-tooltip="true"-->
+                                    <!--prop="lineSpectrum"-->
+                                    <!--width="150px"-->
+                                    <!--:label="$t('message.LineSpectrum')"-->
+                                    <!--align="center">-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--show-overflow-tooltip="true"-->
+                                    <!--prop="observationPattern"-->
+                                    <!--width="100px"-->
+                                    <!--:label="$t('message.obsPattern')"-->
+                                    <!--align="center">-->
+                            <!--</el-table-column>-->
                             <el-table-column
                                     show-overflow-tooltip="true"
-                                    prop="lineSpectrum"
-                                    width="150px"
-                                    :label="$t('message.LineSpectrum')"
-                                    align="center">
-                            </el-table-column>
-                            <el-table-column
-                                    show-overflow-tooltip="true"
-                                    prop="observationPattern"
+                                    prop="offBand"
                                     width="100px"
-                                    :label="$t('message.obsPattern')"
+                                    :label="$t('message.offBand')"
                                     align="center">
                             </el-table-column>
                             <el-table-column
@@ -147,18 +161,24 @@
                             </el-table-column>
                             <el-table-column
                                     show-overflow-tooltip="true"
-                                    prop="coordinates"
-                                    width="150px"
-                                    :label="$t('message.ObsCoordinate')"
+                                    prop="observationWaveLength"
+                                    :label="$t('message.observationWaveLength')"
                                     align="center">
                             </el-table-column>
-                            <el-table-column
-                                    show-overflow-tooltip="true"
-                                    prop="observationBand"
-                                    width="100px"
-                                    :label="$t('message.obsBand')"
-                                    align="center">
-                            </el-table-column>
+                            <!--<el-table-column-->
+                                    <!--show-overflow-tooltip="true"-->
+                                    <!--prop="coordinates"-->
+                                    <!--width="150px"-->
+                                    <!--:label="$t('message.ObsCoordinate')"-->
+                                    <!--align="center">-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--show-overflow-tooltip="true"-->
+                                    <!--prop="observationBand"-->
+                                    <!--width="100px"-->
+                                    <!--:label="$t('message.obsBand')"-->
+                                    <!--align="center">-->
+                            <!--</el-table-column>-->
                         </el-table>
                     </div>
                     <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
