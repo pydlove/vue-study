@@ -60,6 +60,8 @@ module.exports = {
         endTime: '结束时间',
         offBand: '偏带',
         observationWaveLength: '观测波长',
+        image:'图片',
+        video:'视频',
 
         LineSpectrum: '观测谱线',
         obsBand: '观测波段',

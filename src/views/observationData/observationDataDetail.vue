@@ -165,6 +165,35 @@
                                     :label="$t('message.observationWaveLength')"
                                     align="center">
                             </el-table-column>
+                            <el-table-column
+                                    show-overflow-tooltip="true"
+                                    prop="picture"
+                                    :label="$t('message.image')"
+                                    align="center"
+                                    width="150px">
+                                <template slot-scope="scope">
+                                    <el-image
+                                            style="width:100px;height:100px;"
+                                            :src="scope.row.picture"
+                                            fit="fit"
+                                            :preview-src-list="[scope.row.picture]"
+                                    ></el-image>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    show-overflow-tooltip="true"
+                                    prop="video"
+                                    :label="$t('message.video')"
+                                    align="center"
+                                    width="150px">
+                                <template slot-scope="scope">
+                                    <a :href="scope.row.video" target="_blank"
+                                       v-if="scope.row.video != null && scope.row.video.length > 0"
+                                       :download="getName(scope.row.video)">
+                                        {{$t('message.downloadObsVideo')}}
+                                    </a>
+                                </template>
+                            </el-table-column>
                             <!--<el-table-column-->
                                     <!--show-overflow-tooltip="true"-->
                                     <!--prop="coordinates"-->
@@ -236,6 +265,12 @@
                 this.language = this.$i18n.locale;
             },
 
+            getName(url){
+                if(url != null && url != "" && url != undefined){
+                    var fileName = url.substring(url.lastIndexOf("/") + 1);
+                    return fileName;
+                }
+            },
             async applicationDownload(item) {
                 let params = new FormData();
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");

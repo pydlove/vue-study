@@ -12,7 +12,7 @@
 				:total="totalCount">
 		</el-pagination>-->
 		<el-pagination
-				background :hide-on-single-page="pageshow"
+				background
 				class="pb-10 pt-20 mt-10"
 				@size-change="handleSizeChange"
 				@current-change="handleCurrentChange"
@@ -46,7 +46,6 @@
              * 分页方法
              */
             handleSizeChange(val) {
-                console.log(val);
                 this.pageSize = val;
                 this.currentPage = 1;
                 this.$emit("search", this.currentPage, this.pageSize);

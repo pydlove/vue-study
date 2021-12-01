@@ -111,6 +111,8 @@ module.exports = {
         endTime: 'EndTime',
         offBand: 'OffBand',
         observationWaveLength: 'ObsWaveLength',
+        image:'Image',
+        video:'Video',
 
         LineSpectrum: 'LineSpectrum',
         ObsCoordinate: 'ObsCoordinate',

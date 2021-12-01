@@ -121,6 +121,36 @@
                                 :label="$t('message.obsBand')"
                                 align="center">
                         </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
+                                prop="picture"
+                                :label="$t('message.image')"
+                                align="center"
+                                width="150px">
+                            <template slot-scope="scope">
+                                <el-image
+                                        style="width:100px;height:100px;"
+                                        :src="scope.row.picture"
+                                        fit="fit"
+                                        :preview-src-list="[scope.row.picture]"
+                                ></el-image>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                show-overflow-tooltip="true"
+                                prop="video"
+                                :label="$t('message.video')"
+                                align="center"
+                                width="150px"
+                                >
+                            <template slot-scope="scope">
+                                <a :href="scope.row.video" target="_blank"
+                                    v-if="scope.row.video !=null && scope.row.video.length > 0"
+                                   :download="getName(scope.row.video)">
+                                    {{$t('message.downloadObsVideo')}}
+                                </a>
+                            </template>
+                        </el-table-column>
                     </el-table>
                 </div>
                 <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
@@ -208,6 +238,13 @@
                 this.chaseMenus[2].name = this.$t('message.NewData');
                 this.chaseMenus[3].name = this.$t('message.AnalysisSoftware');
                 this.chaseMenus[4].name = this.$t('message.DataUseRule');
+            },
+
+            getName(url){
+                if(url != null && url != "" && url != undefined){
+                    var fileName = url.substring(url.lastIndexOf("/") + 1);
+                    return fileName;
+                }
             },
 
             handleSelection(selection, row) {

@@ -98,8 +98,8 @@
                 activityViews: '',
                 form: {
                     band: '',
-                    startTime: '2011-11-16 17:54:14',
-                    endTime: '2021-11-16 17:54:23',
+                    startTime: '',
+                    endTime: '',
                     observationTarget: '',
                 },
             }
