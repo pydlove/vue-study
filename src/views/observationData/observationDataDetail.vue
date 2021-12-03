@@ -172,12 +172,9 @@
                                     align="center"
                                     width="150px">
                                 <template slot-scope="scope">
-                                    <el-image
-                                            style="width:100px;height:100px;"
-                                            :src="scope.row.picture"
-                                            fit="fit"
-                                            :preview-src-list="[scope.row.picture]"
-                                    ></el-image>
+                                    <el-button class="wdi-120" type="primary" plain @click="previewImage(scope.row)">
+                                        {{$t('message.preview')}}
+                                    </el-button>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -217,6 +214,7 @@
 
         <Footer></Footer>
         <Application ref="appref"></Application>
+        <Preview ref="previewRef"></Preview>
     </div>
 </template>
 <!--eslint-disable-->
@@ -226,6 +224,7 @@
     import Application from "@/views/user/application.vue";
     import Page from "@/components/Page";
     import Pagination from "@/components/Pagination";
+    import Preview from "@/views/observationData/previewDialog.vue";
 
     export default {
         name: "observationDataDetail",
@@ -234,7 +233,8 @@
             Footer,
             Application,
             Page,
-            Pagination
+            Pagination,
+            Preview
         },
         data() {
             return {
@@ -263,6 +263,10 @@
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
+            },
+
+            previewImage(row){
+                this.$refs.previewRef.open(row);
             },
 
             getName(url){

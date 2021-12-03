@@ -128,12 +128,9 @@
                                 align="center"
                                 width="150px">
                             <template slot-scope="scope">
-                                <el-image
-                                        style="width:100px;height:100px;"
-                                        :src="scope.row.picture"
-                                        fit="fit"
-                                        :preview-src-list="[scope.row.picture]"
-                                ></el-image>
+                                <el-button class="wdi-120" type="primary" plain @click="previewImage(scope.row)">
+                                    {{$t('message.preview')}}
+                                </el-button>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -158,6 +155,7 @@
         </div>
         <Footer></Footer>
         <DownLoad ref="downloadRef"></DownLoad>
+        <Preview ref="previewRef"></Preview>
     </div>
 </template>
 <!--eslint-disable-->
@@ -172,6 +170,7 @@
     import AnalysisSoftware from "@/views/chaseSatellite/analysisSoftware.vue";
     import DataUseRule from "@/views/chaseSatellite/dataUseRule.vue";
     import DownLoad from "@/views/observationData/download.vue";
+    import Preview from "@/views/observationData/previewDialog.vue";
 
     export default {
         name: "index",
@@ -185,7 +184,8 @@
             DataUseRule,
             Page,
             Pagination,
-            DownLoad
+            DownLoad,
+            Preview
         },
 
         data() {
@@ -238,6 +238,10 @@
                 this.chaseMenus[2].name = this.$t('message.NewData');
                 this.chaseMenus[3].name = this.$t('message.AnalysisSoftware');
                 this.chaseMenus[4].name = this.$t('message.DataUseRule');
+            },
+
+            previewImage(row){
+                this.$refs.previewRef.open(row);
             },
 
             getName(url){

@@ -29,6 +29,7 @@ export default {
     web_service_v1_cl_observation_data_detail: "/web-service/v1/cl_observation_data/detail",
     web_service_v1_cl_observation_log_searchData: "/web-service/v1/cl_observation_log/searchData",
 
+
     // 最新数据
     web_service_v1_cl_observation_data_newData: "/web-service/v1/cl_observation_data/newData",
 
@@ -64,4 +65,6 @@ export default {
     web_service_v1_cl_observation_log_in: "/web-service/v1/web_download_log/in",
     web_service_v1_cl_observation_log_download: "/web-service/v1/web_download_log/download",
 
+    //观测数据图片预览
+    web_service_v1_cl_observation_data_preview: "/web-service/v1/cl_observation_data/preview",
 }

@@ -110,12 +110,9 @@
                                 width="150px"
                                 align="center">
                             <template slot-scope="scope">
-                                <el-image
-                                        style="width:100px;height:100px;"
-                                        :src="scope.row.picture"
-                                        fit="fit"
-                                        :preview-src-list="[scope.row.picture]"
-                                ></el-image>
+                                <el-button class="wdi-120" type="primary" plain @click="previewImage(scope.row)">
+                                   {{$t('message.preview')}}
+                                </el-button>
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -139,6 +136,7 @@
         </div>
         <Footer></Footer>
         <DownLoad ref="downloadRef"></DownLoad>
+        <Preview ref="previewRef"></Preview>
     </div>
 </template>
 <!--eslint-disable-->
@@ -153,6 +151,7 @@
     import Friendly from "@/views/observationData/friendly.vue";
     import DataSearch from "@/views/observationData/dataSearch.vue";
     import DownLoad from "@/views/observationData/download.vue";
+    import Preview from "@/views/observationData/previewDialog.vue";
 
     export default {
         name: "index",
@@ -167,7 +166,8 @@
             DataSearch,
             Page,
             Pagination,
-            DownLoad
+            DownLoad,
+            Preview
         },
         data() {
             return {
@@ -215,8 +215,11 @@
                 this.$refs.quickViewRef.initLanguage();
             },
 
+            previewImage(row){
+                this.$refs.previewRef.open(row);
+            },
+
             getName(url){
-                console.log(url);
                 if(url != null && url != "" && url != undefined){
                     var fileName = url.substring(url.lastIndexOf("/") + 1);
                     return fileName;

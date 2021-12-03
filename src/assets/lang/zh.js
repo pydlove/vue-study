@@ -95,6 +95,7 @@ module.exports = {
         ObservationCoordinate: '观测坐标',
         exposureTime: '曝光时间',
         inputExposureTime: '请输入曝光时间',
+        preview:'预览图片',
 
         inputObsTarge: "请输入观测目标",
         inputObsWaveLength: "请输入观测波长",
@@ -240,6 +241,7 @@ module.exports = {
     },
     loading: {
         download: '数据正在下载中，请不要关闭网页',
+        preview: '图片加载中，请等待',
     },
     alert: {
         dataSelect: '请选择一条数据',
@@ -294,6 +296,7 @@ module.exports = {
         },
         title: {
             fileDownload: '文件下载',
+            preview:'图片预览',
         },
     },
     week: {

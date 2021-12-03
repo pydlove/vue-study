@@ -55,6 +55,7 @@ module.exports = {
         ObservationCoordinate: 'Observation Coordinate',
         exposureTime: 'Exposure Time',
         inputExposureTime: 'Please enter the Exposure Time',
+        preview:'Preview',
 
         inputObsTarge: "Please enter the observation target",
         inputObsWaveLength: "Please enter the observation wavelength",
@@ -87,8 +88,8 @@ module.exports = {
         introduction: 'Introduction',
         results: 'Achievements',
 
-        beautifulImage: "Solar Images",
-        beautifulVideo: "Solar Movies",
+        beautifulImage: "Images",
+        beautifulVideo: "Movies",
 
         satellit: 'Satellit',
         obsDate: "ObsDate",
@@ -132,7 +133,7 @@ module.exports = {
 
         newsDesc: "Mainly explain what the news and resources are mainly displayed",
         ViewNews: "Look News",
-        paperAchievement: "Paper Achievements",
+        paperAchievement: "Papers",
 
         underConstruction: 'Under Construction',
 
@@ -243,6 +244,7 @@ module.exports = {
     },
     loading: {
         download: 'The data is being downloaded. Please do not close the web page',
+        preview: 'The image is loading, please wait',
     },
     alert: {
         dataSelect: 'Please select a piece of data',
@@ -311,6 +313,7 @@ module.exports = {
         },
         title: {
             fileDownload: 'File Downloading',
+            preview: 'Preview',
         },
     },
     week: {
