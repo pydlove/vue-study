@@ -35,15 +35,15 @@
                 </el-checkbox-group>
             </div>
 
-            <div class="dffn-ac mt-20">
-                <div class="ds-lable">
-                    {{ $t('message.ObservationTarget') }}：
-                </div>
-                <el-checkbox-group v-model="checkList2">
-                    <el-checkbox label="全日面"> {{ $t('message.fullDisk') }}</el-checkbox>
-                    <el-checkbox label="局部"> {{ $t('message.partDisk') }}</el-checkbox>
-                </el-checkbox-group>
-            </div>
+            <!--<div class="dffn-ac mt-20">-->
+                <!--<div class="ds-lable">-->
+                    <!--{{ $t('message.ObservationTarget') }}：-->
+                <!--</div>-->
+                <!--<el-checkbox-group v-model="checkList2">-->
+                    <!--<el-checkbox label="全日面"> {{ $t('message.fullDisk') }}</el-checkbox>-->
+                    <!--<el-checkbox label="局部"> {{ $t('message.partDisk') }}</el-checkbox>-->
+                <!--</el-checkbox-group>-->
+            <!--</div>-->
             <div class="ds-search">
                 <el-button class="wdi-120" type="primary" @click="onSubmit">
                     {{ $t('message.Search') }}

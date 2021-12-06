@@ -67,11 +67,11 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_preview, this.obsData, "POST");
                 if (data.code == 200) {
                     let _this = this;
-                    this.loading = false;
                     //清除定时器
                     clearTimeout(this.timer);
                     //设置一次性定时器
                     _this.timer = setTimeout(function(){
+                        _this.loading = false;
                         _this.imageUrl = data.data;
                         _this.imageArr.push(_this.imageUrl);
                     }, 1000);

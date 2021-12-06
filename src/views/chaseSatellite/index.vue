@@ -78,13 +78,13 @@
                                 width="120"
                                 align="center">
                         </el-table-column>
-                        <el-table-column
-                                show-overflow-tooltip="true"
-                                prop="target"
-                                width="150px"
-                                :label="$t('message.ObservationTarget')"
-                                align="center">
-                        </el-table-column>
+                        <!--<el-table-column-->
+                                <!--show-overflow-tooltip="true"-->
+                                <!--prop="target"-->
+                                <!--width="150px"-->
+                                <!--:label="$t('message.ObservationTarget')"-->
+                                <!--align="center">-->
+                        <!--</el-table-column>-->
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="lineSpectrum"
@@ -92,6 +92,9 @@
                                 :label="$t('message.LineSpectrum')"
                                 align="center"
                         >
+                            <template slot-scope="scope">
+                                {{ fmtLine(scope.row) }}
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
@@ -239,7 +242,15 @@
                 this.chaseMenus[3].name = this.$t('message.AnalysisSoftware');
                 this.chaseMenus[4].name = this.$t('message.DataUseRule');
             },
-
+            fmtLine(row){
+                var observationWaveLength = row.observationWaveLength;
+                if(observationWaveLength == '6562.81'){
+                    return 'Hα';
+                }
+                if(observationWaveLength == '6568.91'){
+                    return 'Fe';
+                }
+            },
             previewImage(row){
                 this.$refs.previewRef.open(row);
             },
