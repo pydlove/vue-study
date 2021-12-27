@@ -52,9 +52,22 @@
                 <div class="nd-file">
                     <div class="nd-icon"></div>
                     <a class="nd-file-url" @click="toDownload(item)">{{fakeUrl(item)}}</a>
-                    <!--<div class="nd-file-size">{{fitsSize(item)}}</div>-->
                 </div>
             </div>
+
+            <!--<form id="downloadForm" action="/web-service/v1/web_download_log/download">-->
+                <!--<div class="nd-file-download" v-for="item in filesPath">-->
+                    <!--<input type="text" name="fitsUrls" :value="item.fitsUrl">-->
+                    <!--<input type="text" name="sizes" :value="item.csize">-->
+                    <!--<input type="text" name="dataType" :value="item.dataType">-->
+                    <!--<input type="text" name="bucketName" :value="item.bucketName">-->
+
+                    <!--<div class="nd-file">-->
+                        <!--<div class="nd-icon"></div>-->
+                        <!--<a class="nd-file-url" @click="toDownload(item)">{{fakeUrl(item)}}</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
 
             <span slot="footer" class="dialog-footer">
               <el-button class="wdi-120" @click="close">{{ $t('menu.cancel') }}</el-button>
@@ -77,13 +90,6 @@
 
         },
         methods: {
-            openFile: function () {
-                document.getElementById('open').click()
-            },
-            showRealPath: function () {
-                // document.getElementById('input01').value = document.getElementById('open').files[0].path
-                console.log(document.getElementById('open').files[0].path)
-            },
             open() {
                 this.dialogVisible = true;
                 this.filesPath = this.multipleSelection;
@@ -94,69 +100,8 @@
             },
 
             fakeUrl(item) {
-                let url = "http://114.212.174.143:9092/download" + "? fileName=" + item.fitsName;
+                let url = "/download" + "? fileName=" + item.fitsName;
                 return url;
-            },
-
-            fileChange(e) {
-                try {
-                    let Base64 = require('js-base64').Base64;
-                    let _this = this;
-                    if (!e || !window.FileReader) return  // 看支持不支持FileReader
-                    let reader = new FileReader()
-                    reader.readAsDataURL(e.target.files[0]) // 这里是最关键的一步，转换就在这里 （参数必须是blob对象）
-                    reader.onloadend = function (res) {
-                        console.log(this.result)
-                    }
-                    // const fu = document.getElementById('file')
-                    // if (fu == null) return
-                    // console.log("-----------------------")
-                    // console.log(fu)
-                    // this.form.savePath = fu.value
-                    // console.log(fu.path)
-                    // console.log(this.form.savePath)
-                    // var theFiles = e.target.files;
-                    // var rea = theFiles[0].webkitRelativePath;
-                    // var folder = rea.split("/");
-                    // console.log("+++++++++++++++++++++++++")
-                    // console.log(rea)
-                    // console.log(folder[0])
-
-                } catch (error) {
-                    console.debug('choice file err:', error)
-                }
-            },
-
-            btnChange() {
-                var file = document.getElementById('file')
-                file.click()
-            },
-
-            /*    //通过url 转为blob格式的数据
-                getImgArrayBuffer(url) {
-                    let _this = this;
-                    return new Promise((resolve, reject) => {
-                        //通过请求获取文件blob格式
-                        let xmlhttp = new XMLHttpRequest();
-                        console.log("url是：" + url);
-                        xmlhttp.open("GET", url, true);
-                        xmlhttp.responseType = "blob";
-                        xmlhttp.onload = function () {
-                            if (this.status == 200) {
-                                resolve(this.response);
-                            } else {
-                                reject(this.status);
-                            }
-                        }
-                        xmlhttp.send();
-                    });
-
-                },*/
-
-            fitsSize(item) {
-                let cSize = (item.csize) / (1024 * 1024);
-                cSize = parseFloat(cSize).toFixed(2);
-                return cSize + "MB";
             },
 
             async toMulDownload() {
@@ -208,10 +153,7 @@
                 params.append("sizes", item.csize);
                 params.append("dataType", item.dataType);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_in, params, "POST");
-                if (data.code == 200) {
-                    this.download(item);
-                    this.loading = false;
-                }
+                this.download(item);
             },
 
             async downloadAll() {
@@ -231,45 +173,84 @@
                 params.append("dataType", dataType);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_in, params, "POST");
                 if (data.code == 200) {
-                    this.handleDownLoad(this.filesPath);
+                    this.handleDownLoadAll(this.filesPath);
                 }
             },
 
-            async handleDownLoad(item) {
-                for (let i = 0; i < item.length; i++) {
-                   await this.download(item[i]);
+            async handleDownLoadAll(item) {
+                let form = {
+                    observationDatas: item
                 }
-                let _this = this;
-                this.timer = setInterval(function () {
-                    if(_this.queueIndex == _this.filesPath.length) {
-                        _this.loading = false;
-                        clearInterval(_this.timer);
-                    }
-                }, 1000);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_downloadAll, form, "POST");
+                if (data.code === 200) {
+                    let fitsName = data.data;
+                    let link = document.createElement("a");
+                    link.style.display = "none";
+                    let url = this.$aiocUrl.baseUrl +"/web-service/files/" + fitsName;
+                    console.log(url)
+                    link.href = url;
+                    link.setAttribute("download", fitsName);
+                    document.body.appendChild(link);
+                    link.click();
+                    this.queueIndex++;
+                    this.loading = false;
+                }
+                // let _this = this;
+                // this.timer = setInterval(function () {
+                //     if(_this.queueIndex == _this.filesPath.length) {
+                //         _this.loading = false;
+                //         clearInterval(_this.timer);
+                //     }
+                // }, 1000);
             },
 
-            download(item){
+            async download(item){
                 let params = new FormData();
-                console.log(item)
-                params.append("fitsUrls", item.fitsUrl);
+                params.append("fitsUrl", item.fitsUrl);
                 params.append("sizes", item.csize);
                 params.append("dataType", item.dataType);
                 params.append("bucketName", item.bucketName);
-                this.$axios({
-                    method: 'POST',
-                    url: this.$aiocUrl.web_service_v1_cl_observation_log_download,
-                    data: params,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
-                    },
-                    responseType: 'arraybuffer',
-                }).then(response => {
-                    // 文件流
-                    this.downloadGO(response);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_log_download, params, "POST");
+                if (data.code === 200) {
+                    let fitsUrl = data.data;
+                    let fitsName = data.other.fitsName;
+                    let link = document.createElement("a");
+                    link.style.display = "none";
+                    let url = this.$aiocUrl.baseUrl +"/web-service/files/" + fitsUrl;
+                    link.href = url;
+                    link.setAttribute("download", fitsName);
+                    document.body.appendChild(link);
+                    link.click();
                     this.queueIndex++;
-                }).catch(error => {
-                }).then(() => {
-                });
+                    this.loading = false;
+                }
+                // {
+                //     fitsUrls: item.fitsUrl,
+                //         sizes: item.csize,
+                //     dataType: item.dataType,
+                //     bucketName: item.bucketName,
+                // },
+                // let params = new FormData();
+                // params.append("fitsUrls", item.fitsUrl);
+                // params.append("sizes", item.csize);
+                // params.append("dataType", item.dataType);
+                // params.append("bucketName", item.bucketName);
+                // this.$axios({
+                //     method: 'POST',
+                //     url: this.$aiocUrl.web_service_v1_cl_observation_log_download,
+                //     data: params,
+                //     // headers:{
+                //     //     'Content-Type': 'application/x-www-form-urlencoded'
+                //     // },
+                //     // responseType: 'blob',
+                // }).then(response => {
+                //
+                //     // 文件流
+                //     // this.downloadGO(response);
+                //     this.queueIndex++;
+                // }).catch(error => {
+                // }).then(() => {
+                // });
             },
 
             //下载文件流
