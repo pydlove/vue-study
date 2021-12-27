@@ -247,7 +247,7 @@
                 if(observationWaveLength == '6562.81'){
                     return 'Hα';
                 }
-                if(observationWaveLength == '6568.91'){
+                if(observationWaveLength == '6569.22'){
                     return 'Fe';
                 }
             },

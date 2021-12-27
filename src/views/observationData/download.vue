@@ -181,6 +181,8 @@
                 params.append("fitsUrls", item.fitsUrl);
                 params.append("sizes", item.csize);
                 params.append("dataType", item.dataType);
+                params.append("bucketName", item.bucketName);
+                console.log("桶是：" + item.bucketName);
                 this.$axios({
                     method: 'POST',
                     url: this.$aiocUrl.web_service_v1_cl_observation_log_download,
@@ -252,10 +254,15 @@
                 params.append("fitsUrls", item.fitsUrl);
                 params.append("sizes", item.csize);
                 params.append("dataType", item.dataType);
+                params.append("bucketName", item.bucketName);
                 this.$axios({
                     method: 'POST',
                     url: this.$aiocUrl.web_service_v1_cl_observation_log_download,
-                    data: params
+                    data: params,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
+                    },
+                    responseType: 'arraybuffer',
                 }).then(response => {
                     // 文件流
                     this.downloadGO(response);
@@ -269,7 +276,7 @@
             downloadGO(response) {
                 let data = response.data;
                 let headerContent = response.headers["content-disposition"];
-                let fileName = headerContent.substring(headerContent.indexOf("filename=") + 9, headerContent.length)
+                let fileName = headerContent.substring(headerContent.indexOf("fileName=") + 9, headerContent.length)
                 if (!data) {
                     return
                 }
@@ -279,7 +286,8 @@
                 link.href = url
                 link.setAttribute('download', fileName)
                 document.body.appendChild(link)
-                link.click()
+                link.click();                          //点击下载
+                document.body.removeChild(link);     //下载完成移除元素
                 window.URL.revokeObjectURL(url);   //为了更好地性能和内存使用状况，应该在适当的时候释放url.
             },
 
