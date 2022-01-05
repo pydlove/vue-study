@@ -267,8 +267,8 @@
             download() {
                 this.multipleSelection = this.$refs.tableRef.selection;
                 if (this.multipleSelection.length > 0) {
-                    this.$refs.downloadRef.multipleSelection = this.multipleSelection;
-                    this.$refs.downloadRef.open();
+                    console.log(this.multipleSelection)
+                    this.$refs.downloadRef.open(this.multipleSelection);
                 } else {
                     this.$message($t('alert.dataSelect'));
                 }
