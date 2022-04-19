@@ -223,6 +223,9 @@
             },
 
             async loginRequest() {
+                if(this.loginForm.fgCode.length != 4) {
+                    this.$promptMsg("请输入正确的验证码", "error");
+                }
                 let params = new FormData()
                 params.append("email", this.loginForm.email.trim());
                 params.append("password", this.$md5(this.loginForm.password));
@@ -506,9 +509,12 @@
                 clientWidth: 1580,
                 clientHeight: 980,
                 loginForm: {
-                    email: "py_world@163.com",
-                    password: "1q2w!Q",
-                    verificationCode: "aaaa",
+                    // email: "py_world@163.com",
+                    // password: "1q2w!Q",
+                    // verificationCode: "aaaa",
+                    email: "",
+                    password: "",
+                    verificationCode: "",
                     rememberMe: false,
                 },
                 rules: {

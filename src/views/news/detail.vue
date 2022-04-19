@@ -30,7 +30,7 @@
                             {{this.form.createTime}}
                         </div>
 
-                        <div v-if="language == 'zh'" class="nd-news-content" v-html="form.content"></div>
+                        <div v-if="language == 'zh'" class="nd-news-content1 ql-editor content-detail" v-html="form.content"></div>
                        <!-- <div v-else-if="language == 'en'" class="nd-news-content" v-html="form.enContent"></div>-->
                     </div>
                 </div>
@@ -133,6 +133,11 @@
             padding: 20px;
             width: 100%;
         }
+
+        .ql-editor {
+            line-height: 26px;
+        }
+
     }
 
     /*媒体查询（手机）*/
@@ -182,9 +187,8 @@
             margin-left: 10px;
         }
 
-        .nd-news-content {
+        .nd-news-content1 {
             margin-top: 20px;
-            align-content: center;
             font-size: 3px;
         }
 
