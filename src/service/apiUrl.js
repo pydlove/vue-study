@@ -14,6 +14,7 @@ export default {
 
     // 新闻与资源
     web_service_v1_new_and_resource_searchAll: "/web-service/v1/nd_news_resource/searchAll",
+    web_service_v1_new_and_resource_id: "/web-service/v1/nd_news_resource/id",
     web_service_v1_new_and_resource_search: "/web-service/v1/nd_news_resource/searchList",
 
     // 观测设备

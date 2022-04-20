@@ -123,22 +123,22 @@ module.exports = {
         disableHostCheck: true,
         proxy: {
             '/web-service': {
-                // target: 'http://localhost:9092',
-                target: 'http://114.212.174.143:9092',
+                target: 'http://localhost:9092',
+                // target: 'http://114.212.174.143:9092',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}
             },
             '/client-service': {
-                // target: 'http://localhost:9093',
-                target: 'http://114.212.174.143:9093',
+                target: 'http://localhost:9093',
+                // target: 'http://114.212.174.143:9093',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}
             },
             '/console-service': {
-                target: 'http://114.212.174.143:9091',
-                // target: 'http://localhost:9091',
+                // target: 'http://114.212.174.143:9091',
+                target: 'http://localhost:9091',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}

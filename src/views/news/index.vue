@@ -14,7 +14,7 @@
 		<div class="nd-background">
 			<div class="dffn nd-news-main">
 				<div class="nd-news-list">
-					<div class="nd-list dffn" v-for="(item, index) in this.tableData" :key="index">
+					<div class="nd-list dffn" v-for="(item, index) in tableData" :key="index">
 						<el-image
 								class="nd-picture"
 								:src="item.picture"
@@ -25,7 +25,7 @@
 							<p v-else-if="language == 'en'"  @click="lookDetail(item)">{{ item.enTitle }}</p>
 							<p class="dffn-ac">
 								<i class="el-icon-alarm-clock"></i>
-								{{item.createTime.substring(0, 10)}}
+								{{item.createTime}}
 							</p>
 						</div>
 						<el-button type="primary" size="mini" class="nd-see-detail" @click="lookDetail(item)">
@@ -79,11 +79,18 @@
             },
 
             lookDetail(item) {
-                this.$utils.setStorage("newsDetail", item);
-                let routeData = this.$router.resolve({
+                // this.$utils.setStorage("newsDetail", item);
+                // let routeData = this.$router.push({
+                //     path: "/newsDetail",
+                // });
+                // window.open(routeData.href, '_blank');
+                this.$router.push({
                     path: "/newsDetail",
+                    query: {
+                        id: item.id,
+                    },
+
                 });
-                window.open(routeData.href, '_blank');
             },
 
             async search(currentPage, pageSize) {

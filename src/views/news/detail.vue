@@ -27,7 +27,7 @@
 
                         <div class="nd-news-time dffn-ac" >
                             <i class="el-icon-alarm-clock"></i>
-                            {{this.form.createTime}}
+                            {{this.form.createTime.substring(0, 10)}}
                         </div>
 
                         <div v-if="language == 'zh'" class="nd-news-content1 ql-editor content-detail" v-html="form.content"></div>
@@ -52,19 +52,31 @@
         mounted() {
             this.initLanguage();
             this.minHeight = this.clientHeight - 180 - 260;
-            let newsDetail = this.$utils.getStorage("newsDetail");
-            if(newsDetail) {
-                this.form = newsDetail;
-            }
+            // let newsDetail = this.$utils.getStorage("newsDetail");
+            // if(newsDetail) {
+            //     this.form = newsDetail;
+            // }
+            this.id = this.$route.query.id;
+            this.search();
         },
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
             },
 
+            async search() {
+                let params = new FormData();
+                params.append("id", this.id);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_new_and_resource_id, params, "POST");
+                if (data.code == 200) {
+                    this.form = data.data;
+                    return true;
+                }
+            },
         },
         data() {
             return {
+                id: "",
                 language: "zh",
                 form: {
                     id: "",
