@@ -143,7 +143,7 @@
 		margin: 30px;
 	}
 	.nd-news-bg {
-		background: url("../../assets/img/background/news.png");
+		background: url("../../assets/img/background/news1.png");
 		background-size: 100% 100%;
 		height: 143px;
 		width: 398px;

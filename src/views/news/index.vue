@@ -18,9 +18,10 @@
 						<el-image
 								class="nd-picture"
 								:src="item.picture"
+								fit="contain"
 								:preview-src-list="[item.picture]"
 						></el-image>
-						<div class="nd-list-title">
+						<div class="nd-list-title cursor">
 							<p v-if="language == 'zh'"  @click="lookDetail(item)">{{ item.title }}</p>
 							<p v-else-if="language == 'en'"  @click="lookDetail(item)">{{ item.enTitle }}</p>
 							<p class="dffn-ac">

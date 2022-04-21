@@ -21,9 +21,9 @@
                                 <div> {{ $t('message.results') }}</div>
                                <!-- <div>Results</div>-->
                             </div>
-                            <div class="nd-result-more">
+                            <div class="nd-result-more cursor">
                                 <div class="dffn-ac">
-                                    <div class="mr-20" @click="toPictureAndVideo(0)">
+                                    <div class="mr-20 " @click="toPictureAndVideo(0)">
                                         {{ $t('message.more') }}
                                     </div>
                                     <div class="nd-more-arrow">
@@ -39,7 +39,10 @@
                             <el-carousel >
                                 <el-carousel-item v-for="(item,index) in pictureData" v-if="index < 6" :key="index">
                                     <viewer>
-                                        <img  class="nd-picture" :src="item.picture">
+                                        <el-image
+                                                class="nd-picture"
+                                                :src="item.picture"
+                                                fit="contain"></el-image>
                                     </viewer>
                                     <div class="nd-zb-bottom1">
                                         <div class="nd-time">
@@ -60,11 +63,23 @@
                             <div class="nd-news-list">
                                 {{ $t('message.news') }}
                             </div>
+                            <div class="nd-new-more cursor">
+                                <div class="dffn-ac">
+                                    <div class="mr-20" @click="toMessage()">
+                                        {{ $t('message.more') }}
+                                    </div>
+                                    <div class="nd-more-arrow">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                                <div class="nd-line"></div>
+                            </div>
                         </div>
                         <div class="nd-news">
-                            <div class="news-list" v-for="(item, index) in tableData" :key="index">
+                            <div class="news-list cursor" v-for="(item, index) in tableData" :key="index">
                                 <div v-if="language == 'zh'" class="news-text"   @click="toDetail(item)">
-                                    {{ index + 1}}. {{ item.title | ellipsis }}
+                                    {{ index + 1}}. {{ item.title.length > 27 ? (item.title.substring(0, 27) + "..."):item.title }}
                                 </div>
                                 <div v-else-if="language == 'en'" class="news-text"  @click="toDetail(item)">
                                     {{ index + 1}}. {{ item.enTitle | ellipsis }}
@@ -79,71 +94,71 @@
 
         <div class="nd-next1"></div>
         <div class="nd-next2"></div>
-        <div class="nd-introduction">
-            <div class="nd-in-style">
-                <div class="nd-introduction-title">
-                    <div>{{ $t('message.introduction') }}</div>
-                  <!--  <div>Introduction</div>-->
-                </div>
-                <div class="nd-result-more">
-                    <div class="dffn-ac">
-                        <div class="mr-20" @click="toObservationDevice(0)">
-                            {{ $t('message.more') }}
-                        </div>
-                        <div class="nd-more-arrow">
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                    <div class="nd-line"></div>
-                </div>
-            </div>
-        </div>
+        <!--<div class="nd-introduction">-->
+            <!--<div class="nd-in-style">-->
+                <!--<div class="nd-introduction-title">-->
+                    <!--<div>{{ $t('message.introduction') }}</div>-->
+                  <!--&lt;!&ndash;  <div>Introduction</div>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<div class="nd-result-more">-->
+                    <!--<div class="dffn-ac">-->
+                        <!--<div class="mr-20 cursor" @click="toObservationDevice(0)">-->
+                            <!--{{ $t('message.more') }}-->
+                        <!--</div>-->
+                        <!--<div class="nd-more-arrow">-->
+                            <!--<div></div>-->
+                            <!--<div></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="nd-line"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div class="nd-fl">
-            <div class="pics6">
-                <div>
-                    <ul class="pics6_status4" @click="jumpWeb(1, 'equipment')">
-                        <li>
-                            <van-image class="nd-logo2" :src="require('@/assets/img/logo/卫星.png')"/>
-                        </li>
-                        <div class="nd-sate" >
-                            <div class="nd-sate1">{{ $t('message.satellit') }}</div>
-                        </div>
-                    </ul>
-                </div>
-                <div>
-                    <ul class="pics6_status5" @click="jumpWeb(2, 'equipment')">
-                        <li>
-                            <van-image class="nd-logo2" :src="require('@/assets/img/logo/望远镜.png')"/>
-                        </li>
-                        <div class="nd-sate">
-                            <div class="nd-sate1">{{ $t('message.telescope') }}</div>
-                        </div>
-                    </ul>
-                </div>
-                <div>
-                    <ul class="pics6_status6" @click="jumpWeb(3, 'equipment')">
-                        <li>
-                            <van-image class="nd-logo2" :src="require('@/assets/img/logo/仪器.png')"/>
-                        </li>
-                        <div class="nd-sate">
-                            <div class="nd-sate1">{{ $t('message.instrument') }}</div>
-                        </div>
-                    </ul>
-                </div>
-                <div>
-                    <ul class="pics6_status7" @click="jumpWeb(4, 'data')">
-                        <li>
-                            <van-image class="nd-logo2" :src="require('@/assets/img/logo/站点.png')"/>
-                        </li>
-                        <div class="nd-sate">
-                            <div class="nd-sate1">{{ $t('message.site') }}</div>
-                        </div>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <!--<div class="nd-fl">-->
+            <!--<div class="pics6">-->
+                <!--<div>-->
+                    <!--<ul class="pics6_status4 cursor" @click="jumpWeb(1, 'equipment')">-->
+                        <!--<li>-->
+                            <!--<van-image class="nd-logo2" :src="require('@/assets/img/logo/卫星.png')"/>-->
+                        <!--</li>-->
+                        <!--<div class="nd-sate" >-->
+                            <!--<div class="nd-sate1">{{ $t('message.satellit') }}</div>-->
+                        <!--</div>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<ul class="pics6_status5 cursor" @click="jumpWeb(2, 'equipment')">-->
+                        <!--<li>-->
+                            <!--<van-image class="nd-logo2" :src="require('@/assets/img/logo/望远镜.png')"/>-->
+                        <!--</li>-->
+                        <!--<div class="nd-sate">-->
+                            <!--<div class="nd-sate1">{{ $t('message.telescope') }}</div>-->
+                        <!--</div>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<ul class="pics6_status6 cursor" @click="jumpWeb(3, 'equipment')">-->
+                        <!--<li>-->
+                            <!--<van-image class="nd-logo2" :src="require('@/assets/img/logo/仪器.png')"/>-->
+                        <!--</li>-->
+                        <!--<div class="nd-sate">-->
+                            <!--<div class="nd-sate1">{{ $t('message.instrument') }}</div>-->
+                        <!--</div>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<ul class="pics6_status7 cursor" @click="jumpWeb(4, 'data')">-->
+                        <!--<li>-->
+                            <!--<van-image class="nd-logo2" :src="require('@/assets/img/logo/站点.png')"/>-->
+                        <!--</li>-->
+                        <!--<div class="nd-sate">-->
+                            <!--<div class="nd-sate1">{{ $t('message.site') }}</div>-->
+                        <!--</div>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
         <Footer></Footer>
     </div>
 
@@ -230,11 +245,25 @@
             },
 
             toDetail(item) {
-                this.$utils.setStorage("newsDetail", item);
-                let routeData = this.$router.resolve({
+                // this.$utils.setStorage("newsDetail", item);
+                // let routeData = this.$router.resolve({
+                //     path: "/newsDetail",
+                // });
+                // window.open(routeData.href, '_blank');
+                this.$router.push({
                     path: "/newsDetail",
+                    query: {
+                        id: item.id,
+                    },
+
                 });
-                window.open(routeData.href, '_blank');
+            },
+
+            toMessage() {
+                this.$router.push({
+                    path: "/newsAndResource",
+
+                });
             },
 
             async initNewsData() {
@@ -369,6 +398,16 @@
             color: white;
             text-align: right;
             margin-right: 70px;
+        }
+
+        .nd-new-more {
+            position: absolute;
+            right: 0px;
+            top: 6px;
+            color: #ffff;
+        }
+        .nd-new-more > div:nth-of-type(1) {
+            line-height: 36px;
         }
 
         .news-list {
@@ -614,7 +653,7 @@
         }
 
         .nd-news-bg {
-            background: url("../../assets/img/background/news.png");
+            background: url("../../assets/img/background/news1.png");
             background-size: 100% 100%;
             height: 143px;
             width: calc(100% - 30px);

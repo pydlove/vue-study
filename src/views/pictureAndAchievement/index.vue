@@ -1,70 +1,70 @@
 <template>
-    <!--eslint-disable-->
-    <div class="nd-container">
-        <NormalHeader :currentMenu="'pictureAndAchievement'" @initLanguage="initLanguage"></NormalHeader>
-        <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
-            <el-breadcrumb-item :to="{ path: '/home' }">
-                {{ $t('menu.home') }}
-            </el-breadcrumb-item>
-            <el-breadcrumb-item>
-                {{ $t('menu.galleryAchievement') }}
-            </el-breadcrumb-item>
-        </el-breadcrumb>
+	<!--eslint-disable-->
+	<div class="nd-container">
+		<NormalHeader :currentMenu="'pictureAndAchievement'" @initLanguage="initLanguage"></NormalHeader>
+		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
+			<el-breadcrumb-item :to="{ path: '/home' }">
+				{{ $t('menu.home') }}
+			</el-breadcrumb-item>
+			<el-breadcrumb-item>
+				{{ $t('menu.galleryAchievement') }}
+			</el-breadcrumb-item>
+		</el-breadcrumb>
 
-        <div class="nd-background">
-            <div class="nd-content dffn">
-                <div class="aiocloud-card">
-                    <div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
-                         v-for="(item, index) in images" :key="index"
-                         @click="selectEq(item, index)">{{ item.name }}
-                    </div>
-                </div>
+		<div class="nd-background">
+			<div class="nd-content dffn">
+				<div class="aiocloud-card">
+					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
+					     v-for="(item, index) in images" :key="index"
+					     @click="selectEq(item, index)">{{ item.name }}
+					</div>
+				</div>
 
-                <div v-if="this.type == '0'">
-                    <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
-                         v-for="(item, index) in tableData" :key="index">
-                        <el-image class="nd-picture" :src="item.picture"
-                                  :preview-src-list="[item.picture]"></el-image>
-                        <div class="nd-list-title">
-                            <p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
-                            <p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
-                        </div>
-                    </div>
-                </div>
+				<div v-if="this.type == '0'">
+					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
+					     v-for="(item, index) in tableData" :key="index">
+						<el-image class="nd-picture" :src="item.picture"
+						          :preview-src-list="[item.picture]" fit="contain"></el-image>
+						<div class="nd-list-title cursor">
+							<p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
+							<p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
+						</div>
+					</div>
+				</div>
 
-                <div v-else-if="this.type == '1'">
-                    <div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
-                         v-for="(item, index) in tableData" :key="index">
-                        <AiocloudVideo class="nd-picture"
-                                       :sources="[{type: 'video/mp4', src: baseUrl + item.video}]"></AiocloudVideo>
-                        <div class="nd-list-title">
-                            <p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
-                            <p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
-                        </div>
-                    </div>
-                </div>
+				<div v-else-if="this.type == '1'">
+					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
+					     v-for="(item, index) in tableData" :key="index">
+						<AiocloudVideo class="nd-picture"
+						               :sources="[{type: 'video/mp4', src: baseUrl + item.video}]"></AiocloudVideo>
+						<div class="nd-list-title cursor">
+							<p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
+							<p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
+						</div>
+					</div>
+				</div>
 
-                <div class="nd-paper-right" v-else-if="this.type == '2'">
-                    <div class="nd-paper" v-for="(item, index) in tableData" :key="index">
-                        <div>
-                            <div class="nd-list-title1" @click="jumpWeb(item.hyperlink)">
-                                <p class="nd-paper-title">{{ item.title }}</p>
-                                <div class="nd-paper-content">
-                                    <p class="nd-paper-periodical">{{ item.author }}</p>
-                                    <p class="nd-paper-hyperlink">{{ item.periodical }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+				<div class="nd-paper-right" v-else-if="this.type == '2'">
+					<div class="nd-paper" v-for="(item, index) in tableData" :key="index">
+						<div>
+							<div class="nd-list-title1" @click="jumpWeb(item.hyperlink)">
+								<p class="nd-paper-title">{{ item.title }}</p>
+								<div class="nd-paper-content">
+									<p class="nd-paper-periodical">{{ item.author }}</p>
+									<p class="nd-paper-hyperlink">{{ item.periodical }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <div class="nd-breadcrumb-top">
-            <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
-        </div>
-    </div>
-    <Footer></Footer>
-    </div>
+			<div class="nd-breadcrumb-top">
+				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
+			</div>
+		</div>
+		<Footer></Footer>
+	</div>
 </template>
 <!--eslint-disable-->
 <script>
@@ -122,9 +122,9 @@
         },
         methods: {
 
-            jumpWeb(item){
-              //点击实现超链接跳转
-               window.open(item);
+            jumpWeb(item) {
+                //点击实现超链接跳转
+                window.open(item);
             },
 
             videos(row) {
@@ -147,7 +147,7 @@
                 this.$utils.setStorage("imageIndex", index);
                 if (this.type == "0") {
                     this.search(1, 10);
-                } else if(this.type == "1"){
+                } else if (this.type == "1") {
                     this.search(1, 10);
                     location.reload();
                 } else if (this.type == "2") {
@@ -196,126 +196,141 @@
 
 <style scoped>
 
-    /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
-        .nd-list-title1 {
-            line-height: 35px;
-            font-size: 16px;
-            color: #333333;
-            text-align: left;
-            margin-left: 10px;
-            margin-top: 10px;
-        }
-        .nd-paper-right {
-            width: 100%;
-        }
+	/*媒体查询（电脑）*/
+	@media screen and (min-width: 768px) {
+		.nd-obd-item {
+			position: relative;
+		}
 
-        .nd-paper{
-            background: white;
-            width: 100%;
-            margin-top: 10px;
-        }
+		.nd-list-title {
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			background: #726f6f9e;
+			color: #fff;
+			width: 95%;
+			height: 36px;
+			line-height: 36px;
+			border-radius: 5px;
+		}
 
-        .nd-paper-content{
-            display: flex;
-            flex-wrap: nowrap;
-        }
+		.nd-list-title > p:nth-of-type(1) {
+			font-size: 16px;
+			text-align: left;
+		}
 
-        .nd-paper-hyperlink{
-            margin-left: 20px;
-        }
+		.nd-list-title1 {
+			line-height: 35px;
+			font-size: 16px;
+			color: #333333;
+			text-align: left;
+			margin-left: 10px;
+			margin-top: 10px;
+		}
 
-        .nd-list-title > p:nth-of-type(1) {
-            line-height: 45px;
-            font-size: 16px;
-            color: #333333;
-            text-align: left;
-        }
+		.nd-paper-right {
+			width: 100%;
+		}
 
-        .nd-content > div:nth-of-type(1) {
-            width: 200px;
-            min-width: 200px;
-            height: 300px;
-            margin-right: 20px;
-        }
+		.nd-paper {
+			background: white;
+			width: 100%;
+			margin-top: 10px;
+		}
 
-        .nd-content > div:nth-of-type(2) {
-            width: calc(100% - 220px);
-            display: flex;
-            flex-wrap: wrap;
-        }
+		.nd-paper-content {
+			display: flex;
+			flex-wrap: nowrap;
+		}
 
-        .nd-news-list {
-            width: calc(100% - 270px);
-        }
+		.nd-paper-hyperlink {
+			margin-left: 20px;
+		}
 
-        .nd-title div:nth-of-type(1) {
-            font-size: 32px;
-        }
+		.nd-content > div:nth-of-type(1) {
+			width: 200px;
+			min-width: 200px;
+			height: 300px;
+			margin-right: 20px;
+		}
 
-        .nd-title div:nth-of-type(2) {
-            font-size: 18px;
-            margin-top: 10px;
-        }
+		.nd-content > div:nth-of-type(2) {
+			width: calc(100% - 220px);
+			display: flex;
+			flex-wrap: wrap;
+		}
 
-        .nd-list-title > p {
-            margin-top: 10px;
-            font-size: 14px;
-            text-align: left;
-            padding-left: 10px;
-        }
+		.nd-news-list {
+			width: calc(100% - 270px);
+		}
 
-        .nd-list-title > p:hover {
-            color: #fa541c;
-        }
+		.nd-title div:nth-of-type(1) {
+			font-size: 32px;
+		}
 
-        .nd-picture {
-            width: 100%;
-        }
+		.nd-title div:nth-of-type(2) {
+			font-size: 18px;
+			margin-top: 10px;
+		}
 
-        .pagination {
-            margin-top: 20px;
-            text-align: right;
-        }
+		.nd-list-title > p {
+			font-size: 14px;
+			text-align: left;
+			padding-left: 10px;
+		}
 
-        .nd-breadcrumb-top{
-            width: 900px;
-        }
+		.nd-list-title > p:hover {
+			color: #fa600d;
+			font-weight: bold;
+		}
 
-    }
+		.nd-picture {
+			width: 100%;
+			line-height: 230px;
+		}
 
-    /*媒体查询（手机）*/
-    @media screen and (max-width: 768px) {
+		.pagination {
+			margin-top: 20px;
+			text-align: right;
+		}
 
-        .nd-list {
-            margin-top: 10px;
-            position: relative;
-            margin-left: 10px;
-            margin-right: 10px;
-            height: 100px;
-        }
+		.nd-breadcrumb-top {
+			width: 900px;
+		}
 
-        .nd-picture {
-            width: 80px;
-            height: 60px;
-        }
+	}
 
-        .nd-list-title {
-            margin-left: 20px;
-        }
+	/*媒体查询（手机）*/
+	@media screen and (max-width: 768px) {
 
-        .pagination {
-            margin-top: 20px;
-            text-align: right;
-        }
+		.nd-list {
+			margin-top: 10px;
+			position: relative;
+			margin-left: 10px;
+			margin-right: 10px;
+			height: 100px;
+		}
 
-        .myCards {
-            width: 200px;
-            margin-top: 10px;
-            font-size: 5px;
-            text-align: left;
-            margin-left: 68px;
-        }
+		.nd-picture {
+			width: 80px;
+			height: 60px;
+		}
 
-    }
+		.nd-list-title {
+			margin-left: 20px;
+		}
+
+		.pagination {
+			margin-top: 20px;
+			text-align: right;
+		}
+
+		.myCards {
+			width: 200px;
+			font-size: 5px;
+			text-align: left;
+			margin-left: 68px;
+		}
+
+	}
 </style>

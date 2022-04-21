@@ -8,7 +8,7 @@ module.exports = {
         zh: '中文',
         en: 'English',
         more: '更多',
-        news: '新闻列表',
+        news: '新闻',
         introduction: '介绍',
         results: '成果',
 

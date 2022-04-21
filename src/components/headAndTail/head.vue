@@ -4,7 +4,8 @@
         <div class="nd-top">
             <div class="nd-top-main">
                 <div class="nd-tm-left">
-                    <van-image class="nd-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
+                    <!--<van-image class="nd-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>-->
+                    <van-image class="nd-logo" :src="require('@/assets/img/logo/njdx.jpg')"/>
                 </div>
                 <div class="nd-tm-right">
                     <div class="ml-20">
