@@ -48,7 +48,7 @@
                                         <div class="nd-time">
                                             <div v-if="language == 'zh'" class="time-style">{{item.title}}</div>
                                             <div v-else-if="language == 'en'" class="time-style">{{item.enTitle}}</div>
-                                            <div class="time-style">{{item.createTime == null ? item.createTime:item.createTime.substring(0, 10)}}</div>
+                                            <!--<div class="time-style">{{item.createTime == null ? item.createTime:item.createTime.substring(0, 10)}}</div>-->
                                         </div>
                                     </div>
                                 </el-carousel-item>
@@ -428,15 +428,17 @@
 
         .nd-time {
             margin-top: 18px;
-            margin-left: 10px;
+            /*margin-left: 10px;*/
+            text-align: center;
         }
 
         .time-style {
             color: white;
             font-size: 10px;
             margin-top: 10px;
-            text-align: left;
-            margin-left: 20px;
+            text-align: center;
+            font-size: 16px;
+            /*margin-left: 20px;*/
         }
 
         .nd-in-style {
@@ -486,8 +488,10 @@
         }
 
         .nd-logo {
+            /*height: 55px;*/
+            /*width: 180px;*/
             height: 55px;
-            width: 180px;
+            width: 280px;
             margin-top: 10px;
         }
 

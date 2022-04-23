@@ -27,7 +27,7 @@
                     <DataSearch v-if="type == 1" ref="dataSearchRef" @setTableData="setTableData"></DataSearch>
                     <NewData v-if="type==2"></NewData>
                     <AnalysisSoftware v-if="type==3"></AnalysisSoftware>
-                    <DataUseRule v-if="type == 4"></DataUseRule>
+                    <DataUseRule ref="dataUseRuleRef" v-if="type == 4"></DataUseRule>
                 </div>
             </div>
             <div class="aiocloud-card1" v-if="dataType">
@@ -241,6 +241,7 @@
                 this.chaseMenus[2].name = this.$t('message.NewData');
                 this.chaseMenus[3].name = this.$t('message.AnalysisSoftware');
                 this.chaseMenus[4].name = this.$t('message.DataUseRule');
+                this.$refs.dataUseRuleRef.initLanguage();
             },
             fmtLine(row){
                 var observationWaveLength = row.observationWaveLength;

@@ -8,11 +8,11 @@
                     <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x-tw.png')"/>
                 </div>
                 <div class="nd-address">
-                    <div class="nd-addr">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
-                    <div class="nd-phone">{{ $t('message.Contact') }}: (86)-25-89683510</div>
-                    <div class="nd-mail">{{ $t('message.PostCode') }}: 210023</div>
-                    <div class="nd-about">{{ $t('menu.AboutUs') }}
-                        <div class="nd-tail" style="margin-left: 50px">{{ $t('menu.ContactUs') }}</div>
+                    <div class="nd-addr fs-14">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
+                    <div class="nd-phone fs-14">{{ $t('message.Contact') }}: (86)-25-89683510</div>
+                    <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: 210023</div>
+                    <div class="nd-about fs-14">{{ $t('menu.AboutUs') }}
+                        <div class="nd-tail fs-14" style="margin-left: 50px">{{ $t('menu.ContactUs') }}</div>
                     </div>
                 </div>
 
@@ -31,13 +31,13 @@
         <div class="nd-info" v-else>
             <div class="nd-detail">
                 <div class="nd-address">
-                    <div class="nd-addr">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
-                    <div class="nd-phone">{{ $t('message.Contact') }}: (86)-25-89683510</div>
-                    <div class="nd-mail">{{ $t('message.PostCode') }}: 210023</div>
-                    <div class="nd-aboutus">
+                    <div class="nd-addr fs-14">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
+                    <div class="nd-phone fs-14">{{ $t('message.Contact') }}: (86)-25-89683510</div>
+                    <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: 210023</div>
+                    <div class="nd-aboutus fs-14">
                         <!--<div class="nd-about cursor" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>-->
-                        <div class="nd-tail">{{ $t('menu.ContactUs') }}</div>
-                        <div class="nd-tail">: xswan@nju.edu.cn</div>
+                        <div class="nd-tail fs-14 ">{{ $t('menu.ContactUs') }}</div>
+                        <div class="nd-tail fs-14">: xswan@nju.edu.cn</div>
                     </div>
 
                 </div>
@@ -154,17 +154,17 @@
         }
 
         .nd-phone {
-            margin-top: 25px;
+            margin-top: 15px;
             text-align: left;
         }
 
         .nd-mail {
-            margin-top: 25px;
+            margin-top: 15px;
             text-align: left;
         }
 
         .nd-aboutus {
-            margin-top: 25px;
+            margin-top: 15px;
             text-align: left;
             display: flex;
             flex-wrap: nowrap;
@@ -172,7 +172,6 @@
 
         .nd-tail {
             /*margin-left: 50px;*/
-            font-size: 10px;
         }
         /*.nd-tail:hover {*/
             /*margin-left: 50px;*/

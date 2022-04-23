@@ -36,7 +36,7 @@ module.exports = {
         DataSearch: 'Data Search',
         NewData: 'New Data',
         AnalysisSoftware: 'Analysis Software',
-        DataUseRule: 'Data Use Rule',
+        DataUseRule: 'Data Policy',
 
         ObservationTime: 'Obs Date',
         ObservationTarget: 'Obs Target',
