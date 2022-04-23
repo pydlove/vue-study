@@ -223,7 +223,6 @@
     @media screen and (min-width: 768px) {
         .si-main {
             background: #eeeeee;
-            padding-top: 20px;
             padding-bottom: 20px;
         }
 

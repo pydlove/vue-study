@@ -24,8 +24,8 @@
 					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
 					     v-for="(item, index) in tableData" :key="index">
 						<el-image class="nd-picture" :src="item.picture"
-						          :preview-src-list="[item.picture]" fit="contain"></el-image>
-						<div class="nd-list-title cursor">
+							          :preview-src-list="[item.picture]" fit="contain"></el-image>
+						<div class="nd-list-title cursor" @click="toPictureDetail(item)">
 							<p v-if="language == 'zh'" class="myCards">{{item.title }}</p>
 							<p v-else-if="language == 'en'" class="myCards">{{item.enTitle }}</p>
 						</div>
@@ -121,6 +121,16 @@
             this.search(1, 10);
         },
         methods: {
+
+            toPictureDetail(item) {
+                this.$router.push({
+                    path: "/pictureDetail",
+                    query: {
+                        id: item.id,
+                    },
+
+                });
+            },
 
             jumpWeb(item) {
                 //点击实现超链接跳转
@@ -288,7 +298,6 @@
 			width: 100%;
 			line-height: 230px;
 		}
-
 		.pagination {
 			margin-top: 20px;
 			text-align: right;
@@ -332,5 +341,11 @@
 			margin-left: 68px;
 		}
 
+	}
+</style>
+
+<style>
+	.nd-picture .el-image__inner {
+		vertical-align:middle;
 	}
 </style>

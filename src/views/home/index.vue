@@ -48,7 +48,7 @@
                                         <div class="nd-time">
                                             <div v-if="language == 'zh'" class="time-style">{{item.title}}</div>
                                             <div v-else-if="language == 'en'" class="time-style">{{item.enTitle}}</div>
-                                            <div class="time-style">{{item.createTime}}</div>
+                                            <div class="time-style">{{item.createTime == null ? item.createTime:item.createTime.substring(0, 10)}}</div>
                                         </div>
                                     </div>
                                 </el-carousel-item>
@@ -486,8 +486,8 @@
         }
 
         .nd-logo {
-            height: 44px;
-            width: 224px;
+            height: 55px;
+            width: 180px;
             margin-top: 10px;
         }
 
@@ -535,7 +535,7 @@
 
         .nd-next2 {
             background: #252022;
-            height: 380px;
+            height: 440px;
             width: 100%;
             min-width: 1200px;
         }
@@ -653,9 +653,9 @@
         }
 
         .nd-news-bg {
-            background: url("../../assets/img/background/news1.png");
+            background: url("../../assets/img/background/new2.png");
             background-size: 100% 100%;
-            height: 143px;
+            height: 200px;
             width: calc(100% - 30px);
             margin-left: 30px;
         }

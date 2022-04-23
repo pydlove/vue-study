@@ -22,7 +22,9 @@ export default {
 
     // 图片与成果
     web_service_v1_nd_gallery_video_searchList: "/web-service/v1/nd_gallery_video/searchList",
+    web_service_v1_nd_gallery_video_id: "/web-service/v1/nd_gallery_video/id",
     web_service_v1_nd_gallery_achievement_searchList: "/web-service/v1/nd_gallery_achievement/searchList",
+    web_service_v1_nd_gallery_achievement_id: "/web-service/v1/nd_gallery_achievement/id",
     web_service_v1_nd_paper_results_searchList: "/web-service/v1/nd_paper_results/searchList",
 
     // 快速浏览

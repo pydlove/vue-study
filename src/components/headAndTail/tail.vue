@@ -5,11 +5,11 @@
         <div class="nd-info" v-if="this.client">
             <div class="nd-detail">
                 <div class="nd-icon">
-                    <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x.png')"/>
+                    <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x-tw.png')"/>
                 </div>
                 <div class="nd-address">
                     <div class="nd-addr">地址: 江苏省南京市栖霞区仙林大道163号天文楼</div>
-                    <div class="nd-phone">电话热线: (86)- 18012012539</div>
+                    <div class="nd-phone">电话热线: (86)-25-89683510</div>
                     <div class="nd-mail">邮编: 210023</div>
                     <div class="nd-about">关于我们
                         <div class="nd-tail" style="margin-left: 50px">联系我们</div>
@@ -32,7 +32,7 @@
             <div class="nd-detail">
                 <div class="nd-address">
                     <div class="nd-addr">地址: 江苏省南京市栖霞区仙林大道163号天文楼</div>
-                    <div class="nd-phone">电话热线: (86)- 18012012539</div>
+                    <div class="nd-phone">电话热线: (86)-25-89683510</div>
                     <div class="nd-mail">邮编: 210023</div>
                     <div class="nd-about">关于我们
                         <div class="nd-tail" style="margin-left: 50px">联系我们</div>

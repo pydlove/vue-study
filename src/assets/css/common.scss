@@ -894,8 +894,10 @@ body {
   text-align: left;
 }
 .nd-normal-logo {
-  height: 44px;
-  width: 224px;
+  //height: 44px;
+  //width: 224px;
+  height: 55px;
+  width: 180px;
   margin-top: 10px;
 }
 
@@ -918,6 +920,10 @@ body {
 .nd-content {
   width: 900px;
   margin: 0 auto;
+}
+
+.nd-content1 {
+  min-height: 400px;
 }
 
 .aiocloud-card {

@@ -6,8 +6,7 @@
                 <div class="nd-tm-left">
                     <van-image class="nd-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
                     <div class="nd-title">
-                        <div>太阳科学数据中心</div>
-                        <div>Sun data analysis center</div>
+                        <div> {{ $t('message.SolarData') }}</div>
                     </div>
                 </div>
                 <Header></Header>
@@ -27,7 +26,7 @@
                 <div class="aiocloud-card aw-left" >
                     <div class="nd-contact">
                         <div class="nd-address">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼 </div>
-                        <div class="nd-address">{{ $t('message.Contact') }}: (86)- 18012012539</div>
+                        <div class="nd-address">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                         <div class="nd-address">{{ $t('message.EmailAddress') }}: xswan@nju.edu.cn</div>
                     </div>
                     <div class="nd-wechat"></div>

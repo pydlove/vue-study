@@ -26,7 +26,7 @@
 							<p v-else-if="language == 'en'"  @click="lookDetail(item)">{{ item.enTitle }}</p>
 							<p class="dffn-ac">
 								<i class="el-icon-alarm-clock"></i>
-								{{item.createTime}}
+								{{item.createTime == null ? item.createTime:item.createTime.substring(0, 10)}}
 							</p>
 						</div>
 						<el-button type="primary" size="mini" class="nd-see-detail" @click="lookDetail(item)">

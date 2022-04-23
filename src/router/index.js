@@ -83,6 +83,11 @@ const router = new Router({
             name: 'site',
             component: (resolve) => require(['../views/site/index.vue'], resolve),
         },
+        {
+            path: '/pictureDetail',
+            name: 'pictureDetail',
+            component: (resolve) => require(['../views/pictureAndAchievement/detail.vue'], resolve),
+        },
 
 ]
 })

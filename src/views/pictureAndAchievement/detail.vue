@@ -16,6 +16,9 @@
         </el-breadcrumb>
         <div class="nd-background">
             <div class="nd-content aiocloud-card">
+                <el-image class="nd-picture mb-40" :src="form.picture"
+                          :preview-src-list="[form.picture]" fit="contain"></el-image>
+
                 <div v-if="language == 'zh'" class="nd-new-title">
                     <div  class="nd-news-title">{{this.form.title}}</div>
                     <div class="nd-news-content" v-html="form.content"></div>
@@ -33,23 +36,29 @@
 <!--eslint-disable-->
 <script>
     import NormalHeader from "@/components/NormalHeader";
-    import Footer from "@/components/Footer";
-
+    import Footer from "@/components/Footer.vue";
     export default {
         name: "observationDeviceDetail",
         components: {NormalHeader, Footer},
         mounted() {
             this.initLanguage();
-            this.minHeight = this.clientHeight - 180 - 260;
-            let newsDetail = this.$utils.getStorage("observeDeviceDetail");
-            if(newsDetail) {
-                this.form = newsDetail
-            }
-            this.index = this.$route.query.index;
+            this.id = this.$route.query.id;
+            this.search();
         },
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
+            },
+
+            async search() {
+                let params = new FormData();
+                params.append("id", this.id);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_gallery_achievement_id, params, "POST");
+                if (data.code == 200) {
+                    this.form = data.data;
+                    console.log(this.form)
+                    return true;
+                }
             },
         },
         data() {
@@ -73,7 +82,7 @@
                         type: "3",
                     }
                 ],
-                index: 0,
+                id: "",
                 type: "",
                 form: {
                     id: "",

@@ -49,7 +49,6 @@
             const observeDeviceIndex = this.$utils.getStorage("observeDeviceIndex");
             if (observeDeviceIndex != undefined) {
                 this.type = observeDeviceIndex;
-                console.log(this.type)
             }
         },
 

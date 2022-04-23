@@ -5,11 +5,11 @@
         <div class="nd-info" v-if="this.client">
             <div class="nd-detail">
                 <div class="nd-icon">
-                    <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x.png')"/>
+                    <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x-tw.png')"/>
                 </div>
                 <div class="nd-address">
                     <div class="nd-addr">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
-                    <div class="nd-phone">{{ $t('message.Contact') }}: (86)- 18012012539</div>
+                    <div class="nd-phone">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                     <div class="nd-mail">{{ $t('message.PostCode') }}: 210023</div>
                     <div class="nd-about">{{ $t('menu.AboutUs') }}
                         <div class="nd-tail" style="margin-left: 50px">{{ $t('menu.ContactUs') }}</div>
@@ -32,7 +32,7 @@
             <div class="nd-detail">
                 <div class="nd-address">
                     <div class="nd-addr">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
-                    <div class="nd-phone">{{ $t('message.Contact') }}: (86)- 18012012539</div>
+                    <div class="nd-phone">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                     <div class="nd-mail">{{ $t('message.PostCode') }}: 210023</div>
                     <div class="nd-aboutus">
                         <!--<div class="nd-about cursor" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>-->
@@ -42,7 +42,7 @@
 
                 </div>
                 <div class="nd-icon">
-                    <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x.png')"/>
+                    <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x-tw.png')"/>
                 </div>
                 <div class="nd-over">
                     <div class="nd-tech-support"></div>
@@ -128,10 +128,11 @@
         }
 
         .nd-address {
-            width: 300px;
+            width: 350px;
             height: 150px;
             margin-left: 150px;
             color: #bfbfbf;
+            font-size: 14px;
         }
 
         .nd-icon {
@@ -150,19 +151,16 @@
 
         .nd-addr {
             text-align: left;
-            font-size: 10px;
         }
 
         .nd-phone {
             margin-top: 25px;
             text-align: left;
-            font-size: 10px;
         }
 
         .nd-mail {
             margin-top: 25px;
             text-align: left;
-            font-size: 10px;
         }
 
         .nd-aboutus {
@@ -192,10 +190,11 @@
         }
 
         .nd-port {
-            display: flex;
-            flex-wrap: nowrap;
+            /*display: flex;*/
+            /*flex-wrap: nowrap;*/
             margin-top: 20px;
             color: #8c8c8c;
+            /*align-items: center;*/
         }
 
         .nd-support {
@@ -213,6 +212,7 @@
 
         .nd-class {
             /*margin-left: 100px*/
+            font-size: 14px;
         }
 
     }
@@ -299,7 +299,7 @@
         .nd-class {
             margin-top: 5px;
             font-size: 1px;
-            text-align: left;
+            text-align: center;
         }
     }
 </style>
