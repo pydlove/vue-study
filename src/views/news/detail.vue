@@ -30,7 +30,8 @@
                             {{this.form.createTime.substring(0, 10)}}
                         </div>
 
-                        <div v-if="language == 'zh'" class="nd-news-content1 ql-editor content-detail" v-html="form.content"></div>
+                        <div class="nd-news-content1 ql-editor content-detail" v-html="form.content"></div>
+                        <!--<div v-if="language == 'zh'" class="nd-news-content1 ql-editor content-detail" v-html="form.content"></div>-->
                        <!-- <div v-else-if="language == 'en'" class="nd-news-content" v-html="form.enContent"></div>-->
                     </div>
                 </div>

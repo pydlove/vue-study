@@ -22,10 +22,10 @@
                     </div>
                 </div>
                 <div >
-                    <Chase v-if="type == 1"></Chase>
-                    <OnSet v-if="type == 2"></OnSet>
-                    <WeHot v-if="type == 3"></WeHot>
-                    <Friendly v-if="type == 0"></Friendly>
+                    <Chase ref="chaseRef" v-if="type == 1"></Chase>
+                    <OnSet ref="onsetRef" v-if="type == 2"></OnSet>
+                    <WeHot ref="weHotRef" v-if="type == 3"></WeHot>
+                    <Friendly ref="friendlyRef" v-if="type == 0"></Friendly>
                 </div>
             </div>
         </div>
@@ -59,12 +59,34 @@
                 this.equipments[2].name = this.$t('message.WEHOTSatellite');
                 this.equipments[3].name = this.$t('message.Links');
                 this.language = this.$i18n.locale;
+
+                if(this.type == 0) {
+                    this.$nextTick(() => {
+                        this.$refs.friendlyRef.initLanguage();
+                    })
+                }
+                else if(this.type == 1) {
+                    this.$nextTick(() => {
+                        this.$refs.chaseRef.initLanguage();
+                    })
+                }
+                else if(this.type == 2) {
+                    this.$nextTick(() => {
+                        this.$refs.onsetRef.initLanguage();
+                    })
+                }
+                else if(this.type == 3) {
+                    this.$nextTick(() => {
+                        this.$refs.weHotRef.initLanguage();
+                    })
+                }
             },
 
             selectEq(item) {
                 this.type = item.type;
                 this.equipment = item;
                 this.$utils.setStorage("observeDevicesIndex", this.type);
+                this.initLanguage();
             },
         },
         data() {

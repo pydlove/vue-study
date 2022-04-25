@@ -208,6 +208,7 @@ module.exports = {
         Snow: '雪',
         MyApplication: '我的申请',
         Address: '地址',
+        AddressDetail: '江苏省南京市栖霞区仙林大道163号天文楼',
         EmailAddress: '邮箱地址',
         WeChat: '微信号',
         PostCode: '邮编',

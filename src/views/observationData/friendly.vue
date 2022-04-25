@@ -119,46 +119,75 @@
     <div class="nd-container">
         <div class="si-main">
             <div class=" aiocloud-card friendlyTitle">
-                <div class="ThreeConnect dffn-ac">
-                    <el-avatar :src="require('../../assets/img/background/picture1.png')"></el-avatar>
-                    <div class="connectStyle" @click="jumpWeb1">{{ $t('message.VirtualSolarObservatory') }}</div>
+                <div>
+                    先进天基太阳天文台：<a href="http://aso-s.pmo.ac.cn">http://aso-s.pmo.ac.cn</a>
                 </div>
 
-                <div class="ThreeConnect dffn-ac">
-                    <el-avatar :src="require('../../assets/img/background/picture2.png')"></el-avatar>
-                    <div class="connectStyle" @click="jumpWeb2">{{ $t('message.JointScienceOperationsCenter') }}</div>
+                <div>
+                    抚仙湖观测站：<a href="http://fso.ynao.ac.cn">http://fso.ynao.ac.cn</a>
                 </div>
-                <div class="ThreeConnect dffn-ac">
-                    <div>
-                        <el-avatar :src="require('../../assets/img/background/picture3.png')"></el-avatar>
-                    </div>
-                    <div class="connectStyle" @click="jumpWeb3">{{ $t('message.SolarDynamicsObservatory') }}</div>
+
+                <div>
+                    怀柔观测基地：<a href="https://sun10.bao.ac.cn">https://sun10.bao.ac.cn</a>
                 </div>
-                <div class="ThreeConnect dffn-ac">
-                    <div>
-                        <el-avatar :src="require('../../assets/img/background/picture4.png')"></el-avatar>
-                    </div>
-                    <div class="connectStyle" @click="jumpWeb4">{{ $t('message.FuxianSolarObservatory') }}</div>
+
+                <div>
+                    明安图观测基地：<a href="https://nadc.china-vo.org/s/static/mingantu/muser.html">https://nadc.china-vo.org/s/static/mingantu/muser.html</a>
                 </div>
-                <div class="ThreeConnect dffn-ac">
-                    <div>
-                        <el-avatar :src="require('../../assets/img/background/picture5.png')"></el-avatar>
-                    </div>
-                    <div class="connectStyle" @click="jumpWeb5">{{ $t('message.BigBearSolarObservatory') }}</div>
+
+                <div>
+                    国家空间天气监测预警中心：<a href="http://www.nsmc.org.cn/nsmc/cn/home/index.html">http://www.nsmc.org.cn/nsmc/cn/home/index.html</a>
                 </div>
-                <div class="ThreeConnect dffn-ac">
-                    <div>
-                        <el-avatar :src="require('../../assets/img/background/picture6.png')"></el-avatar>
-                    </div>
-                    <div class="connectStyle" @click="jumpWeb6">{{ $t('message.HinodeEIS') }}</div>
+
+                <div>
+                    虚拟太阳天文台：<a href="https://sdac.virtualsolar.org/cgi/search">https://sdac.virtualsolar.org/cgi/search</a>
                 </div>
-                <div class="ThreeConnect dffn-ac">
-                    <div>
-                        <el-avatar :src="require('../../assets/img/background/picture7.png')"></el-avatar>
-                    </div>
-                    <div class="connectStyle" @click="jumpWeb7">{{ $t('message.InterfaceRegionImagingSpectrograph') }}
-                    </div>
+
+                <div>
+                    太阳监测站：<a href="https://solarmonitor.org">https://solarmonitor.org</a>
                 </div>
+
+
+                <!--<div class="ThreeConnect dffn-ac">-->
+                    <!--<el-avatar :src="require('../../assets/img/background/picture1.png')"></el-avatar>-->
+                    <!--<div class="connectStyle" @click="jumpWeb1">{{ $t('message.VirtualSolarObservatory') }}</div>-->
+                <!--</div>-->
+
+                <!--<div class="ThreeConnect dffn-ac">-->
+                    <!--<el-avatar :src="require('../../assets/img/background/picture2.png')"></el-avatar>-->
+                    <!--<div class="connectStyle" @click="jumpWeb2">{{ $t('message.JointScienceOperationsCenter') }}</div>-->
+                <!--</div>-->
+                <!--<div class="ThreeConnect dffn-ac">-->
+                    <!--<div>-->
+                        <!--<el-avatar :src="require('../../assets/img/background/picture3.png')"></el-avatar>-->
+                    <!--</div>-->
+                    <!--<div class="connectStyle" @click="jumpWeb3">{{ $t('message.SolarDynamicsObservatory') }}</div>-->
+                <!--</div>-->
+                <!--<div class="ThreeConnect dffn-ac">-->
+                    <!--<div>-->
+                        <!--<el-avatar :src="require('../../assets/img/background/picture4.png')"></el-avatar>-->
+                    <!--</div>-->
+                    <!--<div class="connectStyle" @click="jumpWeb4">{{ $t('message.FuxianSolarObservatory') }}</div>-->
+                <!--</div>-->
+                <!--<div class="ThreeConnect dffn-ac">-->
+                    <!--<div>-->
+                        <!--<el-avatar :src="require('../../assets/img/background/picture5.png')"></el-avatar>-->
+                    <!--</div>-->
+                    <!--<div class="connectStyle" @click="jumpWeb5">{{ $t('message.BigBearSolarObservatory') }}</div>-->
+                <!--</div>-->
+                <!--<div class="ThreeConnect dffn-ac">-->
+                    <!--<div>-->
+                        <!--<el-avatar :src="require('../../assets/img/background/picture6.png')"></el-avatar>-->
+                    <!--</div>-->
+                    <!--<div class="connectStyle" @click="jumpWeb6">{{ $t('message.HinodeEIS') }}</div>-->
+                <!--</div>-->
+                <!--<div class="ThreeConnect dffn-ac">-->
+                    <!--<div>-->
+                        <!--<el-avatar :src="require('../../assets/img/background/picture7.png')"></el-avatar>-->
+                    <!--</div>-->
+                    <!--<div class="connectStyle" @click="jumpWeb7">{{ $t('message.InterfaceRegionImagingSpectrograph') }}-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -230,6 +259,9 @@
             text-align: left;
             width: 900px;
             margin: 0 auto;
+            min-height: 400px;
+            line-height: 40px;
+            font-size: 16px;
         }
 
         .nd-breadcrumb-top{

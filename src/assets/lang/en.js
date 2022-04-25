@@ -210,6 +210,7 @@ module.exports = {
         Snow: 'Snow',
         MyApplication: 'My Application',
         Address: 'Address',
+        AddressDetail: 'TianWen building, No. 163, Xianlin Avenue, Qixia District, Nanjing ',
         EmailAddress: 'Mail Address',
         WeChat: 'WeChat',
         PostCode: 'Post Code',

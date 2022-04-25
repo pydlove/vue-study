@@ -62,7 +62,6 @@
             }
         },
         mounted() {
-            this.search(1, 10);
         },
         methods: {
             lookDetail(item, index) {
@@ -76,9 +75,9 @@
                 window.open(routeData.href, '_blank');
             },
 
-
             initLanguage() {
                 this.language = this.$i18n.locale;
+                this.search(1, 10);
             },
 
             async search(currentPage, pageSize) {

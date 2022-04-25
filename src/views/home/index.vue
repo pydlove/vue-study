@@ -78,12 +78,15 @@
                         </div>
                         <div class="nd-news">
                             <div class="news-list cursor" v-for="(item, index) in tableData" :key="index">
-                                <div v-if="language == 'zh'" class="news-text"   @click="toDetail(item)">
+                                <div class="news-text"   @click="toDetail(item)">
                                     {{ index + 1}}. {{ item.title.length > 27 ? (item.title.substring(0, 27) + "..."):item.title }}
                                 </div>
-                                <div v-else-if="language == 'en'" class="news-text"  @click="toDetail(item)">
-                                    {{ index + 1}}. {{ item.enTitle | ellipsis }}
-                                </div>
+                                <!--<div v-if="language == 'zh'" class="news-text"   @click="toDetail(item)">-->
+                                    <!--{{ index + 1}}. {{ item.title.length > 27 ? (item.title.substring(0, 27) + "..."):item.title }}-->
+                                <!--</div>-->
+                                <!--<div v-else-if="language == 'en'" class="news-text"  @click="toDetail(item)">-->
+                                    <!--{{ index + 1}}. {{ item.enTitle | ellipsis }}-->
+                                <!--</div>-->
                             </div>
                         </div>
                         <div class="nd-news-bg"></div>

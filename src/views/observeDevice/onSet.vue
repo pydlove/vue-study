@@ -63,12 +63,11 @@
             }
         },
         mounted() {
-            this.initLanguage();
-            this.search(1, 10);
         },
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
+                this.search(1, 10);
             },
 
             lookDetail(item, index) {
@@ -96,7 +95,7 @@
                     if(this.tableData != null && this.tableData.length > 0) {
                         this.form = this.tableData[0];
                     }
-                    this.$refs.pageRef.totalCount = data.totalCount;
+                    // this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
                 }
             },

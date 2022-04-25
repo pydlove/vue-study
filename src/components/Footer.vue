@@ -8,7 +8,7 @@
                     <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x-tw.png')"/>
                 </div>
                 <div class="nd-address">
-                    <div class="nd-addr fs-14">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
+                    <div class="nd-addr fs-14">{{ $t('message.Address') }}: {{ $t('message.AddressDetail') }}</div>
                     <div class="nd-phone fs-14">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                     <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: 210023</div>
                     <div class="nd-about fs-14">{{ $t('menu.AboutUs') }}
@@ -31,7 +31,7 @@
         <div class="nd-info" v-else>
             <div class="nd-detail">
                 <div class="nd-address">
-                    <div class="nd-addr fs-14">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼</div>
+                    <div class="nd-addr fs-14">{{ $t('message.Address') }}: {{ $t('message.AddressDetail') }}</div>
                     <div class="nd-phone fs-14">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                     <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: 210023</div>
                     <div class="nd-aboutus fs-14">
@@ -125,10 +125,11 @@
         .nd-detail {
             display: flex;
             flex-wrap: wrap;
+            position: relative;
         }
 
         .nd-address {
-            width: 350px;
+            width: 500px;
             height: 150px;
             margin-left: 150px;
             color: #bfbfbf;
@@ -140,6 +141,9 @@
             margin-top: 15px;
             margin-left: 80px;
             height: 30px;
+            position: absolute;
+            right: 20px;
+            top: 0px;
         }
 
         .nd-over {

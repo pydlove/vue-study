@@ -22,8 +22,9 @@
 								:preview-src-list="[item.picture]"
 						></el-image>
 						<div class="nd-list-title cursor">
-							<p v-if="language == 'zh'"  @click="lookDetail(item)">{{ item.title }}</p>
-							<p v-else-if="language == 'en'"  @click="lookDetail(item)">{{ item.enTitle }}</p>
+							<p @click="lookDetail(item)">{{ item.title }}</p>
+							<!--<p v-if="language == 'zh'"  @click="lookDetail(item)">{{ item.title }}</p>-->
+							<!--<p v-else-if="language == 'en'"  @click="lookDetail(item)">{{ item.enTitle }}</p>-->
 							<p class="dffn-ac">
 								<i class="el-icon-alarm-clock"></i>
 								{{item.createTime == null ? item.createTime:item.createTime.substring(0, 10)}}
