@@ -226,7 +226,7 @@
 
 		.nd-list-title > p:nth-of-type(1) {
 			font-size: 16px;
-			text-align: left;
+			text-align: center;
 		}
 
 		.nd-list-title1 {
