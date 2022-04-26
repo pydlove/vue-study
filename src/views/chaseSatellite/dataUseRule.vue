@@ -25,7 +25,7 @@
 	<!--</div>-->
 	<!--</div>-->
 
-	<div class="nd-policy" v-if="language == 'zh'">
+	<!--<div class="nd-policy" v-if="language == 'zh'">
 		<div class="tc">
 			“羲和号”卫星科学数据管理办法
 		</div>
@@ -103,8 +103,9 @@
 			<strong>第十二条【其它】</strong> 本办法自公布日起生效。本办法由国家航天局负责解释。<br/>
 		</div>
 	</div>
-
-	<div class="nd-policy" v-else-if="language == 'en'">
+-->
+	<!--<div class="nd-policy" v-else-if="language == 'en'">-->
+	<div class="nd-policy">
 		<div>
 			1.Users should acknowledge the sources of data used in publications, presentations, and reports. “This work uses
 			the data from the CHASE mission supported by China National Space Administration.”, “We acknowledge the CHASE

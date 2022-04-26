@@ -75,6 +75,13 @@ module.exports = {
         SolarDynamicsObservatory: '太阳动力学天文台',
         FuxianSolarObservatory: '抚仙湖观测站',
         BigBearSolarObservatory: '大熊湖太阳天文台',
+        //20220426 add
+        AdvancedSpaceBasedSolarObservatory: '先进天基太阳天文台',
+        HuairouSolarObservingStation: '怀柔观测基地',
+        MIngantuObservingStation: '明安图观测基地',
+        NationalSatelliteMeteorologicalCenter: '国家空间天气监测预警中心',
+        SolarMonitor: '太阳监测站',
+
         HinodeEIS: 'Hinode/EIS',
         InterfaceRegionImagingSpectrograph: '太阳过渡层成像光谱仪卫星',
 

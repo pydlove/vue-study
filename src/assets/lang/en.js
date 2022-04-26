@@ -128,6 +128,13 @@ module.exports = {
         SolarDynamicsObservatory: 'Solar Dynamics Observatory',
         FuxianSolarObservatory: 'Fuxian Solar Observatory',
         BigBearSolarObservatory: 'Big Bear Solar Observatory',
+        // 20220426 add
+        AdvancedSpaceBasedSolarObservatory: 'Advanced Space-based Solar Observatory',
+        HuairouSolarObservingStation: 'Huairou Solar Observing Station',
+        MIngantuObservingStation: 'MIngantu Observing Station',
+        NationalSatelliteMeteorologicalCenter: 'National Satellite Meteorological Center',
+        SolarMonitor: 'SolarMonitor',
+
         HinodeEIS: 'Hinode/EIS',
         InterfaceRegionImagingSpectrograph: 'Interface Region Imaging Spectrograph',
 
@@ -222,8 +229,11 @@ module.exports = {
         home:'Home',
         observationEquipment :'Instruments',
         observationData :'Data Archive',
-        observationApplication :'Application',
-        galleryAchievement :'Gallery & Results',
+        // observationApplication :'Application',
+        // galleryAchievement :'Gallery & Results',
+        //20220426修改
+        observationApplication :'Obs. App.',
+        galleryAchievement :'Gallery & Publications',
         newsResources :'News & Resources',
         myInfo :'Personal Information',
         myApplication :'My Application',
