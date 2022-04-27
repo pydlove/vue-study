@@ -25,7 +25,7 @@
             <div class="nd-content dffn">
                 <div class="aiocloud-card aw-left" >
                     <div class="nd-contact">
-                        <div class="nd-address">{{ $t('message.Address') }}: 江苏省南京市栖霞区仙林大道163号天文楼 </div>
+                        <div class="nd-address">{{ $t('message.Address') }}: {{ $t('message.AddressDetail') }} </div>
                         <div class="nd-address">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                         <div class="nd-address">{{ $t('message.EmailAddress') }}: xswan@nju.edu.cn</div>
                     </div>
