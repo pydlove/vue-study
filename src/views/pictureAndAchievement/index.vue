@@ -134,7 +134,9 @@
 
             jumpWeb(item) {
                 //点击实现超链接跳转
-                window.open(item);
+	            if(item != null && item != '') {
+                    window.open(item);
+	            }
             },
 
             videos(row) {
@@ -208,6 +210,12 @@
 
 	/*媒体查询（电脑）*/
 	@media screen and (min-width: 768px) {
+		.nd-paper-title {
+			font-weight: 600;
+			font-size: 15px;
+		}
+
+
 		.nd-obd-item {
 			position: relative;
 		}
@@ -230,7 +238,7 @@
 		}
 
 		.nd-list-title1 {
-			line-height: 35px;
+			line-height: 28px;
 			font-size: 16px;
 			color: #333333;
 			text-align: left;
@@ -249,19 +257,25 @@
 		}
 
 		.nd-paper-content {
-			display: flex;
-			flex-wrap: nowrap;
+			/*display: flex;*/
+			/*flex-wrap: nowrap;*/
+			color: #666;
+			font-size: 14px;
+			line-height: 20px;
 		}
 
 		.nd-paper-hyperlink {
-			margin-left: 20px;
+			/*margin-left: 20px;*/
+			color: #666;
+			font-size: 14px;
+			line-height: 24px;
 		}
 
 		.nd-content > div:nth-of-type(1) {
 			width: 200px;
 			min-width: 200px;
 			height: 300px;
-			margin-right: 20px;
+			margin-right: 24px;
 		}
 
 		.nd-content > div:nth-of-type(2) {
