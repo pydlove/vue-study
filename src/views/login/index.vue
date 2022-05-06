@@ -223,7 +223,7 @@
             },
 
             async loginRequest() {
-                if(this.loginForm.fgCode.length != 4) {
+                if(this.loginForm.verificationCode.length != 4) {
                     this.$promptMsg("请输入正确的验证码", "error");
                 }
                 let params = new FormData()

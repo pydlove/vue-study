@@ -42,7 +42,8 @@
 
                 </div>
                 <div class="nd-icon">
-                    <van-image style="height: 70px;" :src="require('@/assets/img/logo/logo@2x-tw.png')"/>
+                    <van-image style="width: 140px; height: 140px;" :src="require('@/assets/img/logo/nd-logo.png')" @click="toOpen('https://www.nju.edu.cn/main.htm')"/>
+                    <van-image class="ml-20" style="width: 150px; height: 150px;" :src="require('@/assets/img/logo/tw-logo.png')" @click="toOpen('https://astronomy.nju.edu.cn/')"/>
                 </div>
                 <div class="nd-over">
                     <div class="nd-tech-support"></div>
@@ -75,7 +76,12 @@
                     path: "/aboutWe",
                 });
                 window.open(routeData.href, '_blank');
+            },
+
+            toOpen(url) {
+                window.open(url, '_blank');
             }
+
         },
 
         data() {

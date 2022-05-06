@@ -120,31 +120,31 @@
         <div class="si-main">
             <div class=" aiocloud-card friendlyTitle">
                 <div>
-                    {{$t('message.AdvancedSpaceBasedSolarObservatory')}}：<a href="http://aso-s.pmo.ac.cn">http://aso-s.pmo.ac.cn</a>
+                    {{$t('message.AdvancedSpaceBasedSolarObservatory')}}：<a target="_blank" href="http://aso-s.pmo.ac.cn">http://aso-s.pmo.ac.cn</a>
                 </div>
 
                 <div>
-                    {{$t('message.FuxianSolarObservatory')}}：<a href="http://fso.ynao.ac.cn">http://fso.ynao.ac.cn</a>
+                    {{$t('message.FuxianSolarObservatory')}}：<a target="_blank" href="http://fso.ynao.ac.cn">http://fso.ynao.ac.cn</a>
                 </div>
 
                 <div>
-                    {{$t('message.HuairouSolarObservingStation')}}：<a href="https://sun10.bao.ac.cn">https://sun10.bao.ac.cn</a>
+                    {{$t('message.HuairouSolarObservingStation')}}：<a target="_blank" href="https://sun10.bao.ac.cn">https://sun10.bao.ac.cn</a>
                 </div>
 
                 <div>
-                    {{$t('message.MIngantuObservingStation')}}：<a href="https://nadc.china-vo.org/s/static/mingantu/muser.html">https://nadc.china-vo.org/s/static/mingantu/muser.html</a>
+                    {{$t('message.MIngantuObservingStation')}}：<a target="_blank" href="https://nadc.china-vo.org/s/static/mingantu/muser.html">https://nadc.china-vo.org/s/static/mingantu/muser.html</a>
                 </div>
 
                 <div>
-                    {{$t('message.NationalSatelliteMeteorologicalCenter')}}：<a href="http://www.nsmc.org.cn/nsmc/cn/home/index.html">http://www.nsmc.org.cn/nsmc/cn/home/index.html</a>
+                    {{$t('message.NationalSatelliteMeteorologicalCenter')}}：<a target="_blank" href="http://www.nsmc.org.cn/nsmc/cn/home/index.html">http://www.nsmc.org.cn/nsmc/cn/home/index.html</a>
                 </div>
 
                 <div>
-                    {{$t('message.VirtualSolarObservatory')}}：<a href="https://sdac.virtualsolar.org/cgi/search">https://sdac.virtualsolar.org/cgi/search</a>
+                    {{$t('message.VirtualSolarObservatory')}}：<a target="_blank" href="https://sdac.virtualsolar.org/cgi/search">https://sdac.virtualsolar.org/cgi/search</a>
                 </div>
 
                 <div>
-                    {{$t('message.SolarMonitor')}}：<a href="https://solarmonitor.org">https://solarmonitor.org</a>
+                    {{$t('message.SolarMonitor')}}：<a target="_blank" href="https://solarmonitor.org">https://solarmonitor.org</a>
                 </div>
 
 

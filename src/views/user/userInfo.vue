@@ -169,7 +169,7 @@
                         this.deletePhotoRequest(this.fileName);
                     }
                     this.clearForm();
-                    location.reload();
+                    // location.reload();
                 }).catch(() => {
                 });
             },

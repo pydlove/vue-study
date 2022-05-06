@@ -1,7 +1,7 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <NormalHeader :currentMenu="'chaseSatellite'" @initLanguage="initLanguage"></NormalHeader>
+        <NormalHeader ref="normalHeaderRef" :currentMenu="'chaseSatellite'" @initLanguage="initLanguage"></NormalHeader>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
             <el-breadcrumb-item :to="{ path: '/home' }">
                 <i class="el-icon-s-home"></i>
@@ -27,7 +27,8 @@
                     <DataSearch v-if="type == 1" ref="dataSearchRef" @setTableData="setTableData"></DataSearch>
                     <NewData v-if="type==2"></NewData>
                     <AnalysisSoftware v-if="type==3"></AnalysisSoftware>
-                    <DataUseRule ref="dataUseRuleRef" v-if="type == 4"></DataUseRule>
+                    <FlareList ref="flareListRef" v-if="type == 4"></FlareList>
+                    <DataUseRule ref="dataUseRuleRef" v-if="type == 5"></DataUseRule>
                 </div>
             </div>
             <div class="aiocloud-card1" v-if="dataType">
@@ -170,6 +171,7 @@
     import DataSearch from "@/views/chaseSatellite/dataSearch.vue";
     import DataProduct from "@/views/chaseSatellite/dataProduct.vue";
     import NewData from "@/views/chaseSatellite/newData.vue";
+    import FlareList from "@/views/chaseSatellite/flareList.vue";
     import AnalysisSoftware from "@/views/chaseSatellite/analysisSoftware.vue";
     import DataUseRule from "@/views/chaseSatellite/dataUseRule.vue";
     import DownLoad from "@/views/observationData/download.vue";
@@ -185,6 +187,7 @@
             NewData,
             AnalysisSoftware,
             DataUseRule,
+            FlareList,
             Page,
             Pagination,
             DownLoad,
@@ -215,8 +218,12 @@
                         type: "3",
                     },
                     {
-                        name: this.$t('message.DataUseRule'),
+                        name: this.$t('message.FlareList'),
                         type: "4",
+                    },
+                    {
+                        name: this.$t('message.DataUseRule'),
+                        type: "5",
                     },
                 ],
                 chaseMenu: {
@@ -240,12 +247,13 @@
                 this.chaseMenus[1].name = this.$t('message.DataSearch');
                 this.chaseMenus[2].name = this.$t('message.NewData');
                 this.chaseMenus[3].name = this.$t('message.AnalysisSoftware');
-                this.chaseMenus[4].name = this.$t('message.DataUseRule');
+                this.chaseMenus[4].name = this.$t('message.FlareList');
+                this.chaseMenus[5].name = this.$t('message.DataUseRule');
                 this.$refs.dataUseRuleRef.initLanguage();
             },
             fmtLine(row){
                 var observationWaveLength = row.observationWaveLength;
-                if(observationWaveLength == '6562.81'){
+                if(observationWaveLength == '6562.82'){
                     return 'Hα';
                 }
                 if(observationWaveLength == '6569.22'){
@@ -286,13 +294,26 @@
 
             //下载
             download() {
-                this.multipleSelection =  this.$refs.tableRef.selection;
-                if (this.multipleSelection.length > 0) {
-                    this.$refs.downloadRef.open(this.multipleSelection);
-                } else {
-                    this.$message(this.$t('alert.dataSelect'));
-                }
+                this.getUserInfo();
+            },
 
+            async getUserInfo() {
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
+                if (data.code == 200) {
+                    let res = data.data;
+                    if (!res.isLogin) {
+                        this.$refs.normalHeaderRef.toLogin();
+                    } else {
+                        this.multipleSelection =  this.$refs.tableRef.selection;
+                        if (this.multipleSelection.length > 0) {
+                            this.$refs.downloadRef.open(this.multipleSelection);
+                        } else {
+                            this.$message(this.$t('alert.dataSelect'));
+                        }
+                    }
+                    return true;
+                }
             },
 
             //清除

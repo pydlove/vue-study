@@ -16,14 +16,15 @@ module.exports = {
 
         CHASESatellite: 'CHASE卫星',
         OnsetSatellite: "ONSET望远镜",
-        WEHOTSatellite: 'WeHost望远镜',
+        WEHOTSatellite: 'WeHoST望远镜',
         OtherEquipment: '其它设备',
         EquipmentDetail: '设备详情',
 
         QuickView: '快速浏览',
         DataQuery: '数据查询',
         LatestData: '最新数据',
-        DataUsageRules: '数据使用规则',
+        DataUsageRules: '数据政策',
+        FlareList: '耀斑列表',
         Links: '友情链接',
 
 
@@ -240,7 +241,7 @@ module.exports = {
 
         chaseSatellite: 'CHASE卫星',
         onsetSatellite: "ONSET望远镜",
-        wehostSatellite: 'WeHost望远镜',
+        wehostSatellite: 'WeHoST望远镜',
 
         cancel: '取消',
         sure: '确定',

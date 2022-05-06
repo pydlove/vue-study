@@ -154,14 +154,15 @@
             },
 
             selectEq(item, index) {
+                this.tableData = [];
                 this.type = item.type;
                 this.image = item;
                 this.$utils.setStorage("imageIndex", index);
                 if (this.type == "0") {
                     this.search(1, 10);
                 } else if (this.type == "1") {
+                    // location.reload();
                     this.search(1, 10);
-                    location.reload();
                 } else if (this.type == "2") {
                     this.searchPaperAchievement(1, 10);
                 }

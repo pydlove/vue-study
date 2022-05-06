@@ -14,7 +14,7 @@ module.exports = {
 
         CHASESatellite: 'CHASE Satellite',
         OnsetSatellite: "ONSET Telescope",
-        WEHOTSatellite: 'WeHost Telescope',
+        WEHOTSatellite: 'WeHoST Telescope',
         OtherEquipment: 'Related Instruments',
         EquipmentDetail: 'Equipment Detail',
 
@@ -36,6 +36,7 @@ module.exports = {
         DataSearch: 'Data Search',
         NewData: 'New Data',
         AnalysisSoftware: 'Analysis Software',
+        FlareList: 'Flare List',
         DataUseRule: 'Data Policy',
 
         ObservationTime: 'Obs Date',
@@ -245,7 +246,7 @@ module.exports = {
 
         chaseSatellite: 'CHASE Satellite',
         onsetSatellite: "ONSET Telescope",
-        wehostSatellite: 'WeHost Telescope',
+        wehostSatellite: 'WeHoST Telescope',
 
         cancel: 'Cancel',
         sure: 'Confirm',
