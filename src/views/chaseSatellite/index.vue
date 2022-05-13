@@ -15,7 +15,7 @@
         <div class="nd-background">
             <div class="nd-content dffn">
                 <div class="aiocloud-card">
-                    <div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
+                    <div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item cursor'"
                          v-for="(item, index) in chaseMenus" :key="index"
                          @click="selectEq(item, index)"
                     >{{ item.name }}
@@ -76,7 +76,7 @@
                                 show-overflow-tooltip="true"
                                 prop="endTime"
                                 :label="$t('message.endTime')"
-                                width="120"
+                                width="80"
                                 align="center">
                         </el-table-column>
                         <!--<el-table-column-->
@@ -97,34 +97,34 @@
                                 {{ fmtLine(scope.row) }}
                             </template>
                         </el-table-column>
-                        <el-table-column
-                                show-overflow-tooltip="true"
-                                prop="observationPattern"
-                                width="100px"
-                                :label="$t('message.obsPattern')"
-                                align="center">
-                        </el-table-column>
-                        <el-table-column
-                                show-overflow-tooltip="true"
-                                prop="exposureTime"
-                                width="150px"
-                                :label="$t('message.expTime')"
-                                align="center">
-                        </el-table-column>
-                        <el-table-column
-                                show-overflow-tooltip="true"
-                                prop="coordinates"
-                                width="150px"
-                                :label="$t('message.ObsCoordinate')"
-                                align="center">
-                        </el-table-column>
-                        <el-table-column
-                                show-overflow-tooltip="true"
-                                prop="observationBand"
-                                width="100px"
-                                :label="$t('message.obsBand')"
-                                align="center">
-                        </el-table-column>
+                        <!--<el-table-column-->
+                                <!--show-overflow-tooltip="true"-->
+                                <!--prop="observationPattern"-->
+                                <!--width="100px"-->
+                                <!--:label="$t('message.obsPattern')"-->
+                                <!--align="center">-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column-->
+                                <!--show-overflow-tooltip="true"-->
+                                <!--prop="exposureTime"-->
+                                <!--width="150px"-->
+                                <!--:label="$t('message.expTime')"-->
+                                <!--align="center">-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column-->
+                                <!--show-overflow-tooltip="true"-->
+                                <!--prop="coordinates"-->
+                                <!--width="150px"-->
+                                <!--:label="$t('message.ObsCoordinate')"-->
+                                <!--align="center">-->
+                        <!--</el-table-column>-->
+                        <!--<el-table-column-->
+                                <!--show-overflow-tooltip="true"-->
+                                <!--prop="observationBand"-->
+                                <!--width="100px"-->
+                                <!--:label="$t('message.obsBand')"-->
+                                <!--align="center">-->
+                        <!--</el-table-column>-->
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="picture"

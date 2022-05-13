@@ -14,14 +14,14 @@
 		<div class="nd-background">
 			<div class="nd-content dffn">
 				<div class="aiocloud-card">
-					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item'"
+					<div :class="(type==item.type?'nd-eq-active':'') + ' nd-eq-item cursor'"
 					     v-for="(item, index) in images" :key="index"
 					     @click="selectEq(item, index)">{{ item.name }}
 					</div>
 				</div>
 
 				<div v-if="this.type == '0'">
-					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
+					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item cursor'"
 					     v-for="(item, index) in tableData" :key="index">
 						<el-image class="nd-picture" :src="item.picture"
 							          :preview-src-list="[item.picture]" fit="contain"></el-image>
@@ -33,7 +33,7 @@
 				</div>
 
 				<div v-else-if="this.type == '1'">
-					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item'"
+					<div :class="(index%2 == 0?'mr-10':'') + ' aiocloud-card nd-obd-item cursor'"
 					     v-for="(item, index) in tableData" :key="index">
 						<AiocloudVideo class="nd-picture"
 						               :sources="[{type: 'video/mp4', src: baseUrl + item.video}]"></AiocloudVideo>

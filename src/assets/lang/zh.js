@@ -32,7 +32,7 @@ module.exports = {
         DataSearch: '数据查询',
         NewData: '最新数据',
         AnalysisSoftware: '分析软件',
-        DataUseRule: '数据使用规则',
+        DataUseRule: '数据政策',
         ObservationPartialBand: '偏带',
 
         fullDisk: '全日面',

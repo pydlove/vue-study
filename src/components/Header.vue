@@ -76,7 +76,7 @@
 				{{ $t('menu.loginRegister') }}
 			</div>
 
-			<div class="nd-connect-us" @click="aboutWe">
+			<div class="nd-connect-us cursor" @click="aboutWe">
 				<div class="nd-connect">{{ $t('menu.ContactUs') }}</div>
 			</div>
 		</div>

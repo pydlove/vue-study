@@ -38,11 +38,12 @@
                         <div class="nd-zx-bg">
                             <el-carousel >
                                 <el-carousel-item v-for="(item,index) in pictureData" v-if="index < 6" :key="index">
-                                    <viewer>
-                                        <el-image
-                                                class="nd-picture"
-                                                :src="item.picture"
-                                                fit="contain"></el-image>
+                                    <viewer class="cursor">
+                                        <img  class="nd-picture" :src="item.picture">
+                                        <!--<el-image-->
+                                                <!--class="nd-picture"-->
+                                                <!--:src="item.picture"-->
+                                                <!--fit="contain" :preview-src-list="[item.picture]"></el-image>-->
                                     </viewer>
                                     <div class="nd-zb-bottom1">
                                         <div class="nd-time">
@@ -322,6 +323,7 @@
          height: 306px;
          margin-left: 6px;
          text-align: center;
+         object-fit: contain;
      }
 
         .nd-logo2 {
@@ -411,6 +413,9 @@
         }
         .nd-new-more > div:nth-of-type(1) {
             line-height: 36px;
+        }
+        .nd-new-more:hover {
+            color: #fa541c;
         }
 
         .news-list {

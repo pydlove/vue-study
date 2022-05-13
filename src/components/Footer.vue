@@ -36,14 +36,14 @@
                     <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: 210023</div>
                     <div class="nd-aboutus fs-14">
                         <!--<div class="nd-about cursor" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>-->
-                        <div class="nd-tail fs-14 ">{{ $t('menu.ContactUs') }}</div>
-                        <div class="nd-tail fs-14">: xswan@nju.edu.cn</div>
+                        <div class="nd-tail fs-14 cursor">{{ $t('menu.ContactUs') }}</div>
+                        <div class="nd-tail fs-14 cursor">: xswan@nju.edu.cn</div>
                     </div>
 
                 </div>
                 <div class="nd-icon">
-                    <van-image style="width: 140px; height: 140px;" :src="require('@/assets/img/logo/nd-logo.png')" @click="toOpen('https://www.nju.edu.cn/main.htm')"/>
-                    <van-image class="ml-20" style="width: 150px; height: 150px;" :src="require('@/assets/img/logo/tw-logo.png')" @click="toOpen('https://astronomy.nju.edu.cn/')"/>
+                    <van-image style="width: 80px; height: 100px;" :src="require('@/assets/img/logo/nd-logo.png')" @click="toOpen('https://www.nju.edu.cn/main.htm')"/>
+                    <van-image class="ml-20" style="width: 103px; height: 103px;" :src="require('@/assets/img/logo/tw-logo.png')" @click="toOpen('https://astronomy.nju.edu.cn/')"/>
                 </div>
                 <div class="nd-over">
                     <div class="nd-tech-support"></div>
