@@ -1,7 +1,7 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <NormalHeader @initLanguage="initLanguage"></NormalHeader>
+        <NormalHeader ref="normalHeaderRef" @initLanguage="initLanguage"></NormalHeader>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
             <el-breadcrumb-item :to="{ path: '/home' }">
                 <i class="el-icon-s-home"></i>
@@ -265,12 +265,25 @@
 
             //下载
             download() {
-                this.multipleSelection = this.$refs.tableRef.selection;
-                if (this.multipleSelection.length > 0) {
-                    console.log(this.multipleSelection)
-                    this.$refs.downloadRef.open(this.multipleSelection);
-                } else {
-                    this.$message($t('alert.dataSelect'));
+                this.getUserInfo();
+            },
+
+            async getUserInfo() {
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");
+                if (data.code == 200) {
+                    let res = data.data;
+                    if (!res.isLogin) {
+                        this.$refs.normalHeaderRef.toLogin();
+                    } else {
+                        this.multipleSelection = this.$refs.tableRef.selection;
+                        if (this.multipleSelection.length > 0) {
+                            this.$refs.downloadRef.open(this.multipleSelection);
+                        } else {
+                            this.$message($t('alert.dataSelect'));
+                        }
+                    }
+                    return true;
                 }
             },
 

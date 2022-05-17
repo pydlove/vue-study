@@ -3,14 +3,14 @@
 		<el-table
 				:data="tableData"
 				style="width: 640px">
-			<el-table-column prop="date" label="Date" width="100"></el-table-column>
-			<el-table-column prop="goes" label="GOES Start (UT)" width="150"></el-table-column>
-			<el-table-column prop="peak" label="Peak (hh:mm)" width="150"></el-table-column>
-			<el-table-column prop="end" label="End (hh:mm)" width="150"></el-table-column>
-			<el-table-column prop="class" label="Class" width="80"></el-table-column>
-			<el-table-column prop="location" label="Location (NOAA AR)" width="180"></el-table-column>
-			<el-table-column prop="observationTime" label="CHASE observation time" width="200"></el-table-column>
-			<el-table-column prop="iris" label="IRIS observations" width="180"></el-table-column>
+			<el-table-column prop="date" label="Date" width=""></el-table-column>
+			<el-table-column prop="goes" label="GOES Start (UT)" width=""></el-table-column>
+			<el-table-column prop="peak" label="Peak (hh:mm)" width=""></el-table-column>
+			<el-table-column prop="end" label="End (hh:mm)" width=""></el-table-column>
+			<el-table-column prop="class" label="Class" width=""></el-table-column>
+			<el-table-column prop="location" label="Location (NOAA AR)" width=""></el-table-column>
+			<el-table-column prop="observationTime" label="CHASE observation time" width=""></el-table-column>
+			<el-table-column prop="iris" label="IRIS observations" width=""></el-table-column>
 		</el-table>
 	</div>
 </template>

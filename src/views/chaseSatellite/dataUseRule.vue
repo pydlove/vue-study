@@ -107,10 +107,10 @@
 	<!--<div class="nd-policy" v-else-if="language == 'en'">-->
 	<div class="nd-policy">
 		<div>
-			1.Users should acknowledge the sources of data used in publications, presentations, and reports. “This work uses
-			the data from the CHASE mission supported by China National Space Administration.”, “We acknowledge the CHASE
-			mission and the science team for use of data.”, or “Observation data is from the CHASE mission supported by
-			China National Space Administration.”<br/><br/>
+			1.Users should acknowledge the sources of data used in publications, presentations, and reports.
+			“This work uses the data from the CHASE mission supported by China National Space Administration.”,
+			“Observation data is from the CHASE mission supported by China National Space Administration.”,
+			or “The CHASE mission is supported by CNSA.”<br/><br/>
 		</div>
 
 		<div>
@@ -120,13 +120,13 @@
 
 		<div>
 			3.Users are encouraged to cite the following papers when using the CHASE data.<br/>
-			(1)“Li, C., Fang, C., Li, Z., et al. The Chinese Hα Solar Explorer (CHASE) Mission: An overview, 2022, Sci.
-			China-Phys. Mech. Astron., in press, DOI: 10.1007/s11433-022-1893-3”;<br/>
-			(2)“Qiu, Y., Rao, S. H., Li, C., et al. Calibration procedures for the CHASE/HIS science data, 2022, Sci.
-			China-Phys. Mech. Astron., in press, DOI: 10.1007/s11433-022-1900-5”<br/>
-			(3)“Li Chuan, Fang Cheng, Li Zhen, et al. Chinese Hα Solar Explorer (CHASE) – a complementary space mission to
-			the ASO-S, 2019, Res. Astron. Astrophys., 19, 165, DOI: 10.1088/1674–4527/19/11/165”;<br/>
-			(4)Or papers of the CHASE topical issue:<br/><br/>
+			(1) Li, C., Fang, C., Li, Z., et al. The Chinese Hα Solar Explorer (CHASE) Mission: An overview, 2022, Sci. China-Phys.
+			Mech. Astron., 65, 289602, DOI: 10.1007/s11433-022-1893-3<br/>
+			(2) Qiu, Y., Rao, S. H., Li, C., et al. Calibration procedures for the CHASE/HIS science data, 2022, Sci. China-Phys.
+			Mech. Astron., 65, 289603, DOI: 10.1007/s11433-022-1900-5<br/>
+			(3) Li Chuan, Fang Cheng, Li Zhen, et al. Chinese Hα Solar Explorer (CHASE) – a complementary space mission to the
+			ASO-S, 2019, Res. Astron. Astrophys., 19, 165, DOI: 10.1088/1674–4527/19/11/165<br/>
+			(4) Or papers of the CHASE topical issue.<br/><br/>
 		</div>
 
 		<div>
@@ -167,7 +167,7 @@
 		font-size: 14px;
 		line-height: 24px;
 		text-align: left;
-		text-indent: 28px;
+		/*text-indent: 28px;*/
 	}
 
 	/*媒体查询（电脑）*/

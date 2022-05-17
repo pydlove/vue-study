@@ -13,7 +13,7 @@
 				</div>
 
 				<div :class="currentMenu=='application'?'nd-menu-active':''">
-					<el-dropdown @command="handleCommand" style="font-size: 15px; color: white;">
+					<el-dropdown @command="handleCommand" style="font-size: 16px; color: white;">
 						  <span>
 							{{ $t('menu.observationData') }}
 						  </span>
@@ -152,10 +152,7 @@
             },
 
             aboutWe() {
-                let routeData = this.$router.resolve({
-                    path: "/aboutWe",
-                });
-                window.open(routeData.href, '_blank');
+                this.$router.push({path: '/aboutWe'});
             },
 
             showMyApplication() {
@@ -242,6 +239,7 @@
                     || this.currentMenu == 'index'
 					|| this.currentMenu == 'observationData'
 					|| this.currentMenu == 'chaseSatellite'
+					|| this.currentMenu == 'aboutWe'
                 ) {
                     this.$emit("initLanguage");
                 }
@@ -345,7 +343,7 @@
 
 		.nd-language:hover {
 			border-top: 1pt solid #8c8c8c;
-			font-size: 15px;
+			font-size: 16px;
 			line-height: 40px;
 			text-align: left;
 			margin-left: 20px;
@@ -358,7 +356,7 @@
 		}
 
 		.nd-menu-header > div {
-			font-size: 15px;
+			font-size: 16px;
 			line-height: 40px;
 			width: 100%;
 			text-align: left;

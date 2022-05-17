@@ -42,8 +42,8 @@
 
                 </div>
                 <div class="nd-icon">
-                    <van-image style="width: 80px; height: 100px;" :src="require('@/assets/img/logo/nd-logo.png')" @click="toOpen('https://www.nju.edu.cn/main.htm')"/>
-                    <van-image class="ml-20" style="width: 103px; height: 103px;" :src="require('@/assets/img/logo/tw-logo.png')" @click="toOpen('https://astronomy.nju.edu.cn/')"/>
+                    <van-image class="cursor" style="width: 80px; height: 100px;" :src="require('@/assets/img/logo/nd-logo.png')" @click="toOpen('https://www.nju.edu.cn/main.htm')"/>
+                    <van-image class="ml-20 cursor" style="width: 103px; height: 103px;" :src="require('@/assets/img/logo/tw-logo.png')" @click="toOpen('https://astronomy.nju.edu.cn/')"/>
                 </div>
                 <div class="nd-over">
                     <div class="nd-tech-support"></div>

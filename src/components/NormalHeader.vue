@@ -4,7 +4,7 @@
 		<div class="nd-top-normal-main">
 			<div class="nd-tm-normal">
 				<div class="nd-normal-logo-box">
-					<van-image class="nd-normal-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
+					<van-image class="nd-normal-logo cursor" @click="toHome" :src="require('@/assets/img/logo/logo-nd.png')"/>
 				</div>
 				<Header ref="headerRef" :currentMenu="currentMenu"
 				        @reloadApplications="reloadApplications"
@@ -35,6 +35,12 @@
 
             initLanguage() {
                 this.$emit("initLanguage");
+            },
+
+            toHome() {
+                this.$router.push({
+                    path: "/home",
+                });
             }
 	    }
     }

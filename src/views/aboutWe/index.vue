@@ -4,12 +4,12 @@
         <div class="nd-top">
             <div class="nd-top-main">
                 <div class="nd-tm-left">
-                    <van-image class="nd-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
+                    <van-image class="nd-about-logo cursor" @click="toHome" :src="require('@/assets/img/logo/logo-nd.png')"/>
                     <div class="nd-title">
                         <div> {{ $t('message.SolarData') }}</div>
                     </div>
                 </div>
-                <Header></Header>
+                <Header currentMenu="aboutWe" @initLanguage="initLanguage"></Header>
             </div>
         </div>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
@@ -18,7 +18,7 @@
                 {{ $t('menu.home') }}
             </el-breadcrumb-item>
             <el-breadcrumb-item>
-                {{ $t('menu.AboutUs') }}
+                {{ $t('menu.ContactUs') }}
             </el-breadcrumb-item>
         </el-breadcrumb>
         <div class="nd-background">
@@ -29,21 +29,24 @@
                         <div class="nd-address">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                         <div class="nd-address">{{ $t('message.EmailAddress') }}: xswan@nju.edu.cn</div>
                     </div>
-                    <div class="nd-wechat"></div>
-                    <div class="wechat-cen">
-                        <div class="wechat-icon"></div>
-                        <div class="wechat-num">
-                            {{ $t('message.WeChat') }}
-                        </div>
-                    </div>
+                    <div class="nd-wechat" @click="down"></div>
+                    <img v-show="false" class="xh-img" :src="require('@/assets/img/logo/logo-xh.png')" alt="">
+                    <!--<div class="wechat-cen">-->
+                        <!--<div class="wechat-icon"></div>-->
+                        <!--<div class="wechat-num">-->
+                            <!--{{ $t('message.WeChat') }}-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
 
                 <div class="aiocloud-card aw-right">
-                    <div class="nd-aboutus">
-                        {{ $t('menu.AboutUs') }}
+                    <div v-if="language == 'zh'" class="nd-aboutus">
+                        关于“羲和号“卫星数据的科学标定、数据分析、软件支持，请联系Chuan Li (lic@nju.edu.cn) , Ye Qiu (Qiuyeah@163.com) , Zhen Li (lizhen@nju.edu.cn)
+                        关于“羲和号“卫星数据网站及数据下载服务，请联系Xiaosheng Wan (xswan@nju.edu.cn)
                     </div>
-                    <div class="nd-new-title-desc">
-                        {{ $t('menu.AboutUs') }}
+                    <div v-if="language == 'en'" class="nd-aboutus">
+                        For the CHASE data calibration, data analysis, and software assistance, please contact Chuan Li (lic@nju.edu.cn) , Ye Qiu (Qiuyeah@163.com) , Zhen Li (lizhen@nju.edu.cn) .
+                        For the CHASE data website, data access, etc. please contact Xiaosheng Wan (xswan@nju.edu.cn)
                     </div>
                 </div>
             </div>
@@ -59,12 +62,54 @@
     export default {
         name: "index",
         components: {Footer, Header},
+        data() {
+            return {
+                language: "",
+            }
+        },
+        mounted() {
+            this.initLanguage();
+        },
+        methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+            },
+            down() { // 保存二维码
+                var oQrcode = document.querySelectorAll('.xh-img')
+                var url = oQrcode[0].src
+                this.downloadIamge(url, '羲和')
+            },
+            downloadIamge(imgsrc, name) { // 下载图片地址和图片名
+                var image = new Image()
+                // 解决跨域 Canvas 污染问题
+                image.setAttribute('crossOrigin', 'anonymous')
+                image.onload = function () {
+                    var canvas = document.createElement('canvas')
+                    canvas.width = image.width
+                    canvas.height = image.height
+                    var context = canvas.getContext('2d')
+                    context.drawImage(image, 0, 0, image.width, image.height)
+                    var url = canvas.toDataURL('image/png') // 得到图片的base64编码数据
+                    var a = document.createElement('a') // 生成一个a元素
+                    var event = new MouseEvent('click') // 创建一个单击事件
+                    a.download = name || 'photo' // 设置图片名称
+                    a.href = url // 将生成的URL设置为a.href属性
+                    a.dispatchEvent(event) // 触发a的单击事件
+                }
+                image.src = imgsrc
+
+            }
+        }
     }
 </script>
 
 <style scoped>
     @media screen and (min-width: 768px) {
-
+        .nd-about-logo {
+            height: 65px;
+            width: 224px;
+            margin-top: 10px;
+        }
         .nd-new-title-desc {
             line-height: 22px;
             color: #333333;
@@ -75,7 +120,7 @@
             font-size: 14px;
             text-align: left;
             width: 100%;
-            height: 20px;
+            line-height: 24px;
         }
 
         .wechat-cen {
@@ -91,11 +136,6 @@
             display: flex;
             flex-wrap: nowrap;
         }
-        .wechat-icon {
-            background: url("../../assets/img/icon/weChat.png");
-            width: 32px;
-            height: 32px;
-        }
 
         .wechat-num {
             font-size: 15px;
@@ -104,9 +144,10 @@
 
 
         .nd-wechat {
-            background: url("../../assets/img/background/avatar.jpg");
-            width: 200px;
-            height: 200px;
+            background: url("../../assets/img/logo/xihe.png");
+            background-size: 100% 100%;
+            width: 204px;
+            height: 183px;
             margin-top: 50px;
         }
         
@@ -194,7 +235,7 @@
         .nd-top {
             background: url("../../assets/img/background/banner@3x.png");
             background-size: 100% 100%;
-            height: 325px;
+            height: 300px;
             width: 100%;
             min-width: 1200px;
             position: relative;

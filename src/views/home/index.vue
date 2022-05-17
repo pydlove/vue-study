@@ -4,7 +4,7 @@
         <div class="nd-top">
             <div class="nd-top-main">
                 <div class="nd-tm-left">
-                    <van-image class="nd-logo" :src="require('@/assets/img/logo/logo@2x.png')"/>
+                    <van-image class="nd-logo cursor" @click="toHome" :src="require('@/assets/img/logo/logo-nd.png')"/>
                     <div class="nd-title">
                         <div> {{ $t('message.SolarData') }}</div>
                     </div>
@@ -263,10 +263,15 @@
                 });
             },
 
+            toHome() {
+                this.$router.push({
+                    path: "/home",
+                });
+            },
+
             toMessage() {
                 this.$router.push({
                     path: "/newsAndResource",
-
                 });
             },
 
@@ -413,6 +418,7 @@
         }
         .nd-new-more > div:nth-of-type(1) {
             line-height: 36px;
+            margin-top: 25px;
         }
         .nd-new-more:hover {
             color: #fa541c;
@@ -487,7 +493,7 @@
         }
 
         .nd-title {
-            margin-top: 100px;
+            margin-top: 50px;
         }
 
         .nd-tm-left, .nd-tm-right {
@@ -498,8 +504,8 @@
         .nd-logo {
             /*height: 55px;*/
             /*width: 180px;*/
-            height: 55px;
-            width: 280px;
+            height: 65px;
+            width: 224px;
             margin-top: 10px;
         }
 
@@ -515,7 +521,7 @@
         .nd-top {
             background: url("../../assets/img/background/banner@3x.png");
             background-size: 100% 100%;
-            height: 325px;
+            height: 270px;
             width: 100%;
             min-width: 1200px;
             position: relative;
@@ -526,7 +532,7 @@
             min-width: 1200px;
             height: 500px;
             position: absolute;
-            top: 285px;
+            top: 240px;
             left: 0px;
         }
 
@@ -596,11 +602,12 @@
         }
         .nd-result-more > div:nth-of-type(1) {
             line-height: 36px;
+            margin-top: 0px !important;
         }
         .nd-right-title1 {
             height: 80px;
             width: 100%;
-            margin-top: 40px;
+            margin-top: 20px;
             position: relative;
         }
         .nd-more-arrow {

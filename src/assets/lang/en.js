@@ -32,10 +32,10 @@ module.exports = {
         lineHeart: 'Line Heart',
         redWing: 'Red Wing',
 
-        DataProduct: 'Data Product',
-        DataSearch: 'Data Search',
-        NewData: 'New Data',
-        AnalysisSoftware: 'Analysis Software',
+        DataProduct: 'Data Introduction',
+        DataSearch: 'Data Access',
+        NewData: 'Latest data',
+        AnalysisSoftware: 'Software',
         FlareList: 'Flare List',
         DataUseRule: 'Data Policy',
 
