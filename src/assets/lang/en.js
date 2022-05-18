@@ -242,7 +242,8 @@ module.exports = {
         loginRegister :'Login/Register',
         LogDetail :'Observation Log Details',
         AboutUs: 'About Us',
-        ContactUs: 'Email',
+        ContactUs: 'Contact Us',
+        footEmail: 'Email',
 
         chaseSatellite: 'CHASE Satellite',
         onsetSatellite: "ONSET Telescope",

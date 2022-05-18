@@ -36,7 +36,7 @@
                     <div class="nd-phone fs-14">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                     <div class="nd-aboutus fs-14">
                         <!--<div class="nd-about cursor" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>-->
-                        <div class="nd-tail fs-14 cursor">{{ $t('menu.ContactUs') }}</div>
+                        <div class="nd-tail fs-14 cursor">{{ $t('menu.footEmail') }}</div>
                         <div class="nd-tail fs-14 cursor">: xswan@nju.edu.cn</div>
                     </div>
 
