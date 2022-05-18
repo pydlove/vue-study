@@ -4,7 +4,7 @@
         <div class="nd-top">
             <div class="nd-top-main">
                 <div class="nd-tm-left">
-                    <van-image class="nd-logo cursor" @click="toHome" :src="require('@/assets/img/logo/logo-nd.png')"/>
+                    <van-image class="nd-logo" @click="toHome" :src="require('@/assets/img/logo/logo-nd.png')"/>
                     <div class="nd-title">
                         <div> {{ $t('message.SolarData') }}</div>
                     </div>
@@ -504,8 +504,8 @@
         .nd-logo {
             /*height: 55px;*/
             /*width: 180px;*/
-            height: 65px;
-            width: 224px;
+            height: 50px;
+            width: 180px;
             margin-top: 10px;
         }
 

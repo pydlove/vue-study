@@ -181,7 +181,7 @@ module.exports = {
         DateOfBirth: "出生年月",
         SelectDateOfBirth: "选择出生日期",
         sex: "性别",
-        Contact: "联系方式",
+        Contact: "电话",
         InContact: "请填写联系方式",
         ResearchInstitution: "所在研究机构",
         InResearchInstitution: "请填写所在研究机构",
@@ -237,7 +237,7 @@ module.exports = {
         loginRegister :'登录/注册',
         LogDetail :'观测日志详情',
         AboutUs: '关于我们',
-        ContactUs: '联系我们',
+        ContactUs: '邮箱',
 
         chaseSatellite: 'CHASE卫星',
         onsetSatellite: "ONSET望远镜",

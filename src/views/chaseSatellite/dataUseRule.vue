@@ -110,7 +110,7 @@
 			1.Users should acknowledge the sources of data used in publications, presentations, and reports.
 			“This work uses the data from the CHASE mission supported by China National Space Administration.”,
 			“Observation data is from the CHASE mission supported by China National Space Administration.”,
-			or “The CHASE mission is supported by CNSA.”<br/><br/>
+			or “The CHASE mission is supported by CNSA.中文请用：本工作使用了国家航天局支持的”羲和号“卫星探测数据。”<br/><br/>
 		</div>
 
 		<div>

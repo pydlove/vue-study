@@ -32,8 +32,8 @@
             <div class="nd-detail">
                 <div class="nd-address">
                     <div class="nd-addr fs-14">{{ $t('message.Address') }}: {{ $t('message.AddressDetail') }}</div>
-                    <div class="nd-phone fs-14">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                     <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: 210023</div>
+                    <div class="nd-phone fs-14">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                     <div class="nd-aboutus fs-14">
                         <!--<div class="nd-about cursor" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>-->
                         <div class="nd-tail fs-14 cursor">{{ $t('menu.ContactUs') }}</div>

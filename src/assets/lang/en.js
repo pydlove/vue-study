@@ -183,7 +183,7 @@ module.exports = {
         DateOfBirth: "Date of birth",
         SelectDateOfBirth: "Select date of birth",
         sex: "Gender",
-        Contact: "Contact Info",
+        Contact: "Tel",
         InContact: "Please enter in the contact information",
         ResearchInstitution: "Institution",
         InResearchInstitution: "Please enter in the research institution",
@@ -242,7 +242,7 @@ module.exports = {
         loginRegister :'Login/Register',
         LogDetail :'Observation Log Details',
         AboutUs: 'About Us',
-        ContactUs: 'Contact Us',
+        ContactUs: 'Email',
 
         chaseSatellite: 'CHASE Satellite',
         onsetSatellite: "ONSET Telescope",

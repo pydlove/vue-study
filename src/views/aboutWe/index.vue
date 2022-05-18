@@ -29,7 +29,7 @@
                         <div class="nd-address">{{ $t('message.Contact') }}: (86)-25-89683510</div>
                         <div class="nd-address">{{ $t('message.EmailAddress') }}: xswan@nju.edu.cn</div>
                     </div>
-                    <div class="nd-wechat" @click="down"></div>
+                    <div class="nd-wechat cursor" @click="down"></div>
                     <img v-show="false" class="xh-img" :src="require('@/assets/img/logo/logo-xh.png')" alt="">
                     <!--<div class="wechat-cen">-->
                         <!--<div class="wechat-icon"></div>-->
@@ -42,11 +42,11 @@
                 <div class="aiocloud-card aw-right">
                     <div v-if="language == 'zh'" class="nd-aboutus">
                         关于“羲和号“卫星数据的科学标定、数据分析、软件支持，请联系Chuan Li (lic@nju.edu.cn) , Ye Qiu (Qiuyeah@163.com) , Zhen Li (lizhen@nju.edu.cn)
-                        关于“羲和号“卫星数据网站及数据下载服务，请联系Xiaosheng Wan (xswan@nju.edu.cn)
+                        <br/> 关于“羲和号“卫星数据网站及数据下载服务，请联系Xiaosheng Wan (xswan@nju.edu.cn)
                     </div>
                     <div v-if="language == 'en'" class="nd-aboutus">
                         For the CHASE data calibration, data analysis, and software assistance, please contact Chuan Li (lic@nju.edu.cn) , Ye Qiu (Qiuyeah@163.com) , Zhen Li (lizhen@nju.edu.cn) .
-                        For the CHASE data website, data access, etc. please contact Xiaosheng Wan (xswan@nju.edu.cn)
+                        <br/> For the CHASE data website, data access, etc. please contact Xiaosheng Wan (xswan@nju.edu.cn)
                     </div>
                 </div>
             </div>
