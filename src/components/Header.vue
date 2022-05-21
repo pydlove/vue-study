@@ -284,6 +284,7 @@
 			text-align: left;
 			line-height: 110px;
 			font-size: 13px;
+			padding-left: 10px;
 		}
 
 		.nd-header-name {
@@ -296,13 +297,14 @@
 		}
 
 		.nd-header-lr {
+			border: 1px solid #120109;
 			font-size: 14px;
+			padding: 10px;
 			font-family: SC-Light;
 		}
 
 		.nd-header-lr:hover {
 			border: 1px solid #fa541c;
-			padding: 10px;
 			border-radius: 3px;
 		}
 

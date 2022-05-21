@@ -27,9 +27,12 @@
                     <div class="nd-contact">
                         <div class="nd-address">{{ $t('message.Address') }}: {{ $t('message.AddressDetail') }} </div>
                         <div class="nd-address">{{ $t('message.Contact') }}: (86)-25-89683510</div>
-                        <div class="nd-address">{{ $t('message.EmailAddress') }}: xswan@nju.edu.cn</div>
+                        <div class="nd-address">{{ $t('menu.footEmail') }}: xswan@nju.edu.cn</div>
                     </div>
-                    <div class="nd-wechat cursor" @click="down"></div>
+                    <div class="nd-wechat cursor"></div>
+	                <div class="cursor logo-item" @click="down">
+		                {{ $t('message.downloadLogo') }}
+	                </div>
                     <img v-show="false" class="xh-img" :src="require('@/assets/img/logo/logo-xh.png')" alt="">
                     <!--<div class="wechat-cen">-->
                         <!--<div class="wechat-icon"></div>-->
@@ -105,6 +108,15 @@
 
 <style scoped>
     @media screen and (min-width: 768px) {
+	    .logo-item:hover {
+			text-decoration: underline;
+		    color: #fa5c00;
+	    }
+	    .logo-item {
+		    text-align: left;
+		    margin-left: 48px;
+		    margin-top: 10px;
+	    }
         .nd-about-logo {
             height: 65px;
             width: 224px;

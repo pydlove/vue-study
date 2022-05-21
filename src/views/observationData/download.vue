@@ -26,8 +26,8 @@
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
-              <el-button class="wdi-120" @click="close">{{ $t('menu.cancel') }}</el-button>
-              <el-button class="wdi-120 aioc-btn1" type="primary" @click="close">{{ $t('menu.sure') }}</el-button>
+              <el-button class="wdi-120" @click="close">{{ $t('menu.close') }}</el-button>
+              <!--<el-button class="wdi-120 aioc-btn1" type="primary" @click="close">{{ $t('menu.sure') }}</el-button>-->
             </span>
         </el-dialog>
     </div>

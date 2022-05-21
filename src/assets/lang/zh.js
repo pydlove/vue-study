@@ -223,6 +223,7 @@ module.exports = {
         TechnicalSupport: '技术支持',
         Company: '杭州爱启云网络科技有限公司',
         downloadAll: '下载全部',
+        downloadLogo: "下载“羲和号”卫星Logo"
     },
     menu:{
         home:'首页',
@@ -245,6 +246,7 @@ module.exports = {
         wehostSatellite: 'WeHoST望远镜',
 
         cancel: '取消',
+        close: '关闭',
         sure: '确定',
 
         site: '站点',

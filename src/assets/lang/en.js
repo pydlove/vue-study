@@ -225,6 +225,7 @@ module.exports = {
         TechnicalSupport: 'Technical Support',
         Company: 'Hangzhou Aiqiyun Network Technology Co., Ltd.',
         downloadAll: 'DownloadAll',
+        downloadLogo: "Download the CHASE Logo",
     },
     menu:{
         home:'Home',
@@ -250,6 +251,7 @@ module.exports = {
         wehostSatellite: 'WeHoST Telescope',
 
         cancel: 'Cancel',
+        close: 'Close',
         sure: 'Confirm',
 
         site: 'Site',
