@@ -82,6 +82,10 @@ Vue.use(VueClipboard);
 import VueI18n from 'vue-i18n'
 Vue.use(VueI18n);
 
+// 复制
+import VueClipBoard from 'vue-clipboard2'
+Vue.use(VueClipBoard)
+
 // 使用语言包
 const i18n = new VueI18n({
     locale: 'zh',    // 语言标识

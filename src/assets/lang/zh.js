@@ -223,7 +223,9 @@ module.exports = {
         TechnicalSupport: '技术支持',
         Company: '杭州爱启云网络科技有限公司',
         downloadAll: '下载全部',
-        downloadLogo: "下载“羲和号”卫星Logo"
+        downloadLogo: "下载“羲和号”卫星Logo",
+
+        copyLink: '复制所有链接',
     },
     menu:{
         home:'首页',

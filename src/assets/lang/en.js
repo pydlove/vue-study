@@ -226,6 +226,8 @@ module.exports = {
         Company: 'Hangzhou Aiqiyun Network Technology Co., Ltd.',
         downloadAll: 'DownloadAll',
         downloadLogo: "Download the CHASE Logo",
+
+        copyLink: 'Copy All Links',
     },
     menu:{
         home:'Home',

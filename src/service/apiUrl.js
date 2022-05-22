@@ -67,6 +67,7 @@ export default {
     web_service_v1_web_download_log_in: "/web-service/v1/web_download_log/in",
     web_service_v1_cl_observation_log_in: "/web-service/v1/web_download_log/in",
     web_service_v1_cl_observation_log_url: "/web-service/v1/web_download_log/url",
+    web_service_v1_cl_observation_log_log: "/web-service/v1/web_download_log/log",
     web_service_v1_cl_observation_log_download: "/web-service/v1/web_download_log/download",
     web_service_v1_cl_observation_log_downloadAll: "/web-service/v1/web_download_log/downloadAll",
 
