@@ -39,7 +39,7 @@ module.exports = {
         FlareList: 'Flare List',
         DataUseRule: 'Data Policy',
 
-        ObservationTime: 'Obs Date',
+        ObservationTime: 'Obs. Time',
         ObservationTarget: 'Obs Target',
         ObservationWavelength: 'Wavelength',
         ExposureTime: 'Exposure Time',
@@ -52,7 +52,7 @@ module.exports = {
         NoObservationDataEmpty: 'No Observation Data',
         AllDay: 'Query All Day',
         lineSpectrum: 'Line Spectrum',
-        observingPattern: 'Observe Pattern',
+        observingPattern: 'Obs. mode',
         ObservationCoordinate: 'Observation Coordinate',
         exposureTime: 'Exposure Time',
         inputExposureTime: 'Please enter the Exposure Time',
@@ -108,7 +108,7 @@ module.exports = {
         selectAll: 'Select All',
         clear: 'Clear',
 
-        fitsName: 'FitsName',
+        fitsName: 'Fits file',
         startTime: 'StartTime',
         endTime: 'EndTime',
         offBand: 'OffBand',
@@ -116,7 +116,7 @@ module.exports = {
         image:'Image',
         video:'Video',
 
-        LineSpectrum: 'LineSpectrum',
+        LineSpectrum: 'Spectral line',
         ObsCoordinate: 'ObsCoordinate',
         obsBand: 'ObsBand',
         obsPattern: 'ObsPattern',
