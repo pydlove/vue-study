@@ -31,15 +31,26 @@
         <div class="nd-info" v-else>
             <div class="nd-detail">
                 <div class="nd-address">
-                    <div class="nd-addr fs-14">{{ $t('message.Address') }}: {{this.form.enAddress}}</div>
-                    <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: {{this.form.postcode}}</div>
-                    <div class="nd-phone fs-14">{{ $t('message.Contact') }}:  {{this.form.tel}}</div>
-                    <div class="nd-aboutus fs-14">
-                        <!--<div class="nd-about cursor" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>-->
-                        <div class="nd-tail fs-14 cursor">{{ $t('menu.footEmail') }}</div>
-                        <div class="nd-tail fs-14 cursor">: {{this.form.email}}</div>
+                    <div v-if="language == 'zh'">
+                        <div class="nd-addr fs-14">{{ $t('message.Address') }}: {{this.form.address}}</div>
+                        <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: {{this.form.postcode}}</div>
+                        <div class="nd-phone fs-14">{{ $t('message.Contact') }}:  {{this.form.tel}}</div>
+                        <div class="nd-aboutus fs-14">
+                            <!--<div class="nd-about cursor" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>-->
+                            <div class="nd-tail fs-14 cursor">{{ $t('menu.footEmail') }}</div>
+                            <div class="nd-tail fs-14 cursor">: {{this.form.email}}</div>
+                        </div>
                     </div>
-
+                    <div v-else-if="language == 'en'">
+                        <div class="nd-addr fs-14">{{ $t('message.Address') }}: {{this.form.enAddress}}</div>
+                        <div class="nd-mail fs-14">{{ $t('message.PostCode') }}: {{this.form.postcode}}</div>
+                        <div class="nd-phone fs-14">{{ $t('message.Contact') }}:  {{this.form.tel}}</div>
+                        <div class="nd-aboutus fs-14">
+                            <!--<div class="nd-about cursor" @click="aboutWe">{{ $t('menu.AboutUs') }}</div>-->
+                            <div class="nd-tail fs-14 cursor">{{ $t('menu.footEmail') }}</div>
+                            <div class="nd-tail fs-14 cursor">: {{this.form.email}}</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="nd-icon">
                     <van-image class="cursor" style="width: 80px; height: 100px;" :src="require('@/assets/img/logo/nd-logo.png')" @click="toOpen('https://www.nju.edu.cn/main.htm')"/>
@@ -63,12 +74,12 @@
 <script>
     export default {
         name: "tail",
-
+        props: ["language"],
         mounted() {
             if (this.clientWidth < 500) {
                 this.client = true;
             }
-            this.search(1,10);
+            this.search(1, 10);
         },
 
         methods: {
@@ -82,7 +93,6 @@
             toOpen(url) {
                 window.open(url, '_blank');
             },
-
             async search(currentPage, pageSize) {
                 this.pageSize = pageSize;
                 this.currentPage = currentPage;
@@ -91,6 +101,8 @@
                 params.append("limit", this.pageSize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_contact_us_searchListByType, params, "POST");
                 if (data.code == 200) {
+                    console.log("地址");
+                    console.log(  data);
                     this.tableData = data.data;
                     if(this.tableData != null && this.tableData.length > 0) {
                         this.form = this.tableData[0];
@@ -103,6 +115,7 @@
 
         data() {
             return {
+                language: "zh",
                 client: false,
                 clientWidth: document.body.clientWidth,
 
