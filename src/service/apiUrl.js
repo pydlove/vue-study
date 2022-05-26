@@ -12,6 +12,12 @@ export default {
     // rootUrl: "http://ahbfi.org.cn/",
     // baseUrl: "http://ahbfi.org.cn",
 
+    // chase 数据政策
+    web_service_v1_nd_chase_policy: "/web-service/v1/nd_chase_policy/",
+
+    // onset 数据政策
+    web_service_v1_nd_onset_policy: "/web-service/v1/nd_onset_policy/",
+
     // 新闻与资源
     web_service_v1_new_and_resource_searchAll: "/web-service/v1/nd_news_resource/searchAll",
     web_service_v1_new_and_resource_id: "/web-service/v1/nd_news_resource/id",
