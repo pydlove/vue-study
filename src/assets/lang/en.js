@@ -87,7 +87,7 @@ module.exports = {
         Add: "Add",
 
         introduction: 'Introduction',
-        results: 'Achievements',
+        results: 'Gallery',
 
         beautifulImage: "Images",
         beautifulVideo: "Movies",
