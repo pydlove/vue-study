@@ -25,16 +25,9 @@
             <div class="nd-content dffn">
                 <div class="aiocloud-card aw-left" >
                     <div class="nd-contact">
-                        <div v-if="language == 'zh'">
-                            <div class="nd-address">{{ $t('message.Address') }}: {{this.form.address}} </div>
-                            <div class="nd-address">{{ $t('message.Contact') }}: {{this.form.tel}}</div>
-                            <div class="nd-address">{{ $t('menu.footEmail') }}: {{this.form.email}}</div>
-                        </div>
-                        <div v-else-if="language == 'en'">
-                            <div class="nd-address">{{ $t('message.Address') }}: {{this.form.enAddress}} </div>
-                            <div class="nd-address">{{ $t('message.Contact') }}: {{this.form.tel}}</div>
-                            <div class="nd-address">{{ $t('menu.footEmail') }}: {{this.form.email}}</div>
-                        </div>
+                        <div class="nd-address">{{ $t('message.Address') }}: {{ $t('message.AddressDetail') }} </div>
+                        <div class="nd-address">{{ $t('message.Contact') }}: (86)-25-89683510</div>
+                        <div class="nd-address">{{ $t('menu.footEmail') }}: xswan@nju.edu.cn</div>
                     </div>
                     <div class="nd-wechat cursor"></div>
 	                <div class="cursor logo-item" @click="down">
@@ -74,29 +67,7 @@
         components: {Footer, Header},
         data() {
             return {
-                language: "zh",
-                type: "1",
-                tableData: [],
-                currentPage: 1,
-                pageSize: 10,
-                clientWidth: document.body.clientWidth,
-
-                form: {
-                    id: "",
-                    address: "江苏省南京市栖霞区仙林大道163号天文楼",
-                    enAddress: "TianWen building, No. 163, Xianlin Avenue, Qixia District, Nanjing",
-                    postcode: "",
-                    enPostcode: "",
-                    tel: "(86)-25-89683510",
-                    enTel: "(86)-25-89683510",
-                    email: "xswan@nju.edu.cn",
-                    enEmail: "xswan@nju.edu.cn",
-                    content: "",
-                    status: "",
-                    type: "",
-                    displayOrder: "",
-                    createTime: "",
-                },
+                language: "",
             }
         },
         mounted() {
@@ -105,23 +76,6 @@
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
-                this.search(1, 10);
-            },
-            async search(currentPage, pageSize) {
-                this.pageSize = pageSize;
-                this.currentPage = currentPage;
-                let params = new FormData();
-                params.append("page", this.currentPage);
-                params.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_contact_us_searchListByType, params, "POST");
-                if (data.code == 200) {
-                    this.tableData = data.data;
-                    if(this.tableData != null && this.tableData.length > 0) {
-                        this.form = this.tableData[0];
-                    }
-                    // this.$refs.pageRef.totalCount = data.totalCount;
-                    return true;
-                }
             },
             down() { // 保存二维码
                 var oQrcode = document.querySelectorAll('.xh-img')

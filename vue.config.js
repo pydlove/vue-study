@@ -123,8 +123,8 @@ module.exports = {
         disableHostCheck: true,
         proxy: {
             '/web-service': {
-                target: 'http://localhost:9092',
-                // target: 'http://114.212.184.2:8088',
+                // target: 'http://localhost:9092',
+                target: 'http://114.212.184.2:8088',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}
