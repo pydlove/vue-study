@@ -1,7 +1,7 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-container">
-        <NormalHeader ref="normalHeaderRef" @initLanguage="initLanguage"></NormalHeader>
+        <NormalHeader ref="normalHeaderRef" :currentMenu="'observationData'" @initLanguage="initLanguage"></NormalHeader>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
             <el-breadcrumb-item :to="{ path: '/home' }">
                 <i class="el-icon-s-home"></i>
@@ -26,7 +26,7 @@
                     <QuickView v-if="type == 0" ref="quickViewRef"></QuickView>
                     <DataSearch v-if="type == 1" ref="dataSearchRef" @setTableData="setTableData"></DataSearch>
                     <NewView v-if="type == 2"></NewView>
-                    <UseRule v-if="type == 3"></UseRule>
+                    <UseRule ref="useRuleRef" v-if="type == 3"></UseRule>
                     <Friendly v-if="type == 4"></Friendly>
                 </div>
             </div>
@@ -211,8 +211,12 @@
                 this.menus[1].name = this.$t('message.DataQuery');
                 this.menus[2].name = this.$t('message.LatestData');
                 this.menus[3].name = this.$t('message.DataUsageRules');
-                // this.menus[4].name = this.$t('message.Links');
-                this.$refs.quickViewRef.initLanguage();
+                if(this.type == 1) {
+                    this.$refs.quickViewRef.initLanguage();
+                }
+                if(this.type == 3) {
+                    this.$refs.useRuleRef.initLanguage();
+                }
             },
 
             previewImage(row){

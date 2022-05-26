@@ -104,39 +104,46 @@
 		</div>
 	</div>
 -->
-	<!--<div class="nd-policy" v-else-if="language == 'en'">-->
-	<div class="nd-policy">
-		<div>
-			1.Users should acknowledge the sources of data used in publications, presentations, and reports.
-			“This work uses the data from the CHASE mission supported by China National Space Administration.”,
-			“Observation data is from the CHASE mission supported by China National Space Administration.”,
-			or “The CHASE mission is supported by CNSA.中文请用：本工作使用了国家航天局支持的”羲和号“卫星探测数据。”<br/><br/>
-		</div>
+	<!--<div class="nd-policy">-->
+		<!--<div>-->
+			<!--1.Users should acknowledge the sources of data used in publications, presentations, and reports.-->
+			<!--“This work uses the data from the CHASE mission supported by China National Space Administration.”,-->
+			<!--“Observation data is from the CHASE mission supported by China National Space Administration.”,-->
+			<!--or “The CHASE mission is supported by CNSA.中文请用：本工作使用了国家航天局支持的”羲和号“卫星探测数据。”<br/><br/>-->
+		<!--</div>-->
 
-		<div>
-			2.Users are encouraged to provide the CHASE science team (email: lic@nju.edu.cn; dmd@nju.edu.cn;
-			lizhen@nju.edu.cn) a copy of published paper or manuscript upon submission that uses the data of CHASE.<br/><br/>
-		</div>
+		<!--<div>-->
+			<!--2.Users are encouraged to provide the CHASE science team (email: lic@nju.edu.cn; dmd@nju.edu.cn;-->
+			<!--lizhen@nju.edu.cn) a copy of published paper or manuscript upon submission that uses the data of CHASE.<br/><br/>-->
+		<!--</div>-->
 
-		<div>
-			3.Users are encouraged to cite the following papers when using the CHASE data.<br/>
-			(1) Li, C., Fang, C., Li, Z., et al. The Chinese Hα Solar Explorer (CHASE) Mission: An overview, 2022, Sci. China-Phys.
-			Mech. Astron., 65, 289602, DOI: 10.1007/s11433-022-1893-3<br/>
-			(2) Qiu, Y., Rao, S. H., Li, C., et al. Calibration procedures for the CHASE/HIS science data, 2022, Sci. China-Phys.
-			Mech. Astron., 65, 289603, DOI: 10.1007/s11433-022-1900-5<br/>
-			(3) Li Chuan, Fang Cheng, Li Zhen, et al. Chinese Hα Solar Explorer (CHASE) – a complementary space mission to the
-			ASO-S, 2019, Res. Astron. Astrophys., 19, 165, DOI: 10.1088/1674–4527/19/11/165<br/>
-			(4) Or papers of the CHASE topical issue.<br/><br/>
-		</div>
+		<!--<div>-->
+			<!--3.Users are encouraged to cite the following papers when using the CHASE data.<br/>-->
+			<!--(1) Li, C., Fang, C., Li, Z., et al. The Chinese Hα Solar Explorer (CHASE) Mission: An overview, 2022, Sci. China-Phys.-->
+			<!--Mech. Astron., 65, 289602, DOI: 10.1007/s11433-022-1893-3<br/>-->
+			<!--(2) Qiu, Y., Rao, S. H., Li, C., et al. Calibration procedures for the CHASE/HIS science data, 2022, Sci. China-Phys.-->
+			<!--Mech. Astron., 65, 289603, DOI: 10.1007/s11433-022-1900-5<br/>-->
+			<!--(3) Li Chuan, Fang Cheng, Li Zhen, et al. Chinese Hα Solar Explorer (CHASE) – a complementary space mission to the-->
+			<!--ASO-S, 2019, Res. Astron. Astrophys., 19, 165, DOI: 10.1088/1674–4527/19/11/165<br/>-->
+			<!--(4) Or papers of the CHASE topical issue.<br/><br/>-->
+		<!--</div>-->
 
-		<div>
-			4.The use of CHASE images and movies for non-commercial purposes and public education is strongly encouraged in
-			case of attributing the source of images and movies as “Courtesy of the CHASE mission and the science team.”<br/><br/>
-		</div>
+		<!--<div>-->
+			<!--4.The use of CHASE images and movies for non-commercial purposes and public education is strongly encouraged in-->
+			<!--case of attributing the source of images and movies as “Courtesy of the CHASE mission and the science team.”<br/><br/>-->
+		<!--</div>-->
 
-		<div>
-			5.Any questions about accessing the most recent available data and analysis routines, please consult with the
-			CHASE team (email: lic@nju.edu.cn; lizhen@nju.edu.cn; qiuyeah@163.com).
+		<!--<div>-->
+			<!--5.Any questions about accessing the most recent available data and analysis routines, please consult with the-->
+			<!--CHASE team (email: lic@nju.edu.cn; lizhen@nju.edu.cn; qiuyeah@163.com).-->
+		<!--</div>-->
+	<div>
+		<div class="nd-policy" v-if="language == 'zh'">
+			<div v-html="policy.chContent"></div>
+
+		</div>
+		<div class="nd-policy" v-else-if="language == 'en'">
+			<div v-html="policy.enContent"></div>
 		</div>
 	</div>
 </template>
@@ -148,14 +155,28 @@
         data() {
             return {
                 language: "",
+                policy: {
+                    chContent: "",
+                    enContent: "",
+                },
             }
         },
         mounted() {
             this.initLanguage();
+            this.searchData();
         },
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
+            },
+
+            async searchData() {
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_chase_policy, params, "POST");
+                if (data.code == 200) {
+                    this.policy = data.data;
+                    return true;
+                }
             },
         }
 

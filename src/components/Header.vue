@@ -240,6 +240,7 @@
 					|| this.currentMenu == 'observationData'
 					|| this.currentMenu == 'chaseSatellite'
 					|| this.currentMenu == 'aboutWe'
+					|| this.currentMenu == 'observationData'
                 ) {
                     this.$emit("initLanguage");
                 }
