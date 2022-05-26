@@ -12,6 +12,9 @@ export default {
     // rootUrl: "http://ahbfi.org.cn/",
     // baseUrl: "http://ahbfi.org.cn",
 
+    // 耀斑列表
+    web_service_v1_web_flare_list: "/web-service/v1/web_flare/list",
+
     // chase 数据政策
     web_service_v1_nd_chase_policy: "/web-service/v1/nd_chase_policy/",
 
