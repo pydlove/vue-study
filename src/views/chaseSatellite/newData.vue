@@ -1,59 +1,82 @@
 <template>
     <!--eslint-disable-->
-    <div class="nv-container">
-        <div class="tl mt-20">
-        </div>
-
-        <div class="nd-news-list" v-if="this.tableData.length > 0" >
-            <div class="nd-list" v-for="(item, index) in this.tableData" :key="index">
+    <div>
+        <div>
+            <viewer class="cursor dffn-ac">
                 <el-image
-                        class="nd-picture"
-                        :src="item.picture"
-                        :preview-src-list="[item.picture]"></el-image>
-                <div>
-                    <div class="nd-list-title">
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ObservationTime') }}:</p>
-                            <p>{{ item.beginTime }}</p>
-                        </div>
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ObservationTarget') }}:</p>
-                            <p>{{ item.target }}</p>
-                        </div>
-                    </div>
-
-                    <div class="nd-list-title">
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ExposureTime') }}:</p>
-                            <p> {{ item.exposureTime }}</p>
-                        </div>
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ObservationWavelength') }}:</p>
-                            <p>{{ item.observationBand }}</p>
-                        </div>
-                    </div>
-
-                    <div v-if="item.video != '' && item.video != null" class="nd-list-title">
-                        <div class="nd-list-item">
-                            <p>{{ $t('message.ObservationVideo') }}:</p>
-                            <p>
-                                <a :href="item.video" :download="item.video">
-                                    {{ $t('message.downloadObsVideo') }}
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
+                        class="nd-data-picture mr-20"
+                        :src="newDataVO.imageHa"
+                        fit="contain"
+                        :preview-src-list="[newDataVO.imageHa]"
+                ></el-image>
+                <el-image
+                        class="nd-data-picture"
+                        :src="item.newDataVO.imageFe"
+                        fit="contain"
+                        :preview-src-list="[newDataVO.imageFe]"
+                ></el-image>
+            </viewer>
         </div>
-
-        <div v-else>
-            <van-empty image="search" :description="$t('message.NoObservationDataEmpty')"/>
-        </div>
-
+        <el-select class="mt-20" v-model="newDataId" placeholder="请选择最新数据"  @change="searchImage">
+            <el-option v-for="(item, index) in tableData" :key="index" :label="item.dateStr" :value="item.id" ></el-option>
+        </el-select>
     </div>
+
+
+    <!--<div class="nv-container">-->
+        <!--<div class="tl mt-20">-->
+        <!--</div>-->
+
+        <!--<div class="nd-news-list" v-if="this.tableData.length > 0" >-->
+            <!--<div class="nd-list" v-for="(item, index) in this.tableData" :key="index">-->
+                <!--<el-image-->
+                        <!--class="nd-picture"-->
+                        <!--:src="item.picture"-->
+                        <!--:preview-src-list="[item.picture]"></el-image>-->
+                <!--<div>-->
+                    <!--<div class="nd-list-title">-->
+                        <!--<div class="nd-list-item">-->
+                            <!--<p>{{ $t('message.ObservationTime') }}:</p>-->
+                            <!--<p>{{ item.beginTime }}</p>-->
+                        <!--</div>-->
+                        <!--<div class="nd-list-item">-->
+                            <!--<p>{{ $t('message.ObservationTarget') }}:</p>-->
+                            <!--<p>{{ item.target }}</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="nd-list-title">-->
+                        <!--<div class="nd-list-item">-->
+                            <!--<p>{{ $t('message.ExposureTime') }}:</p>-->
+                            <!--<p> {{ item.exposureTime }}</p>-->
+                        <!--</div>-->
+                        <!--<div class="nd-list-item">-->
+                            <!--<p>{{ $t('message.ObservationWavelength') }}:</p>-->
+                            <!--<p>{{ item.observationBand }}</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div v-if="item.video != '' && item.video != null" class="nd-list-title">-->
+                        <!--<div class="nd-list-item">-->
+                            <!--<p>{{ $t('message.ObservationVideo') }}:</p>-->
+                            <!--<p>-->
+                                <!--<a :href="item.video" :download="item.video">-->
+                                    <!--{{ $t('message.downloadObsVideo') }}-->
+                                <!--</a>-->
+                            <!--</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>-->
+        <!--</div>-->
+
+        <!--<div v-else>-->
+            <!--<van-empty image="search" :description="$t('message.NoObservationDataEmpty')"/>-->
+        <!--</div>-->
+
+    <!--</div>-->
 </template>
 <!--eslint-disable-->
 <script>
@@ -62,42 +85,42 @@
 
     export default {
         name: "newData",
-        components: {Page, Pagination},
         mounted() {
-            this.week();
+            this.initList();
         },
 
         methods: {
 
-            week() {
-                this.beginTime = this.$utils.lastWeek();
-                this.endTime = this.$utils.nowDate();
-                this.search(1, 10);
-            },
-
-            async search(currentPage, pageSize){
-                this.currentPage = currentPage;
-                this.pageSize = pageSize;
+            async initList(){
                 let params = new FormData();
-                params.append("beginTime", this.beginTime);
-                params.append("endTime", this.endTime);
-                params.append("dataType", "chase");
-                params.append("page", this.currentPage);
-                params.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_newData, params, "POST");
+                params.append("type", "chase");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_new_data_list, params, "POST");
                 if(data.code == 200) {
                     this.tableData = data.data;
-                    for( var i = 0; i < this.tableData.length; i++) {
-                        var json = JSON.parse(this.tableData[i].dataDetail);
-                        this.dataDetail.push(json);
+                    if(this.tableData.length > 0) {
+                        this.newDataId = this.tableData[0].id;
+                        this.searchImage();
                     }
-                    this.$refs.pageRef.totalCount = data.totalCount;
                     return true;
                 }
             },
+
+            async searchImage(){
+                let params = new FormData();
+                params.append("id", this.newDataId);
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_new_data_image, params, "POST");
+                if(data.code == 200) {
+                    this.newDataVO = data.data;
+                    return true;
+                }
+            },
+
         },
         data() {
             return {
+                newDataVO: "",
+                newData: "",
+                newDataId: "",
                 beginTime: "",
                 endTime: "",
                 currentPage: 1,
@@ -115,8 +138,18 @@
 </script>
 
 <style scoped>
+
+
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
+        .nd-data-picture{
+            border-style: none;
+            width: 310px;
+            height: 310px;
+            text-align: center;
+            object-fit: contain;
+        }
+
         .nd-list {
             display: flex;
             flex-wrap: nowrap;
@@ -191,65 +224,65 @@
             width: 160px;
             height: 100px;
         }
-    }
+    /*}*/
 
-    /*媒体查询（手机）*/
-    @media screen and (max-width: 768px) {
+    /*!*媒体查询（手机）*!*/
+    /*@media screen and (max-width: 768px) {*/
 
-        .nd-card {
-            width: 375px;
-            background: white;
-            background: #f0f0f0;
-        }
+        /*.nd-card {*/
+            /*width: 375px;*/
+            /*background: white;*/
+            /*background: #f0f0f0;*/
+        /*}*/
 
-        .nd-list-top {
-            margin-left: 10px;
-            line-height: 2;
-        }
+        /*.nd-list-top {*/
+            /*margin-left: 10px;*/
+            /*line-height: 2;*/
+        /*}*/
 
-        .nd-news-list {
-        }
+        /*.nd-news-list {*/
+        /*}*/
 
-        .myCard {
-            width: 100%;
-        }
+        /*.myCard {*/
+            /*width: 100%;*/
+        /*}*/
 
-        .nd-list {
-            margin-top: 10px;
-            position: relative;
-            margin-left: 10px;
-            margin-right: 10px;
-            height: 100px;
-        }
+        /*.nd-list {*/
+            /*margin-top: 10px;*/
+            /*position: relative;*/
+            /*margin-left: 10px;*/
+            /*margin-right: 10px;*/
+            /*height: 100px;*/
+        /*}*/
 
-        .nd-lists {
-            position: absolute;
-        }
+        /*.nd-lists {*/
+            /*position: absolute;*/
+        /*}*/
 
-        .nd-picture {
-            width: 80px;
-            height: 60px;
-        }
+        /*.nd-picture {*/
+            /*width: 80px;*/
+            /*height: 60px;*/
+        /*}*/
 
-        .nd-list-title {
-            margin-left: 20px;
-        }
+        /*.nd-list-title {*/
+            /*margin-left: 20px;*/
+        /*}*/
 
-        .pagination {
-            margin-top: 20px;
-            text-align: right;
-        }
+        /*.pagination {*/
+            /*margin-top: 20px;*/
+            /*text-align: right;*/
+        /*}*/
 
-        .nv-container {
-            width: 100%;
-        }
+        /*.nv-container {*/
+            /*width: 100%;*/
+        /*}*/
 
-        .myCards1 {
-            width: 150px;
-            margin-top: 5px;
-            font-size: 5px;
-            text-align: left;
-            margin-left: 68px;
-        }
-    }
+        /*.myCards1 {*/
+            /*width: 150px;*/
+            /*margin-top: 5px;*/
+            /*font-size: 5px;*/
+            /*text-align: left;*/
+            /*margin-left: 68px;*/
+        /*}*/
+    /*}*/
 </style>

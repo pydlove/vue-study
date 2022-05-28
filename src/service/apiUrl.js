@@ -3,14 +3,18 @@
  */
 export default {
 
-    // rootUrl: "http://localhost:8080/",
-    // baseUrl: "http://localhost:8080",
+    rootUrl: "http://localhost:8080/",
+    baseUrl: "http://localhost:8080",
 
-    rootUrl: "http://114.212.184.2:8088/",
-    baseUrl: "http://114.212.184.2:8088",
+    // rootUrl: "http://114.212.184.2:8088/",
+    // baseUrl: "http://114.212.184.2:8088",
 
     // rootUrl: "http://ahbfi.org.cn/",
     // baseUrl: "http://ahbfi.org.cn",
+
+    // 最新数据
+    web_service_v1_nd_new_data_list: "/web-service/v1/nd_new_data/list",
+    web_service_v1_nd_new_data_image: "/web-service/v1/nd_new_data/image",
 
     // 耀斑列表
     web_service_v1_web_flare_text_list: "/web-service/v1/web_flare_text/list",

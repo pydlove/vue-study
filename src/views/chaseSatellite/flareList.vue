@@ -14,7 +14,7 @@
 		<!--</el-table>-->
 		<!--<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>-->
 
-		<div v-html="flare"></div>
+		<div v-html="flare.content"></div>
 	</div>
 </template>
 <!--eslint-disable-->
