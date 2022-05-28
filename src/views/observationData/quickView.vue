@@ -358,7 +358,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         .nd-year-month {
             display: flex;
             flex-wrap: nowrap;
@@ -487,7 +487,7 @@
             color: #ffffff;
             text-align: center;
         }
-    }
+    /*}*/
 </style>
 
 <style>

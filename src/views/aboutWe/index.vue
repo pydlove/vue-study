@@ -153,7 +153,7 @@
 </script>
 
 <style scoped>
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
 	    .logo-item:hover {
 			text-decoration: underline;
 		    color: #fa5c00;
@@ -334,6 +334,6 @@
             right: 0px;
         }
 
-    }
+    /*}*/
 
 </style>

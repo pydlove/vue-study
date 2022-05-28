@@ -46,7 +46,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         .useRuleTitle{
             font-size: 20px;
             margin: 10px;
@@ -58,5 +58,5 @@
             line-height: 28px;
             text-align: left;
         }
-    }
+    /*}*/
 </style>

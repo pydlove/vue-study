@@ -193,7 +193,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         .ds-container {
             width: 100%;
         }
@@ -313,6 +313,6 @@
             text-align: right;
             padding-right: 17px;
         }
-    }
+    /*}*/
 
 </style>

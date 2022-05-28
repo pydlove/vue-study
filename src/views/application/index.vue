@@ -66,7 +66,7 @@
 
 <style scoped>
 	/*媒体查询（电脑）*/
-	@media screen and (min-width: 768px) {
+	/*@media screen and (min-width: 768px) {*/
 		.app-content {
 			width: 900px;
 			min-height: 400px;
@@ -74,5 +74,5 @@
 		.nd-breadcrumb-top{
 			width: 900px;
 		}
-	}
+	/*}*/
 </style>

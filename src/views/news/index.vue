@@ -130,7 +130,7 @@
 <style scoped>
 
 	/*媒体查询（电脑）*/
-	@media screen and (min-width: 768px) {
+	/*@media screen and (min-width: 768px) {*/
 
 		.nd-news-main {
 			width: 900px;
@@ -211,57 +211,57 @@
 		.nd-breadcrumb-top{
 			width: 900px;
 		}
-	}
+	/*}*/
 
 	/*媒体查询（手机）*/
-	@media screen and (max-width: 768px) {
+	/*@media screen and (max-width: 768px) {*/
 
-		.nd-card {
-			width: 375px;
-			background: white;
-			background: #f0f0f0;
-		}
+		/*.nd-card {*/
+			/*width: 375px;*/
+			/*background: white;*/
+			/*background: #f0f0f0;*/
+		/*}*/
 
-		.nd-list-top {
-			width: 900px;
-			margin: 0 auto;
-		}
+		/*.nd-list-top {*/
+			/*width: 900px;*/
+			/*margin: 0 auto;*/
+		/*}*/
 
-		.nd-news-list {
-			position: relative;
-			width: 100%;
-		}
+		/*.nd-news-list {*/
+			/*position: relative;*/
+			/*width: 100%;*/
+		/*}*/
 
-		.myCard {
-			width: 100%;
-		}
+		/*.myCard {*/
+			/*width: 100%;*/
+		/*}*/
 
-		.nd-list {
-			margin-top: 10px;
-			position: relative;
-			margin-left: 10px;
-			margin-right: 10px;
-			height: 100px;
-		}
+		/*.nd-list {*/
+			/*margin-top: 10px;*/
+			/*position: relative;*/
+			/*margin-left: 10px;*/
+			/*margin-right: 10px;*/
+			/*height: 100px;*/
+		/*}*/
 
-		.nd-lists {
-			position: absolute;
-		}
+		/*.nd-lists {*/
+			/*position: absolute;*/
+		/*}*/
 
-		.nd-picture {
-			width: 80px;
-			height: 60px;
-		}
+		/*.nd-picture {*/
+			/*width: 80px;*/
+			/*height: 60px;*/
+		/*}*/
 
-		.nd-list-title {
-			margin-left: 20px;
-		}
+		/*.nd-list-title {*/
+			/*margin-left: 20px;*/
+		/*}*/
 
-		.pagination {
-			margin-top: 20px;
-			text-align: right;
-		}
+		/*.pagination {*/
+			/*margin-top: 20px;*/
+			/*text-align: right;*/
+		/*}*/
 
 
-	}
+	/*}*/
 </style>

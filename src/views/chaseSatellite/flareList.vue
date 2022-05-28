@@ -1,18 +1,20 @@
 <template>
 	<div>
-		<el-table
-				:data="tableData"
-				style="width: 640px">
-			<el-table-column prop="datetime" label="Date" width=""></el-table-column>
-			<el-table-column prop="goes" label="GOES Start (UT)" width=""></el-table-column>
-			<el-table-column prop="peak" label="Peak (hh:mm)" width=""></el-table-column>
-			<el-table-column prop="end" label="End (hh:mm)" width=""></el-table-column>
-			<el-table-column prop="clazz" label="Class" width=""></el-table-column>
-			<el-table-column prop="location" label="Location (NOAA AR)" width=""></el-table-column>
-			<el-table-column prop="observationTime" label="CHASE observation time" width=""></el-table-column>
-			<el-table-column prop="iris" label="IRIS observations" width=""></el-table-column>
-		</el-table>
-		<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
+		<!--<el-table-->
+				<!--:data="tableData"-->
+				<!--style="width: 640px">-->
+			<!--<el-table-column prop="datetime" label="Date" width=""></el-table-column>-->
+			<!--<el-table-column prop="goes" label="GOES Start (UT)" width=""></el-table-column>-->
+			<!--<el-table-column prop="peak" label="Peak (hh:mm)" width=""></el-table-column>-->
+			<!--<el-table-column prop="end" label="End (hh:mm)" width=""></el-table-column>-->
+			<!--<el-table-column prop="clazz" label="Class" width=""></el-table-column>-->
+			<!--<el-table-column prop="location" label="Location (NOAA AR)" width=""></el-table-column>-->
+			<!--<el-table-column prop="observationTime" label="CHASE observation time" width=""></el-table-column>-->
+			<!--<el-table-column prop="iris" label="IRIS observations" width=""></el-table-column>-->
+		<!--</el-table>-->
+		<!--<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>-->
+
+		<div v-html="flare"></div>
 	</div>
 </template>
 <!--eslint-disable-->
@@ -30,6 +32,7 @@
                 currentPage: 1,
                 pageSize: 10,
                 language: "",
+                flare: "",
                 tableData: [
                     // {date: "2021-12-14", goes: "08:16", peak: "08:26", end: "08:36", class: "C1.4", location: "S20E60 (2907)", observationTime: "08:01-08:19", iris: "N"},
                     // {date: "2021-12-14", goes: "15:51", peak: "16:13", end: "16:20", class: "C1.1", location: "S20E54 (2907)\n", observationTime: "15:56-16:14\n", iris: "Y(15:53-16:49)\n"},
@@ -134,9 +137,12 @@
                 let params = new FormData();
                 params.append("page", this.currentPage);
                 params.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_flare_list, params, "POST");
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_flare_text_list, params, "POST");
                 if (data.code == 200) {
                     this.tableData = data.data;
+                    if(this.tableData.length > 0) {
+                        this.flare =  this.tableData[0];
+                    }
                     return true;
                 }
             }

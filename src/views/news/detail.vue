@@ -100,7 +100,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
 
         .nd-detail-box {
             background: #eeeeee;
@@ -151,68 +151,68 @@
             line-height: 26px;
         }
 
-    }
+    /*}*/
 
     /*媒体查询（手机）*/
-    @media screen and (max-width: 768px) {
-        .nd-detail-box {
-            background: #eeeeee;
-        }
+    /*@media screen and (max-width: 768px) {*/
+        /*.nd-detail-box {*/
+            /*background: #eeeeee;*/
+        /*}*/
 
-        .nd-news-list {
-            width: 100%;
-            background: #f0f0f0;
-            margin: 0px auto;
-            display: flex;
-            flex-wrap: nowrap;
-            padding: 10px 0;
-        }
+        /*.nd-news-list {*/
+            /*width: 100%;*/
+            /*background: #f0f0f0;*/
+            /*margin: 0px auto;*/
+            /*display: flex;*/
+            /*flex-wrap: nowrap;*/
+            /*padding: 10px 0;*/
+        /*}*/
 
-        .nd-list {
-            text-align: center;
-            font-size: 5px;
-            font-weight: bolder;
-            margin-top: 10px;
-        }
+        /*.nd-list {*/
+            /*text-align: center;*/
+            /*font-size: 5px;*/
+            /*font-weight: bolder;*/
+            /*margin-top: 10px;*/
+        /*}*/
 
-        .nd-news-title {
-            text-align: center;
-            margin-top: 5px;
-        }
+        /*.nd-news-title {*/
+            /*text-align: center;*/
+            /*margin-top: 5px;*/
+        /*}*/
 
-        .nd-news-title {
-            text-align: center;
-            font-size: 16px;
-            line-height: 1;
-        }
+        /*.nd-news-title {*/
+            /*text-align: center;*/
+            /*font-size: 16px;*/
+            /*line-height: 1;*/
+        /*}*/
 
-        .nd-news-time {
-            text-align: center;
-            margin-top: 10px;
-        }
+        /*.nd-news-time {*/
+            /*text-align: center;*/
+            /*margin-top: 10px;*/
+        /*}*/
 
-        .nd-new-left {
-            background: #ffffff;
-            width: 100px;
-            height: 200px;
-            margin-right: 10px;
-            border-radius: 5px;
-            margin-left: 10px;
-        }
+        /*.nd-new-left {*/
+            /*background: #ffffff;*/
+            /*width: 100px;*/
+            /*height: 200px;*/
+            /*margin-right: 10px;*/
+            /*border-radius: 5px;*/
+            /*margin-left: 10px;*/
+        /*}*/
 
-        .nd-news-content1 {
-            margin-top: 20px;
-            font-size: 3px;
-        }
+        /*.nd-news-content1 {*/
+            /*margin-top: 20px;*/
+            /*font-size: 3px;*/
+        /*}*/
 
 
-        .nd-new-right {
-            background: #ffffff;
-            width: calc(100% - 130px);
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-    }
+        /*.nd-new-right {*/
+            /*background: #ffffff;*/
+            /*width: calc(100% - 130px);*/
+            /*border-radius: 5px;*/
+            /*margin-right: 10px;*/
+        /*}*/
+    /*}*/
 </style>
 
 <style>

@@ -142,7 +142,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         img {
             border-style: none;
             width: 210px;
@@ -271,91 +271,91 @@
             font-size: 14px;
         }
 
-    }
+    /*}*/
 
-    /*媒体查询（手机）*/
-    @media screen and (max-width: 768px) {
-        .nd-footer {
-            background: #ffffff;
-            height: 180px;
-            width: 100%;
-            min-width: 375px;
-        }
+    /*!*媒体查询（手机）*!*/
+    /*@media screen and (max-width: 768px) {*/
+        /*.nd-footer {*/
+            /*background: #ffffff;*/
+            /*height: 180px;*/
+            /*width: 100%;*/
+            /*min-width: 375px;*/
+        /*}*/
 
-        .nd-info {
-            width: 100%;
-            height: 180px;
-            background: #181617;
-        }
+        /*.nd-info {*/
+            /*width: 100%;*/
+            /*height: 180px;*/
+            /*background: #181617;*/
+        /*}*/
 
-        .nd-address {
-            width: 100%;
-            height: 80px;
-            margin-left: 10px;
-            color: #eeeeee;
-            margin-top: 30px;
-        }
+        /*.nd-address {*/
+            /*width: 100%;*/
+            /*height: 80px;*/
+            /*margin-left: 10px;*/
+            /*color: #eeeeee;*/
+            /*margin-top: 30px;*/
+        /*}*/
 
-        .nd-icon {
-            width: 150px;
-            height: 40px;
-            margin-top: 10px;
-            margin: 0px auto;
-        }
+        /*.nd-icon {*/
+            /*width: 150px;*/
+            /*height: 40px;*/
+            /*margin-top: 10px;*/
+            /*margin: 0px auto;*/
+        /*}*/
 
-        .nd-addr {
-            margin-top: 5px;
-            font-size: 1px;
-            text-align: left;
-            color: #bfbfbf;
-            width: 100%;
-        }
+        /*.nd-addr {*/
+            /*margin-top: 5px;*/
+            /*font-size: 1px;*/
+            /*text-align: left;*/
+            /*color: #bfbfbf;*/
+            /*width: 100%;*/
+        /*}*/
 
-        .nd-phone {
-            margin-top: 5px;
-            text-align: left;
-            font-size: 1px;
-            color: #bfbfbf;
-        }
+        /*.nd-phone {*/
+            /*margin-top: 5px;*/
+            /*text-align: left;*/
+            /*font-size: 1px;*/
+            /*color: #bfbfbf;*/
+        /*}*/
 
-        .nd-mail {
-            margin-top: 5px;
-            text-align: left;
-            font-size: 1px;
-            color: #bfbfbf;
-        }
+        /*.nd-mail {*/
+            /*margin-top: 5px;*/
+            /*text-align: left;*/
+            /*font-size: 1px;*/
+            /*color: #bfbfbf;*/
+        /*}*/
 
-        .nd-about {
-            margin-top: 5px;
-            text-align: left;
-            display: flex;
-            flex-wrap: nowrap;
-            font-size: 1px;
-            color: #bfbfbf;
-        }
+        /*.nd-about {*/
+            /*margin-top: 5px;*/
+            /*text-align: left;*/
+            /*display: flex;*/
+            /*flex-wrap: nowrap;*/
+            /*font-size: 1px;*/
+            /*color: #bfbfbf;*/
+        /*}*/
 
-        .nd-support {
-            text-align: left;
-            font-size: 1px;
-            margin-top: 5px;
-        }
+        /*.nd-support {*/
+            /*text-align: left;*/
+            /*font-size: 1px;*/
+            /*margin-top: 5px;*/
+        /*}*/
 
-        .nd-tech-support {
-            border-top: 1px solid #f5f5f5;
-            margin-top: 5px;
-            font-size: 1px;
-        }
+        /*.nd-tech-support {*/
+            /*border-top: 1px solid #f5f5f5;*/
+            /*margin-top: 5px;*/
+            /*font-size: 1px;*/
+        /*}*/
 
-        .nd-num {
-            font-size: 1px;
-            text-align: left;
-            margin-top: 5px;
-        }
+        /*.nd-num {*/
+            /*font-size: 1px;*/
+            /*text-align: left;*/
+            /*margin-top: 5px;*/
+        /*}*/
 
-        .nd-class {
-            margin-top: 5px;
-            font-size: 1px;
-            text-align: center;
-        }
-    }
+        /*.nd-class {*/
+            /*margin-top: 5px;*/
+            /*font-size: 1px;*/
+            /*text-align: center;*/
+        /*}*/
+    /*}*/
 </style>

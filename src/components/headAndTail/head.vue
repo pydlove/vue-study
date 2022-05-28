@@ -48,7 +48,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         img {
             border-style: none;
             width: 210px;
@@ -125,64 +125,64 @@
             position: relative;
         }
 
-    }
+    /*}*/
 
     /*媒体查询（手机）*/
-    @media screen and (max-width: 768px) {
-        .nd-top {
-            background: #181617;
-            background-size: 100% 100%;
-            height: 150px;
-            width: 100%;
-        }
+    /*@media screen and (max-width: 768px) {*/
+        /*.nd-top {*/
+            /*background: #181617;*/
+            /*background-size: 100% 100%;*/
+            /*height: 150px;*/
+            /*width: 100%;*/
+        /*}*/
 
-        .nd-top-main {
-            width: 100%;
-            height: 150px;
-            display: flex;
-            flex-wrap: nowrap;
-        }
+        /*.nd-top-main {*/
+            /*width: 100%;*/
+            /*height: 150px;*/
+            /*display: flex;*/
+            /*flex-wrap: nowrap;*/
+        /*}*/
 
-        .nd-tm-left {
-            width: 150px;
-            height: 30px;
-            margin-top: 10px;
-            margin-left: 10px;
-        }
+        /*.nd-tm-left {*/
+            /*width: 150px;*/
+            /*height: 30px;*/
+            /*margin-top: 10px;*/
+            /*margin-left: 10px;*/
+        /*}*/
 
-        .nd-tm-right {
-            width: 200px;
-            margin-left: 5px;
-            height: 120px;
-            margin-top: 10px;
-            display: flex;
-            flex-wrap: nowrap;
-        }
+        /*.nd-tm-right {*/
+            /*width: 200px;*/
+            /*margin-left: 5px;*/
+            /*height: 120px;*/
+            /*margin-top: 10px;*/
+            /*display: flex;*/
+            /*flex-wrap: nowrap;*/
+        /*}*/
 
-        .nd-menu-header1 {
-            border-top: 2px solid #ffffff;
-            font-size: 1px;
-            line-height: 30px;
-            width: 60px;
-            color: #bfbfbf;;
-        }
+        /*.nd-menu-header1 {*/
+            /*border-top: 2px solid #ffffff;*/
+            /*font-size: 1px;*/
+            /*line-height: 30px;*/
+            /*width: 60px;*/
+            /*color: #bfbfbf;;*/
+        /*}*/
 
-        .nd-menu-header2 {
-            border-top: 2px solid #ffffff;
-            font-size: 1px;
-            margin-left: 10px;
-            line-height: 30px;
-            width: 60px;
-            color: #bfbfbf;
-        }
+        /*.nd-menu-header2 {*/
+            /*border-top: 2px solid #ffffff;*/
+            /*font-size: 1px;*/
+            /*margin-left: 10px;*/
+            /*line-height: 30px;*/
+            /*width: 60px;*/
+            /*color: #bfbfbf;*/
+        /*}*/
 
-        .nd-menu-header3 {
-            border-top: 2px solid #f5f5f5;
-            font-size: 1px;
-            margin-left: 10px;
-            line-height: 30px;
-            width: 60px;
-            color: #bfbfbf;
-        }
-    }
+        /*.nd-menu-header3 {*/
+            /*border-top: 2px solid #f5f5f5;*/
+            /*font-size: 1px;*/
+            /*margin-left: 10px;*/
+            /*line-height: 30px;*/
+            /*width: 60px;*/
+            /*color: #bfbfbf;*/
+        /*}*/
+    /*}*/
 </style>

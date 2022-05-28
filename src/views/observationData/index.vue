@@ -339,7 +339,7 @@
 <style scoped>
 
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         .aiocloud-card1 {
             padding: 20px;
             border-radius: 5px;
@@ -383,5 +383,5 @@
             margin-left: 20px;
         }
 
-    }
+    /*}*/
 </style>

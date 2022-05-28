@@ -105,7 +105,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         .el-upload__tip {
             color: #f51d37;
         }
@@ -162,10 +162,10 @@
             width: 750px;
             border-radius: 5px;
         }
-    }
+    /*}*/
 
     /*媒体查询（手机）*/
-    @media screen and (max-width: 768px) {
+    /*@media screen and (max-width: 768px) {*/
         .nd-detail-box {
             background: #eeeeee;
         }
@@ -224,7 +224,7 @@
             border-radius: 5px;
             margin-right: 10px;
         }
-    }
+    /*}*/
 </style>
 
 <style>

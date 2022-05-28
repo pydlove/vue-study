@@ -210,7 +210,7 @@
 <style scoped>
 
 	/*媒体查询（电脑）*/
-	@media screen and (min-width: 768px) {
+	/*@media screen and (min-width: 768px) {*/
 		.nd-paper-title {
 			font-weight: 600;
 			font-size: 15px;
@@ -322,41 +322,41 @@
 			width: 900px;
 		}
 
-	}
+	/*}*/
 
 	/*媒体查询（手机）*/
-	@media screen and (max-width: 768px) {
+	/*@media screen and (max-width: 768px) {*/
 
-		.nd-list {
-			margin-top: 10px;
-			position: relative;
-			margin-left: 10px;
-			margin-right: 10px;
-			height: 100px;
-		}
+		/*.nd-list {*/
+			/*margin-top: 10px;*/
+			/*position: relative;*/
+			/*margin-left: 10px;*/
+			/*margin-right: 10px;*/
+			/*height: 100px;*/
+		/*}*/
 
-		.nd-picture {
-			width: 80px;
-			height: 60px;
-		}
+		/*.nd-picture {*/
+			/*width: 80px;*/
+			/*height: 60px;*/
+		/*}*/
 
-		.nd-list-title {
-			margin-left: 20px;
-		}
+		/*.nd-list-title {*/
+			/*margin-left: 20px;*/
+		/*}*/
 
-		.pagination {
-			margin-top: 20px;
-			text-align: right;
-		}
+		/*.pagination {*/
+			/*margin-top: 20px;*/
+			/*text-align: right;*/
+		/*}*/
 
-		.myCards {
-			width: 200px;
-			font-size: 5px;
-			text-align: left;
-			margin-left: 68px;
-		}
+		/*.myCards {*/
+			/*width: 200px;*/
+			/*font-size: 5px;*/
+			/*text-align: left;*/
+			/*margin-left: 68px;*/
+		/*}*/
 
-	}
+	/*}*/
 </style>
 
 <style>

@@ -115,7 +115,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         .nd-list {
             display: flex;
             flex-wrap: nowrap;
@@ -190,65 +190,65 @@
             width: 160px;
             height: 100px;
         }
-    }
+    /*}*/
 
     /*媒体查询（手机）*/
-    @media screen and (max-width: 768px) {
+    /*@media screen and (max-width: 768px) {*/
 
-        .nd-card {
-            width: 375px;
-            background: white;
-            background: #f0f0f0;
-        }
+        /*.nd-card {*/
+            /*width: 375px;*/
+            /*background: white;*/
+            /*background: #f0f0f0;*/
+        /*}*/
 
-        .nd-list-top {
-            margin-left: 10px;
-            line-height: 2;
-        }
+        /*.nd-list-top {*/
+            /*margin-left: 10px;*/
+            /*line-height: 2;*/
+        /*}*/
 
-        .nd-news-list {
-        }
+        /*.nd-news-list {*/
+        /*}*/
 
-        .myCard {
-            width: 100%;
-        }
+        /*.myCard {*/
+            /*width: 100%;*/
+        /*}*/
 
-        .nd-list {
-            margin-top: 10px;
-            position: relative;
-            margin-left: 10px;
-            margin-right: 10px;
-            height: 100px;
-        }
+        /*.nd-list {*/
+            /*margin-top: 10px;*/
+            /*position: relative;*/
+            /*margin-left: 10px;*/
+            /*margin-right: 10px;*/
+            /*height: 100px;*/
+        /*}*/
 
-        .nd-lists {
-            position: absolute;
-        }
+        /*.nd-lists {*/
+            /*position: absolute;*/
+        /*}*/
 
-        .nd-picture {
-            width: 80px;
-            height: 60px;
-        }
+        /*.nd-picture {*/
+            /*width: 80px;*/
+            /*height: 60px;*/
+        /*}*/
 
-        .nd-list-title {
-            margin-left: 20px;
-        }
+        /*.nd-list-title {*/
+            /*margin-left: 20px;*/
+        /*}*/
 
-        .pagination {
-            margin-top: 20px;
-            text-align: right;
-        }
+        /*.pagination {*/
+            /*margin-top: 20px;*/
+            /*text-align: right;*/
+        /*}*/
 
-        .nv-container {
-            width: 100%;
-        }
+        /*.nv-container {*/
+            /*width: 100%;*/
+        /*}*/
 
-        .myCards1 {
-            width: 150px;
-            margin-top: 5px;
-            font-size: 5px;
-            text-align: left;
-            margin-left: 68px;
-        }
-    }
+        /*.myCards1 {*/
+            /*width: 150px;*/
+            /*margin-top: 5px;*/
+            /*font-size: 5px;*/
+            /*text-align: left;*/
+            /*margin-left: 68px;*/
+        /*}*/
+    /*}*/
 </style>

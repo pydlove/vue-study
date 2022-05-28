@@ -365,7 +365,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
         .obd-title {
             text-align: right;
             font-size: 16px;
@@ -447,7 +447,7 @@
             bottom: 0px;
             left: 0px;
         }
-    }
+    /*}*/
 </style>
 
 <style>

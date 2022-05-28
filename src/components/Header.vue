@@ -279,7 +279,7 @@
 </script>
 
 <style scoped>
-	@media screen and (min-width: 768px) {
+	/*@media screen and (min-width: 768px) {*/
 
 		.nd-connect{
 			text-align: left;
@@ -390,5 +390,5 @@
 			background: #fa541c !important;
 			color: #ffffff;
 		}
-	}
+	/*}*/
 </style>

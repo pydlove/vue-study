@@ -320,7 +320,7 @@
 
 <style scoped>
     /*媒体查询（电脑）*/
-    @media screen and (min-width: 768px) {
+    /*@media screen and (min-width: 768px) {*/
 
      .nd-picture{
          border-style: none;
@@ -696,7 +696,7 @@
             position: relative;
         }
 
-    }
+    /*}*/
 
     /*媒体查询（手机）*/
     /*@media screen and (max-width: 768px) {*/

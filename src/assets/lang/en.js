@@ -51,7 +51,7 @@ module.exports = {
         HaveObservationData: 'Have Observation',
         NoObservationDataEmpty: 'No Observation Data',
         AllDay: 'Query All Day',
-        lineSpectrum: 'Line Spectrum',
+        lineSpectrum: 'Spectral line',
         observingPattern: 'Obs. mode',
         ObservationCoordinate: 'Observation Coordinate',
         exposureTime: 'Exposure Time',
@@ -87,7 +87,7 @@ module.exports = {
         Add: "Add",
 
         introduction: 'Introduction',
-        results: 'Gallery',
+        results: 'GallerySystemName',
 
         beautifulImage: "Images",
         beautifulVideo: "Movies",
@@ -148,7 +148,7 @@ module.exports = {
         Welcome: "Welcome",
         WelcomeToRegister: "Welcome To Register",
         ForgetThePassword: "Forget The Password",
-        SystemName: "Sun Data Center of Nanjing University",
+        SystemName: "Solar Science Data Center of Nanjing University",
         InEmail: "Please enter your email",
         InRightEmail: "Please enter your vaild email",
         InPassword: "Please enter your password",
