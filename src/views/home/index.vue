@@ -163,7 +163,7 @@
                 <!--</div>-->
             <!--</div>-->
         <!--</div>-->
-        <Footer></Footer>
+        <Footer :language="language"></Footer>
     </div>
 
 </template>

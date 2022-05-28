@@ -82,4 +82,7 @@ export default {
 
     //观测数据图片预览
     web_service_v1_cl_observation_data_preview: "/web-service/v1/cl_observation_data/preview",
+
+    //关于我们
+    web_service_v1_nd_contact_us_searchListByType: "/web-service/v1/nd_contact_us/searchListByType",
 }
