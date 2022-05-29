@@ -1,6 +1,5 @@
 module.exports = {
     message: {
-        underConstruction: "under construction",
         login: 'Login',
         Username: 'Username',
         Password: 'Password',
