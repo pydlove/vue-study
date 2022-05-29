@@ -1,6 +1,6 @@
 <template>
     <!--eslint-disable-->
-  <!-- <div>
+   <div>
        <div v-if="language == 'zh'" class="nd-wehost">
            <div style="font-size: 16px; font-weight: 600; line-height: 28px;">
                CHASE 数据介绍
@@ -140,16 +140,7 @@
                        fit="contain"></el-image>
            </div>
        </div>
-   </div>-->
-    <div>
-        <div class="nd-policy" v-if="language == 'zh'">
-            <div v-html="form.content"></div>
-
-        </div>
-        <div class="nd-policy" v-else-if="language == 'en'">
-            <div v-html="form.enContent"></div>
-        </div>
-    </div>
+   </div>
 </template>
 <!--eslint-disable-->
 <script>
@@ -158,13 +149,6 @@
         data() {
             return {
                 language: "",
-                currentPage: 1,
-                pageSize: 10,
-                tableData: [],
-                form: {
-                    content: "",
-                    enContent: "",
-                }
             }
         },
         mounted() {
@@ -173,22 +157,6 @@
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
-                this.searchData(1,10);
-            },
-            async searchData(currentPage, pageSize) {
-                this.pageSize = pageSize;
-                this.currentPage = currentPage;
-                let params = new FormData();
-                params.append("page", this.currentPage);
-                params.append("limit", this.pageSize);
-                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_data_introduction_searchListByType, params, "POST");
-                if (data.code == 200) {
-                    this.tableData = data.data;
-                    if(this.tableData != null && this.tableData.length > 0) {
-                        this.form = this.tableData[0];
-                    }
-                    return true;
-                }
             },
         }
     }

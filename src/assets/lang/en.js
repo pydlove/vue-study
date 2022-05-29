@@ -228,6 +228,9 @@ module.exports = {
         downloadLogo: "Download the CHASE Logo",
 
         copyLink: 'Copy All Links',
+
+        softwareName: 'Software',
+        softwareIntroduction: 'Introduction',
     },
     menu:{
         home:'Home',

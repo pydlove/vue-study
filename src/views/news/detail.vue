@@ -18,9 +18,12 @@
             <div class="nd-news-list box-zing-a">
                 <div class="nd-new-right" :style="{ minHeight: (minHeight - 40) + 'px', }">
                     <div class="nd-new-title">
-                        <div v-if="language == 'zh'" class="nd-news-title">
+                        <div class="nd-news-title">
                             {{ this.form.title}}
                         </div>
+                        <!--<div v-if="language == 'zh'" class="nd-news-title">
+                            {{ this.form.title}}
+                        </div>-->
                        <!-- <div v-else-if="language == 'en'" class="nd-news-title">
                             {{ this.form.enTitle}}
                         </div>-->

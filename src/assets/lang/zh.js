@@ -226,6 +226,9 @@ module.exports = {
         downloadLogo: "下载“羲和号”卫星Logo",
 
         copyLink: '复制所有链接',
+
+        softwareName: '软件名',
+        softwareIntroduction: '简介',
     },
     menu:{
         home:'首页',

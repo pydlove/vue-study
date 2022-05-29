@@ -91,4 +91,10 @@ export default {
 
     //关于我们
     web_service_v1_nd_contact_us_searchListByType: "/web-service/v1/nd_contact_us/searchListByType",
+
+    // chase 数据介绍
+    web_service_v1_nd_data_introduction_searchListByType: "/web-service/v1/nd_data_introduction/searchListByType",
+
+    //分析软件
+    web_service_v1_nd_software_searchListByType: "/web-service/v1/nd_software/searchListByType",
 }
