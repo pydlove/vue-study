@@ -23,8 +23,8 @@
                                     <!--<div style="margin-right: 10px">MAC</div>-->
                                     <!--<div style="margin-right: 10px">Linux</div>-->
                                     <a class="cursor mr-10" :href="scope.row.windowsUrl">Windows</a>
-                                    <a class="cursor mr-10" :href="scope.row.windowsUrl">MAC</a>
-                                    <a class="cursor" :href="scope.row.windowsUrl">Linux</a>
+                                    <a class="cursor mr-10" :href="scope.row.macUrl">MAC</a>
+                                    <a class="cursor" :href="scope.row.linuxUrl">Linux</a>
                                 </div>
                             </template>
                         </el-table-column>
@@ -55,9 +55,9 @@
                             <template slot-scope="scope">
                                 <div v-html="scope.row.enTitle"></div>
                                 <div class="dffn-ac-jc">
-                                    <div style="margin-right: 10px">Windows</div>
-                                    <div style="margin-right: 10px">MAC</div>
-                                    <div style="margin-right: 10px">Linux</div>
+                                    <a class="cursor mr-10" :href="scope.row.windowsUrl">Windows</a>
+                                    <a class="cursor mr-10" :href="scope.row.macUrl">MAC</a>
+                                    <a class="cursor" :href="scope.row.linuxUrl">Linux</a>
                                 </div>
                             </template>
                         </el-table-column>
@@ -73,12 +73,6 @@
                     </el-table>
                 </div>
             </div>
-        </div>
-        <div class="nd-policy" v-if="language == 'zh'">
-            <div v-html="form.content"></div>
-        </div>
-        <div class="nd-policy" v-else-if="language == 'en'">
-            <div v-html="form.enContent"></div>
         </div>
     </div>
 </template>
