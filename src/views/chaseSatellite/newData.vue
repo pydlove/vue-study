@@ -1,25 +1,31 @@
 <template>
     <!--eslint-disable-->
     <div>
-        <div>
-            <viewer class="cursor dffn-ac">
-                <el-image
-                        class="nd-data-picture mr-20"
-                        :src="newData.imageHa"
-                        fit="contain"
-                        :preview-src-list="[newData.imageHa]"
-                ></el-image>
-                <el-image
-                        class="nd-data-picture"
-                        :src="newData.imageFe"
-                        fit="contain"
-                        :preview-src-list="[newData.imageFe]"
-                ></el-image>
-            </viewer>
+       <div v-if="tableData.length > 0">
+           <div>
+               <viewer class="cursor dffn-ac">
+                   <el-image
+                           class="nd-data-picture mr-20"
+                           :src="newData.imageHa"
+                           fit="contain"
+                           :preview-src-list="[newData.imageHa]"
+                   ></el-image>
+                   <el-image
+                           class="nd-data-picture"
+                           :src="newData.imageFe"
+                           fit="contain"
+                           :preview-src-list="[newData.imageFe]"
+                   ></el-image>
+               </viewer>
+           </div>
+           <el-select class="mt-20 wdi-300" v-model="newDataId" @change="searchImage">
+               <el-option v-for="(item, index) in tableData" :key="index" :label="item.dateStr" :value="item.id" ></el-option>
+           </el-select>
+       </div>
+
+        <div v-else>
+            {{$t('message.underConstruction')}}
         </div>
-        <el-select class="mt-20 wdi-300" v-model="newDataId" @change="searchImage">
-            <el-option v-for="(item, index) in tableData" :key="index" :label="item.dateStr" :value="item.id" ></el-option>
-        </el-select>
     </div>
 </template>
 <!--eslint-disable-->
@@ -62,6 +68,7 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_new_data_list, params, "POST");
                 if(data.code == 200) {
                     this.tableData = data.data;
+                    console.log(this.tableData )
                     if(this.tableData.length > 0) {
                         this.newDataId = this.tableData[0].id;
                         this.searchImage();

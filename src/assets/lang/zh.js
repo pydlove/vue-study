@@ -1,5 +1,6 @@
 module.exports = {
     message: {
+        underConstruction: "建设中",
         login: '登录',
         Username: '用户名',
         Password: '密码',
