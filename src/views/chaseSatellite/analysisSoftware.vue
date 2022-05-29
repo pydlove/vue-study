@@ -1,8 +1,6 @@
 <template>
     <!--eslint-disable-->
     <div class="nd-wehost">
-        <NormalHeader ref="normalHeaderRef" :currentMenu="'chaseSatellite'" @initLanguage="initLanguage"></NormalHeader>
-        <!--<van-empty image="search" :description="$t('message.underConstruction')"/>-->
         <div class="aiocloud-card1">
             <div class="nd-search-data">
                 <div class="nd-policy" v-if="language == 'zh'">
@@ -20,10 +18,13 @@
                                 align="center">
                             <template slot-scope="scope">
                                 <div v-html="scope.row.title"></div>
-                                <div style="display: flex;text-align: center">
-                                    <div style="margin-right: 10px">Windows</div>
-                                    <div style="margin-right: 10px">MAC</div>
-                                    <div style="margin-right: 10px">Linux</div>
+                                <div class="dffn-ac-jc">
+                                    <!--<div style="margin-right: 10px">Windows</div>-->
+                                    <!--<div style="margin-right: 10px">MAC</div>-->
+                                    <!--<div style="margin-right: 10px">Linux</div>-->
+                                    <a class="cursor mr-10" :href="scope.row.windowsUrl">Windows</a>
+                                    <a class="cursor mr-10" :href="scope.row.windowsUrl">MAC</a>
+                                    <a class="cursor" :href="scope.row.windowsUrl">Linux</a>
                                 </div>
                             </template>
                         </el-table-column>
@@ -53,7 +54,7 @@
                                 align="center">
                             <template slot-scope="scope">
                                 <div v-html="scope.row.enTitle"></div>
-                                <div style="display: flex;text-align: center">
+                                <div class="dffn-ac-jc">
                                     <div style="margin-right: 10px">Windows</div>
                                     <div style="margin-right: 10px">MAC</div>
                                     <div style="margin-right: 10px">Linux</div>
@@ -100,12 +101,12 @@
             }
         },
         mounted() {
+            this.searchData(1,10);
             this.initLanguage();
         },
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
-                this.searchData(1,10);
             },
             async searchData(currentPage, pageSize) {
                 this.pageSize = pageSize;
@@ -116,9 +117,9 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_software_searchListByType, params, "POST");
                 if (data.code == 200) {
                     this.tableData = data.data;
-                    console.log(this.tableData)
                     if(this.tableData != null && this.tableData.length > 0) {
                         this.form = this.tableData[0];
+                        console.log( this.form)
                     }
                     return true;
                 }

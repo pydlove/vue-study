@@ -26,7 +26,7 @@
                     <DataProduct v-if="type==0" ref="dataProductRef"></DataProduct>
                     <DataSearch v-if="type == 1" ref="dataSearchRef" @setTableData="setTableData"></DataSearch>
                     <NewData v-if="type==2"></NewData>
-                    <AnalysisSoftware v-if="type==3"></AnalysisSoftware>
+                    <AnalysisSoftware ref="analysisSoftwareRef" v-if="type==3"></AnalysisSoftware>
                     <FlareList ref="flareListRef" v-if="type == 4"></FlareList>
                     <DataUseRule ref="dataUseRuleRef" v-if="type == 5"></DataUseRule>
                 </div>
@@ -251,6 +251,9 @@
                 this.chaseMenus[5].name = this.$t('message.DataUseRule');
                 if(this.type == 0) {
                     this.$refs.dataProductRef.initLanguage();
+                }
+                if(this.type == 3) {
+                    this.$refs.analysisSoftwareRef.initLanguage();
                 }
                 if(this.type == 5) {
                     this.$refs.dataUseRuleRef.initLanguage();
