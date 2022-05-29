@@ -63,7 +63,7 @@
 				<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
 			</div>
 		</div>
-		<Footer></Footer>
+		<Footer ref="footerRef"></Footer>
 	</div>
 </template>
 <!--eslint-disable-->
@@ -151,6 +151,7 @@
                 this.images[1].name = this.$t('message.beautifulVideo');
                 this.images[2].name = this.$t('message.paperAchievement');
                 this.language = this.$i18n.locale;
+                this.$refs.footerRef.initLanguage();
             },
 
             selectEq(item, index) {

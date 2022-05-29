@@ -56,7 +56,7 @@
                     >
                         <el-table-column
                                 type="selection"
-                                width="55">
+                                width="45">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
@@ -69,14 +69,14 @@
                                 show-overflow-tooltip="true"
                                 prop="beginTime"
                                 :label="$t('message.startTime')"
-                                width="120"
+                                width="160"
                                 align="center">
                         </el-table-column>
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="endTime"
                                 :label="$t('message.endTime')"
-                                width="80"
+                                width="160"
                                 align="center">
                         </el-table-column>
                         <!--<el-table-column-->
@@ -89,7 +89,7 @@
                         <el-table-column
                                 show-overflow-tooltip="true"
                                 prop="lineSpectrum"
-                                width="150px"
+                                width="80px"
                                 :label="$t('message.LineSpectrum')"
                                 align="center"
                         >
@@ -130,9 +130,9 @@
                                 prop="picture"
                                 :label="$t('message.image')"
                                 align="center"
-                                width="150px">
+                                width="110px">
                             <template slot-scope="scope">
-                                <el-button class="wdi-120" type="primary" plain @click="previewImage(scope.row)">
+                                <el-button class="wdi-60" size="small" type="primary" plain @click="previewImage(scope.row)">
                                     {{$t('message.preview')}}
                                 </el-button>
                             </template>
@@ -157,7 +157,7 @@
                 <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
             </div>
         </div>
-        <Footer></Footer>
+        <Footer ref="footerRef"></Footer>
         <DownLoad ref="downloadRef"></DownLoad>
         <Preview ref="previewRef"></Preview>
     </div>
@@ -255,6 +255,7 @@
                 if(this.type == 5) {
                     this.$refs.dataUseRuleRef.initLanguage();
                 }
+                this.$refs.footerRef.initLanguage();
             },
             fmtLine(row){
                 var observationWaveLength = row.observationWaveLength;

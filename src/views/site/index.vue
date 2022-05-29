@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <Footer></Footer>
+        <Footer ref="footerRef"></Footer>
     </div>
 </template>
 <!--eslint-disable-->
@@ -75,6 +75,7 @@
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
+                this.$refs.footerRef.initLanguage();
             },
 
             jumpWeb1() {

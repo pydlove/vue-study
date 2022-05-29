@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <Footer></Footer>
+        <Footer ref="footerRef"></Footer>
     </div>
 </template>
 <!--eslint-disable-->
@@ -105,6 +105,7 @@
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
+                this.$refs.footerRef.initLanguage();
                 this.search(1, 10);
             },
             async search(currentPage, pageSize) {
@@ -270,8 +271,8 @@
             margin-top: 100px;
         }
 
-        .nd-tm-left, .nd-tm-right {
-            width: 44%;
+        .nd-tm-left {
+            width: 41%;
             text-align: left;
         }
 

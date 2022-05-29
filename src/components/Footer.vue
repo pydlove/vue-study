@@ -74,15 +74,15 @@
 <script>
     export default {
         name: "tail",
-        props: ["language"],
         mounted() {
-            if (this.clientWidth < 500) {
-                this.client = true;
-            }
             this.search(1, 10);
         },
 
         methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+            },
+
             aboutWe() {
                 let routeData = this.$router.resolve({
                     path: "/aboutWe",
@@ -101,8 +101,6 @@
                 params.append("limit", this.pageSize);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_contact_us_searchListByType, params, "POST");
                 if (data.code == 200) {
-                    console.log("地址");
-                    console.log(  data);
                     this.tableData = data.data;
                     if(this.tableData != null && this.tableData.length > 0) {
                         this.form = this.tableData[0];

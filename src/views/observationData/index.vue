@@ -134,7 +134,7 @@
                 <Pagination class="pagination" ref="pageRef" @search="search"></Pagination>
             </div>
         </div>
-        <Footer></Footer>
+        <Footer ref="footerRef"></Footer>
         <DownLoad ref="downloadRef"></DownLoad>
         <Preview ref="previewRef"></Preview>
     </div>
@@ -217,6 +217,7 @@
                 if(this.type == 3) {
                     this.$refs.useRuleRef.initLanguage();
                 }
+                this.$refs.footerRef.initLanguage();
             },
 
             previewImage(row){

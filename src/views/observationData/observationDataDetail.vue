@@ -212,7 +212,7 @@
             </div>
         </div>
 
-        <Footer></Footer>
+        <Footer ref="footerRef"></Footer>
         <Application ref="appref"></Application>
         <Preview ref="previewRef"></Preview>
     </div>
@@ -263,6 +263,7 @@
         methods: {
             initLanguage() {
                 this.language = this.$i18n.locale;
+                this.$refs.footerRef.initLanguage();
             },
 
             previewImage(row){

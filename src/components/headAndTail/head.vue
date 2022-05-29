@@ -96,7 +96,7 @@
         }
 
         .nd-tm-left, .nd-tm-right {
-            width: 44%;
+            width: 43%;
             text-align: left;
         }
 

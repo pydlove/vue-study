@@ -23,7 +23,7 @@
 
         </div>
 
-        <Footer></Footer>
+        <Footer ref="footerRef"></Footer>
     </div>
 </template>
 <!--eslint-disable-->
@@ -38,9 +38,16 @@
         },
         data() {
             return {
+                language: "zh",
                 tableData: [],
                 loading: true
             };
+        },
+        methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+                this.$refs.footerRef.initLanguage();
+            },
         }
     }
 </script>

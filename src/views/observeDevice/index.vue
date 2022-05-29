@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <Footer></Footer>
+        <Footer ref="footerRef"></Footer>
     </div>
 </template>
 <!--eslint-disable-->
@@ -80,6 +80,7 @@
                         this.$refs.weHotRef.initLanguage();
                     })
                 }
+                this.$refs.footerRef.initLanguage();
             },
 
             selectEq(item) {

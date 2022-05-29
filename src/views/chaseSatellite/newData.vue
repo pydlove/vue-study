@@ -5,78 +5,22 @@
             <viewer class="cursor dffn-ac">
                 <el-image
                         class="nd-data-picture mr-20"
-                        :src="newDataVO.imageHa"
+                        :src="newData.imageHa"
                         fit="contain"
-                        :preview-src-list="[newDataVO.imageHa]"
+                        :preview-src-list="[newData.imageHa]"
                 ></el-image>
                 <el-image
                         class="nd-data-picture"
-                        :src="item.newDataVO.imageFe"
+                        :src="newData.imageFe"
                         fit="contain"
-                        :preview-src-list="[newDataVO.imageFe]"
+                        :preview-src-list="[newData.imageFe]"
                 ></el-image>
             </viewer>
         </div>
-        <el-select class="mt-20" v-model="newDataId" placeholder="请选择最新数据"  @change="searchImage">
+        <el-select class="mt-20 wdi-300" v-model="newDataId" @change="searchImage">
             <el-option v-for="(item, index) in tableData" :key="index" :label="item.dateStr" :value="item.id" ></el-option>
         </el-select>
     </div>
-
-
-    <!--<div class="nv-container">-->
-        <!--<div class="tl mt-20">-->
-        <!--</div>-->
-
-        <!--<div class="nd-news-list" v-if="this.tableData.length > 0" >-->
-            <!--<div class="nd-list" v-for="(item, index) in this.tableData" :key="index">-->
-                <!--<el-image-->
-                        <!--class="nd-picture"-->
-                        <!--:src="item.picture"-->
-                        <!--:preview-src-list="[item.picture]"></el-image>-->
-                <!--<div>-->
-                    <!--<div class="nd-list-title">-->
-                        <!--<div class="nd-list-item">-->
-                            <!--<p>{{ $t('message.ObservationTime') }}:</p>-->
-                            <!--<p>{{ item.beginTime }}</p>-->
-                        <!--</div>-->
-                        <!--<div class="nd-list-item">-->
-                            <!--<p>{{ $t('message.ObservationTarget') }}:</p>-->
-                            <!--<p>{{ item.target }}</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<div class="nd-list-title">-->
-                        <!--<div class="nd-list-item">-->
-                            <!--<p>{{ $t('message.ExposureTime') }}:</p>-->
-                            <!--<p> {{ item.exposureTime }}</p>-->
-                        <!--</div>-->
-                        <!--<div class="nd-list-item">-->
-                            <!--<p>{{ $t('message.ObservationWavelength') }}:</p>-->
-                            <!--<p>{{ item.observationBand }}</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<div v-if="item.video != '' && item.video != null" class="nd-list-title">-->
-                        <!--<div class="nd-list-item">-->
-                            <!--<p>{{ $t('message.ObservationVideo') }}:</p>-->
-                            <!--<p>-->
-                                <!--<a :href="item.video" :download="item.video">-->
-                                    <!--{{ $t('message.downloadObsVideo') }}-->
-                                <!--</a>-->
-                            <!--</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-            <!--<Pagination class="pagination" ref="pageRef" @search="search"></Pagination>-->
-        <!--</div>-->
-
-        <!--<div v-else>-->
-            <!--<van-empty image="search" :description="$t('message.NoObservationDataEmpty')"/>-->
-        <!--</div>-->
-
-    <!--</div>-->
 </template>
 <!--eslint-disable-->
 <script>
@@ -85,12 +29,33 @@
 
     export default {
         name: "newData",
+        data() {
+            return {
+                newData: {
+                    imageHa: "",
+                    imageFe: "",
+                },
+                newDataId: "",
+                beginTime: "",
+                endTime: "",
+                currentPage: 1,
+                pageSize: 10,
+                tableData: [],
+                radio: '',
+                dataDetail: [],
+                form: {
+                    date: "1",
+                }
+            }
+        },
         mounted() {
+            this.newData = {
+                imageHa: "",
+                imageFe: "",
+            };
             this.initList();
         },
-
         methods: {
-
             async initList(){
                 let params = new FormData();
                 params.append("type", "chase");
@@ -110,30 +75,12 @@
                 params.append("id", this.newDataId);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_nd_new_data_image, params, "POST");
                 if(data.code == 200) {
-                    this.newDataVO = data.data;
+                    this.newData = data.data;
                     return true;
                 }
             },
 
         },
-        data() {
-            return {
-                newDataVO: "",
-                newData: "",
-                newDataId: "",
-                beginTime: "",
-                endTime: "",
-                currentPage: 1,
-                pageSize: 10,
-                tableData: [],
-                radio: '',
-                dataDetail: [],
-                form: {
-                    date: "1",
-                }
-            }
-        }
-
     }
 </script>
 

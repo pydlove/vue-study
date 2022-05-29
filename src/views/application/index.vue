@@ -1,7 +1,7 @@
 <template>
 	<!--eslint-disable-->
 	<div class="nd-container">
-		<NormalHeader ref="normalHeaderRef" :currentMenu="'application'" @reloadApplications="reloadApplications"></NormalHeader>
+		<NormalHeader ref="normalHeaderRef" :currentMenu="'application'" @initLanguage="initLanguage" @reloadApplications="reloadApplications"></NormalHeader>
 		<el-breadcrumb separator-class="el-icon-arrow-right" class="nd-breadcrumb-top">
 			<el-breadcrumb-item :to="{ path: '/home' }">
 				<i class="el-icon-s-home"></i>
@@ -19,7 +19,7 @@
 				</div>
 			</div>
 		</div>
-		<Footer></Footer>
+		<Footer ref="footerRef"></Footer>
 	</div>
 </template>
 <!--eslint-disable-->
@@ -37,12 +37,18 @@
         },
         data() {
             return {
+                language: "zh",
             }
         },
         mounted() {
             this.getUserInfo();
         },
         methods: {
+            initLanguage() {
+                this.language = this.$i18n.locale;
+                this.$refs.footerRef.initLanguage();
+            },
+
             async getUserInfo() {
                 let params = new FormData();
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login_getUser, params, "POST");

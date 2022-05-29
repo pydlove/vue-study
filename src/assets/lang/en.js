@@ -87,7 +87,7 @@ module.exports = {
         Add: "Add",
 
         introduction: 'Introduction',
-        results: 'GallerySystemName',
+        results: 'Gallery',
 
         beautifulImage: "Images",
         beautifulVideo: "Movies",
@@ -270,7 +270,7 @@ module.exports = {
     },
     el: {
         table: {
-            emptyText: 'el-table-emptyText',
+            emptyText: 'table emptyText',
         },
         datepicker: {
             now: 'now',

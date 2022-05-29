@@ -163,7 +163,7 @@
                 <!--</div>-->
             <!--</div>-->
         <!--</div>-->
-        <Footer :language="language"></Footer>
+        <Footer ref="footerRef"></Footer>
     </div>
 
 </template>
@@ -209,7 +209,8 @@
         },
         methods: {
             initLanguage() {
-                this.language = this.$i18n.locale ;
+                this.language = this.$i18n.locale;
+                this.$refs.footerRef.initLanguage();
             },
 
             toObservationDevice(index) {
@@ -497,7 +498,7 @@
         }
 
         .nd-tm-left, .nd-tm-right {
-            width: 44%;
+            width: 43%;
             text-align: left;
         }
 
