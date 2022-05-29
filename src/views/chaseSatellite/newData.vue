@@ -23,7 +23,7 @@
            </el-select>
        </div>
 
-        <div v-else>
+        <div v-else class="no-data">
             {{$t('message.underConstruction')}}
         </div>
     </div>
@@ -96,6 +96,14 @@
 
     /*媒体查询（电脑）*/
     /*@media screen and (min-width: 768px) {*/
+
+        .no-data {
+            line-height: 200px;
+            text-align: center;
+            width: 600px;
+            color: #bfbfbf;
+            font-size: 14px;
+        }
         .nd-data-picture{
             border-style: none;
             width: 310px;
