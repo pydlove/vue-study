@@ -313,7 +313,7 @@ module.exports = {
         },
         title: {
             fileDownload: '文件下载',
-            preview:'图片预览',
+            preview:'预览',
         },
     },
     week: {
