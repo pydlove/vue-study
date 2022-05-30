@@ -1,27 +1,33 @@
 <template>
     <!--eslint-disable-->
     <div>
-        <div>
-            <viewer class="cursor dffn-ac">
-                <el-image
-                        class="nd-data-picture mr-20"
-                        :src="newDataVO.imageHa"
-                        fit="contain"
-                        :preview-src-list="[newDataVO.imageHa]"
-                ></el-image>
-                <el-image
-                        class="nd-data-picture"
-                        :src="newDataVO.imageFe"
-                        fit="contain"
-                        :preview-src-list="[newDataVO.imageFe]"
-                ></el-image>
-            </viewer>
+        <div v-if="tableData.length > 0">
+            <div>
+                <viewer class="cursor dffn-ac">
+                    <el-image
+                            class="nd-data-picture mr-20"
+                            :src="newDataVO.imageHa"
+                            fit="contain"
+                            :preview-src-list="[newDataVO.imageHa]"
+                    ></el-image>
+                    <el-image
+                            class="nd-data-picture"
+                            :src="newDataVO.imageFe"
+                            fit="contain"
+                            :preview-src-list="[newDataVO.imageFe]"
+                    ></el-image>
+                </viewer>
+            </div>
+            <el-select class="mt-20" v-model="newDataId" placeholder="请选择最新数据"  @change="searchImage">
+                <el-option v-for="(item, index) in tableData" :key="index" :label="item.dateStr" :value="item.id" ></el-option>
+            </el-select>
         </div>
-        <el-select class="mt-20" v-model="newDataId" placeholder="请选择最新数据"  @change="searchImage">
-            <el-option v-for="(item, index) in tableData" :key="index" :label="item.dateStr" :value="item.id" ></el-option>
-        </el-select>
-    </div>
 
+
+        <div v-else class="no-data">
+            {{$t('message.underConstruction')}}
+        </div>
+    </div>
 
     <!--<div class="nv-container">-->
     <!--<div class="tl mt-20">-->
@@ -142,6 +148,14 @@
 
     /*媒体查询（电脑）*/
     /*@media screen and (min-width: 768px) {*/
+
+    .no-data {
+        line-height: 200px;
+        text-align: center;
+        width: 600px;
+        color: #bfbfbf;
+        font-size: 14px;
+    }
     .nd-data-picture{
         border-style: none;
         width: 310px;
