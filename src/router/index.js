@@ -69,8 +69,8 @@ const router = new Router({
             component: (resolve) => require(['../views/aboutWe/index.vue'], resolve),
         },
         {
-            path: '/chaseSatellite',
-            name: 'chaseSatellite',
+            path: '/NdchaseSatellite',
+            name: 'NdchaseSatellite',
             component: (resolve) => require(['../views/chaseSatellite/index.vue'], resolve),
         },
         {

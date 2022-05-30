@@ -142,7 +142,7 @@
             //跳转到观测数据集页面
             handleCommand(command) {
                 if(command == "0"){
-                    this.$router.push({path: '/chaseSatellite'});
+                    this.$router.push({path: '/NdchaseSatellite'});
 				} else if(command == "1"){
                     this.$router.push({path: '/observationData'});
 				} else if(command == "2"){
