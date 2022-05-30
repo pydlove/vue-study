@@ -334,7 +334,6 @@
              * @author panyong
              */
             async search(currentPage, pageSize) {
-                console.log(this.observationDataDetail);
                 this.currentPage = currentPage;
                 this.pageSize = pageSize;
                 let params = new FormData()
@@ -344,7 +343,6 @@
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_cl_observation_data_detail, params, "POST");
                 if (data.code == 200) {
                     this.tableData = data.data;
-                    console.log(this.tableData);
                     this.$refs.pageRef.totalCount = data.totalCount;
                 }
             },
