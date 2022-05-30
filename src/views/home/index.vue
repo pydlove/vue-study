@@ -498,7 +498,7 @@
         }
 
         .nd-tm-left, .nd-tm-right {
-            width: 43%;
+            width: 50%;
             text-align: left;
         }
 

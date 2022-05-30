@@ -329,7 +329,7 @@ module.exports = {
             total: "total",
             goto: "goto",
             pageClassifier: "page",
-            pagesize: 'pagesize'
+            pagesize: 'page'
         },
         title: {
             fileDownload: 'File Downloading',

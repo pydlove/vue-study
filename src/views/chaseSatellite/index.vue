@@ -132,7 +132,7 @@
                                 align="center"
                                 width="110px">
                             <template slot-scope="scope">
-                                <el-button class="wdi-60" size="small" type="primary" plain @click="previewImage(scope.row)">
+                                <el-button size="mini" type="primary" plain @click="previewImage(scope.row)">
                                     {{$t('message.preview')}}
                                 </el-button>
                             </template>

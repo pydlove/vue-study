@@ -272,7 +272,7 @@
         }
 
         .nd-tm-left {
-            width: 41%;
+            width: 50%;
             text-align: left;
         }
 

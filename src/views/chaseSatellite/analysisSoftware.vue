@@ -15,7 +15,7 @@
                             <el-table-column
                                     show-overflow-tooltip="true"
                                     :label="$t('message.softwareName')"
-                                    width="300"
+                                    width="260"
                                     align="center">
                                 <template slot-scope="scope">
                                     <div class="nd-soft-title" v-html="scope.row.title"></div>
@@ -32,7 +32,7 @@
                             <el-table-column
                                     show-overflow-tooltip="true"
                                     :label="$t('message.softwareIntroduction')"
-                                    width="300"
+                                    width="360"
                                     align="center">
                                 <template slot-scope="scope">
                                     <div class="nd-soft-content" v-html="scope.row.content"></div>
@@ -68,7 +68,7 @@
                             <el-table-column
                                     show-overflow-tooltip="true"
                                     :label="$t('message.softwareIntroduction')"
-                                    width="300"
+                                    width="340"
                                     align="center">
                                 <template slot-scope="scope">
                                     <div class="nd-soft-content" v-html="scope.row.enContent"></div>
@@ -145,7 +145,7 @@
 
     .nd-soft-content {
         margin-top: 14px;
-        align-content: center;
+        text-align: left;
     }
 
     .el-soft {
