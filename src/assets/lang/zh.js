@@ -146,7 +146,7 @@ module.exports = {
         Welcome: "欢迎使用",
         WelcomeToRegister: "欢迎注册",
         ForgetThePassword: "忘记密码",
-        SystemName: "南京大学太阳数据中心",
+        SystemName: "南京大学太阳科学数据中心",
         InEmail: "请输入邮箱",
         InRightEmail: "请输入正确的邮箱",
         InPassword: "请输入登录密码",
