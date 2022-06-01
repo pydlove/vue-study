@@ -31,8 +31,8 @@
             <el-form-item :label="$t('message.Instruments')" prop="instruments">
                 <el-select size="small" v-model="searchform.instruments"
                            :placeholder="$t('message.instrumentsPlaceholder')">
-                    <el-option :label="$t('OnSet')" value="0"></el-option>
-                    <el-option :label="$t('WeHost')" value="1"></el-option>
+                    <el-option :label="$t('ONSET')" value="0"></el-option>
+                    <el-option :label="$t('WeHoST')" value="1"></el-option>
                 </el-select>
             </el-form-item>
 
