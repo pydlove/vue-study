@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="chase-flare">
 		<!--<el-table-->
 				<!--:data="tableData"-->
 				<!--style="width: 640px">-->
@@ -152,6 +152,10 @@
 </script>
 
 <style scoped>
+	.chase-flare {
+		width: 640px;
+	}
+
 	.nd-policy {
 		font-size: 14px;
 		line-height: 24px;
@@ -160,7 +164,7 @@
 	}
 
 	/*媒体查询（电脑）*/
-	@media screen and (min-width: 768px) {
+	/*@media screen and (min-width: 768px) {*/
 		.useRuleTitle {
 			font-size: 20px;
 			margin: 10px;
@@ -173,5 +177,12 @@
 			line-height: 28px;
 			text-align: left;
 		}
-	}
+	/*}*/
+</style>
+
+<style>
+	/*.chase-flare td {*/
+		/*line-height: 40px !important;*/
+	/*}*/
+
 </style>
