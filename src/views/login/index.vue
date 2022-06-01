@@ -11,7 +11,7 @@
 							<div class="glkzt">
 								{{ $t('message.Welcome') }}
 							</div>
-							<div class="glkzt1" style="width: 375px !important;">
+							<div class="glkzt1" style="width: 420px !important;">
 								{{ $t('message.SystemName') }}
 							</div>
 
@@ -63,7 +63,7 @@
 							<div class="rglkzt">
 								{{ $t('message.WelcomeToRegister') }}
 							</div>
-							<div class="glkzt1" style="width: 375px !important;">
+							<div class="glkzt1" style="width: 420px !important;">
 								{{ $t('message.SystemName') }}
 							</div>
 

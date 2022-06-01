@@ -4,21 +4,31 @@
        <div v-if="tableData.length > 0">
            <div>
                <viewer class="cursor dffn-ac">
-                   <el-image
-                           class="nd-data-picture mr-20"
-                           :src="newData.imageHa"
-                           fit="contain"
-                           :preview-src-list="[newData.imageHa]"
-                   ></el-image>
-                   <el-image
-                           class="nd-data-picture"
-                           :src="newData.imageFe"
-                           fit="contain"
-                           :preview-src-list="[newData.imageFe]"
-                   ></el-image>
+                    <div>
+                        <el-image
+                                class="nd-data-picture mr-20"
+                                :src="newData.imageHa"
+                                fit="contain"
+                                :preview-src-list="[newData.imageHa]"
+                        ></el-image>
+                        <div class="mt-15 fs-14">
+                            Ha
+                        </div>
+                    </div>
+                    <div>
+                        <el-image
+                                class="nd-data-picture"
+                                :src="newData.imageFe"
+                                fit="contain"
+                                :preview-src-list="[newData.imageFe]"
+                        ></el-image>
+                        <div class="mt-15 fs-14">
+                            Fe
+                        </div>
+                    </div>
                </viewer>
            </div>
-           <el-select class="mt-20 wdi-300" v-model="newDataId" @change="searchImage">
+           <el-select class="chase-new-data mt-20 wdi-300" v-model="newDataId" @change="searchImage">
                <el-option v-for="(item, index) in tableData" :key="index" :label="item.dateStr" :value="item.id" ></el-option>
            </el-select>
        </div>
@@ -247,4 +257,10 @@
             /*margin-left: 68px;*/
         /*}*/
     /*}*/
+</style>
+
+<style>
+    .chase-new-data .el-input__inner {
+        text-align: center !important;
+    }
 </style>
