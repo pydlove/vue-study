@@ -146,6 +146,7 @@
     .nd-soft-content {
         margin-top: 14px;
         text-align: left;
+        white-space: pre-wrap;
     }
 
     .el-soft {
