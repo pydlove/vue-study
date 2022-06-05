@@ -38,7 +38,6 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
   response => {
-      console.log(response, 'response')
       if (loadingOptions.isLoading) {
           setTimeout(() => {
               loadingInstance.close()

@@ -200,7 +200,6 @@
         mounted() {
             this.clientWidth = document.body.clientWidth;
             this.clientHeight = document.body.clientHeight;
-            this.initLanguage();
         },
         methods: {
             //页面关闭
