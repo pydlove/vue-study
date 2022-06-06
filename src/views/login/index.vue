@@ -284,7 +284,12 @@
                         if (errMsg) {
                             return false;
                         } else {
-                            this.sendCode(type);
+                            if(this.emailIsRegister) {
+                                this.$promptMsg(this.$t('message.HasRegister'), "error");
+                                return false;
+                            } else {
+                                this.sendCode(type);
+                            }
                         }
                     });
                 }
