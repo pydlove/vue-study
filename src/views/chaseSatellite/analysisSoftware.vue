@@ -30,7 +30,6 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                    show-overflow-tooltip="true"
                                     :label="$t('message.softwareIntroduction')"
                                     width="360"
                                     align="center">
@@ -66,7 +65,6 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                    show-overflow-tooltip="true"
                                     :label="$t('message.softwareIntroduction')"
                                     width="340"
                                     align="center">
