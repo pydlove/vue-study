@@ -123,7 +123,6 @@
                     this.tableData = data.data;
                     if (this.tableData != null && this.tableData.length > 0) {
                         this.form = this.tableData[0];
-                        console.log(this.form)
                     }
                     return true;
                 }

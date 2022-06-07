@@ -21,6 +21,9 @@ export default {
 
     // 废弃 web_service_v1_web_flare_list: "/web-service/v1/web_flare/list",
 
+    // 用户须知
+    web_service_v1_web_user_notice: "/web-service/v1/web_user_notice/",
+
     // chase 数据政策
     web_service_v1_nd_chase_policy: "/web-service/v1/nd_chase_policy/",
 

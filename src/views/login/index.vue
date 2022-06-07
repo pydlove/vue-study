@@ -11,7 +11,7 @@
 							<div class="glkzt">
 								{{ $t('message.Welcome') }}
 							</div>
-							<div class="glkzt1" style="width: 375px !important;">
+							<div class="glkzt1" style="width: 420px !important;">
 								{{ $t('message.SystemName') }}
 							</div>
 
@@ -63,7 +63,7 @@
 							<div class="rglkzt">
 								{{ $t('message.WelcomeToRegister') }}
 							</div>
-							<div class="glkzt1" style="width: 375px !important;">
+							<div class="glkzt1" style="width: 420px !important;">
 								{{ $t('message.SystemName') }}
 							</div>
 
@@ -200,7 +200,6 @@
         mounted() {
             this.clientWidth = document.body.clientWidth;
             this.clientHeight = document.body.clientHeight;
-            this.initLanguage();
         },
         methods: {
             //页面关闭
@@ -285,7 +284,12 @@
                         if (errMsg) {
                             return false;
                         } else {
-                            this.sendCode(type);
+                            if(this.emailIsRegister) {
+                                this.$promptMsg(this.$t('message.HasRegister'), "error");
+                                return false;
+                            } else {
+                                this.sendCode(type);
+                            }
                         }
                     });
                 }

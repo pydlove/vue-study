@@ -9,37 +9,53 @@
 		           :before-close="close"
 					top="12vh"
 		>
-			<UseRule></UseRule>
+			<div>
+				<div v-if="language == 'zh'" v-html="userNotice.chContent"></div>
+				<div v-if="language == 'en'" v-html="userNotice.enContent"></div>
+			</div>
 			<span slot="footer" class="tc">
-		        <el-button @click="dialogVisible = false">取 消</el-button>
+		        <el-button @click="dialogVisible = false">关 闭</el-button>
 			</span>
 		</el-dialog>
 	</div>
 </template>
 <!--eslint-disable-->
 <script>
-    import UseRule from "@/views/observationData/useRule.vue"
-
     export default {
         name: "userNotice",
-        components: {
-            UseRule
-        },
         data() {
             return {
                 dialogVisible: false,
+                userNotice: "",
+                language: "zh",
             }
         },
         mounted() {
-
         },
         methods: {
             open() {
                 this.dialogVisible = true;
+                this.initLanguage();
+                this.searchData();
             },
 
             close() {
                 this.dialogVisible = false;
+            },
+
+            initLanguage() {
+                console.log( this.language)
+                this.language = this.$i18n.locale;
+            },
+
+            async searchData() {
+                let params = new FormData();
+                let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_web_user_notice, params, "POST");
+                if (data.code == 200) {
+                    this.userNotice = data.data;
+                    console.log(this.userNotice)
+                    return true;
+                }
             },
         }
     }

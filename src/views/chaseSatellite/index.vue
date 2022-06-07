@@ -238,6 +238,18 @@
         },
 
         mounted() {
+            let chasePagePage = this.$utils.getStorage("chasePagePage");
+            if(chasePagePage) {
+                this.menu = chasePagePage;
+                this.type = chasePagePage.type;
+                if (this.type == 1) {
+                    this.dataType = true;
+                    this.hightType = "height: 300px; ";
+                } else {
+                    this.dataType = false;
+                    this.hightType = "";
+                }
+            }
             this.initLanguage();
         },
 
@@ -361,6 +373,7 @@
                 this.type = item.type;
                 this.menu = item;
                 this.$utils.setStorage("chaseSatelliteIndex", index);
+                this.$utils.setStorage("chasePagePage", item);
             },
 
             /********************************** 数据查询逻辑开始 ***********************************/

@@ -30,7 +30,9 @@
         methods: {
             open() {
                 this.dialogVisible = true;
-                this.$refs.loginRef.initLanguage();
+                this.$nextTick(() => {
+                    this.$refs.loginRef.initLanguage();
+                })
             },
 
             close() {

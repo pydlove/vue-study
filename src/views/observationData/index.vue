@@ -202,6 +202,18 @@
             }
         },
         mounted() {
+            let onsetPage = this.$utils.getStorage("onsetPage");
+            if(onsetPage) {
+                this.menu = onsetPage;
+                this.type = onsetPage.type;
+                if (this.type == 1) {
+                    this.dataType = true;
+                    this.hightType = "height: 300px; ";
+                } else {
+                    this.dataType = false;
+                    this.hightType = "";
+                }
+            }
             this.initLanguage();
         },
 
@@ -320,6 +332,7 @@
                 this.type = item.type;
                 this.menu = item;
                 this.$utils.setStorage("observationDataIndex", index);
+                this.$utils.setStorage("onsetPage", item);
             },
 
             /********************************** 数据查询逻辑开始 ***********************************/
