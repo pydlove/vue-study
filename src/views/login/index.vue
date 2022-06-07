@@ -79,7 +79,7 @@
 									<span class="pwd-icon"></span>
 									<el-form-item class="wp-100" label="" prop="regPwd" required>
 										<el-input class="srin" v-model="registerForm.regPwd"
-										          :placeholder="$t('message.InPasswordRegister')" show-password></el-input>
+										          :placeholder="$t('message.InPassword')" show-password></el-input>
 									</el-form-item>
 								</div>
 
@@ -223,13 +223,20 @@
 
             async loginRequest() {
                 if(this.loginForm.verificationCode.length != 4) {
-                    this.$promptMsg("请输入正确的验证码", "error");
+                    // this.$promptMsg("请输入正确的验证码", "error");
+
+                    this.$message({
+                        message: this.$t('message.inRightCode'),
+                        type: 'error'
+                    });
+                    return;
                 }
                 let params = new FormData()
                 params.append("email", this.loginForm.email.trim());
                 params.append("password", this.$md5(this.loginForm.password));
                 params.append("verificationCode", this.loginForm.verificationCode.trim());
                 params.append("rememberMe", this.loginForm.rememberMe);
+                params.append("language", this.language);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_login, params, "POST");
                 if (data.code == 200) {
                     this.$utils.setStorage("aiocloudToken", data.data);
@@ -285,7 +292,12 @@
                             return false;
                         } else {
                             if(this.emailIsRegister) {
-                                this.$promptMsg(this.$t('message.HasRegister'), "error");
+                                // this.$promptMsg(this.$t('message.HasRegister'), "error");
+
+                                this.$message({
+                                    message: this.$t('message.HasRegister'),
+                                    type: 'error'
+                                });
                                 return false;
                             } else {
                                 this.sendCode(type);
@@ -351,9 +363,15 @@
                     params.append("email", this.forgetForm.fgEmail);
                 }
                 params.append("type", type);
+                params.append("language", this.language);
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_send, params, "POST");
                 if(data.code == 200){
-                    this.$promptMsg(this.$t('message.sendCode'), "success");
+                    // this.$promptMsg(this.$t('message.sendCode'), "success");
+
+                    this.$message({
+                        message: this.$t('message.sendCode'),
+                        type: 'success'
+                    });
                     return true;
                 }
             },
@@ -394,11 +412,72 @@
                 this.$refs['regForm'].validate((valid) => {
                     if (valid) {
                         if(this.emailIsRegister) {
-                            this.$promptMsg(this.$t('message.HasRegister'), "error");
+                            // this.$notify({
+                            //     title: this.$t('message.Error'),
+                            //     message: this.$t('message.HasRegister'),
+                            //     type: "error"
+                            // });
+
+                            this.$message({
+                                message: this.$t('message.HasRegister'),
+                                type: 'error'
+                            });
+                            return false;
+                        }
+
+                        var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+                        if(!strRegex.test(this.registerForm.regEmail)){
+                            // this.$notify({
+                            //     title: this.$t('message.Error'),
+                            //     message: this.$t('message.InRightEmail'),
+                            //     type: "error"
+                            // });
+
+                            this.$message({
+                                message: this.$t('message.InRightEmail'),
+                                type: 'error'
+                            });
+                            return false;
+                        }
+
+                        var pwdReg = new RegExp("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,16}");
+                        if (this.registerForm.regPwd.length < 6) {
+                            // this.$notify({
+                            //     position: 'top',
+                            //     title: this.$t('message.Error'),
+                            //     message: this.$t('message.InPassword6'),
+                            //     type: "error"
+                            // });
+
+                            this.$message({
+                                message: this.$t('message.InPassword6'),
+                                type: 'error'
+                            });
+                            return false;
+                        } else if(!(pwdReg.test(this.registerForm.regPwd))) {
+                            // this.$notify({
+                            //     title: this.$t('message.Error'),
+                            //     message: this.$t('message.InPasswordLow'),
+                            //     type: "error"
+                            // });
+
+                            this.$message({
+                                message: this.$t('message.InPasswordLow'),
+                                type: 'error'
+                            });
                             return false;
                         }
                         if (this.registerForm.regPwd != this.registerForm.pwdagain) {
-                            this.$promptMsg(this.$t('message.pwdNotSame'), "error")
+                            // this.$notify({
+                            //     title: this.$t('message.Error'),
+                            //     message: this.$t('message.pwdNotSame'),
+                            //     type: "error"
+                            // });
+
+                            this.$message({
+                                message: this.$t('message.pwdNotSame'),
+                                type: 'error'
+                            });
                             return false;
                         }
                         this.submitRequest();
@@ -413,10 +492,17 @@
                 params.append("email", this.registerForm.regEmail.trim());
                 params.append("password", this.$md5(this.registerForm.regPwd));
                 params.append("verificationCode", this.registerForm.registrationCode.trim());
+                params.append("language", this.language);
                 this.disabled = true;
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_register, params, "POST");
                 if (data.code == 200) {
-                    this.$promptMsg(this.$t('message.RegisterSuccess'), "success");
+                    // this.$promptMsg(this.$t('message.RegisterSuccess'), "success");
+
+                    this.$message({
+                        message: this.$t('message.RegisterSuccess'),
+                        type: 'success'
+                    });
+
                     this.disabled = false;
                     this.clearRegForm();
                     this.toLogin();
@@ -457,6 +543,7 @@
                 params.append("email", this.forgetForm.fgEmail.trim());
                 params.append("password", this.$md5(this.forgetForm.fgPwd));
                 params.append("verificationCode", this.forgetForm.fgCode.trim());
+                params.append("language", this.language);
                 console.log( this.forgetForm)
                 let data = await this.$aiorequest(this.$aiocUrl.web_service_v1_email_forget, params, "POST");
                 if (data.code == 200) {
@@ -549,14 +636,15 @@
                         {type: 'string', required: true, message: this.$t('message.InEmail'), trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
-                                var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-                                if(!strRegex.test(value)){
-                                    callback(new Error(this.$t('message.InRightEmail')));
-                                    return false;
-                                }
-                                else{
-                                    callback();
-                                }
+                                // var strRegex = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+                                // if(!strRegex.test(value)){
+                                //     callback(new Error(this.$t('message.InRightEmail')));
+                                //     return false;
+                                // }
+                                // else{
+                                //     callback();
+                                // }
+                                callback();
                             }, trigger: ['change', 'blur']
                         }
                     ],
@@ -564,15 +652,16 @@
                         {type: 'string', required: true, message: this.$t('message.InPassword'), trigger: ['change', 'blur']},
                         {
                             validator: function (rule, value, callback) {
-                                var pwdReg = new RegExp("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,16}");
-                                if (value.length < 6) {
-                                    callback(new Error(this.$t('message.InPassword6')));
-                                } else if(!(pwdReg.test(value))) {
-                                    var pwdErrorMsg = this.$t('message.InPasswordLow');
-                                    callback(new Error(pwdErrorMsg));
-                                } else {
-                                    callback();
-                                }
+                                // var pwdReg = new RegExp("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,16}");
+                                // if (value.length < 6) {
+                                //     callback(new Error(this.$t('message.InPassword6')));
+                                // } else if(!(pwdReg.test(value))) {
+                                //     var pwdErrorMsg = this.$t('message.InPasswordLow');
+                                //     callback(new Error(pwdErrorMsg));
+                                // } else {
+                                //     callback();
+                                // }
+                                callback();
                             }, trigger: ['change', 'blur']
                         }
                     ],
@@ -732,7 +821,7 @@
 
 		.gnc {
 			width: 500px;
-			height: 500px;
+			height: 540px;
 			display: flex;
 			justify-content: center;
 		}
@@ -879,7 +968,7 @@
 		/*注册*/
 		.reg_content {
 			width: 480px;
-			height: 530px;
+			height: 580px;
 			box-sizing: border-box;
 			padding: 0 50px;
 			border-radius: 5px;
@@ -922,7 +1011,7 @@
 		}
 		.reg_gnc {
 			width: 500px;
-			height: 580px;
+			height: 630px;
 			display: flex;
 			justify-content: center;
 		}
@@ -1047,7 +1136,7 @@
 			position: relative;
 			background-image:url('../../assets/img/background/bg1.png');
 			width: 800px;
-			height: 600px;
+			height: 690px;
 		}
 	/*}*/
 
