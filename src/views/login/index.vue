@@ -79,14 +79,14 @@
 									<span class="pwd-icon"></span>
 									<el-form-item class="wp-100" label="" prop="regPwd" required>
 										<el-input class="srin" v-model="registerForm.regPwd"
-										          :placeholder="$t('message.InPassword')" show-password></el-input>
+										          :placeholder="$t('message.InPassword')" show-password @blur="checkPwd()"></el-input>
 									</el-form-item>
 								</div>
 
 								<div class="srr">
 									<span class="pwd-icon"></span>
 									<el-form-item class="wp-100" label="" prop="pwdagain" required>
-										<el-input class="srin" v-model="registerForm.pwdagain" :placeholder=" $t('message.InPasswordAgain')" show-password></el-input>
+										<el-input class="srin" v-model="registerForm.pwdagain" :placeholder=" $t('message.InPasswordAgain')" show-password @blur="checkPwdAgain()"></el-input>
 									</el-form-item>
 								</div>
 
@@ -406,6 +406,52 @@
 
             toSee() {
                 this.$refs.userNoticeRef.open();
+            },
+
+            checkPwd() {
+              var pwdReg = new RegExp("(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,16}");
+              if (this.registerForm.regPwd.length < 6) {
+                // this.$notify({
+                //     position: 'top',
+                //     title: this.$t('message.Error'),
+                //     message: this.$t('message.InPassword6'),
+                //     type: "error"
+                // });
+
+                this.$message({
+                  message: this.$t('message.InPassword6'),
+                  type: 'error'
+                });
+                return false;
+              } else if(!(pwdReg.test(this.registerForm.regPwd))) {
+                // this.$notify({
+                //     title: this.$t('message.Error'),
+                //     message: this.$t('message.InPasswordLow'),
+                //     type: "error"
+                // });
+
+                this.$message({
+                  message: this.$t('message.InPasswordLow'),
+                  type: 'error'
+                });
+                return false;
+              }
+            },
+
+            checkPwdAgain() {
+              if (this.registerForm.regPwd != this.registerForm.pwdagain) {
+                // this.$notify({
+                //     title: this.$t('message.Error'),
+                //     message: this.$t('message.pwdNotSame'),
+                //     type: "error"
+                // });
+
+                this.$message({
+                  message: this.$t('message.pwdNotSame'),
+                  type: 'error'
+                });
+                return false;
+              }
             },
 
             register() {
