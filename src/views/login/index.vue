@@ -228,7 +228,8 @@
                     this.$message({
                         message: this.$t('message.inRightCode'),
                         type: 'error',
-                        duration: 5000
+                        duration: 5000,
+                        offset: 100
                     });
                     return;
                 }
@@ -298,7 +299,8 @@
                                 this.$message({
                                     message: this.$t('message.HasRegister'),
                                     type: 'error',
-                                    duration: 5000
+                                    duration: 5000,
+                                  offset: 100
                                 });
                                 return false;
                             } else {
@@ -373,7 +375,8 @@
                     this.$message({
                         message: this.$t('message.sendCode'),
                         type: 'success',
-                        duration: 5000
+                        duration: 5000,
+                      offset: 100
                     });
                     return true;
                 }
@@ -424,7 +427,8 @@
                 this.$message({
                   message: this.$t('message.InPassword6'),
                   type: 'error',
-                  duration: 5000
+                  duration: 5000,
+                  offset: 100
                 });
                 return false;
               } else if(!(pwdReg.test(this.registerForm.regPwd))) {
@@ -437,7 +441,8 @@
                 this.$message({
                   message: this.$t('message.InPasswordLow'),
                   type: 'error',
-                  duration: 5000
+                  duration: 5000,
+                  offset: 100
                 });
                 return false;
               }
@@ -454,7 +459,8 @@
                 this.$message({
                   message: this.$t('message.pwdNotSame'),
                   type: 'error',
-                  duration: 5000
+                  duration: 5000,
+                  offset: 100
                 });
                 return false;
               }
@@ -473,7 +479,8 @@
                             this.$message({
                                 message: this.$t('message.HasRegister'),
                                 type: 'error',
-                                duration: 5000
+                                duration: 5000,
+                              offset: 100
                             });
                             return false;
                         }
@@ -489,7 +496,8 @@
                             this.$message({
                                 message: this.$t('message.InRightEmail'),
                                 type: 'error',
-                                duration: 5000
+                                duration: 5000,
+                              offset: 100
                             });
                             return false;
                         }
@@ -506,7 +514,8 @@
                             this.$message({
                                 message: this.$t('message.InPassword6'),
                                 type: 'error',
-                                duration: 5000
+                                duration: 5000,
+                              offset: 100
                             });
                             return false;
                         } else if(!(pwdReg.test(this.registerForm.regPwd))) {
@@ -519,7 +528,8 @@
                             this.$message({
                                 message: this.$t('message.InPasswordLow'),
                                 type: 'error',
-                                duration: 5000
+                                duration: 5000,
+                              offset: 100
                             });
                             return false;
                         }
@@ -533,7 +543,8 @@
                             this.$message({
                                 message: this.$t('message.pwdNotSame'),
                                 type: 'error',
-                                duration: 5000
+                                duration: 5000,
+                              offset: 100
                             });
                             return false;
                         }
@@ -558,7 +569,8 @@
                     this.$message({
                         message: this.$t('message.RegisterSuccess'),
                         type: 'success',
-                        duration: 5000
+                        duration: 5000,
+                      offset: 100
                     });
 
                     this.disabled = false;
