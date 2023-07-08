@@ -10,86 +10,14 @@ Router.prototype.push = function push(location) {
 Vue.use(Router)
 
 
-
 const router = new Router({
     mode: 'history',
     routes: [
         {
             path: '*',
-            redirect: '/home'
-        },
-        {
-            path: '/home',
-            name: 'home',
-            component: (resolve) => require(['../views/home/index.vue'], resolve),
-        },
-        {
-            path: '/newsAndResource',
-            name: 'newsAndResource',
-            component: (resolve) => require(['../views/news/index.vue'], resolve),
-        },
-        {
-            path: '/newsDetail',
-            name: 'newsDetail',
-            component: (resolve) => require(['../views/news/detail.vue'], resolve),
-        },
-        {
-            path: '/observeDevice',
-            name: 'observeDevice',
-            component: (resolve) => require(['../views/observeDevice/index.vue'], resolve),
-        },
-        {
-            path: '/observeDeviceDetail',
-            name: 'observeDeviceDetail',
-            component: (resolve) => require(['../views/observeDevice/detail.vue'], resolve),
-        },
-        {
-            path: '/pictureAndAchievement',
-            name: 'pictureAndAchievement',
-            component: (resolve) => require(['../views/pictureAndAchievement/index.vue'], resolve),
-        },
-        {
-            path: '/observationData',
-            name: 'observationData',
-            component: (resolve) => require(['../views/observationData/index.vue'], resolve),
-        },
-        {
-            path: '/observationDataDetail',
-            name: 'observationDataDetail',
-            component: (resolve) => require(['../views/observationData/observationDataDetail.vue'], resolve),
-        },
-        {
-            path: '/application',
-            name: 'application',
-            component: (resolve) => require(['../views/application/index.vue'], resolve),
-        },
-        {
-            path: '/aboutWe',
-            name: 'aboutWe',
-            component: (resolve) => require(['../views/aboutWe/index.vue'], resolve),
-        },
-        {
-            path: '/NdchaseSatellite',
-            name: 'NdchaseSatellite',
-            component: (resolve) => require(['../views/chaseSatellite/index.vue'], resolve),
-        },
-        {
-            path: '/wehostTelescope',
-            name: 'wehostTelescope',
-            component: (resolve) => require(['../views/wehostTelescope/index.vue'], resolve),
-        },
-        {
-            path: '/site',
-            name: 'site',
-            component: (resolve) => require(['../views/site/index.vue'], resolve),
-        },
-        {
-            path: '/pictureDetail',
-            name: 'pictureDetail',
-            component: (resolve) => require(['../views/pictureAndAchievement/detail.vue'], resolve),
-        },
-
-]
+            redirect: '/login'
+        }
+    ]
 })
 // 全局拦截器
 router.beforeEach((to, from, next) => {

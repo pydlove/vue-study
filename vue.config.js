@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
-const SkeletonWebpackPlugin = require('vue-skeleton-webpack-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')    //引入插件
 const productionGzipExtensions = ['js', 'css']      //压缩js 和css文件
 
@@ -9,28 +8,6 @@ module.exports = {
     configureWebpack: config => {
         // 添加插件
         config.plugins.push(
-            new SkeletonWebpackPlugin({
-                webpackConfig: {
-                    entry: {
-                        app: path.join(__dirname, './src/utils/skeleton.js'),
-                    }
-                },
-                minimize: true,
-                quiet: true,
-                router:{
-                    mode:'history',
-                    routes:[
-                        // {
-                        //     path: '/',
-                        //     skeletonId: 'skeleton1'
-                        // },
-                        {
-                            path: '/am',
-                            skeletonId: 'skeleton2'
-                        }
-                    ]
-                }
-            }),
             new webpack.DllReferencePlugin({
                 context: process.cwd(),
                 manifest: require('./public/vendor/vendor-mainfest.json')
@@ -122,23 +99,8 @@ module.exports = {
     devServer: {
         disableHostCheck: true,
         proxy: {
-            '/web-service': {
-                target: 'http://localhost:9092',
-                // target: 'http://114.212.184.2:8088',
-                changeOrigin: true,
-                ws: true,
-                pathRewrite: {}
-            },
-            '/client-service': {
-                // target: 'http://localhost:9093',
-                target: 'http://114.212.184.2:8088',
-                changeOrigin: true,
-                ws: true,
-                pathRewrite: {}
-            },
             '/console-service': {
-                target: 'http://114.212.184.2:8088',
-                // target: 'http://localhost:9091',
+                target: 'http://localhost:19096',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {}
